@@ -9,7 +9,7 @@ bin/
 Thumbs.db
 *.aeproperties
 *.csvSettings
-*/.vs/
+*.vs/
 FRBDK/Glue/.vs/
 Tests/GlueTestProject/GlueTestProject/GlueTestProject/CopiedXnbs/
 *.Generated.cs
