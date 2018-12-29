@@ -1038,14 +1038,6 @@
     <Content Include="Libraries\ICSharpCode.NRefactory.xml" />
     <Content Include="Libraries\Ionic.Zip.dll" />
     <Content Include="Libraries\Ionic.Zlib.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.Conversion.Core.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.Engine.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.Framework.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.Tasks.Core.dll" />
-    <Content Include="Libraries\MSBuild\Current\Microsoft.Build.Utilities.Core.dll" />
-    <Content Include="Libraries\MSBuild\Current\System.Collections.Immutable.dll" />
-    <Content Include="Libraries\MSBuild\Current\System.Threading.Tasks.Dataflow.dll" />
     <Content Include="Plugins\FRBDKUpdater\FRBDKUpdater.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

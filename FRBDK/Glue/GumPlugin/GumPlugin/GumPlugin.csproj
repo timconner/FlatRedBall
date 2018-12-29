@@ -54,12 +54,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build">
-      <HintPath>..\..\Glue\Libraries\MSBuild\Current\Microsoft.Build.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Engine">
-      <HintPath>..\..\Glue\Libraries\MSBuild\Current\Microsoft.Build.Engine.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

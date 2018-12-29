@@ -43,7 +43,13 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
             {
                 try
                 {
-                    coreVisualStudioProject = new Project(fileName, null, null, new ProjectCollection());
+                    var newProjectCollection = new ProjectCollection();
+                    var toolsVersion = Microsoft.Build.Utilities.ToolLocationHelper.CurrentToolsVersion;
+                    var buildPath = Microsoft.Build.Utilities.ToolLocationHelper.GetPathToBuildTools("15");
+
+                    //var project = ProjectCollection.GlobalProjectCollection.LoadProject(fileName, null, toolsVersion);
+
+                    coreVisualStudioProject = new Project(fileName, null, toolsVersion, newProjectCollection);
                 }
                 catch (Microsoft.Build.Exceptions.InvalidProjectFileException exception)
                 {
