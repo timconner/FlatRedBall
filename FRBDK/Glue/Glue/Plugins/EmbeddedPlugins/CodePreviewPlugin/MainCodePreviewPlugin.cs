@@ -28,20 +28,20 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.CodePreviewPlugin
 
         public override void StartUp()
         {
-            this.CodePreviewTextBox = new System.Windows.Forms.RichTextBox();
+            //this.CodePreviewTextBox = new System.Windows.Forms.RichTextBox();
 
-            CodeTab = AddToTab(PluginManager.CenterTab, CodePreviewTextBox, "Code");
-            // 
-            // CodePreviewTextBox
-            // 
-            this.CodePreviewTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CodePreviewTextBox.Name = "CodePreviewTextBox";
-            this.CodePreviewTextBox.ReadOnly = true;
-            this.CodePreviewTextBox.WordWrap = false;
+            //CodeTab = AddToTab(PluginManager.CenterTab, CodePreviewTextBox, "Code");
+            //// 
+            //// CodePreviewTextBox
+            //// 
+            //this.CodePreviewTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.CodePreviewTextBox.Name = "CodePreviewTextBox";
+            //this.CodePreviewTextBox.ReadOnly = true;
+            //this.CodePreviewTextBox.WordWrap = false;
 
-            this.ReactToItemSelectHandler += HandleItemSelected;
+            //this.ReactToItemSelectHandler += HandleItemSelected;
 
-            this.RemoveTab(CodeTab);
+            //this.RemoveTab(CodeTab);
 
         }
 

@@ -27,7 +27,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.ManagePlugins
             {
                 mainControl = new MainControl();
 
-                this.AddToTab(PluginManager.LeftTab, mainControl, "Plugins");
+                this.AddToTab(mainControl, "Plugins", TabLocation.Left);
             }
             else
             {

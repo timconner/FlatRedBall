@@ -17,7 +17,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins
         public override void StartUp()
         {
             mOutputWindow = new OutputWindow();
-            this.AddToTab(PluginManager.BottomTab, mOutputWindow, "Output");
+            this.AddToTab(mOutputWindow, "Output", TabLocation.Bottom);
 
             this.OnOutputHandler += OnOutput;
             this.OnErrorOutputHandler += OnErrorOutput;

@@ -48,6 +48,10 @@ using System.Threading.Tasks;
 using FlatRedBall.Instructions.Reflection;
 using Microsoft.Xna.Framework.Audio;
 using GlueFormsCore.Plugins.EmbeddedPlugins.ExplorerTabPlugin;
+using System.Windows.Forms.Integration;
+using AvalonDock;
+using AvalonDock.Layout;
+//using System.Windows;
 
 //using EnvDTE;
 
@@ -80,6 +84,20 @@ namespace Glue
             set;
         }
 
+        DockingManager _dockingManager = new DockingManager();
+
+        //LayoutDocumentPaneGroup centerDocumentPane;
+        LayoutDocumentPane centerSide;
+        LayoutDocumentPane leftSide;
+        LayoutDocumentPane rightSide;
+        //LayoutDocumentPane bottomSide;
+
+        //LayoutAnchorGroup leftSide;
+        ////LayoutAnchorablePane leftSide;
+        //LayoutAnchorGroup rightSide;
+        LayoutAnchorGroup bottomSide;
+        LayoutAnchorGroup topSide;
+
         public MainGlueWindow()
         {
             mSelf = this;
@@ -87,8 +105,117 @@ namespace Glue
             InitializeComponent();
 
             this.MainPanelSplitContainer = new GlueFormsCore.Controls.WinformsSplitContainer();
-            this.Controls.Add(this.MainPanelSplitContainer);
+            //this.Controls.Add(this.MainPanelSplitContainer);
+            System.Windows.Forms.Integration.ElementHost wpfHost;
+            wpfHost = new System.Windows.Forms.Integration.ElementHost();
+            wpfHost.Dock = DockStyle.Fill;
+            wpfHost.Location = new Point(0, 54);
 
+            //LayoutDocument doc = new LayoutDocument() { Title = "test" };
+            //_dockingManager.Layout.Descendents().OfType<LayoutDocumentPane>().First().Children.Add(doc);
+
+            //dockingManagerHost.Child = _dockingManager;
+            //leftSide = new LayoutAnchorGroup();
+            //rightSide = new LayoutAnchorGroup();
+            ////centerSide = new LayoutAnchorablePane();
+            //bottomSide = new LayoutAnchorGroup();
+
+            LayoutDocumentPane AddPane(System.Windows.Controls.Orientation orientation = System.Windows.Controls.Orientation.Horizontal)
+            {
+                var pane = new LayoutDocumentPane();
+
+                var group = new LayoutDocumentPaneGroup();
+                group.Children.Add(pane);
+                _dockingManager.Layout.RootPanel.Children.Add(group);
+                group.Orientation = orientation;
+                return pane;
+            }
+
+
+            _dockingManager.Layout.RootPanel.Children.Clear();
+
+            //bottomSide = AddPane(System.Windows.Controls.Orientation.Vertical);
+            leftSide = AddPane();
+            centerSide = AddPane();
+            rightSide = AddPane();
+            bottomSide = new LayoutAnchorGroup();
+            topSide = new LayoutAnchorGroup();
+
+
+
+            //_dockingManager.Layout.LeftSide.Children.Add(leftSide);
+            //_dockingManager.Layout.RightSide.Children.Add(rightSide);
+            _dockingManager.Layout.BottomSide.Children.Add(bottomSide);
+            _dockingManager.Layout.TopSide.Children.Add(topSide);
+
+            //var layoutPanel = new LayoutPanel();
+            //layoutPanel.Children.Add(centerSide);
+            //_dockingManager.Layout.Children..RootPanel.Children.Add(layoutPanel);
+            wpfHost.Child = _dockingManager;
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    var element = new System.Windows.Controls.Button();
+            //    element.Width = 100;
+            //    element.Height = 200;
+            //    element.Content = "Help" + i;
+            //    AddControl(element, "Help Titlle" + i, TabLocation.Center);
+                
+            //}
+
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    var element = new System.Windows.Controls.Button();
+            //    element.Width = 100;
+            //    element.Height = 200;
+            //    element.Content = "Help" + i;
+            //    AddControl(element, "Bottomo" + i, TabLocation.Bottom);
+
+            //}
+
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    var element = new System.Windows.Controls.Button();
+            //    element.Width = 100;
+            //    element.Height = 200;
+            //    element.Content = "Help" + i;
+            //    AddControl(element, "Help Titlle" + i, TabLocation.Right);
+
+            //}
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    var element = new System.Windows.Controls.Button();
+            //    element.Width = 100;
+            //    element.Height = 200;
+            //    element.Content = "Help" + i;
+            //    AddControl(element, "Help Titlle" + i, TabLocation.Left);
+
+            //}
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    var element = new System.Windows.Controls.Button();
+            //    element.Width = 100;
+            //    element.Height = 200;
+            //    element.Content = "Help" + i;
+            //    AddControl(element, "Help Titlle" + i, TabLocation.Top);
+
+            //}
+
+
+
+            //var rootPanel = _dockingManager.Layout.RootPanel;
+
+
+            //_dockingManager.Theme = new Vs2013LightTheme();
+
+            this.Controls.Add(wpfHost);
+            this.Controls.SetChildIndex(wpfHost, 0);
+
+            //bottomSide.Children.First().ToggleAutoHide();
 
             this.FileWatchTimer = new System.Windows.Forms.Timer(this.components);
 
@@ -102,6 +229,81 @@ namespace Glue
             this.FileWatchTimer.Interval = 400;
             this.FileWatchTimer.Tick += new System.EventHandler(this.FileWatchTimer_Tick);
 
+        }
+
+        public LayoutContent AddControl(System.Windows.FrameworkElement element, string title, TabLocation tabLocation)
+        {
+            //anchorable.AutoHideWidth = 240;
+            //centerSide.Children.Add(anchorable);
+
+            //.Children.Add(anchorable);
+            //anchorable.CanAutoHide = false;
+
+            LayoutDocument CreateLayoutDocument()
+            {
+                var layout = new LayoutDocument();
+                layout.IsMaximized = true;
+                layout.Content = element;
+
+                layout.Title = title;
+
+                return layout;
+            }
+
+            LayoutAnchorable CreateLayoutAnchorable()
+            {
+                var layout = new LayoutAnchorable();
+                layout.Content = element;
+                layout.Title = title;
+                //layout.CanAutoHide = false;
+                //layout.IsMaximized = true;
+                //layout.FloatingHeight = 200;
+                //pane.Children.Add(layout);
+
+                return layout;
+            }
+
+            LayoutContent toReturn = null;
+            if (tabLocation == TabLocation.Left)
+            {
+                leftSide.Children.Add(CreateLayoutDocument());
+                toReturn = leftSide.Children.Last();
+            }
+            else if (tabLocation == TabLocation.Center)
+            {
+                centerSide.Children.Add(CreateLayoutDocument());
+                toReturn = centerSide.Children.Last();
+            }
+            else if (tabLocation == TabLocation.Right)
+            {
+                rightSide.Children.Add(CreateLayoutDocument());
+                toReturn = rightSide.Children.Last();
+
+            }
+            else if( tabLocation == TabLocation.Bottom)
+            {
+                //var pane = new LayoutAnchorablePane();
+                //bottomSide.Children.Add(pane);
+
+                //bottomSide.Children.Add(CreateLayoutAnchorable());
+                //toReturn = bottomSide.Children.Last();
+
+            }
+            else if (tabLocation == TabLocation.Top)
+            {
+                topSide.Children.Add(CreateLayoutAnchorable());
+                toReturn = topSide.Children.Last();
+
+            }
+            return toReturn;
+        }
+
+
+        public LayoutContent AddControl(System.Windows.Forms.Control winformsControl, string title, TabLocation tabLocation)
+        {
+            WindowsFormsHost host = new WindowsFormsHost();
+            host.Child = winformsControl;
+            return AddControl(host, title, tabLocation);
         }
 
         public void Invoke(Action action)

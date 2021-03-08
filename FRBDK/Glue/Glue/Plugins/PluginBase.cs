@@ -22,6 +22,8 @@ using FlatRedBall.Glue.Errors;
 using FlatRedBall.Glue.CodeGeneration.Game1;
 using FlatRedBall.IO;
 using System.Windows;
+using Glue;
+using AvalonDock.Layout;
 
 namespace FlatRedBall.Glue.Plugins
 {
@@ -395,6 +397,23 @@ namespace FlatRedBall.Glue.Plugins
             }
 
             return tabContainer;
+        }
+
+        List<LayoutContent> addedTabs = new List<LayoutContent>();
+
+        protected void AddToTab(System.Windows.Forms.Control control, string title, TabLocation tabLocation)
+        {
+            var tab = MainGlueWindow.Self.AddControl(control, title, tabLocation);
+
+            addedTabs.Add(tab);
+        }
+
+        protected void RemoveAllTabs()
+        {
+            foreach(var tab in addedTabs)
+            {
+                tab.Close();
+            }
         }
 
         protected PluginTab AddToTab(System.Windows.Forms.TabControl tabContainer, System.Windows.Forms.Control control, string tabName)

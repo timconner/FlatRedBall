@@ -62,7 +62,7 @@ namespace OfficialPlugins.ProjectCopier
             mControl.Click += mControl_Click;
             mControl.Dock = DockStyle.Fill;
 
-            this.AddToTab(PluginManager.BottomTab, mControl, "Copy Project");
+            this.AddToTab(mControl, "Copy Project", TabLocation.Bottom);
         }
 
         void mControl_Click(object sender, EventArgs e)

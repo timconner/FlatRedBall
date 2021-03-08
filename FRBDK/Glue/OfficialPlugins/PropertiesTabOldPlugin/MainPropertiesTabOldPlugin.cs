@@ -19,7 +19,7 @@ namespace OfficialPluginsCore.PropertiesTabOldPlugin
     [Export(typeof(PluginBase))]
     public class MainPropertiesTabOldPlugin : EmbeddedPlugin
     {
-        PluginTab pluginTab;
+        //PluginTab pluginTab;
         public System.Windows.Forms.PropertyGrid PropertyGrid;
         private System.Windows.Forms.ContextMenuStrip PropertyGridContextMenu;
 
@@ -29,8 +29,7 @@ namespace OfficialPluginsCore.PropertiesTabOldPlugin
             CreatePropertyGrid();
 
             var tab = PluginManager.CenterTab;
-            pluginTab = this.AddToTab(tab, PropertyGrid, "Properties");
-            pluginTab.DrawX = false;
+            this.AddToTab(PropertyGrid, "Properties", TabLocation.Center);
             this.ReactToItemSelectHandler += HandleItemSelected;
 
             HandleItemSelected(null);
@@ -51,11 +50,11 @@ namespace OfficialPluginsCore.PropertiesTabOldPlugin
 
             if(shouldShow)
             {
-                this.ShowTab(pluginTab);
+                this.AddToTab(PropertyGrid, "Properties", TabLocation.Center);
             }
             else
             {
-                this.RemoveTab(pluginTab);
+                base.RemoveAllTabs();
             }
         }
 
