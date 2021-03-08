@@ -125,12 +125,12 @@ namespace Glue
                 var pane = new LayoutDocumentPane();
 
                 var group = new LayoutDocumentPaneGroup();
-                group.Children.Add(pane);
                 _dockingManager.Layout.RootPanel.Children.Add(group);
+
+                group.Children.Add(pane);
                 group.Orientation = orientation;
                 return pane;
             }
-
 
             _dockingManager.Layout.RootPanel.Children.Clear();
 
@@ -160,50 +160,21 @@ namespace Glue
             //    element.Height = 200;
             //    element.Content = "Help" + i;
             //    AddControl(element, "Help Titlle" + i, TabLocation.Center);
-                
-            //}
-
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    var element = new System.Windows.Controls.Button();
-            //    element.Width = 100;
-            //    element.Height = 200;
-            //    element.Content = "Help" + i;
-            //    AddControl(element, "Bottomo" + i, TabLocation.Bottom);
 
             //}
 
 
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    var element = new System.Windows.Controls.Button();
-            //    element.Width = 100;
-            //    element.Height = 200;
-            //    element.Content = "Help" + i;
-            //    AddControl(element, "Help Titlle" + i, TabLocation.Right);
+            var element = new System.Windows.Controls.Button();
+            AddControl(element, "Bottomo", TabLocation.Bottom);
 
-            //}
+            element = new System.Windows.Controls.Button();
+            AddControl(element, "Help Titlle", TabLocation.Right);
 
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    var element = new System.Windows.Controls.Button();
-            //    element.Width = 100;
-            //    element.Height = 200;
-            //    element.Content = "Help" + i;
-            //    AddControl(element, "Help Titlle" + i, TabLocation.Left);
+            element = new System.Windows.Controls.Button();
+            AddControl(element, "Help Titlle", TabLocation.Left);
 
-            //}
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    var element = new System.Windows.Controls.Button();
-            //    element.Width = 100;
-            //    element.Height = 200;
-            //    element.Content = "Help" + i;
-            //    AddControl(element, "Help Titlle" + i, TabLocation.Top);
-
-            //}
+            element = new System.Windows.Controls.Button();
+            AddControl(element, "Help Titlle", TabLocation.Top);
 
 
 
@@ -285,8 +256,8 @@ namespace Glue
                 //var pane = new LayoutAnchorablePane();
                 //bottomSide.Children.Add(pane);
 
-                //bottomSide.Children.Add(CreateLayoutAnchorable());
-                //toReturn = bottomSide.Children.Last();
+                bottomSide.Children.Add(CreateLayoutAnchorable());
+                toReturn = bottomSide.Children.Last();
 
             }
             else if (tabLocation == TabLocation.Top)

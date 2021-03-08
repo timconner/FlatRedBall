@@ -31,11 +31,11 @@ namespace OfficialPlugins.CollisionPlugin
 
         CollisionRelationshipViewModel relationshipViewModel;
         CollisionRelationshipView relationshipControl;
-        PluginTab relationshipPluginTab;
+        PluginTab2 relationshipPluginTab;
 
         CollidableNamedObjectRelationshipDisplay collidableDisplay;
         CollidableNamedObjectRelationshipViewModel collidableViewModel;
-        PluginTab collidableTab;
+        PluginTab2 collidableTab;
 
         public override string FriendlyName => "Collision Plugin";
 
@@ -198,8 +198,7 @@ namespace OfficialPlugins.CollisionPlugin
                 if (relationshipControl == null)
                 {
                     relationshipControl = new CollisionRelationshipView();
-                    relationshipPluginTab = this.CreateTab(relationshipControl, "Collision");
-                    this.ShowTab(relationshipPluginTab, TabLocation.Center);
+                    relationshipPluginTab = this.CreateTab(relationshipControl, "Collision", TabLocation.Center);
                     relationshipControl.DataContext = relationshipViewModel;
                 }
                 else
@@ -226,8 +225,7 @@ namespace OfficialPlugins.CollisionPlugin
                 if (collidableDisplay == null)
                 {
                     collidableDisplay = new CollidableNamedObjectRelationshipDisplay();
-                    collidableTab = this.CreateTab(collidableDisplay, "Collision");
-                    this.ShowTab(collidableTab, TabLocation.Center);
+                    collidableTab = this.CreateTab(collidableDisplay, "Collision", TabLocation.Center);
                     collidableDisplay.DataContext = collidableViewModel;
                 }
                 else

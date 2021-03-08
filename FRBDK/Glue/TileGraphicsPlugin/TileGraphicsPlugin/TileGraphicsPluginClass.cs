@@ -45,8 +45,8 @@ namespace TileGraphicsPlugin
 
         string mLastFile;
 
-        PluginTab collisionTab;
-        PluginTab nodeNetworkTab;
+        PluginTab2 collisionTab;
+        PluginTab2 nodeNetworkTab;
         PluginTab levelTab;
 
         TiledObjectTypeCreator tiledObjectTypeCreator;
@@ -518,13 +518,13 @@ namespace TileGraphicsPlugin
                 {
                     var view = TileShapeCollectionsPropertiesController.Self.GetView();
 
-                    collisionTab = base.CreateTab(view, "TileShapeCollection Properties");
+                    collisionTab = base.CreateTab(view, "TileShapeCollection Properties", TabLocation.Center);
                 }
 
                 TileShapeCollectionsPropertiesController.Self.RefreshViewModelTo(treeNode?.Tag as NamedObjectSave,
                     GlueState.Self.CurrentElement);
 
-                this.ShowTab(collisionTab, TabLocation.Center);
+                this.ShowTab(collisionTab);
                 GlueCommands.Self.DialogCommands.FocusTab("TileShapeCollection Properties");
             }
             else if(collisionTab != null)
@@ -538,13 +538,13 @@ namespace TileGraphicsPlugin
                 {
                     var view = TileNodeNetworkPropertiesController.Self.GetView();
 
-                    nodeNetworkTab = base.CreateTab(view, "TileNodeNetwork Properties");
+                    nodeNetworkTab = base.CreateTab(view, "TileNodeNetwork Properties", TabLocation.Center);
                 }
 
                 TileNodeNetworkPropertiesController.Self.RefreshViewModelTo(treeNode?.Tag as NamedObjectSave,
                     GlueState.Self.CurrentElement);
 
-                this.ShowTab(nodeNetworkTab, TabLocation.Center);
+                this.ShowTab(nodeNetworkTab);
                 GlueCommands.Self.DialogCommands.FocusTab("TileNodeNetwork Properties");
             }
             else if(nodeNetworkTab != null)
@@ -552,25 +552,25 @@ namespace TileGraphicsPlugin
                 base.RemoveTab(nodeNetworkTab);
             }
 
-            if(LevelScreenController.Self.GetIfShouldShow())
-            {
-                if(levelTab == null)
-                {
-                    var view = LevelScreenController.Self.GetView();
+            //if(LevelScreenController.Self.GetIfShouldShow())
+            //{
+            //    if(levelTab == null)
+            //    {
+            //        var view = LevelScreenController.Self.GetView();
 
-                    levelTab = base.CreateTab(view, "Levels");
-                }
+            //        levelTab = base.CreateTab(view, "Levels");
+            //    }
 
-                LevelScreenController.Self.RefreshViewModelTo(GlueState.Self.CurrentScreenSave);
-                this.ShowTab(levelTab, TabLocation.Center);
+            //    LevelScreenController.Self.RefreshViewModelTo(GlueState.Self.CurrentScreenSave);
+            //    this.ShowTab(levelTab, TabLocation.Center);
 
-                LevelScreenController.Self.HandleTabShown();
-                // prob don't focus it, it's rare the user needs to mess with this
-            }
-            else if(levelTab != null)
-            {
-                RemoveTab(levelTab);
-            }
+            //    LevelScreenController.Self.HandleTabShown();
+            //    // prob don't focus it, it's rare the user needs to mess with this
+            //}
+            //else if(levelTab != null)
+            //{
+            //    RemoveTab(levelTab);
+            //}
         }
 
         private void ReactToRfsSelected(ReferencedFileSave rfs)

@@ -51,12 +51,8 @@ namespace OfficialPlugins.CodeGenerationPlugin
             if (control == null)
             {
                 control = new CodeGenerationControl();
-                base.AddToTab(PluginManager.BottomTab, control, "Code Generation");
             }
-            else
-            {
-                base.AddTab();
-            }
+            base.AddToTab(control, "Code Generation", TabLocation.Bottom);
         }
     }
 }

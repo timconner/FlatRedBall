@@ -47,9 +47,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.SyncedProjects
             var control = new SyncedProjectsControl();
             control.DataContext = viewModel;
 
-            var defaultTab = PluginManager.LeftTab;
-
-            this.AddToTab(defaultTab, control, "Projects");
+            this.AddToTab(control, "Projects", TabLocation.Left);
             this.ReactToLoadedGlux += delegate
             {
                 viewModel.CurrentProject = GlueState.Self.CurrentMainProject;

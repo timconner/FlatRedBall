@@ -40,6 +40,18 @@ namespace FlatRedBall.Glue.Plugins
 
     #endregion
 
+    public class PluginTab2
+    {
+        internal LayoutContent LayoutContent { get; set; }
+        public string Title
+        {
+            get => LayoutContent.Title;
+            set => LayoutContent.Title = value;
+        }
+
+
+    }
+
     public abstract class PluginBase : IPlugin
     {
         Dictionary<ToolStripMenuItem, ToolStripMenuItem> toolStripItemsAndParents = new Dictionary<ToolStripMenuItem, ToolStripMenuItem>();
@@ -365,22 +377,24 @@ namespace FlatRedBall.Glue.Plugins
 
         }
 
-        protected PluginTab CreateTab(System.Windows.Controls.UserControl control, string tabName)
+        protected PluginTab2 CreateTab(System.Windows.Controls.UserControl control, string tabName, TabLocation tabLocation)
         {
-            System.Windows.Forms.Integration.ElementHost wpfHost;
-            wpfHost = new System.Windows.Forms.Integration.ElementHost();
-            wpfHost.Dock = DockStyle.Fill;
-            wpfHost.Child = control;
+            var toReturn = AddToTab(control, tabName, tabLocation);
+            return toReturn;
+            //System.Windows.Forms.Integration.ElementHost wpfHost;
+            //wpfHost = new System.Windows.Forms.Integration.ElementHost();
+            //wpfHost.Dock = DockStyle.Fill;
+            //wpfHost.Child = control;
 
-            var pluginTab = new PluginTab();
+            //var pluginTab = new PluginTab();
 
-            pluginTab.ClosedByUser += new PluginTab.ClosedByUserDelegate(OnClosedByUser);
+            //pluginTab.ClosedByUser += new PluginTab.ClosedByUserDelegate(OnClosedByUser);
 
-            pluginTab.Text = "  " + tabName;
-            pluginTab.Controls.Add(wpfHost);
-            wpfHost.Dock = DockStyle.Fill;
+            //pluginTab.Text = "  " + tabName;
+            //pluginTab.Controls.Add(wpfHost);
+            //wpfHost.Dock = DockStyle.Fill;
 
-            return pluginTab;
+            //return pluginTab;
         }
 
         private static TabControl GetTabContainerFromLocation(TabLocation tabLocation)
@@ -401,11 +415,26 @@ namespace FlatRedBall.Glue.Plugins
 
         List<LayoutContent> addedTabs = new List<LayoutContent>();
 
-        protected void AddToTab(System.Windows.Forms.Control control, string title, TabLocation tabLocation)
+        protected PluginTab2 AddToTab(System.Windows.Forms.Control control, string title, TabLocation tabLocation)
         {
             var tab = MainGlueWindow.Self.AddControl(control, title, tabLocation);
 
             addedTabs.Add(tab);
+
+            var toReturn = new PluginTab2();
+            toReturn.LayoutContent = tab;
+            return toReturn;
+        }
+
+        protected PluginTab2 AddToTab(System.Windows.Controls.UserControl control, string title, TabLocation tabLocation)
+        {
+            var tab = MainGlueWindow.Self.AddControl(control, title, tabLocation);
+
+            addedTabs.Add(tab);
+
+            var toReturn = new PluginTab2();
+            toReturn.LayoutContent = tab;
+            return toReturn;
         }
 
         protected void RemoveAllTabs()
@@ -415,6 +444,8 @@ namespace FlatRedBall.Glue.Plugins
                 tab.Close();
             }
         }
+
+
 
         protected PluginTab AddToTab(System.Windows.Forms.TabControl tabContainer, System.Windows.Forms.Control control, string tabName)
         {
@@ -451,6 +482,15 @@ namespace FlatRedBall.Glue.Plugins
                 pluginTab.Parent.Controls.Remove(pluginTab);
             }
         }
+
+        protected void RemoveTab(PluginTab2 pluginTab)
+        {
+            //if (pluginTab != null && pluginTab.Parent != null)
+            //{
+            //    pluginTab.Parent.Controls.Remove(pluginTab);
+            //}
+        }
+
 
         protected void RemoveTab()
         {
@@ -491,6 +531,11 @@ namespace FlatRedBall.Glue.Plugins
             {
                 container.Controls.Add(pluginTab);
             }
+        }
+
+        protected void ShowTab(PluginTab2 pluginTab)
+        {
+            // do nothing for now
         }
 
         protected void ShowTab(PluginTab pluginTab, TabLocation? tabLocation = null)

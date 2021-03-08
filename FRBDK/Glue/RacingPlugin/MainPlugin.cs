@@ -32,7 +32,7 @@ namespace RacingPlugin
         // view here
         MainEntityView control;
 
-        PluginTab pluginTab;
+        PluginTab2 pluginTab;
 
         #endregion
 
@@ -83,8 +83,7 @@ namespace RacingPlugin
                 if (control == null)
                 {
                     control = MainController.Self.GetControl();
-                    pluginTab = this.CreateTab(control, "Racing");
-                    this.ShowTab(pluginTab, TabLocation.Center);
+                    pluginTab = this.CreateTab(control, "Racing", TabLocation.Center);
                 }
                 else
                 {

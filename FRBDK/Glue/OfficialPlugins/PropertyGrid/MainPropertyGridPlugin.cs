@@ -27,7 +27,7 @@ namespace OfficialPlugins.VariableDisplay
         VariableViewModel variableViewModel;
 
         PluginTab settingsTab;
-        PluginTab variableTab;
+        PluginTab2 variableTab;
 
         const bool showSettings = false;
 
@@ -98,11 +98,11 @@ namespace OfficialPlugins.VariableDisplay
 
         private void ShowVariablesForCurrentElement()
         {
-            if (showSettings)
-            {
-                AddOrShowSettingsGrid();
-                settingsGrid.Instance = GlueState.Self.CurrentElement;
-            }
+            //if (showSettings)
+            //{
+            //    AddOrShowSettingsGrid();
+            //    settingsGrid.Instance = GlueState.Self.CurrentElement;
+            //}
 
             AddOrShowVariableGrid();
             // we can always add new variables to entities....right?
@@ -114,11 +114,11 @@ namespace OfficialPlugins.VariableDisplay
         private void HandleNamedObjectSelect(NamedObjectSave namedObject)
         {
 
-            if (showSettings)
-            {
-                AddOrShowSettingsGrid();
-                settingsGrid.Instance = namedObject;
-            }
+            //if (showSettings)
+            //{
+            //    AddOrShowSettingsGrid();
+            //    settingsGrid.Instance = namedObject;
+            //}
 
 
             // If we are showing a NOS that comes from a file, don't show the grid.
@@ -172,20 +172,20 @@ namespace OfficialPlugins.VariableDisplay
                 GlueState.Self.CurrentElement, ati);
         }
 
-        private void AddOrShowSettingsGrid()
-        {
-            if(settingsGrid == null)
-            {
+        //private void AddOrShowSettingsGrid()
+        //{
+        //    if(settingsGrid == null)
+        //    {
 
-                settingsGrid = new DataUiGrid();
-                settingsTab = this.AddToTab(PluginManager.CenterTab, settingsGrid, "Settings");
-                settingsTab.DrawX = false;
-            }
-            else
-            {
-                this.ShowTab(settingsTab);
-            }
-        }
+        //        settingsGrid = new DataUiGrid();
+        //        settingsTab = this.AddToTab(PluginManager.CenterTab, settingsGrid, "Settings");
+        //        settingsTab.DrawX = false;
+        //    }
+        //    else
+        //    {
+        //        this.ShowTab(settingsTab);
+        //    }
+        //}
 
         private void AddOrShowVariableGrid()
         {
@@ -196,17 +196,17 @@ namespace OfficialPlugins.VariableDisplay
                 variableViewModel = new VariableViewModel();
                 variableGrid.DataContext = variableViewModel;
 
-                variableTab = this.CreateTab(variableGrid, "Variables");
-                this.ShowTab(variableTab, TabLocation.Center);
+                variableTab = this.CreateTab(variableGrid, "Variables", TabLocation.Center);
+                //this.ShowTab(variableTab, TabLocation.Center);
                 
                 //variableTab = this.AddToTab(tabControl, variableGrid, "Variables");
-                variableTab.DrawX = false;
+                //variableTab.DrawX = false;
 
                 // let's make this the first item and have it be focused:
                 //tabControl.SelectedTab = variableTab;
                 GlueCommands.Self.DialogCommands.FocusTab("Variables");
                 // This makes it the last tab clicked, which gives it priority:
-                variableTab.LastTimeClicked = DateTime.Now;
+                //variableTab.LastTimeClicked = DateTime.Now;
             }
             else
             {

@@ -124,7 +124,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.CameraPlugin
                     if(control == null)
                     {
                         control = new CameraSettingsControl();
-                        base.AddToTab(PluginManager.LeftTab, control, "Display Settings");
+                        base.AddToTab(control, "Display Settings", TabLocation.Left);
                     }
                     else
                     {

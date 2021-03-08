@@ -556,12 +556,9 @@ namespace GumPlugin
                     viewModel.PropertyChanged += HandleViewModelPropertyChanged;
                     control.DataContext = viewModel;
 
-                    this.AddToTab(PluginManager.CenterTab, control, "Gum Properties");
                 }
-                else
-                {
-                    AddTab();
-                }
+                this.AddToTab(control, "Gum Properties", TabLocation.Center);
+
                 raiseViewModelEvents = false;
                 viewModel.SetFrom(AppState.Self.GumProjectSave, selectedTreeNode.Tag as ReferencedFileSave);
                 raiseViewModelEvents = true;

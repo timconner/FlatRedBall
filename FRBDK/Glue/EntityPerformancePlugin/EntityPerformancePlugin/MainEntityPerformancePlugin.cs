@@ -350,7 +350,7 @@ namespace EntityPerformancePlugin
                 if(mainControl == null)
                 {
                     mainControl = new MainControl();
-                    this.AddToTab(PluginManager.CenterTab, mainControl, "Entity Performance");
+                    this.AddToTab(mainControl, "Entity Performance", TabLocation.Center);
                 }
                 else
                 {

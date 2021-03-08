@@ -28,17 +28,14 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.UnreferencedFiles
 
                 view.DataContext = viewModel;
 
-                AddToTab(PluginManager.LeftTab, view, "Unreferenced Files");
 
                 // It refreshes itself when the radio button is set when the view is created,
                 // so we don't need to:
                 //viewModel.Refresh();
 
             }
-            else
-            {
-                AddTab();
-            }
+             
+            AddToTab(view, "Unreferenced Files", TabLocation.Left);
 
             base.FocusTab();
         }

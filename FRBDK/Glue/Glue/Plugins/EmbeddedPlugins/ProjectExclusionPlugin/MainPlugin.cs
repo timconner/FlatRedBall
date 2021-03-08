@@ -12,7 +12,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.ProjectExclusionPlugin
     public class MainPlugin : EmbeddedPlugin
     {
         ExclusionControl control;
-        PluginTab pluginTab;
+        //PluginTab pluginTab;
 
         public override void StartUp()
         {
@@ -51,7 +51,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.ProjectExclusionPlugin
                 if (control == null)
                 {
                     control = new ExclusionControl();
-                    pluginTab = base.AddToTab(PluginManager.CenterTab, control, "Platform Inclusions");
+                    base.AddToTab(control, "Platform Inclusions", TabLocation.Center);
                 }
                 else
                 {
@@ -82,14 +82,14 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.ProjectExclusionPlugin
         {
             int count = file.ProjectsToExcludeFrom.Count;
 
-            if (count == 0)
-            {
-                pluginTab.Text = "Platform Inclusions";
-            }
-            else
-            {
-                pluginTab.Text = "Excluded from " + count + " platforms";
-            }
+            //if (count == 0)
+            //{
+            //    pluginTab.Text = "Platform Inclusions";
+            //}
+            //else
+            //{
+            //    pluginTab.Text = "Excluded from " + count + " platforms";
+            //}
         }
     }
 }

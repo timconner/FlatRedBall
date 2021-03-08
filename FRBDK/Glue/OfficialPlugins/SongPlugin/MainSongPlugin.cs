@@ -25,7 +25,7 @@ namespace OfficialPlugins.SongPlugin
 
         MainSongControlViewModel viewModel;
         MainSongControl control;
-        PluginTab pluginTab;
+        PluginTab2 pluginTab;
 
 
         public override string FriendlyName
@@ -123,8 +123,8 @@ namespace OfficialPlugins.SongPlugin
                 if (control == null)
                 {
                     control = new MainSongControl();
-                    pluginTab = this.CreateTab(control, "Song");
-                    this.ShowTab(pluginTab, TabLocation.Center);
+                    pluginTab = this.CreateTab(control, "Song", TabLocation.Center);
+                    //this.ShowTab(pluginTab, TabLocation.Center);
                     control.DataContext = viewModel;
                 }
                 else

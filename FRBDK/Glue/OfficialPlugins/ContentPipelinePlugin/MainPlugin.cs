@@ -188,13 +188,9 @@ namespace OfficialPlugins.MonoGameContent
                 controller.SetViewModel(viewModel);
                 control.RefreshClicked += controller.HandleRefreshClicked;
 
-                AddToTab(PluginManager.LeftTab, control, "Content Pipeline");
 
             }
-            else
-            {
-                AddTab();
-            }
+            AddToTab(control, "Content Pipeline", TabLocation.Left);
         }
 
         private void HandleReferencedFileValueChanged(string memberName, object oldValue)

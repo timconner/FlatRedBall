@@ -38,12 +38,8 @@ namespace OfficialPlugins.BuiltFileSizeInspector
                 mainControl = new SizeInspectorControl();
                 mainControl.DataContext = new BuiltFileSizeViewModel();
 
-                this.AddToTab(PluginManager.LeftTab, mainControl, "Built File Size");
             }
-            else
-            {
-                base.AddTab();
-            }
+            this.AddToTab(mainControl, "Built File Size", TabLocation.Left);
         }
 
         public override bool ShutDown(FlatRedBall.Glue.Plugins.Interfaces.PluginShutDownReason shutDownReason)

@@ -21,7 +21,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.CsprojReferenceSharer
             if (control == null)
             {
                 control = new ReferenceCopierControl();
-                this.AddToTab(PluginManager.LeftTab, control, "Reference Sharing");
+                this.AddToTab(control, "Reference Sharing", TabLocation.Left);
 
                 var viewModel = new ReferenceCopierViewModel();
                 control.DataContext = viewModel;

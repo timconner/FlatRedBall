@@ -67,12 +67,8 @@ namespace OfficialPlugins.StateDataPlugin
                 // continue here by either creating a new VM or modifying the existing
                 // to have columns set from the element's variables
 
-                this.AddToTab(PluginManager.CenterTab, control, "State Data");
             }
-            else
-            {
-                this.AddTab();
-            }
+            this.AddToTab(control, "State Data", TabLocation.Center);
 
             var viewModel = new StateCategoryViewModel(currentStateSaveCategory, GlueState.Self.CurrentElement);
 

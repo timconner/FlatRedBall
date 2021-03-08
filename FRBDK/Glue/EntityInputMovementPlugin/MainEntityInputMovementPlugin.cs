@@ -22,7 +22,7 @@ namespace EntityInputMovementPlugin
         public override Version Version => new Version(1,0,0);
 
         Views.MainView mainView;
-        PluginTab mainTab;
+        PluginTab2 mainTab;
         MainViewModel mainViewModel;
 
         #endregion
@@ -127,7 +127,7 @@ namespace EntityInputMovementPlugin
                 if (mainView == null)
                 {
                     CreateMainView();
-                    this.ShowTab(mainTab, TabLocation.Center);
+                    this.ShowTab(mainTab);
                 }
                 else
                 {
@@ -169,7 +169,7 @@ namespace EntityInputMovementPlugin
             #endregion
 
 
-            mainTab = this.CreateTab(mainView, "Entity Input Movement");
+            mainTab = this.CreateTab(mainView, "Entity Input Movement", TabLocation.Center);
         }
 
         private void HandleElementRenamed(IElement renamedElement, string oldName)

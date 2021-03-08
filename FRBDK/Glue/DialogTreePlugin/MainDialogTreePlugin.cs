@@ -116,7 +116,7 @@ namespace DialogTreePlugin
                 if (mainControl == null)
                 {
                     mainControl = TabConroller.Self.GetControl();
-                    this.AddToTab(PluginManager.CenterTab, mainControl, "Dialog Tree");
+                    this.AddToTab(mainControl, "Dialog Tree", TabLocation.Center);
                 }
                 else
                 {
