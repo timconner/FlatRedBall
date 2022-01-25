@@ -289,44 +289,52 @@ namespace OfficialPluginsCore.Compiler.CommandReceiving
 
                 var element = ObjectFinder.Self.GetElement(type);
 
-                var nos = element.GetNamedObjectRecursively(setVariableDto.ObjectName);
-
-                if (nos != null)
+                if(setVariableDto.ObjectCreationSource == "Tiled")
                 {
-                    object value = setVariableDto.VariableValue;
-                    var typeName = setVariableDto.Type;
+                    HandleVariableSetOnTiledObject(setVariableDto);
+                }
+                else
+                {
+                    var nos = element.GetNamedObjectRecursively(setVariableDto.ObjectName);
 
-                    if(string.IsNullOrEmpty(typeName))
+                    if (nos != null)
                     {
-                        throw new InvalidOperationException($"Variable {setVariableDto.VariableName} came from glue with a value of {typeName} but didn't have a type");
-                    }
+                        object value = setVariableDto.VariableValue;
+                        var typeName = setVariableDto.Type;
 
-                    value = ConvertVariable(value, ref typeName, setVariableDto.VariableName, nos, element);
+                        if(string.IsNullOrEmpty(typeName))
+                        {
+                            throw new InvalidOperationException($"Variable {setVariableDto.VariableName} came from glue with a value of {typeName} but didn't have a type");
+                        }
 
-                    // Calling nos.SetVariable rather than going through the GlueCommands prevents the PluginManager from being notified of the change.
-                    // We want to manually push the change back using a batch command since it will be much faster when receiving a SetVariableDtoList
-                    nos.SetVariable(setVariableDto.VariableName, value);
+                        value = ConvertVariable(value, ref typeName, setVariableDto.VariableName, nos, element);
 
-                    if(sendBackToGame)
-                    {
-                        // Send this back to the game so the game. When the game receives this, it will store it in
-                        // a list and will re-run the commands as necessary (such as whenever a screen is reloaded).
-                        GlueCommands.Self.DoOnUiThread(() =>
-                            RefreshManager.Self.HandleNamedObjectValueChanged(setVariableDto.VariableName, null, nos, 
-                            // record only - this variable change came from the game, we don't want to re-assign it and wipe other active edits
-                            AssignOrRecordOnly.RecordOnly)
-                        );
-                    }
+                        // Calling nos.SetVariable rather than going through the GlueCommands prevents the PluginManager from being notified of the change.
+                        // We want to manually push the change back using a batch command since it will be much faster when receiving a SetVariableDtoList
+                        nos.SetVariable(setVariableDto.VariableName, value);
 
-                    if(regenerateAndSave)
-                    {
+                        if(sendBackToGame)
+                        {
+                            // Send this back to the game so the game. When the game receives this, it will store it in
+                            // a list and will re-run the commands as necessary (such as whenever a screen is reloaded).
+                            GlueCommands.Self.DoOnUiThread(() =>
+                                RefreshManager.Self.HandleNamedObjectValueChanged(setVariableDto.VariableName, null, nos, 
+                                // record only - this variable change came from the game, we don't want to re-assign it and wipe other active edits
+                                AssignOrRecordOnly.RecordOnly)
+                            );
+                        }
 
-                        // this may not be the current screen:
-                        var nosParent = ObjectFinder.Self.GetElementContaining(nos);
+                        if(regenerateAndSave)
+                        {
 
-                        GlueCommands.Self.GluxCommands.SaveGlux();
-                        GlueCommands.Self.DoOnUiThread(GlueCommands.Self.RefreshCommands.RefreshVariables);
-                        GlueCommands.Self.GenerateCodeCommands.GenerateElementCode(nosParent);
+                            // this may not be the current screen:
+                            var nosParent = ObjectFinder.Self.GetElementContaining(nos);
+
+                            GlueCommands.Self.GluxCommands.SaveGlux();
+                            GlueCommands.Self.DoOnUiThread(GlueCommands.Self.RefreshCommands.RefreshVariables);
+                            GlueCommands.Self.GenerateCodeCommands.GenerateElementCode(nosParent);
+                        }
+
                     }
 
                 }
@@ -335,6 +343,41 @@ namespace OfficialPluginsCore.Compiler.CommandReceiving
             // Update - if it's asap, then later commands can execute before earlier ones, so we need to still respect fifo. Fifo adds delays but avoids
             // the confusion.
             TaskExecutionPreference.Fifo);
+        }
+
+        private static void HandleVariableSetOnTiledObject(SetVariableDto dto)
+        {
+            var currentScreen = GlueState.Self.CurrentScreenSave;
+
+            // This assumes there's only 1
+            var tmxObjectRfs = currentScreen.GetAllReferencedFileSavesRecursively().FirstOrDefault(item => item.Name.ToLowerInvariant().EndsWith(".tmx"));
+
+            FlatRedBall.IO.FilePath tmxFilePath = null;
+
+            if (tmxObjectRfs != null)
+            {
+                tmxFilePath = GlueCommands.Self.GetAbsoluteFilePath(tmxObjectRfs);
+            }
+
+            TiledMapSave tiledMapSave = null;
+            MapLayer mapLayer = null;
+            if (tmxFilePath?.Exists() == true)
+            {
+                tiledMapSave = TiledMapSave.FromFile(tmxFilePath.FullPath);
+                // assume this for now...
+                mapLayer = tiledMapSave.Layers.Find(item => item.Name == "GameplayLayer");
+            }
+
+            if(mapLayer != null)
+            {
+                // check if it's an object layer
+                // find the object at the old X, Y, change its position, save the file
+            }
+
+            //FlatRedBall.IO.FilePath tmxFilePath;
+            //TiledMapSave tiledMapSave;
+            //MapLayer mapLayer;
+            //GetMapLayer(dto, out collisionTileTypeName, out tmxFilePath, out tiledMapSave, out mapLayer);
         }
 
         private static async Task HandleSetVariableDtoList(SetVariableDtoList setVariableDtoList)
