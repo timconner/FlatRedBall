@@ -374,6 +374,8 @@ namespace GlueControl
                 dto.VariableName = change.PropertyName;
                 dto.VariableValue = change.PropertyValue;
                 dto.Type = change.PropertyValue?.GetType().Name;
+                dto.OldObjectPosition = new Microsoft.Xna.Framework.Vector2(change.OldX, change.OldY);
+                dto.ObjectCreationSource = (change.Nameable as PositionedObject)?.CreationSource;
 
                 dtoList.SetVariableList.Add(dto);
             }
