@@ -344,6 +344,8 @@ namespace FlatRedBall.TileEntities
 
         private static void ApplyPropertiesTo(PositionedObject entity, MapDrawableBatch layer, int tileIndex, List<NamedValue> propertiesToAssign)
         {
+            entity.CreationSource = "Tiled";
+
             int vertexIndex = tileIndex * 4;
             var dimension =
                 (layer.Vertices[vertexIndex + 1].Position - layer.Vertices[vertexIndex].Position).Length();

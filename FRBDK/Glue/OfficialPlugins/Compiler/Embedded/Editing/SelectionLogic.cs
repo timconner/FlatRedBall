@@ -220,7 +220,7 @@ namespace GlueControl.Editing
         {
 #if SupportsEditMode
 
-            return objectAtI.CreationSource == "Glue";
+            return objectAtI.CreationSource == "Glue" || objectAtI.CreationSource == "Tiled";
 #else
             return false;
 #endif

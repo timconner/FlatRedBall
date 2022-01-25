@@ -331,8 +331,16 @@ namespace GlueControl.Editing
                     }
                     else
                     {
+                        var selectionProperties = new SelectionProperties();
+                        selectionProperties.Name = itemOver?.Name;
+                        if (itemOver is IPositionable asPositionable)
+                        {
+                            selectionProperties.X = asPositionable.X;
+                            selectionProperties.Y = asPositionable.Y;
+
+                        }
                         // this shouldn't happen, but for now we tolerate it until the current is sent
-                        Select(itemOver?.Name, addToExistingSelection: isCtrlDown, playBump: true);
+                        Select(selectionProperties, addToExistingSelection: isCtrlDown, playBump: true);
                     }
                 }
                 else if (isCtrlDown)
@@ -555,8 +563,16 @@ namespace GlueControl.Editing
                     }
                     else
                     {
+                        var selectionProperties = new SelectionProperties();
+                        selectionProperties.Name = itemOver?.Name;
+                        if (itemOver is IPositionable asPositionable)
+                        {
+                            selectionProperties.X = asPositionable.X;
+                            selectionProperties.Y = asPositionable.Y;
+
+                        }
                         // this shouldn't happen, but for now we tolerate it until the current is sent
-                        Select(itemOver?.Name, addToExistingSelection: isFirst == false, playBump: true);
+                        Select(selectionProperties, addToExistingSelection: isFirst == false, playBump: true);
                     }
 
                     // This pushes the selection up for the first item so that Glue can match the selection. Eventually Glue will accept a list for multi-select, but not yet...
@@ -606,23 +622,39 @@ namespace GlueControl.Editing
                 CurrentNamedObjects.Add(namedObject);
             }
 
-            Select(namedObject?.InstanceName, addToExistingSelection, playBump, focusCameraOnObject);
+            Select(new SelectionProperties { Name = namedObject?.InstanceName }, addToExistingSelection, playBump, focusCameraOnObject);
         }
 
-        internal void Select(string objectName, bool addToExistingSelection = false, bool playBump = true, bool focusCameraOnObject = false)
+        public class SelectionProperties
+        {
+            public string Name;
+            public float? X;
+            public float? Y;
+        }
+
+        internal void Select(SelectionProperties selectionProperties, bool addToExistingSelection = false, bool playBump = true, bool focusCameraOnObject = false)
         {
             INameable foundObject = null;
 
-            if (!string.IsNullOrEmpty(objectName))
+            if (!string.IsNullOrEmpty(selectionProperties.Name))
             {
-                foundObject = SelectionLogic.GetAvailableObjects(ElementEditingMode)
-                    ?.FirstOrDefault(item => item.Name == objectName);
+                if (selectionProperties.X == null)
+                {
+                    // Just select by name
+                    foundObject = SelectionLogic.GetAvailableObjects(ElementEditingMode)
+                        ?.FirstOrDefault(item => item.Name == selectionProperties.Name);
+                }
+                else
+                {
+                    foundObject = SelectionLogic.GetAvailableObjects(ElementEditingMode)
+                        ?.FirstOrDefault(item => item.Name == selectionProperties.Name && item.X == selectionProperties.X && item.Y == selectionProperties.Y);
+                }
 
 
                 if (foundObject == null)
                 {
                     var screen = ScreenManager.CurrentScreen;
-                    var instance = screen.GetInstance($"{objectName}", screen);
+                    var instance = screen.GetInstance($"{selectionProperties.Name}", screen);
 
                     foundObject = instance as INameable;
                 }
