@@ -220,7 +220,20 @@ namespace GlueControl.Editing
         {
 #if SupportsEditMode
 
-            return objectAtI.CreationSource == "Glue" || objectAtI.CreationSource == "Tiled";
+            return objectAtI.CreationSource == "Glue" 
+            // January 25, 2022
+            // Vic says - I started
+            // working on this, but then
+            // I remembered that Justin and
+            // I concluded this was very low
+            // priority, but a lot of work. I
+            // am commenting this out now so I
+            // can merge the work into the main
+            // branch (so it doesn't get lost), but
+            // I'm not sure if (or when) I'll return
+            // to this.
+                //|| objectAtI.CreationSource == "Tiled"
+                ;
 #else
             return false;
 #endif
