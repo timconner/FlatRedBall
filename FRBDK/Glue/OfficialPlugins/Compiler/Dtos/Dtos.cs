@@ -33,9 +33,14 @@ namespace OfficialPlugins.Compiler.Dtos
         public string InstanceOwner { get; set; }
 
         public string ObjectName { get; set; }
+
+        public Vector2 OldObjectPosition { get; set; }
+
         public string VariableName { get; set; }
         public object VariableValue { get; set; }
         public string Type { get; set; }
+        public string ObjectCreationSource { get; set; }
+
     }
 
     public class SetVariableDtoList

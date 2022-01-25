@@ -45,7 +45,8 @@ namespace GlueControl.Editing
 
     public interface ISelectionMarker
     {
-        event Action<INameable, string, object> PropertyChanged;
+        event Action<INameable, float, float, string, object> PropertyChanged;
+
 
         float ExtraPaddingInPixels { get; set; }
         bool Visible { get; set; }
@@ -294,8 +295,8 @@ namespace GlueControl.Editing
 
         #endregion
 
-        // owner, variable name, variable value
-        public event Action<INameable, string, object> PropertyChanged;
+        // owner, oldX, oldY variable name, variable value
+        public event Action<INameable, float, float, string, object> PropertyChanged;
 
         #region Constructor/Init
 
@@ -841,14 +842,14 @@ namespace GlueControl.Editing
                 var value = ownerAsPositionedObject.Parent == null
                     ? ownerAsPositionedObject.X
                     : ownerAsPositionedObject.RelativeX;
-                PropertyChanged(Owner, nameof(ownerAsPositionedObject.X), value);
+                PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, nameof(ownerAsPositionedObject.X), value);
             }
             if (ownerAsPositionedObject.Y != GrabbedPosition.Y)
             {
                 var value = ownerAsPositionedObject.Parent == null
                     ? ownerAsPositionedObject.Y
                     : ownerAsPositionedObject.RelativeY;
-                PropertyChanged(Owner, nameof(ownerAsPositionedObject.Y), value);
+                PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, nameof(ownerAsPositionedObject.Y), value);
             }
 
             if (Owner is FlatRedBall.Math.Geometry.IScalable asScalable)
@@ -858,17 +859,17 @@ namespace GlueControl.Editing
                 if (Owner is Sprite asSprite && asSprite.TextureScale > 0 &&
                     GrabbedTextureScale != asSprite.TextureScale)
                 {
-                    PropertyChanged(Owner, nameof(asSprite.TextureScale), asSprite.TextureScale);
+                    PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, nameof(asSprite.TextureScale), asSprite.TextureScale);
                 }
                 else
                 {
                     if (didChangeWidth)
                     {
-                        PropertyChanged(Owner, "Width", asScalable.ScaleX * 2);
+                        PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, "Width", asScalable.ScaleX * 2);
                     }
                     if (didChangeWidth)
                     {
-                        PropertyChanged(Owner, "Height", asScalable.ScaleY * 2);
+                        PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, "Height", asScalable.ScaleY * 2);
                     }
                 }
             }
@@ -876,7 +877,7 @@ namespace GlueControl.Editing
             {
                 if (GrabbedRadius != circle.Radius)
                 {
-                    PropertyChanged(Owner, nameof(circle.Radius), circle.Radius);
+                    PropertyChanged(Owner, GrabbedPosition.X, GrabbedPosition.Y, nameof(circle.Radius), circle.Radius);
                 }
             }
         }

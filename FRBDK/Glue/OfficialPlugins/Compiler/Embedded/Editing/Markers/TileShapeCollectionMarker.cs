@@ -79,7 +79,7 @@ namespace GlueControl.Editing
 
         #region Events/Delegates
 
-        public event Action<INameable, string, object> PropertyChanged;
+        public event Action<INameable, float, float, string, object> PropertyChanged;
 
         #endregion
 

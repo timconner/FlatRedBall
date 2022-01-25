@@ -34,6 +34,8 @@ namespace GlueControl.Editing
     class PropertyChangeArgs
     {
         public INameable Nameable { get; set; }
+        public float OldX { get; set; }
+        public float OldY { get; set; }
         public string PropertyName { get; set; }
         public object PropertyValue { get; set; }
     }
@@ -270,11 +272,13 @@ namespace GlueControl.Editing
             return newMarker;
         }
 
-        private void HandleMarkerPropertyChanged(INameable item, string variable, object value)
+        private void HandleMarkerPropertyChanged(INameable item, float oldX, float oldY, string variable, object value)
         {
             var changeArgs = new PropertyChangeArgs
             {
                 Nameable = item,
+                OldX = oldX,
+                OldY = oldY,
                 PropertyName = variable,
                 PropertyValue = value
             };
@@ -440,12 +444,15 @@ namespace GlueControl.Editing
                     {
                         if (item is PositionedObject asPositionedObject)
                         {
+                            float oldY;
                             if (asPositionedObject.Parent != null)
                             {
+                                oldY = asPositionedObject.RelativeY;
                                 asPositionedObject.RelativeY += shiftAmount;
                             }
                             else
                             {
+                                oldY = asPositionedObject.Y;
                                 asPositionedObject.Y += shiftAmount;
                             }
                             PropertyChanged(new List<PropertyChangeArgs>
@@ -453,6 +460,8 @@ namespace GlueControl.Editing
                                 new PropertyChangeArgs
                                 {
                                     Nameable = item,
+                                    OldX = asPositionedObject.X,
+                                    OldY = oldY,
                                     PropertyName = nameof(asPositionedObject.Y),
                                     PropertyValue = asPositionedObject.Y
                                 }
@@ -466,12 +475,15 @@ namespace GlueControl.Editing
                     {
                         if (item is PositionedObject asPositionedObject)
                         {
+                            float oldY;
                             if (asPositionedObject.Parent != null)
                             {
+                                oldY = asPositionedObject.RelativeY;
                                 asPositionedObject.RelativeY -= shiftAmount;
                             }
                             else
                             {
+                                oldY = asPositionedObject.Y;
                                 asPositionedObject.Y -= shiftAmount;
                             }
                             PropertyChanged(new List<PropertyChangeArgs>
@@ -479,6 +491,8 @@ namespace GlueControl.Editing
                                 new PropertyChangeArgs
                                 {
                                     Nameable = item,
+                                    OldX = asPositionedObject.X,
+                                    OldY = oldY,
                                     PropertyName = nameof(asPositionedObject.Y),
                                     PropertyValue = asPositionedObject.Y
                                 }
@@ -492,18 +506,23 @@ namespace GlueControl.Editing
                     {
                         if (item is PositionedObject asPositionedObject)
                         {
+                            float oldX;
                             if (asPositionedObject.Parent != null)
                             {
+                                oldX = asPositionedObject.RelativeX;
                                 asPositionedObject.RelativeX -= shiftAmount;
                             }
                             else
                             {
+                                oldX = asPositionedObject.X;
                                 asPositionedObject.X -= shiftAmount;
                             }
 
                             var args = new PropertyChangeArgs
                             {
                                 Nameable = item,
+                                OldX = oldX,
+                                OldY = asPositionedObject.Y,
                                 PropertyName = nameof(asPositionedObject.X),
                                 PropertyValue = asPositionedObject.X
                             };
@@ -521,12 +540,15 @@ namespace GlueControl.Editing
                     {
                         if (item is PositionedObject asPositionedObject)
                         {
+                            float oldX;
                             if (asPositionedObject.Parent != null)
                             {
+                                oldX = asPositionedObject.RelativeX;
                                 asPositionedObject.RelativeX += shiftAmount;
                             }
                             else
                             {
+                                oldX = asPositionedObject.X;
                                 asPositionedObject.X += shiftAmount;
                             }
                             PropertyChanged(new List<PropertyChangeArgs>
@@ -534,6 +556,8 @@ namespace GlueControl.Editing
                                 new PropertyChangeArgs
                                 {
                                     Nameable = item,
+                                    OldX = oldX,
+                                    OldY = asPositionedObject.Y,
                                     PropertyName = nameof(asPositionedObject.X),
                                     PropertyValue = asPositionedObject.X
                                 }
