@@ -28,11 +28,18 @@ namespace OfficialPlugins.Compiler.Managers
         public DateTime TimeIgnoreCreated { get; set; }
     }
 
-    class VariableSendingManager : Singleton<VariableSendingManager>
+    class VariableSendingManager
     {
+        public VariableSendingManager(RefreshManager refreshManager)
+        {
+            _refreshManager = refreshManager;
+            _refreshManager.VariableSendingManager = this;
+        }
+
         #region Fields/Properties
 
         List<VariableForcedRecordData> Ignores = new List<VariableForcedRecordData>();
+        private RefreshManager _refreshManager;
 
         public CompilerViewModel ViewModel
         {
@@ -135,7 +142,7 @@ namespace OfficialPlugins.Compiler.Managers
                             Output.Print(exception);
                         }
                         var waitTimeout = TimeSpan.FromSeconds(5);
-                        RefreshManager.Self.StopAndRestartAsync($"Unhandled variable changed").Wait(waitTimeout);
+                        _refreshManager.StopAndRestartAsync($"Unhandled variable changed").Wait(waitTimeout);
                     }
                 }
                 catch
@@ -625,7 +632,7 @@ namespace OfficialPlugins.Compiler.Managers
 
         internal async void HandleVariableChanged(GlueElement variableElement, CustomVariable variable)
         {
-            if (RefreshManager.Self.ShouldRestartOnChange)
+            if (_refreshManager.ShouldRestartOnChange)
             {
                 var type = variable.Type;
                 var value = variable.DefaultValue?.ToString();
@@ -648,7 +655,7 @@ namespace OfficialPlugins.Compiler.Managers
             }
             else
             {
-                await RefreshManager.Self.StopAndRestartAsync($"Object variable {variable.Name} changed");
+                await _refreshManager.StopAndRestartAsync($"Object variable {variable.Name} changed");
             }
         }
 

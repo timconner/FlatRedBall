@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\BuildSettingsWindow.xaml" />
+    <None Remove="Views\BuildTabView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonDiffPatch.Net" Version="2.3.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Glue\GlueFormsCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Views\BuildSettingsWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BuildTabView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="IF NOT EXIST &quot;$(SolutionDir)Glue\bin\x86\Debug\netcoreapp3.0\Plugins\GameCommunicationPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\x86\Debug\netcoreapp3.0\Plugins\GameCommunicationPlugin\&quot;&#xD;&#xA; &#xD;&#xA;copy &quot;$(TargetDir)\GameCommunicationPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\netcoreapp3.0\Plugins\GameCommunicationPlugin\GameCommunicationPlugin.dll&quot;" />
+  </Target>
+
+</Project>
