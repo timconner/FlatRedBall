@@ -719,7 +719,7 @@ namespace OfficialPluginsCore.Compiler.CommandReceiving
                 {
                     var nos = item.NamedObjectSave;
                     var memberName = item.VariableName;
-                    VariableSendingManager.Self.AddOneTimeIgnore(nos, memberName);
+                    _variableSendingManager.AddOneTimeIgnore(nos, memberName);
                 }
             }
             await HandleFacadeCommand(GlueCommands.Self.GluxCommands, dto);
