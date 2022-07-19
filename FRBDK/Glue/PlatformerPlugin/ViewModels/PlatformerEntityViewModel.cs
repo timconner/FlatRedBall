@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using PlatformerPluginCore.ViewModels;
 
 namespace FlatRedBall.PlatformerPlugin.ViewModels
 {
@@ -37,11 +38,41 @@ namespace FlatRedBall.PlatformerPlugin.ViewModels
         [DependsOn(nameof(InheritsFromPlatformer))]
         public Visibility InheritanceLabelVisibility => InheritsFromPlatformer.ToVisibility();
 
+        public List<string> LeftSideItems { get; private set; } = new List<string>
+        {
+            "Movement Values",
+            "Animation"
+        };
+
+        public int SelectedLeftSideIndex
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
+
+        [DependsOn(nameof(SelectedLeftSideIndex))]
+        public Visibility MovementValueVisibility =>
+            SelectedLeftSideIndex == 0 ?
+                Visibility.Visible :
+                Visibility.Collapsed;
+
+        [DependsOn(nameof(SelectedLeftSideIndex))]
+        public Visibility AnimationVisibility =>
+            SelectedLeftSideIndex == 1 ?
+                Visibility.Visible :
+                Visibility.Collapsed;
+
+        public ObservableCollection<AnimationRowViewModel> AnimationRows
+        {
+            get => Get<ObservableCollection<AnimationRowViewModel>>();
+            set => Set(value);
+        }
 
 
         public PlatformerEntityViewModel()
         {
             PlatformerValues = new ObservableCollection<PlatformerValuesViewModel>();
+            AnimationRows = new ObservableCollection<AnimationRowViewModel>();
 
             PlatformerValues.CollectionChanged += HandlePlatformerValuesChanged;
         }
