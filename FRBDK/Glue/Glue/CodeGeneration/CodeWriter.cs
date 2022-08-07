@@ -282,6 +282,7 @@ namespace FlatRedBallAddOns.Entities
 
             var codeBlock = GenerateClassHeader(element, namespaceBlock);
 
+            GenerateEvents(element, codeBlock);
 
             GenerateFieldsAndProperties(element, codeBlock);
 
@@ -654,6 +655,24 @@ namespace FlatRedBallAddOns.Entities
             NamedObjectSaveCodeGenerator.ReusableEntireFileRfses = ReusableEntireFileRfses;
         }
 
+        internal static ICodeBlock GenerateEvents(IElement glueElement, ICodeBlock codeBlock)
+        {
+            AddEvent(codeBlock, "Initialize", "void", new[] { "bool addToManagers" });
+            AddEvent(codeBlock, "Activity", "void", new string[] { });
+            AddEvent(codeBlock, "ActivityEditMode", "void", new string[] { });
+            AddEvent(codeBlock, "Destroy", "void", new string[] { });
+
+            return codeBlock;
+        }
+
+        private static ICodeBlock AddEvent(ICodeBlock codeBlock, string name, string returnType, string[] parameters)
+        {
+            codeBlock.Line($"public delegate {returnType} {name}Delegate({string.Join(", ", parameters)});");
+            codeBlock.Line($"public event {name}Delegate {name}Event;");
+
+            return codeBlock;
+        }
+
         internal static ICodeBlock GenerateFieldsAndProperties(IElement glueElement, ICodeBlock codeBlock)
         {
             if(glueElement is EntitySave)
@@ -868,10 +887,16 @@ namespace FlatRedBallAddOns.Entities
 
             PerformancePluginCodeGenerator.GenerateEndTimingInitialize(saveObject, codeBlock);
 
+            AddEventCall(codeBlock, "Initialize", "addToManagers");
+
             return codeBlock;
         }
 
-        
+        private static void AddEventCall(ICodeBlock codeBlock, string name, string parms)
+        {
+            codeBlock.Line($"if({name}Event != null) {name}Event({parms});");
+        }
+
         internal static void GenerateAddToManagers(IElement saveObject, ICodeBlock codeBlock)
         {
             ICodeBlock currentBlock = codeBlock;
@@ -1235,6 +1260,8 @@ namespace FlatRedBallAddOns.Entities
                 currentBlock = currentBlock
                     .End();
 
+                AddEventCall(codeBlock, "Activity", "");
+
                 currentBlock.Line("base.Activity(firstTimeCalled);");
                 currentBlock
                     .If("!IsActivityFinished")
@@ -1245,10 +1272,11 @@ namespace FlatRedBallAddOns.Entities
             {
                 CodeWriter.GenerateGeneralActivity(currentBlock, saveObject);
 
+                AddEventCall(codeBlock, "Activity", "");
+
                 currentBlock.Line("CustomActivity();");
 
             }
-
 
             CodeWriter.GenerateAfterActivity(codeBlock, saveObject);
             
@@ -1305,9 +1333,12 @@ namespace FlatRedBallAddOns.Entities
                 }
 
             }
+
+            AddEventCall(currentBlock, "ActivityEditMode", "");
+
             currentBlock.Line("CustomActivityEditMode();");
 
-            if(inherits)
+            if (inherits)
             {
                 currentBlock.Line("base.ActivityEditMode();");
             }
@@ -1434,7 +1465,8 @@ namespace FlatRedBallAddOns.Entities
                 codeGenerator.GenerateDestroy(currentBlock, saveObject);
             }
 
-            
+            AddEventCall(codeBlock, "Destroy", "");
+
             codeBlock.Line("CustomDestroy();");
         }
 
