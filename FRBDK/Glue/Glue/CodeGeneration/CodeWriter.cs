@@ -657,10 +657,10 @@ namespace FlatRedBallAddOns.Entities
 
         internal static ICodeBlock GenerateEvents(IElement glueElement, ICodeBlock codeBlock)
         {
-            AddEvent(codeBlock, "Initialize", "void", new[] { "bool addToManagers" });
-            AddEvent(codeBlock, "Activity", "void", new string[] { });
-            AddEvent(codeBlock, "ActivityEditMode", "void", new string[] { });
-            AddEvent(codeBlock, "Destroy", "void", new string[] { });
+            AddEvent(codeBlock, "Initialize", "void", new[] { "object caller", "bool addToManagers" });
+            AddEvent(codeBlock, "Activity", "void", new string[] { "object caller" });
+            AddEvent(codeBlock, "ActivityEditMode", "void", new string[] { "object caller" });
+            AddEvent(codeBlock, "Destroy", "void", new string[] { "object caller" });
 
             return codeBlock;
         }
@@ -894,7 +894,7 @@ namespace FlatRedBallAddOns.Entities
 
         private static void AddEventCall(ICodeBlock codeBlock, string name, string parms)
         {
-            codeBlock.Line($"if({name}Event != null) {name}Event({parms});");
+            codeBlock.Line($"if({name}Event != null) {name}Event(this{(!string.IsNullOrEmpty(parms) ? ", " : "")}{parms});");
         }
 
         internal static void GenerateAddToManagers(IElement saveObject, ICodeBlock codeBlock)
