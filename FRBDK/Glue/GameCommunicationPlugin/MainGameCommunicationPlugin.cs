@@ -20,6 +20,7 @@ namespace GameCommunicationPlugin
     {
         private GameConnectionManager _gameCommunicationManager;
         private Game1GlueCommunicationGenerator game1GlueCommunicationGenerator;
+        private HybridEntityCodeGenerator hybridEntityCodeGenerator;
 
         public override string FriendlyName => "Game Communication Plugin";
 
@@ -44,6 +45,8 @@ namespace GameCommunicationPlugin
 
             game1GlueCommunicationGenerator = new Game1GlueCommunicationGenerator(true, 8888);
             RegisterCodeGenerator(game1GlueCommunicationGenerator);
+            hybridEntityCodeGenerator = new HybridEntityCodeGenerator();
+            RegisterCodeGenerator(hybridEntityCodeGenerator);
 
             //Task.Run(() =>
             //{
