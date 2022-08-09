@@ -512,7 +512,7 @@ namespace FlatRedBall.Glue.SaveClasses
             }
         }
 
-        public static IElement GetReferencedElement(this NamedObjectSave instance)
+        public static GlueElement GetReferencedElement(this NamedObjectSave instance)
         {
             if(instance == null)
             {
@@ -531,8 +531,8 @@ namespace FlatRedBall.Glue.SaveClasses
         public static void GetAdditionsNeededForChangingType(string oldType, string newType, List<PropertyValuePair> valuesToBeSet,
             List<CustomVariable> neededVariables, List<StateSave> neededStates, List<StateSaveCategory> neededCategories)
         {
-            IElement oldElement = ObjectFinder.Self.GetIElement(oldType);
-            IElement newElement = ObjectFinder.Self.GetIElement(newType);
+            var oldElement = ObjectFinder.Self.GetElement(oldType);
+            var newElement = ObjectFinder.Self.GetElement(newType);
 
             if (oldElement != null && newElement != null)
             {

@@ -1370,7 +1370,7 @@ namespace FlatRedBall.Glue.CodeGeneration
         }
 
         private static void AppendCustomVariableInInstanceStandard(NamedObjectSave namedObject, ICodeBlock codeBlock, 
-            InstructionSave instructionSave, AssetTypeInfo ati, IElement entitySave, CustomVariable customVariable, string rootVariable)
+            InstructionSave instructionSave, AssetTypeInfo ati, GlueElement entitySave, CustomVariable customVariable, string rootVariable)
         {
             object objectToParse = instructionSave.Value;
 

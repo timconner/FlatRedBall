@@ -110,7 +110,7 @@ namespace FlatRedBall.Glue.SaveClasses
         }
 
 
-        public static CustomVariable GetCustomVariableRecursively(this IElement element, string variableName)
+        public static CustomVariable GetCustomVariableRecursively(this GlueElement element, string variableName)
         {
             //////////////////////Early Out///////////////////////////////////
             if (string.IsNullOrEmpty(variableName))
@@ -133,7 +133,7 @@ namespace FlatRedBall.Glue.SaveClasses
             {
                 if (!string.IsNullOrEmpty(element.BaseObject))
                 {
-                    IElement baseElement = GlueState.CurrentGlueProject.GetElement(element.BaseObject);
+                    var baseElement = GlueState.CurrentGlueProject.GetElement(element.BaseObject);
 
                     if (baseElement != null)
                     {
@@ -145,7 +145,7 @@ namespace FlatRedBall.Glue.SaveClasses
             }
         }
 
-        public static object GetVariableValueRecursively(this IElement element, string variableName)
+        public static object GetVariableValueRecursively(this GlueElement element, string variableName)
         {
             //////////////////////Early Out///////////////////////////////////
             if (string.IsNullOrEmpty(variableName))
