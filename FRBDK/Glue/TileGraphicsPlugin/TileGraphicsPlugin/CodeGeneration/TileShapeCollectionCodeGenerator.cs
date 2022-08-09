@@ -450,20 +450,20 @@ namespace TileGraphicsPlugin.CodeGeneration
                 return namedObjectSave.Properties.GetValue<T>(name);
             }
 
-            var mapName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
-            var typeName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileTypeName));
-            var removeTiles = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.RemoveTilesAfterCreatingCollision));
-            var isMerged = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.IsCollisionMerged));
-            if (!string.IsNullOrEmpty(mapName) && !string.IsNullOrEmpty(typeName))
+            var sourceTmxName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
+            var collisionTileTypeName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileTypeName));
+            var removeTilesAfterCreatingCollision = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.RemoveTilesAfterCreatingCollision));
+            var isCollisionMerged = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.IsCollisionMerged));
+            if (!string.IsNullOrEmpty(sourceTmxName) && !string.IsNullOrEmpty(collisionTileTypeName))
             {
                 string method = "AddCollisionFromTilesWithType";
-                if(isMerged)
+                if(isCollisionMerged)
                 {
                     method = "AddMergedCollisionFromTilesWithType";
                 }
                 codeBlock.Line("FlatRedBall.TileCollisions.TileShapeCollectionLayeredTileMapExtensions" +
                     $".{method}(" +
-                    $"{namedObjectSave.InstanceName}, {mapName}, \"{typeName}\", {removeTiles.ToString().ToLowerInvariant()});");
+                    $"{namedObjectSave.InstanceName}, {sourceTmxName}, \"{collisionTileTypeName}\", {removeTilesAfterCreatingCollision.ToString().ToLowerInvariant()});");
             }
 
         }
