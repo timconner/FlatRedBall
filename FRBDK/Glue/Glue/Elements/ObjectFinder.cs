@@ -1055,7 +1055,7 @@ namespace FlatRedBall.Glue.Elements
                 // doesn't know it - we have to get the variable from the base to know for sure.
                 if (containingElement != null && !string.IsNullOrEmpty(containingElement.BaseElement))
                 {
-                    var baseElement = GlueState.Self.CurrentGlueProject.GetElement(containingElement.BaseElement);
+                    var baseElement = GetElement(containingElement.BaseElement);
                     if (baseElement != null)
                     {
                         CustomVariable customVariableInBase = baseElement.GetCustomVariableRecursively(customVariable.Name);

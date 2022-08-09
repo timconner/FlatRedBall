@@ -458,7 +458,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
                 if (container != null && !string.IsNullOrEmpty(container.BaseElement))
                 {
-                    var baseElement = GlueState.CurrentGlueProject.GetElement(container.BaseElement);
+                    var baseElement = ObjectFinder.Self.GetElement(container.BaseElement);
                     if (baseElement != null)
                     {
                         CustomVariable customVariableInBase = baseElement.GetCustomVariableRecursively(customVariable.Name);

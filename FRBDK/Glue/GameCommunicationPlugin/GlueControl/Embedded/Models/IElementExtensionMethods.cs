@@ -223,5 +223,102 @@ namespace GlueControl.Models
             return null;
         }
 
+        public static CustomVariable GetCustomVariableRecursively(this GlueElement element, string variableName)
+        {
+            //////////////////////Early Out///////////////////////////////////
+            if (string.IsNullOrEmpty(variableName))
+            {
+                return null;
+            }
+
+            ////////////////////End Early Out//////////////////////////
+            if (variableName.StartsWith("this."))
+            {
+                variableName = variableName.Substring("this.".Length);
+            }
+            CustomVariable foundVariable = element.GetCustomVariable(variableName);
+
+            if (foundVariable != null)
+            {
+                return foundVariable;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(element.BaseObject))
+                {
+                    var baseElement = ObjectFinder.Self.GetElement(element.BaseObject);
+
+                    if (baseElement != null)
+                    {
+                        foundVariable = GetCustomVariableRecursively(baseElement, variableName);
+                    }
+                }
+
+                return foundVariable;
+            }
+        }
+
+        public static object GetVariableValueRecursively(this GlueElement element, string variableName)
+        {
+            //////////////////////Early Out///////////////////////////////////
+            if (string.IsNullOrEmpty(variableName))
+            {
+                return null;
+            }
+
+            ////////////////////End Early Out//////////////////////////
+            ///
+            if (variableName.StartsWith("this."))
+            {
+                variableName = variableName.Substring("this.".Length);
+
+            }
+            var variable = element.GetCustomVariable(variableName);
+
+            object toReturn = null;
+            bool foundValue = false;
+
+            if (!foundValue && variable?.DefaultValue != null)
+            {
+                toReturn = variable.DefaultValue;
+                foundValue = true;
+            }
+
+            if (!foundValue)
+            {
+                if (!string.IsNullOrEmpty(element.BaseElement))
+                {
+                    var baseElement = ObjectFinder.Self.GetBaseElement(element);
+
+                    if (baseElement != null)
+                    {
+                        toReturn = GetVariableValueRecursively(baseElement, variableName);
+                        foundValue = toReturn != null;
+                    }
+                }
+            }
+
+            if (!foundValue)
+            {
+                // atis aren't yet undrstood by runtime:
+                //var ati = element.GetAssetTypeInfo();
+                //if (ati != null)
+                //{
+                //    var variableDefinition = ati.VariableDefinitions.FirstOrDefault(x => x.Name == variableName);
+                //    toReturn = variableDefinition?.GetCastedDefaultValue();
+                //    foundValue = toReturn != null;
+                //}
+            }
+            if (!foundValue && variable != null)
+            {
+                // get the default value for the type:
+                // Could use the TypeManager and get full coverage but that is HEAVY and requires some (potentially) expensive conversions.
+                // Therefore, just use the quick-n-dirty VariableDefinition
+                toReturn = VariableDefinition.GetCastedValueForType(variable.Type, null);
+
+            }
+            return toReturn;
+        }
+
     }
 }

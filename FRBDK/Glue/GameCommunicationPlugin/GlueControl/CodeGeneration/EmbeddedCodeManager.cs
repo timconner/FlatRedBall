@@ -69,6 +69,7 @@ namespace GameCommunicationPlugin.GlueControl.CodeGeneration
             SaveEmbeddedFile("Models.StateSave.cs");
             SaveEmbeddedFile("Models.ReferencedFileSave.cs");
             SaveEmbeddedFile("Models.StateSaveCategory.cs");
+            SaveEmbeddedFile("Models.VariableDefinition.cs");
 
             SaveEmbeddedFile("Runtime.DynamicEntity.cs");
             // This was a typo in old projects:
