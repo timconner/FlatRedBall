@@ -289,20 +289,20 @@ namespace TileGraphicsPlugin.CodeGeneration
             }
             string FloatString(float value) => value.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var tileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
-            var tileSizeString = FloatString(tileSize);
+            var collisionTileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
+            var tileSizeString = FloatString(collisionTileSize);
 
-            var leftFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
-            var leftFillString = FloatString(leftFill);
+            var collisionFillLeft = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
+            var leftFillString = FloatString(collisionFillLeft);
 
-            var topFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
-            var topFillString = FloatString(topFill);
+            var collisionFillTop = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
+            var topFillString = FloatString(collisionFillTop);
 
             var borderOutlineType = (BorderOutlineType)Get<int>(
                 nameof(TileShapeCollectionPropertiesViewModel.BorderOutlineType));
 
-            var remainderX = leftFill % tileSize;
-            var remainderY = topFill % tileSize;
+            var remainderX = collisionFillLeft % collisionTileSize;
+            var remainderY = collisionFillTop % collisionTileSize;
 
             var instanceName = namedObjectSave.FieldName;
 
@@ -317,37 +317,37 @@ namespace TileGraphicsPlugin.CodeGeneration
             codeBlock.Line($"{instanceName}.SortAxis = FlatRedBall.Math.Axis.X;");
             //TileShapeCollectionInstance.SortAxis = FlatRedBall.Math.Axis.X;
 
-            var widthFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
-            var heightFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
+            var collisionFillWidth = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
+            var collisionFillHeight = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
 
             if(borderOutlineType == BorderOutlineType.InnerSize)
             {
-                var innerWidth = Get<float>(
+                var innerSizeWidth = Get<float>(
                     nameof(TileShapeCollectionPropertiesViewModel.InnerSizeWidth));
 
-                var innerHeight = Get<float>(
+                var innerSizeHeight = Get<float>(
                     nameof(TileShapeCollectionPropertiesViewModel.InnerSizeHeight));
 
-                var additionalWidth = 2 * tileSize;
-                var additionalHeight = 2 * tileSize;
+                var additionalWidth = 2 * collisionTileSize;
+                var additionalHeight = 2 * collisionTileSize;
 
-                widthFill = MathFunctions.RoundToInt( (innerWidth + additionalWidth)/tileSize);
-                heightFill = MathFunctions.RoundToInt((innerHeight + additionalHeight) / tileSize);
+                collisionFillWidth = MathFunctions.RoundToInt( (innerSizeWidth + additionalWidth)/collisionTileSize);
+                collisionFillHeight = MathFunctions.RoundToInt((innerSizeHeight + additionalHeight) / collisionTileSize);
 
 
             }
-            var xFor = codeBlock.For($"int x = 0; x < {widthFill}; x++");
+            var xFor = codeBlock.For($"int x = 0; x < {collisionFillWidth}; x++");
             //int(int x = 0; x < width; x++)
             //{
-            var ifBlock = xFor.If($"x == 0 || x == {widthFill} - 1");
-            var yFor = ifBlock.For($"int y = 0; y < {heightFill}; y++");
+            var ifBlock = xFor.If($"x == 0 || x == {collisionFillWidth} - 1");
+            var yFor = ifBlock.For($"int y = 0; y < {collisionFillHeight}; y++");
             //    for (int y = 0; y < height; y++)
             //    {
 
             yFor.Line(
                 $"{instanceName}.AddCollisionAtWorld(" +
-                $"{leftFillString} + x * {tileSize} + {tileSize} / 2.0f," +
-                $"{topFillString} - y * {tileSize} - {tileSize} / 2.0f);");
+                $"{leftFillString} + x * {collisionTileSize} + {collisionTileSize} / 2.0f," +
+                $"{topFillString} - y * {collisionTileSize} - {collisionTileSize} / 2.0f);");
             //        TileShapeCollectionInstance.AddCollisionAtWorld(
             //            left + x * gridSize + gridSize / 2.0f,
             //            top - y * gridSize - gridSize / 2.0f);
@@ -357,13 +357,13 @@ namespace TileGraphicsPlugin.CodeGeneration
 
             elseBlock.Line(
                 $"{instanceName}.AddCollisionAtWorld(" +
-                $"{leftFillString} + x * {tileSize} + {tileSize} / 2.0f," +
-                $"{topFillString} - {tileSize} / 2.0f);");
+                $"{leftFillString} + x * {collisionTileSize} + {collisionTileSize} / 2.0f," +
+                $"{topFillString} - {collisionTileSize} / 2.0f);");
 
             elseBlock.Line(
                 $"{instanceName}.AddCollisionAtWorld(" +
-                $"{leftFillString} + x * {tileSize} + {tileSize} / 2.0f," +
-                $"{topFillString} - {heightFill - 1} * {tileSize} - {tileSize} / 2.0f);");
+                $"{leftFillString} + x * {collisionTileSize} + {collisionTileSize} / 2.0f," +
+                $"{topFillString} - {collisionFillHeight - 1} * {collisionTileSize} - {collisionTileSize} / 2.0f);");
 
         }
 
@@ -374,8 +374,8 @@ namespace TileGraphicsPlugin.CodeGeneration
                 return namedObjectSave.Properties.GetValue<T>(name);
             }
 
-            var tileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
-            var tileSizeString = tileSize.ToString(CultureInfo.InvariantCulture) + "f";
+            var collisionTileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
+            var tileSizeString = collisionTileSize.ToString(CultureInfo.InvariantCulture) + "f";
 
             var leftFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
             var leftFillString = leftFill.ToString(CultureInfo.InvariantCulture) + "f";
@@ -383,11 +383,11 @@ namespace TileGraphicsPlugin.CodeGeneration
             var topFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
             var topFillString = topFill.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var widthFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
-            var heightFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
+            var collisionFillWidth = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
+            var collisionFillHeight = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
 
-            var remainderX = leftFill % tileSize;
-            var remainderY = topFill % tileSize;
+            var remainderX = leftFill % collisionTileSize;
+            var remainderY = topFill % collisionTileSize;
 
             var instanceName = namedObjectSave.FieldName;
 
@@ -400,17 +400,17 @@ namespace TileGraphicsPlugin.CodeGeneration
             codeBlock.Line($"{instanceName}.SortAxis = FlatRedBall.Math.Axis.X;");
             //TileShapeCollectionInstance.SortAxis = FlatRedBall.Math.Axis.X;
 
-            var xFor = codeBlock.For($"int x = 0; x < {widthFill}; x++");
+            var xFor = codeBlock.For($"int x = 0; x < {collisionFillWidth}; x++");
             //int(int x = 0; x < width; x++)
             //{
-            var yFor = xFor.For($"int y = 0; y < {heightFill}; y++");
+            var yFor = xFor.For($"int y = 0; y < {collisionFillHeight}; y++");
             //    for (int y = 0; y < height; y++)
             //    {
 
             yFor.Line(
                 $"{instanceName}.AddCollisionAtWorld(" +
-                $"{leftFillString} + x * {tileSize} + {tileSize} / 2.0f," +
-                $"{topFillString} - y * {tileSize} - {tileSize} / 2.0f);");
+                $"{leftFillString} + x * {collisionTileSize} + {collisionTileSize} / 2.0f," +
+                $"{topFillString} - y * {collisionTileSize} - {collisionTileSize} / 2.0f);");
             //        TileShapeCollectionInstance.AddCollisionAtWorld(
             //            left + x * gridSize + gridSize / 2.0f,
             //            top - y * gridSize - gridSize / 2.0f);
