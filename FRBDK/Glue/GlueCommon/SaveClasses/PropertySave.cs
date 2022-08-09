@@ -142,35 +142,55 @@ namespace FlatRedBall.Glue.SaveClasses
                     newPropertySave.Name = nameToSearchFor;
                     newPropertySave.Value = value;
 
-                    if(typeof(T) == typeof(int))
-                    {
-                        newPropertySave.Type = "int";
-                    }
-                    else if(typeof(T) == typeof(float))
-                    {
-                        newPropertySave.Type = "float";
-                    }
-                    else if (typeof(T) == typeof(decimal))
-                    {
-                        newPropertySave.Type = "decimal";
-                    }
-                    else
-                    {
-                        newPropertySave.Type = typeof(T).Name;
-                    }
+                    var typeToConvert = typeof(T);
+                    string typeAsString = GetFriendlyTypeName(typeToConvert);
 
+                    newPropertySave.Type = typeAsString;
 
                     propertySaveList.Add(newPropertySave);
                 }
             }
         }
 
+        private static string GetFriendlyTypeName(Type typeToConvert)
+        {
+            string typeAsString = null;
+            if (typeToConvert == typeof(int))
+            {
+                typeAsString = "int";
+            }
+            else if (typeToConvert == typeof(float))
+            {
+                typeAsString = "float";
+            }
+            else if (typeToConvert == typeof(decimal))
+            {
+                typeAsString = "decimal";
+            }
+            else
+            {
+                typeAsString = typeToConvert.Name;
+            }
+
+            return typeAsString;
+        }
+
         public static void SetValuePersistIfDefault(this List<PropertySave> propertySaveList, string nameToSearchFor, object value)
         {
             var existingProperty = propertySaveList.FirstOrDefault(item => item.Name == nameToSearchFor);
+            var valueType = value.GetType();
+            string typeName = null;
+            if(valueType != null)
+            {
+                typeName = GetFriendlyTypeName(valueType);
+            }
+
             if (existingProperty != null)
             {
-
+                if (value != null && existingProperty.Type != typeName)
+                {
+                    existingProperty.Type = typeName;
+                }
                 existingProperty.Value = value;
             }
             else
@@ -179,6 +199,7 @@ namespace FlatRedBall.Glue.SaveClasses
                 PropertySave newPropertySave = new PropertySave();
                 newPropertySave.Name = nameToSearchFor;
                 newPropertySave.Value = value;
+                newPropertySave.Type = typeName;
                 propertySaveList.Add(newPropertySave);
             }
         }
