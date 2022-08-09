@@ -8,7 +8,7 @@ namespace GameCommunicationPlugin.CodeGeneration
     {
         public override ICodeBlock GenerateInitializeLate(ICodeBlock codeBlock, IElement element)
         {
-            codeBlock.Line("GlueDynamicManager.GlueDynamicManager.Self.AttachEntity(this);");
+            codeBlock.Line("GlueDynamicManager.GlueDynamicManager.Self.AttachEntity(this, addToManagers);");
 
             return base.GenerateInitializeLate(codeBlock, element);
         }
