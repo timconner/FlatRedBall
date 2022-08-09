@@ -64,10 +64,10 @@ namespace GlueControl.Models
                 FixAllTypes(instruction);
             }
 
-            //foreach (var property in instance.Properties)
-            //{
-            //    FixAllTypes(property);
-            //}
+            foreach (var property in instance.Properties)
+            {
+                FixAllTypes(property);
+            }
 
             foreach (NamedObjectSave contained in instance.ContainedObjects)
             {
@@ -85,6 +85,19 @@ namespace GlueControl.Models
                 var type = instruction.Type;
                 variableValue = FixValue(variableValue, type);
                 instruction.Value = variableValue;
+            }
+        }
+
+        private static void FixAllTypes(PropertySave property)
+        {
+            if (!string.IsNullOrEmpty(property.Type) && property.Value != null)
+            {
+                object variableValue = property.Value;
+                var type = property.Type;
+
+                variableValue = FixValue(variableValue, type);
+
+                property.Value = variableValue;
             }
         }
 
