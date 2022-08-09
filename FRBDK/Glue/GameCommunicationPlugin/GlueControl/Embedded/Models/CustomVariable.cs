@@ -6,6 +6,8 @@ namespace GlueControl.Models
 {
     public class CustomVariable
     {
+        public List<PropertySave> Properties = new List<PropertySave>();
+
         string mSourceObject;
         string mSourceObjectProperty;
         object mDefaultValue;
@@ -16,7 +18,12 @@ namespace GlueControl.Models
             set;
         }
 
-        public List<PropertySave> Properties = new List<PropertySave>();
+        [JsonIgnore]
+        public string Type
+        {
+            get => Properties.GetValue<string>("Type");
+            set => Properties.SetValue("Type", value);
+        }
 
         public object DefaultValue
         {

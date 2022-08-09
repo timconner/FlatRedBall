@@ -511,7 +511,7 @@ namespace FlatRedBall.Glue.CodeGeneration
                                             var stripped = customVariable.Type.Substring(0, lastPeriod);
                                             var elementName = stripped.Replace(".", @"\");
 
-                                            stateContainingEntity = GlueState.Self.CurrentGlueProject.GetElement(elementName);
+                                            stateContainingEntity = ObjectFinder.Self.GetElement(elementName);
 
                                         }
                                         else if (string.IsNullOrEmpty(customVariable.SourceObject))

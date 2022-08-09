@@ -226,5 +226,61 @@ namespace GlueControl.Managers
 
 
         #endregion
+
+        #region Variables
+
+        public object GetValueRecursively(NamedObjectSave instance, GlueElement container, string memberName)
+        {
+            VariableDefinition variableDefinition = null;
+            //instance?.GetAssetTypeInfo()?.VariableDefinitions.FirstOrDefault(item => item.Name == memberName);
+
+            string typeName =
+                null;
+            //variableDefinition?.Type;
+            Type type = null;
+            //if (!string.IsNullOrEmpty(typeName))
+            //{
+            //    type = TypeManager.GetTypeFromString(typeName);
+            //}
+
+            return GetValueRecursively(instance, container, memberName, type, variableDefinition);
+        }
+
+        private static object GetValueRecursively(NamedObjectSave instance, GlueElement container, string memberName, Type memberType, VariableDefinition variableDefinition)
+        {
+            var instruction = instance.GetCustomVariable(memberName);
+
+            if (instruction == null)
+            {
+                // Get the value for this variable from the base element. 
+
+                //var getVariableResponse = GetVariableOnInstance(instance, container, memberName);
+
+                //if (getVariableResponse.customVariable != null)
+                //{
+                //    return getVariableResponse.customVariable.DefaultValue;
+                //}
+                //else if (getVariableResponse.instructionOnState != null)
+                //{
+                //    return getVariableResponse.instructionOnState.Value;
+                //}
+
+                //return variableDefinition?.GetCastedDefaultValue();
+                return null;
+            }
+            else
+            {
+                if (instruction.Value is int && memberType.IsEnum)
+                {
+                    return Enum.ToObject(memberType, instruction.Value);
+                }
+                else
+                {
+                    return instruction.Value;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using FlatRedBall.IO;
+using System.Linq;
 
 namespace GlueControl.Models
 {
@@ -25,6 +26,12 @@ namespace GlueControl.Models
         public ReferencedFileSave GetReferencedFileSave(string fileName)
         {
             return IElementExtensionMethods.GetReferencedFileSave(this, fileName);
+        }
+
+        public List<CustomVariable> CustomVariables
+        {
+            get;
+            set;
         }
 
         public bool IsOnOwnLayer
@@ -88,6 +95,21 @@ namespace GlueControl.Models
             get;
             set;
         } = new List<NamedObjectSave>();
+
+        public CustomVariable GetCustomVariable(string customVariableName)
+        {
+            foreach (var customVariable in CustomVariables)
+            {
+                if (customVariable.Name == customVariableName)
+                {
+                    return customVariable;
+                }
+            }
+            return null;
+        }
+
+
+        //public bool IsAbstract => this.AllNamedObjects.Any(item => item.SetByDerived);
     }
 
     public class EntitySave : GlueElement
@@ -119,6 +141,8 @@ namespace GlueControl.Models
             get { return mBaseEntity; }
             set { mBaseEntity = value; }
         }
+
+
     }
 
     public class ScreenSave : GlueElement

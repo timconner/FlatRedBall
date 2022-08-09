@@ -405,6 +405,18 @@ namespace GlueControl.Models
             //IndependentOfCamera = false;
         }
 
+        public InstructionSave GetCustomVariable(string memberName)
+        {
+            for (int i = 0; i < InstructionSaves.Count; i++)
+            {
+                if (InstructionSaves[i].Member == memberName)
+                {
+                    return InstructionSaves[i];
+                }
+            }
+            return null;
+        }
+
         public override string ToString()
         {
             //if (ToStringDelegate != null)

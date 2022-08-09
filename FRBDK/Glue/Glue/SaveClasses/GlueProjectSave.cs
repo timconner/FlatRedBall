@@ -217,6 +217,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
         }
 
+        [Obsolete("Use ObjectFinder.Self.GetElement")]
         public GlueElement GetElement(string elementName)
         {
             GlueElement retval;
