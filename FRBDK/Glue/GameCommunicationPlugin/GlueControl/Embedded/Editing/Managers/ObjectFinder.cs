@@ -186,6 +186,14 @@ namespace GlueControl.Managers
                 {
                     return (T)((object)(int)asLong2);
                 }
+                else if (typeof(T) == typeof(float) && propertyOnNos.Value is double asDouble)
+                {
+                    return (T)((object)(float)asDouble);
+                }
+                else if (typeof(T) == typeof(float) && propertyOnNos.Value is long asLong3)
+                {
+                    return (T)((object)(float)asLong3);
+                }
                 else
                 {
                     return (T)((object)propertyOnNos.Value);
