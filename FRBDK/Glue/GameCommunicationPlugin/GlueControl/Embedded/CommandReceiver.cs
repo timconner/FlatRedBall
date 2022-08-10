@@ -395,6 +395,11 @@ namespace GlueControl
                 isOwnerScreen = true;
             }
             else
+                isOwnerScreen = HandleSelectObjectGoToNewScreen(selectObjectDto, ownerType, elementNameGlue, ownerTypeName, isOwnerScreen);
+        }
+
+        private static bool HandleSelectObjectGoToNewScreen(SelectObjectDto selectObjectDto, Type ownerType, string elementNameGlue, string ownerTypeName, bool isOwnerScreen)
+        {
             {
                 CameraLogic.RecordCameraForCurrentScreen();
 
@@ -435,10 +440,7 @@ namespace GlueControl
                         SelectState(selectObjectDto.StateName, selectObjectDto.StateCategoryName);
                     }
                 }
-            }
 
-            if (!isOwnerScreen)
-            {
                 var isEntity = typeof(PositionedObject).IsAssignableFrom(ownerType) ||
                     InstanceLogic.Self.CustomGlueElements.ContainsKey(ownerTypeName);
 
@@ -463,7 +465,7 @@ namespace GlueControl
 
                             FlatRedBall.Screens.ScreenManager.ScreenLoaded -= AfterInitializeLogic;
 
-                            CameraLogic.UpdateCameraValuesToScreenSavedValues(newScreen );
+                            CameraLogic.UpdateCameraValuesToScreenSavedValues(newScreen);
 
                             if (!string.IsNullOrEmpty(selectObjectDto.StateName))
                             {
@@ -486,9 +488,9 @@ namespace GlueControl
                     }
                 }
             }
+
+            return isOwnerScreen;
         }
-
-
 
         private static void SelectState(string stateName, string stateCategoryName)
         {
