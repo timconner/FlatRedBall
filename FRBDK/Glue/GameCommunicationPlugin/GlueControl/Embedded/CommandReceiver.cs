@@ -19,6 +19,7 @@ using GlueControl.Managers;
 
 namespace GlueControl
 {
+
     static class CommandReceiver
     {
         #region Supporting Methods/Properties
@@ -352,7 +353,7 @@ namespace GlueControl
             }
             // if it matches, don't fall back to the backup element
             bool matchesCurrentScreen =
-                GetIfMatchesCurrentScreen(selectObjectDto.ElementNameGlue, out System.Type ownerType, out Screen currentScreen);
+                GetIfMatchesCurrentScreen(selectObjectDto.ElementNameGlue, out System.Type screenOrEntityGameType, out Screen currentScreen);
 
             string elementNameGlue = selectObjectDto.BackupElementNameGlue ?? selectObjectDto.ElementNameGlue;
             if (matchesCurrentScreen)
@@ -360,8 +361,8 @@ namespace GlueControl
                 elementNameGlue = selectObjectDto.ElementNameGlue;
             }
 
-            string ownerTypeName = GlueToGameElementName(elementNameGlue);
-            ownerType = typeof(CommandReceiver).Assembly.GetType(ownerTypeName);
+            string screenOrEntityGameTypeName = GlueToGameElementName(elementNameGlue);
+            screenOrEntityGameType = typeof(CommandReceiver).Assembly.GetType(screenOrEntityGameTypeName);
 
             bool isOwnerScreen = false;
 
@@ -395,7 +396,7 @@ namespace GlueControl
                 isOwnerScreen = true;
             }
             else
-                isOwnerScreen = HandleSelectObjectGoToNewScreen(selectObjectDto, ownerType, elementNameGlue, ownerTypeName, isOwnerScreen);
+                isOwnerScreen = HandleSelectObjectGoToNewScreen(selectObjectDto, screenOrEntityGameType, elementNameGlue, screenOrEntityGameTypeName, isOwnerScreen);
         }
 
         private static bool HandleSelectObjectGoToNewScreen(SelectObjectDto selectObjectDto, Type ownerType, string elementNameGlue, string ownerTypeName, bool isOwnerScreen)
