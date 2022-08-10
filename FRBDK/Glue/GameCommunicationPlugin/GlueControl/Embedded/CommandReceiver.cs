@@ -19,7 +19,6 @@ using GlueControl.Managers;
 
 namespace GlueControl
 {
-
     static class CommandReceiver
     {
         #region Supporting Methods/Properties
@@ -399,12 +398,12 @@ namespace GlueControl
                 isOwnerScreen = HandleSelectObjectGoToNewScreen(selectObjectDto, screenOrEntityGameType, elementNameGlue, screenOrEntityGameTypeName, isOwnerScreen);
         }
 
-        private static bool HandleSelectObjectGoToNewScreen(SelectObjectDto selectObjectDto, Type ownerType, string elementNameGlue, string ownerTypeName, bool isOwnerScreen)
+        private static bool HandleSelectObjectGoToNewScreen(SelectObjectDto selectObjectDto, Type screenOrEntityGameType, string elementNameGlue, string ownerTypeName, bool isOwnerScreen)
         {
             {
                 CameraLogic.RecordCameraForCurrentScreen();
 
-                bool selectedNewScreen = ownerType != null && typeof(Screen).IsAssignableFrom(ownerType);
+                bool selectedNewScreen = screenOrEntityGameType != null && typeof(Screen).IsAssignableFrom(screenOrEntityGameType);
                 if (selectedNewScreen)
                 {
 #if SupportsEditMode
@@ -427,7 +426,7 @@ namespace GlueControl
                     }
                     ScreenManager.ScreenLoaded += AfterInitializeLogic;
 
-                    ScreenManager.CurrentScreen.MoveToScreen(ownerType);
+                    ScreenManager.CurrentScreen.MoveToScreen(screenOrEntityGameType);
                     EditorVisuals.DestroyContainedObjects();
 
                     isOwnerScreen = true;
@@ -442,7 +441,7 @@ namespace GlueControl
                     }
                 }
 
-                var isEntity = typeof(PositionedObject).IsAssignableFrom(ownerType) ||
+                var isEntity = typeof(PositionedObject).IsAssignableFrom(screenOrEntityGameType) ||
                     InstanceLogic.Self.CustomGlueElements.ContainsKey(ownerTypeName);
 
                 if (isEntity)
@@ -453,7 +452,7 @@ namespace GlueControl
                     var isAlreadyViewingThisEntity =
                         entityScreen != null &&
                         entity != null &&
-                        DoTypesMatch(entity, ownerTypeName, ownerType);
+                        DoTypesMatch(entity, ownerTypeName, screenOrEntityGameType);
 
                     if (!isAlreadyViewingThisEntity)
                     {
@@ -1096,6 +1095,4 @@ namespace GlueControl
             }
         }
     }
-
-
 }
