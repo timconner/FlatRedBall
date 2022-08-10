@@ -404,6 +404,18 @@ namespace GlueControl
                 CameraLogic.RecordCameraForCurrentScreen();
 
                 bool selectedNewScreen = screenOrEntityGameType != null && typeof(Screen).IsAssignableFrom(screenOrEntityGameType);
+
+                var isNewScreenDynamic =
+                    // Couldn't find the type in the assembly
+                    screenOrEntityGameType == null &&
+                    // it's a screen in Glue
+                    elementNameGlue.StartsWith("Screens\\");
+
+                if (isNewScreenDynamic)
+                {
+                    selectedNewScreen = true; // for now, force it in testing...
+                }
+
                 if (selectedNewScreen)
                 {
 #if SupportsEditMode
@@ -426,7 +438,14 @@ namespace GlueControl
                     }
                     ScreenManager.ScreenLoaded += AfterInitializeLogic;
 
-                    ScreenManager.CurrentScreen.MoveToScreen(screenOrEntityGameType);
+                    if(isNewScreenDynamic)
+                    {
+                        // scott, fill in here:
+                    }
+                    else
+                    {
+                        ScreenManager.CurrentScreen.MoveToScreen(screenOrEntityGameType);
+                    }
                     EditorVisuals.DestroyContainedObjects();
 
                     isOwnerScreen = true;
@@ -1095,4 +1114,5 @@ namespace GlueControl
             }
         }
     }
+
 }
