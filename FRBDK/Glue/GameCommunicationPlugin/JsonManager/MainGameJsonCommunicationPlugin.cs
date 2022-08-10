@@ -3,6 +3,7 @@ using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using FlatRedBall.Glue.Plugins.Interfaces;
 using GameCommunicationPlugin.CodeGeneration;
 using GameCommunicationPlugin.Common;
+using GameCommunicationPlugin.JsonManager;
 using GameJsonCommunicationPlugin.Common;
 using JsonDiffPatchDotNet.Formatters.JsonPatch;
 using Newtonsoft.Json;
@@ -20,7 +21,9 @@ namespace GameJsonCommunicationPlugin.JsonManager
     public class MainGameJsonCommunicationPlugin : PluginBase
     {
         private const string PacketType_JsonUpdate = "JsonUpdate";
-        private GlueJsonManager _glueJsonManager;
+        private GlueJsonContainer _glueJsonContainer;
+        private bool _running = true;
+        private Task _periodicTask;
 
         public override string FriendlyName => "Game JSON Communication Plugin";
 
@@ -29,7 +32,7 @@ namespace GameJsonCommunicationPlugin.JsonManager
         public override bool ShutDown(PluginShutDownReason shutDownReason)
         {
             //Turning this plugin off
-            return true;
+            //return true;
 
             ReactToLoadedGlux -= HandleGluxLoaded;
             ReactToGlueJsonLoad -= HandleReactToGlueJsonLoad;
@@ -40,7 +43,12 @@ namespace GameJsonCommunicationPlugin.JsonManager
             ReactToScreenJsonSave -= HandleReactToScreenJsonSave;
             ReactToEntityJsonSave -= HandleReactToEntityJsonSave;
 
-            _glueJsonManager = null;
+            _running = false;
+
+            if (_periodicTask != null)
+                _periodicTask.Wait();
+
+            _glueJsonContainer = null;
 
             return true;
         }
@@ -48,9 +56,9 @@ namespace GameJsonCommunicationPlugin.JsonManager
         public override void StartUp()
         {
             //Turning this plugin off
-            return;
+            //return;
 
-            _glueJsonManager = new GlueJsonManager();
+            _glueJsonContainer = new GlueJsonContainer();
 
             ReactToGlueJsonLoad += HandleReactToGlueJsonLoad;
             ReactToScreenJsonLoad += HandleReactToScreenJsonLoad;
@@ -61,6 +69,25 @@ namespace GameJsonCommunicationPlugin.JsonManager
             ReactToEntityJsonSave += HandleReactToEntityJsonSave;
 
             ReactToLoadedGlux += HandleGluxLoaded;
+
+            _running = true;
+            _periodicTask = Task.Run(async () =>
+            {
+                while (_running)
+                {
+                    if (_glueJsonContainer.IsDirty && (DateTime.Now - _glueJsonContainer.LastUpdated).TotalMilliseconds > 100)
+                    {
+                        ReactToPluginEvent("GameCommunication_SendPacket", new GameConnectionManager.Packet
+                        {
+                            PacketType = PacketType_JsonUpdate,
+                            Payload = _glueJsonContainer.GetAsJson()
+                        });
+                        _glueJsonContainer.MarkClean();
+                    }
+
+                    await Task.Delay(10);
+                }
+            });
         }
 
         private void HandleGluxLoaded()
@@ -91,107 +118,101 @@ namespace GameJsonCommunicationPlugin.JsonManager
 
         private void HandleLoad(string type, string name, string json)
         {
-            if (GameCommunicationHelper.IsFrbUsesJson())
-            {
-                if (_glueJsonManager.Get(type, name) == null)
-                {
-                    _glueJsonManager.Add(type, name);
-                }
+            //if (GameCommunicationHelper.IsFrbUsesJson())
+            //{
+            //    if (_glueJsonContainer.Get(type, name) == null)
+            //    {
+            //        _glueJsonContainer.Add(type, name);
+            //    }
 
-                var jsonManager = _glueJsonManager.Get(type, name);
+            //    var jsonManager = _glueJsonContainer.Get(type, name);
 
-                var container = jsonManager.Reset(json);
-                ReactToPluginEvent("GameCommunication_SendPacket", new GameConnectionManager.Packet
-                {
-                    PacketType = PacketType_JsonUpdate,
-                    Payload = JsonConvert.SerializeObject(new JsonPayload
-                    {
-                        Type = type,
-                        Name = name,
-                        Patch = JsonConvert.SerializeObject(container)
-                    })
-                });
-            }
+            //    var container = jsonManager.Reset(json);
+            //    ReactToPluginEvent("GameCommunication_SendPacket", new GameConnectionManager.Packet
+            //    {
+            //        PacketType = PacketType_JsonUpdate,
+            //        Payload = JsonConvert.SerializeObject(new JsonPayload
+            //        {
+            //            Type = type,
+            //            Name = name,
+            //            Patch = JsonConvert.SerializeObject(container)
+            //        })
+            //    });
+            //}
         }
 
         private void HandleSave(string type, string name, string json)
         {
             if (GameCommunicationHelper.IsFrbUsesJson())
             {
-                if (_glueJsonManager.Get(type, name) == null)
                 {
-                    HandleLoad(type, name, "{}");
-                }
+                    _glueJsonContainer.Set(type, name, json);
+                    
+                    //if (container != null)
+                    //{
+                    //    Debug.Print($"Changes for {type} {name}");
+                    //    Debug.Print(container.Data.ToString());
 
-                {
-                    var jsonManager = _glueJsonManager.Get(type, name);
-                    var container = jsonManager.UpdateJson(json);
-
-                    if (container != null)
-                    {
-                        Debug.Print($"Changes for {type} {name}");
-                        Debug.Print(container.Data.ToString());
-
-                        ReactToPluginEvent("GameCommunication_SendPacket", new GameConnectionManager.Packet
-                        {
-                            PacketType = PacketType_JsonUpdate,
-                            Payload = JsonConvert.SerializeObject(new JsonPayload
-                            {
-                                Type = type,
-                                Name = name,
-                                Patch = JsonConvert.SerializeObject(container)
-                            })
-                        });
-                    }
+                    //    ReactToPluginEvent("GameCommunication_SendPacket", new GameConnectionManager.Packet
+                    //    {
+                    //        PacketType = PacketType_JsonUpdate,
+                    //        Payload = JsonConvert.SerializeObject(new JsonPayload
+                    //        {
+                    //            Type = type,
+                    //            Name = name,
+                    //            Patch = JsonConvert.SerializeObject(container)
+                    //        })
+                    //    });
+                    //}
                 }
             }
         }
 
         private void HandleReactToEntityJsonLoad(string entityName, string json)
         {
-            HandleLoad(GlueJsonManager.TYPE_ENTITY, entityName, json);
+            //HandleLoad(GlueJsonManager.TYPE_ENTITY, entityName, json);
         }
 
         private void HandleReactToScreenJsonLoad(string screenName, string json)
         {
-            HandleLoad(GlueJsonManager.TYPE_SCREEN, screenName, json);
+            //HandleLoad(GlueJsonManager.TYPE_SCREEN, screenName, json);
         }
 
         private void HandleReactToGlueJsonLoad(string json)
         {
-            HandleLoad(GlueJsonManager.TYPE_GLUE, "", json);
+            //HandleLoad(GlueJsonManager.TYPE_GLUE, "", json);
         }
 
         private void HandleReactToEntityJsonSave(string entityName, string json)
         {
-            HandleSave(GlueJsonManager.TYPE_ENTITY, entityName, json);
+            HandleSave(GlueJsonContainer.TYPE_ENTITY, entityName, json);
         }
 
         private void HandleReactToScreenJsonSave(string screenName, string json)
         {
-            HandleSave(GlueJsonManager.TYPE_SCREEN, screenName, json);
+            HandleSave(GlueJsonContainer.TYPE_SCREEN, screenName, json);
         }
 
         private void HandleReactToGlueJsonSave(string json)
         {
-            HandleSave(GlueJsonManager.TYPE_GLUE, "", json);
+            HandleSave(GlueJsonContainer.TYPE_GLUE, "", json);
         }
 
         public override void HandleEvent(string eventName, string payload)
         {
             //Turning plugin off
-            return;
+            //return;
             base.HandleEvent(eventName, payload);
 
             switch(eventName)
             {
                 case "GameCommunication_Connected":
-                    foreach(var item in _glueJsonManager.GetAll())
-                    {
-                        var mgr = _glueJsonManager.Get(item.Type, item.Name);
+                    //foreach(var item in _glueJsonContainer.GetAll())
+                    //{
+                    //    var mgr = _glueJsonContainer.Get(item.Type, item.Name);
 
-                        HandleLoad(item.Type, item.Name, mgr.CurrentJson.ToString());
-                    }
+                    //    HandleLoad(item.Type, item.Name, mgr.CurrentJson.ToString());
+                    //}
 
                     break;
             }

@@ -41,6 +41,8 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
     public class RefreshManager
     {
+        private static bool IsEnabled = false;
+
         public RefreshManager(Func<string, string, Task<string>> eventCallerWithReturn, CommandSender commandSender, Action<string, string> eventCaller)
         {
             _eventCallerWithReturn = eventCallerWithReturn;
@@ -330,7 +332,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal async void HandleNewEntityCreated(EntitySave newEntity)
         {
-            if(ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if(IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 var filePath = GlueCommands.Self.FileCommands.GetCustomCodeFilePath(newEntity);
 
@@ -418,7 +420,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal async Task HandleNewObjectList(List<NamedObjectSave> newObjectList)
         {
-            if (ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if (IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 var list = new Dtos.AddObjectDtoList();
 
@@ -443,7 +445,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal async void HandleNewObjectCreated(NamedObjectSave newNamedObject)
         {
-            if (ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if (IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 AddObjectDto addObjectDto = CreateAddObjectDtoFor(newNamedObject);
 
@@ -773,7 +775,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal async void ReactToNamedObjectChangedValueList(List<VariableChangeArguments> variableList, AssignOrRecordOnly assignOrRecordOnly)
         {
-            if (ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if (IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 await VariableSendingManager.HandleNamedObjectVariableListChanged(variableList, assignOrRecordOnly);
             }
@@ -781,7 +783,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal async void HandleNamedObjectVariableOrPropertyChanged(string variableName, object oldValue, NamedObjectSave nos, AssignOrRecordOnly assignOrRecordOnly)
         {
-            if(ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if(IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 await VariableSendingManager.HandleNamedObjectVariableChanged(variableName, oldValue, nos, assignOrRecordOnly);
             }
@@ -789,7 +791,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
 
         internal void HandleVariableChanged(IElement variableElement, CustomVariable variable)
         {
-            if (ViewModel.IsRunning && ViewModel.IsEditChecked)
+            if (IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked)
             {
                 VariableSendingManager.HandleVariableChanged(variableElement as GlueElement, variable);
             }
@@ -924,7 +926,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
             var owner = owners.FirstOrDefault();
             // Assume all owners are the same, so just use the first. If we ever allow selection of multiple objects
             // in different screens, then we would want to include the lists.
-            if (ViewModel.IsRunning && ViewModel.IsEditChecked && owner != null)
+            if (IsEnabled && ViewModel.IsRunning && ViewModel.IsEditChecked && owner != null)
             {
                 var dto = new Dtos.RemoveObjectDto();
 
@@ -969,7 +971,7 @@ namespace GameCommunicationPlugin.GlueControl.Managers
         #region Stop/Restart
 
 
-        bool CanRestart => ViewModel.IsGenerateGlueControlManagerInGame1Checked &&
+        bool CanRestart => ViewModel.IsGenerateGlueControlManagerInGame1Checked && IsEnabled &&
             (
                 ViewModel.DidRunnerStartProcess || 
                 (ViewModel.IsRunning == false && failedToRebuildAndRestart) ||

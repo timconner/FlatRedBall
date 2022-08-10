@@ -12,6 +12,15 @@ namespace GlueControl.Screens
     class EntityViewingScreen : Screen
     {
         #region Fields/properties
+        public delegate void InitializeDelegate(object caller, bool addToManagers);
+        public event InitializeDelegate InitializeEvent;
+        public delegate void ActivityDelegate(object caller);
+        public event ActivityDelegate ActivityEvent;
+        public delegate void ActivityEditModeDelegate(object caller);
+        public event ActivityEditModeDelegate ActivityEditModeEvent;
+        public delegate void DestroyDelegate(object caller);
+        public event DestroyDelegate DestroyEvent;
+
 
         public IDestroyable CurrentEntity { get; set; }
 
@@ -39,6 +48,8 @@ namespace GlueControl.Screens
             }
 
             BeforeCustomInitialize?.Invoke();
+
+            InitializeEvent?.Invoke(this, addToManagers);
         }
 
         public override void ActivityEditMode()
@@ -70,6 +81,8 @@ namespace GlueControl.Screens
                     $"Error in edit mode for entity {CurrentEntity?.GetType().Name}\n{e}\n{e.InnerException}",
                     new Vector3(camera.X, camera.Y, 0));
             }
+
+            ActivityEditModeEvent?.Invoke(this);
 
             if (ShowScreenBounds)
             {
@@ -122,6 +135,8 @@ namespace GlueControl.Screens
             }
 
             base.Destroy();
+
+            DestroyEvent?.Invoke(this);
         }
     }
 }
