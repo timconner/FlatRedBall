@@ -466,7 +466,7 @@ namespace GameCommunicationPlugin.GlueControl
             {
                 try
                 {
-                    if (false && CompilerViewModel.IsRunning)
+                    if (CompilerViewModel.IsRunning)
                     {
                         lastGetCall = DateTime.Now;
 
