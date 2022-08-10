@@ -404,16 +404,18 @@ namespace GlueControl
                 CameraLogic.RecordCameraForCurrentScreen();
 
                 bool selectedNewScreen = screenOrEntityGameType != null && typeof(Screen).IsAssignableFrom(screenOrEntityGameType);
+                bool isDynamic = false;
 
-                var isNewScreenDynamic =
-                    // Couldn't find the type in the assembly
-                    screenOrEntityGameType == null &&
-                    // it's a screen in Glue
-                    elementNameGlue.StartsWith("Screens\\");
+                //var isNewScreenDynamic =
+                //    // Couldn't find the type in the assembly
+                //    screenOrEntityGameType == null &&
+                //    // it's a screen in Glue
+                //    elementNameGlue.StartsWith("Screens\\");
 
-                if (isNewScreenDynamic)
+                if (GlueDynamicManager.GlueDynamicManager.Self.ScreenIsDynamic(elementNameGlue))
                 {
                     selectedNewScreen = true; // for now, force it in testing...
+                    isDynamic = true;
                 }
 
                 if (selectedNewScreen)
@@ -438,9 +440,10 @@ namespace GlueControl
                     }
                     ScreenManager.ScreenLoaded += AfterInitializeLogic;
 
-                    if(isNewScreenDynamic)
+                    if(isDynamic)
                     {
-                        // scott, fill in here:
+                        GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = elementNameGlue;
+                        ScreenManager.CurrentScreen.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
                     }
                     else
                     {
