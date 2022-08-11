@@ -194,11 +194,17 @@ namespace GlueControl.Models
             set;
         }
 
+        // public static NamedObjectToString ToStringDelegate;
+
         public List<PropertySave> Properties
         {
             get;
             set;
         } = new List<PropertySave>();
+
+        // private ReadOnlyCollection<TypedMemberBase> mTypedMembersReadOnly;
+
+        public List<InstructionSave> InstructionSaves = new List<InstructionSave>();
 
         public SourceType SourceType
         {
@@ -228,7 +234,6 @@ namespace GlueControl.Models
             }
         }
 
-        public List<InstructionSave> InstructionSaves = new List<InstructionSave>();
 
         public bool AddToManagers
         {
@@ -368,6 +373,12 @@ namespace GlueControl.Models
             set;
         }
 
+        public bool InstantiatedByBase
+        {
+            get;
+            set;
+        }
+
         public List<NamedObjectSave> ContainedObjects
         {
             get;
@@ -429,4 +440,5 @@ namespace GlueControl.Models
             }
         }
     }
+
 }

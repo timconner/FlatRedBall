@@ -101,7 +101,6 @@ namespace FlatRedBall.Glue.SaveClasses
 
         private List<String> mVariablesToRest = new List<String>();
 
-        private string mSourceFile;
         private bool mSetByDerived;
         private bool mExposedInDerived;
         private bool mSetByContainer;
@@ -159,6 +158,7 @@ namespace FlatRedBall.Glue.SaveClasses
             set => Properties.SetValue(nameof(SourceType), value);
         }
 
+        private string mSourceFile;
         [CategoryAttribute("Source")]
         public string SourceFile
         {
