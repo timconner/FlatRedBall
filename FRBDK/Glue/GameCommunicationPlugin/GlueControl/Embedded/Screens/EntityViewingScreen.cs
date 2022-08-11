@@ -134,9 +134,9 @@ namespace GlueControl.Screens
                 factory.Destroy();
             }
 
-            base.Destroy();
-
             DestroyEvent?.Invoke(this);
+
+            base.Destroy();
         }
     }
 }
