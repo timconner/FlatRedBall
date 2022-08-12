@@ -385,6 +385,8 @@ namespace GlueControl.Models
             set;
         } = new List<NamedObjectSave>();
 
+        public bool AttachToContainer { get; set; }
+
         public NamedObjectSave()
         {
             //GenerateTimedEmit = true;

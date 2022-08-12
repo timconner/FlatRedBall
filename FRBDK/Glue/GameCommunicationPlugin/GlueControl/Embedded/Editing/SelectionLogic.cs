@@ -250,7 +250,7 @@ namespace GlueControl.Editing
 #if SupportsEditMode
             if(nameable is PositionedObject positionedObject)
             {
-                return positionedObject.CreationSource == "Glue" && 
+                return (positionedObject.CreationSource == "Glue" || positionedObject.CreationSource == "Dynamic") && 
                     (positionedObject is FlatRedBall.TileGraphics.LayeredTileMap) == false ;
             }
             else if(nameable is NameableWrapper)
