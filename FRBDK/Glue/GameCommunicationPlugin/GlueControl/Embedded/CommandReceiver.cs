@@ -412,7 +412,7 @@ namespace GlueControl
                 //    // it's a screen in Glue
                 //    elementNameGlue.StartsWith("Screens\\");
 
-                if (GlueDynamicManager.GlueDynamicManager.Self.ScreenIsDynamic(elementNameGlue))
+                if (elementNameGlue.StartsWith("Screens\\") && GlueDynamicManager.GlueDynamicManager.Self.ScreenIsDynamic(elementNameGlue))
                 {
                     selectedNewScreen = true; // for now, force it in testing...
                     isDynamic = true;
@@ -442,7 +442,7 @@ namespace GlueControl
 
                     if(isDynamic)
                     {
-                        GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = elementNameGlue;
+                        GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = elementNameGlue;
                         ScreenManager.CurrentScreen.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
                     }
                     else
