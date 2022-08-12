@@ -232,6 +232,12 @@ namespace GlueControl.Managers
             }
         }
 
+
+        /// <summary>
+        /// Returns all base elements for the argument element, with the most-derived element first in the list.
+        /// </summary>
+        /// <param name="derivedElement">The derived element</param>
+        /// <returns>A list of all base elements. This will be empty if the argument element does not inherit from any other element.</returns>
         public List<GlueElement> GetAllBaseElementsRecursively(GlueElement derivedElement)
         {
             var baseElements = new List<GlueElement>();

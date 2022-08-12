@@ -136,18 +136,10 @@ namespace GlueControl
 
         public static bool GetIfMatchesCurrentScreen(string elementNameGlue)
         {
-            return GetIfMatchesCurrentScreen(elementNameGlue, out _, out _);
-        }
+            var elementNameGame = GlueToGameElementName(elementNameGlue);
 
-        private static bool GetIfMatchesCurrentScreen(string elementNameGlue, out System.Type ownerType, out Screen currentScreen)
-        {
-            var game1FullName = typeof(Game1).FullName;
-            var topNamespace = game1FullName.Substring(0, game1FullName.IndexOf('.'));
-            //var ownerTypeName = "WhateverNamespace." + elementName.Replace("\\", ".");
-            var ownerTypeName = $"{topNamespace}.{elementNameGlue.Replace("\\", ".")}";
-
-            ownerType = typeof(CommandReceiver).Assembly.GetType(ownerTypeName);
-            currentScreen = ScreenManager.CurrentScreen;
+            var ownerType = typeof(CommandReceiver).Assembly.GetType(elementNameGame);
+            var currentScreen = ScreenManager.CurrentScreen;
             var currentScreenType = currentScreen?.GetType();
 
             return currentScreenType == ownerType || (currentScreenType != null && ownerType?.IsAssignableFrom(currentScreenType) == true);
@@ -352,7 +344,7 @@ namespace GlueControl
             }
             // if it matches, don't fall back to the backup element
             bool matchesCurrentScreen =
-                GetIfMatchesCurrentScreen(selectObjectDto.ElementNameGlue, out System.Type screenOrEntityGameType, out Screen currentScreen);
+                GetIfMatchesCurrentScreen(selectObjectDto.ElementNameGlue);
 
             string elementNameGlue = selectObjectDto.BackupElementNameGlue ?? selectObjectDto.ElementNameGlue;
             if (matchesCurrentScreen)
@@ -361,7 +353,7 @@ namespace GlueControl
             }
 
             string screenOrEntityGameTypeName = GlueToGameElementName(elementNameGlue);
-            screenOrEntityGameType = typeof(CommandReceiver).Assembly.GetType(screenOrEntityGameTypeName);
+            var screenOrEntityGameType = typeof(CommandReceiver).Assembly.GetType(screenOrEntityGameTypeName);
 
             bool isOwnerScreen = false;
 
@@ -416,6 +408,27 @@ namespace GlueControl
                 {
                     selectedNewScreen = true; // for now, force it in testing...
                     isDynamic = true;
+                }
+                if (!selectedNewScreen && screenOrEntityGameType == null && elementNameGlue.StartsWith("Screens\\"))
+                {
+                    // This isn't a dynamic screen, but it may still be a new screen type which inherits from an existing screen (like a new Level and GameScreen)
+                    selectedNewScreen = true;
+                    // we need to find the existing type by going through inheritance:
+                    var glueScreen = ObjectFinder.Self.GetScreenSave(elementNameGlue);
+                    var baseScreens = ObjectFinder.Self.GetAllBaseElementsRecursively(glueScreen);
+
+                    foreach (var baseScreen in baseScreens)
+                    {
+                        var baseScreenGameName = GlueToGameElementName(baseScreen.Name);
+
+                        var baseScreenType = typeof(CommandReceiver).Assembly.GetType(baseScreenGameName);
+
+                        if (baseScreenType != null)
+                        {
+                            screenOrEntityGameType = baseScreenType;
+                            // todo - figure out how to create hybrid...
+                        }
+                    }
                 }
 
                 if (selectedNewScreen)
@@ -513,6 +526,7 @@ namespace GlueControl
 
             return isOwnerScreen;
         }
+
 
         private static void SelectState(string stateName, string stateCategoryName)
         {
@@ -867,8 +881,7 @@ namespace GlueControl
         {
             var toReturn = new MoveObjectToContainerDtoResponse();
 
-            var matchesCurrentScreen = GetIfMatchesCurrentScreen(
-                dto.ElementName, out System.Type ownerType, out Screen currentScreen);
+            var matchesCurrentScreen = GetIfMatchesCurrentScreen(dto.ElementName);
             if (matchesCurrentScreen)
             {
                 toReturn.WasObjectMoved = GlueControl.Editing.MoveObjectToContainerLogic.TryMoveObjectToContainer(
@@ -1127,5 +1140,6 @@ namespace GlueControl
             }
         }
     }
+
 
 }
