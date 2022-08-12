@@ -433,11 +433,12 @@ namespace FlatRedBallAddOns.Entities
                 inheritance = " : " + inheritance;
             }
 
-            var isAbstract = element.AllNamedObjects.Any(item => item.SetByDerived);
-
-            string optionalAbstractString = isAbstract ? "abstract " : string.Empty;
-
-            var classCodeblock = namespaceBlock.Class($"public {optionalAbstractString}partial", FileManager.RemovePath( element.Name), inheritance);
+            // No longer make abstract so level editor can instantiate. More info here: 
+            // https://github.com/vchelaru/FlatRedBall/issues/207
+            //var isAbstract = element.AllNamedObjects.Any(item => item.SetByDerived);
+            //string optionalAbstractString = isAbstract ? "abstract " : string.Empty;
+            //var classCodeblock = namespaceBlock.Class($"public {optionalAbstractString}partial", FileManager.RemovePath( element.Name), inheritance);
+            var classCodeblock = namespaceBlock.Class($"public partial", FileManager.RemovePath( element.Name), inheritance);
 
             return classCodeblock;
         }

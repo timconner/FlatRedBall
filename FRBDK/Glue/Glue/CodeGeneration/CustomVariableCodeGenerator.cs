@@ -36,13 +36,13 @@ namespace FlatRedBall.Glue.CodeGeneration
 
                 if (CodeWriter.IsVariableHandledByCustomCodeGenerator(customVariable, element) == false)
                 {
-                    AppendCodeForMember(element, codeBlock, customVariable, variableDefinition);
+                    AppendCodeForMember(element as GlueElement, codeBlock, customVariable, variableDefinition);
                 }
             }
             return codeBlock;
         }
 
-        private static ICodeBlock AppendCodeForMember(IElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable,
+        private static ICodeBlock AppendCodeForMember(GlueElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable,
             VariableDefinition variableDefinition)
         {
             // Regarding customVariable.IsTunneling -
@@ -107,7 +107,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             return codeBlock;
         }
 
-        private static void CreateNewVariableMember(ICodeBlock codeBlock, CustomVariable customVariable, bool isExposing, IElement element)
+        private static void CreateNewVariableMember(ICodeBlock codeBlock, CustomVariable customVariable, bool isExposing, GlueElement element)
         {
             string variableAssignment = "";
 
@@ -501,7 +501,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             }
         }
 
-        private static void AppendPropertyForTunneledVariable(IElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable, VariableDefinition variableDefinition)
+        private static void AppendPropertyForTunneledVariable(GlueElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable, VariableDefinition variableDefinition)
         {
             NamedObjectSave referencedNos = saveObject.GetNamedObjectRecursively(customVariable.SourceObject);
 
@@ -561,7 +561,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             }
         }
 
-        private static void WriteSetterForProperty(IElement saveObject, CustomVariable customVariable, ICodeBlock prop, 
+        private static void WriteSetterForProperty(GlueElement saveObject, CustomVariable customVariable, ICodeBlock prop, 
             bool isVisibleSetterOnList, VariableDefinition variableDefinition)
         {
             var setter = prop.Set();

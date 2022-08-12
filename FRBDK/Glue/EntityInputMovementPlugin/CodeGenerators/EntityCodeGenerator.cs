@@ -35,7 +35,7 @@ namespace EntityInputMovementPlugin.CodeGenerators
             ////////////End Early Out/////////////
 
             var isPlatformer = FlatRedBall.PlatformerPlugin.Generators.EntityCodeGenerator.GetIfIsPlatformer(element);
-            var inheritsFromPlatformer = FlatRedBall.PlatformerPlugin.Generators.EntityCodeGenerator.GetIfInheritsFromPlatformer(element);
+            var inheritsFromPlatformer = FlatRedBall.PlatformerPlugin.Generators.EntityCodeGenerator.GetIfInheritsFromPlatformer(element as GlueElement);
             var isTopDown = TopDownEntityPropertyLogic.GetIfIsTopDown(element);
             var inheritsFromTopDown = TopDownPlugin.Controllers.MainController.Self.GetIfInheritsFromTopDown(entity);
 

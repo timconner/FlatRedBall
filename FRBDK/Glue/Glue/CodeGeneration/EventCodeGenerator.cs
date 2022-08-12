@@ -800,7 +800,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             }
         }
 
-        public static bool ShouldGenerateEventsForVariable(CustomVariable customVariable, IElement container)
+        public static bool ShouldGenerateEventsForVariable(CustomVariable customVariable, GlueElement container)
         {
 
             // Victor Chelaru
@@ -835,7 +835,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             return shouldGenerate;
         }
 
-        internal static void TryGenerateEventsForVariable(ICodeBlock codeBlock, CustomVariable customVariable, IElement container)
+        internal static void TryGenerateEventsForVariable(ICodeBlock codeBlock, CustomVariable customVariable, GlueElement container)
         {
             var shouldGenerate = ShouldGenerateEventsForVariable(customVariable, container);
             // Currently we don't support events on static variables

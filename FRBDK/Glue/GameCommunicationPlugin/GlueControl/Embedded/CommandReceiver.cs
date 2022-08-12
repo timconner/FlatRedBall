@@ -580,14 +580,24 @@ namespace GlueControl
         #region Rename
 
         static string topNamespace = null;
+        public static string TopNamespace
+        {
+            get
+            {
+                if (topNamespace == null)
+                {
+                    var game1FullName = typeof(Game1).FullName;
+                    topNamespace = game1FullName.Substring(0, game1FullName.IndexOf('.'));
+                }
+                return topNamespace;
+            }
+        }
         public static string GlueToGameElementName(string elementName)
         {
-            if (topNamespace == null)
-            {
-                var game1FullName = typeof(Game1).FullName;
-                topNamespace = game1FullName.Substring(0, game1FullName.IndexOf('.'));
-            }
-            return $"{topNamespace}.{elementName.Replace("\\", ".")}";
+            var replaced = elementName
+                .Replace("\\", ".")
+                .Replace("/", ".");
+            return $"{TopNamespace}.{replaced}";
         }
 
         public static string GameElementTypeToGlueElement(string gameType)

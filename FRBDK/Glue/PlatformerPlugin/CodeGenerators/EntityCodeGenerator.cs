@@ -26,7 +26,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         public override ICodeBlock GenerateFields(ICodeBlock codeBlock, IElement element)
         {
             ///////////////Early Out//////////////////////
-            if (GetIfIsPlatformer(element) == false || GetIfInheritsFromPlatformer(element))
+            if (GetIfIsPlatformer(element) == false || GetIfInheritsFromPlatformer(element as GlueElement))
             {
                 return codeBlock;
             }
@@ -275,7 +275,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         public override ICodeBlock GenerateInitialize(ICodeBlock codeBlock, IElement element)
         {
             ///////////////////Early Out///////////////////////////////
-            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element))
+            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element as GlueElement))
             {
                 return codeBlock;
             }
@@ -333,7 +333,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         public override ICodeBlock GenerateAdditionalMethods(ICodeBlock codeBlock, IElement element)
         {
             ///////////////////Early Out///////////////////////////////
-            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element))
+            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element as GlueElement))
             {
                 return codeBlock;
             }
@@ -1049,7 +1049,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         public override ICodeBlock GenerateActivity(ICodeBlock codeBlock, IElement element)
         {
             ///////////////////Early Out///////////////////////////////
-            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element))
+            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element as GlueElement))
             {
                 return codeBlock;
             }
@@ -1068,7 +1068,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
                 .GetValue<bool>(nameof(PlatformerEntityViewModel.IsPlatformer));
         }
 
-        public static bool GetIfInheritsFromPlatformer(IElement element)
+        public static bool GetIfInheritsFromPlatformer(GlueElement element)
         {
             if(string.IsNullOrEmpty(element.BaseElement))
             {

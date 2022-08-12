@@ -424,7 +424,7 @@ namespace FlatRedBall.PlatformerPlugin.Controllers
                 .GetValue<bool>(nameof(PlatformerEntityViewModel.IsPlatformer));
         }
 
-        static bool GetIfInheritsFromPlatformer(IElement element)
+        static bool GetIfInheritsFromPlatformer(GlueElement element)
         {
             if (string.IsNullOrEmpty(element.BaseElement))
             {

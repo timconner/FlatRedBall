@@ -77,7 +77,7 @@ namespace FlatRedBall.Glue.Plugins.ICollidablePlugins
                 // should be added to the generated collision 
                 // object too, so using AllNamedObjects instead
 
-                var baseEntities = ObjectFinder.Self.GetAllBaseElementsRecursively(element);
+                var baseEntities = ObjectFinder.Self.GetAllBaseElementsRecursively(element as GlueElement);
                 var inheritsFromICollidable =
                     baseEntities.Any(item => (item as EntitySave).ImplementsICollidable);
 
