@@ -409,13 +409,16 @@ namespace GlueControl
                     selectedNewScreen = true; // for now, force it in testing...
                     isDynamic = true;
                 }
+
+                ScreenSave hybridScreen = null;
+
                 if (!selectedNewScreen && screenOrEntityGameType == null && elementNameGlue.StartsWith("Screens\\"))
                 {
                     // This isn't a dynamic screen, but it may still be a new screen type which inherits from an existing screen (like a new Level and GameScreen)
                     selectedNewScreen = true;
                     // we need to find the existing type by going through inheritance:
-                    var glueScreen = ObjectFinder.Self.GetScreenSave(elementNameGlue);
-                    var baseScreens = ObjectFinder.Self.GetAllBaseElementsRecursively(glueScreen);
+                    ScreenSave selectedScreenSave = ObjectFinder.Self.GetScreenSave(elementNameGlue);
+                    var baseScreens = ObjectFinder.Self.GetAllBaseElementsRecursively(selectedScreenSave);
 
                     foreach (var baseScreen in baseScreens)
                     {
@@ -427,8 +430,12 @@ namespace GlueControl
                         {
                             screenOrEntityGameType = baseScreenType;
                             // todo - figure out how to create hybrid...
+                            hybridScreen = selectedScreenSave;
+                            break;
                         }
                     }
+
+
                 }
 
                 if (selectedNewScreen)
@@ -438,6 +445,12 @@ namespace GlueControl
 
                     void AfterInitializeLogic(Screen screen)
                     {
+
+                        if(hybridScreen != null)
+                        {
+
+                        }
+
                         // Select this even if it's null so the EditingManager deselects 
                         EditingManager.Self.Select(selectObjectDto.NamedObject, playBump: true, focusCameraOnObject: true);
 
@@ -526,7 +539,6 @@ namespace GlueControl
 
             return isOwnerScreen;
         }
-
 
         private static void SelectState(string stateName, string stateCategoryName)
         {
