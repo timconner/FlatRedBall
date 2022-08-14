@@ -6,6 +6,8 @@ using FlatRedBall.Glue.Plugins.ExportedInterfaces;
 using System.Collections.Generic;
 using FlatRedBall.Glue.IO;
 using FlatRedBall.Glue.Controls;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace FlatRedBall.Glue.VSHelpers.Projects
 {
@@ -41,31 +43,68 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
             CreateProjectResult result = new CreateProjectResult();
 
             var didErrorOccur = false;
+
+            Exception effectiveException = null;
+
             try
+            {
+                coreVisualStudioProject = new Project(fileName, null, null, new ProjectCollection());
+            }
+            catch (Microsoft.Build.Exceptions.InvalidProjectFileException invalidProjectException)
+            {
+                effectiveException = invalidProjectException;
+            }
+
+            // This is a bug I haven't been able to figure out, but have asked about here:
+            // https://stackoverflow.com/questions/46384075/why-does-microsoft-build-framework-dll-15-3-not-load-csproj-15-1-does
+            // So I'm going to hack a fix by checking if this has to do with 15.0 vs the other versions:
+
+            var message = effectiveException?.Message;
+            if (effectiveException?.Message.Contains("\"15.0\"") == true && effectiveException?.Message.Contains("\"14.0\"") == true)
             {
                 try
                 {
-                    coreVisualStudioProject = new Project(fileName, null, null, new ProjectCollection());
+                    coreVisualStudioProject = new Project(fileName, null, "14.0", new ProjectCollection());
+                    effectiveException = null;
                 }
-                catch (Microsoft.Build.Exceptions.InvalidProjectFileException exception)
+                catch (Microsoft.Build.Exceptions.InvalidProjectFileException invalidProjectException)
                 {
-                    // This is a bug I haven't been able to figure out, but have asked about here:
-                    // https://stackoverflow.com/questions/46384075/why-does-microsoft-build-framework-dll-15-3-not-load-csproj-15-1-does
-                    // So I'm going to hack a fix by checking if this has to do with 15.0 vs the other versions:
-
-                    var message = exception.Message;
-                    if(exception.Message.Contains("\"15.0\"") && exception.Message.Contains("\"14.0\""))
-                    {
-                        coreVisualStudioProject = new Project(fileName, null, "14.0", new ProjectCollection());
-                    }
-                    else
-                    {
-                        throw exception;
-                    }
+                    effectiveException = invalidProjectException;
                 }
-
             }
-            catch (Microsoft.Build.Exceptions.InvalidProjectFileException exception)
+
+            if(effectiveException?.Message.Contains("Microsoft.NET.Sdk") == true)
+            {
+                try
+                {
+                    var startInfo = new ProcessStartInfo("dotnet", "--list-sdks")
+                    {
+                        RedirectStandardOutput = true
+                    };
+
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(1000);
+
+                    var output = process.StandardOutput.ReadToEnd();
+                    var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
+                        .OfType<Match>()
+                        .Select(m => System.IO.Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
+
+                    var sdkPath = sdkPaths.LastOrDefault();
+                    if(sdkPath != null)
+                    {
+                        Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath);
+                        coreVisualStudioProject = new Project(fileName, null, null, new ProjectCollection());
+                    }
+                    effectiveException = null;
+                }
+                catch(Exception e)
+                {
+                    effectiveException = e;
+                }
+            }
+
+            if(effectiveException != null && effectiveException is Microsoft.Build.Exceptions.InvalidProjectFileException exception)
             {
                 didErrorOccur = true;
                 var exceptionMessage = exception.Message;
@@ -74,7 +113,6 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
                 string locationToOpen = null;
 
                 bool isMissingMonoGame = exceptionMessage.Contains("MonoGame.Content.Builder.targets\"");
-                string message;
                 if(isMissingMonoGame)
                 {
                     message = $"Could not load the project {fileName}\nbecause MonoGame files are missing. Try installing MonoGame, then try opening the project in Glue again.\n\n";
@@ -102,7 +140,10 @@ Additional Info:
                     result.ShouldTryToLoadProject = false;
                     shouldThrowException = false;
                 }
-
+                else if (exceptionMessage.Contains("Microsoft.NET.Sdk") == true)
+                {
+                    message = "Are you trying to load a .NET 5 or 6 project? If so, this isn't yet supported";
+                }
                 else
                 {
                     message = $"Could not load the project {fileName}\n" +
