@@ -404,7 +404,7 @@ namespace GlueControl
                 //    // it's a screen in Glue
                 //    elementNameGlue.StartsWith("Screens\\");
 
-                if (elementNameGlue.StartsWith("Screens\\") && GlueDynamicManager.GlueDynamicManager.Self.ScreenIsDynamic(elementNameGlue))
+                if (elementNameGlue.StartsWith("Screens\\") && GlueDynamicManager.GlueDynamicManager.Self.ElementIsDynamic(elementNameGlue))
                 {
                     selectedNewScreen = true; // for now, force it in testing...
                     isDynamic = true;
@@ -436,6 +436,13 @@ namespace GlueControl
                     }
 
 
+                }
+
+                if (!isDynamic && screenOrEntityGameType == null)
+                {
+                    // if it's not dynamic, but it doesn't have a base, then that means that we may have something in ObjectFinder that isn't yet
+                    // in our json screens. Therefore, we can't do anyting
+                    selectedNewScreen = false;
                 }
 
                 if (selectedNewScreen)
@@ -473,6 +480,7 @@ namespace GlueControl
                     }
                     else
                     {
+                        GlueDynamicManager.DynamicInstances.HybridScreen.CurrentScreenGlue = hybridScreen?.Name;
                         ScreenManager.CurrentScreen.MoveToScreen(screenOrEntityGameType);
                     }
                     EditorVisuals.DestroyContainedObjects();
@@ -1152,6 +1160,7 @@ namespace GlueControl
             }
         }
     }
+
 
 
 }

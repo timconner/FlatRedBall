@@ -108,7 +108,10 @@ namespace GlueControl.Models
             return null;
         }
 
-
+        public override string ToString()
+        {
+            return this.Name;
+        }
         //public bool IsAbstract => this.AllNamedObjects.Any(item => item.SetByDerived);
     }
 
