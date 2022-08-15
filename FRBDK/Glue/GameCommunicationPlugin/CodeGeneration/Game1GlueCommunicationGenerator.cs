@@ -49,6 +49,7 @@ namespace GameCommunicationPlugin.CodeGeneration
                 codeBlock.Line();
 
                 codeBlock.Line($"gameConnectionManager = new GlueCommunication.GameConnectionManager({PortNumber});");
+                codeBlock.Line($"GlueCommunication.GameConnectionManager.Self = gameConnectionManager;");
                 codeBlock.Line("gameConnectionManager.OnPacketReceived += async (packet) =>");
                 codeBlock.Line("{");
                 codeBlock.Line("    if (packet.Packet.PacketType == \"OldDTO\")");

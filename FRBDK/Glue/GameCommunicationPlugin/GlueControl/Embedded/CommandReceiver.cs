@@ -941,7 +941,7 @@ namespace GlueControl
                 shouldReloadGlobalContent: dto.ReloadGlobalContent);
         }
 
-        private static void RestartScreenRerunCommands(bool applyRestartVariables,
+        public static void RestartScreenRerunCommands(bool applyRestartVariables,
             bool isInEditMode,
             bool shouldRecordCameraPosition = true,
             bool forceCameraToPreviousState = false,

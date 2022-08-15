@@ -1201,6 +1201,12 @@ namespace GameCommunicationPlugin.GlueControl
                     _commandReceiver.HandleSelectObject(JsonConvert.DeserializeObject<SelectObjectDto>(payload));
 
                     break;
+
+                case "GameHost_RestartGame":
+
+                    gameHostView.RestartGame();
+
+                    break;
             }
         }
         #endregion

@@ -127,6 +127,16 @@ namespace GameCommunicationPlugin
         {
             ReactToPluginEvent($"GameCommunicationPlugin_PacketReceived_{packetReceivedArgs.Packet.PacketType}", packetReceivedArgs.Packet.Payload);
             Debug.WriteLine($"Packet Type: {packetReceivedArgs.Packet.PacketType}, Payload: {packetReceivedArgs.Packet.Payload}");
+
+            if(packetReceivedArgs.Packet.PacketType == "Command")
+            {
+                var token = JToken.Parse(packetReceivedArgs.Packet.Payload);
+
+                if (token["Command"]?.Value<string>() == "Restart Game")
+                {
+                    ReactToPluginEvent("GameHost_RestartGame", "");
+                }
+            }
         }
 
         private void HandleGluxLoaded()

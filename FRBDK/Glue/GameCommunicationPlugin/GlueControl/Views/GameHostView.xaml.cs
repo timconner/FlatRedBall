@@ -416,5 +416,10 @@ namespace OfficialPlugins.GameHost.Views
         }
 
         public void UpdateToItemSelected() => EditingTools.UpdateToItemSelected();
+
+        internal void RestartGame()
+        {
+            RestartGameClicked?.Invoke(this, null);
+        }
     }
 }

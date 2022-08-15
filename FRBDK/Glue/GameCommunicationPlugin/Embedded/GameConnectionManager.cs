@@ -15,6 +15,8 @@ namespace GlueCommunication
 {
     internal class GameConnectionManager : IDisposable
     {
+        public static GameConnectionManager Self { get; set; }
+
         public static bool CanUseJsonManager = false;
 
         private void HandleOnPacketReceived(GameConnectionManager.PacketReceivedArgs packetReceivedArgs)
