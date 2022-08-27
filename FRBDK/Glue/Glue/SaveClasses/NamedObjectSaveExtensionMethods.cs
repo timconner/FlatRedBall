@@ -294,7 +294,18 @@ namespace FlatRedBall.Glue.SaveClasses
 
             if (returnAti == null)
             {
-                returnAti = AvailableAssetTypes.Self.GetAssetTypeFromRuntimeType(instance.ClassType, instance, isObject:true);
+                returnAti =
+                    // September 14, 2022
+                    // We used to check only
+                    // ClassType. Let's check
+                    // both class type and name
+                    // in case the ATI is qualified:
+                    AvailableAssetTypes.Self.GetAssetTypeFromRuntimeType(instance.ClassType, instance, isObject: true);
+
+                if(returnAti == null && instance.SourceClassType != null)
+                {
+                    returnAti = AvailableAssetTypes.Self.GetAssetTypeFromRuntimeType(instance.SourceClassType, instance, isObject: true);
+                }
             }
 
             if (returnAti == null && instance.IsList)
@@ -699,7 +710,17 @@ namespace FlatRedBall.Glue.SaveClasses
             // so we need to have the values be fully qualified.
             //instructionSave.Type = type.Name;
 
-            instructionSave.Type = type.FullName;
+            if(type == typeof(List<string>))
+            {
+                instructionSave.Type = "List<string>";
+            }
+            else
+            {
+                instructionSave.Type = type.FullName;
+            }
+
+            // special case - if it's a list, then handle it here
+
             instructionSave.Type = TypeManager.ConvertToCommonType(instructionSave.Type);
             instructionSave.Member = member;
             // Create a new instruction

@@ -149,9 +149,8 @@ namespace FlatRedBall.Glue.SaveClasses
             {
                 return null;
             }
-
             ////////////////////End Early Out//////////////////////////
-            ///
+
             if (variableName.StartsWith("this."))
             {
                 variableName = variableName.Substring("this.".Length);
@@ -166,6 +165,19 @@ namespace FlatRedBall.Glue.SaveClasses
             {
                 toReturn = variable.DefaultValue;
                 foundValue = true;
+            }
+
+            if(!foundValue && !string.IsNullOrEmpty(variable?.SourceObject))
+            {
+                var nos = element.GetNamedObjectRecursively(variable.SourceObject);
+
+                if(nos != null)
+                {
+                    var value = ObjectFinder.Self.GetValueRecursively(nos, element, variable.SourceObjectProperty);
+
+                    foundValue = value != null;
+                    toReturn = value;
+                }
             }
 
             if (!foundValue)
@@ -613,7 +625,9 @@ namespace FlatRedBall.Glue.SaveClasses
             }
             else
             {
-                return AvailableAssetTypes.Self.AllAssetTypes.FirstOrDefault(item => item.RuntimeTypeName == nameof(PositionedObject));
+                var specificType = AvailableAssetTypes.Self.AllAssetTypes.FirstOrDefault(item => item.RuntimeTypeName == element.Name);
+                return specificType ?? 
+                    AvailableAssetTypes.Self.AllAssetTypes.FirstOrDefault(item => item.RuntimeTypeName == nameof(PositionedObject));
             }
         }
     }

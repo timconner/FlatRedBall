@@ -35,8 +35,6 @@ namespace OfficialPlugins.SpritePlugin.Views
             //this.Loaded += HandleLoaded;
         }
 
-
-
         private void OkButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -46,5 +44,11 @@ namespace OfficialPlugins.SpritePlugin.Views
         {
             this.DialogResult = false;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InnerView.ZoomToTexture();
+        }
+
     }
 }

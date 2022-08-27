@@ -6,6 +6,7 @@ using RenderingLibrary.Math;
 using SkiaGum.GueDeriving;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 
@@ -40,11 +41,15 @@ namespace OfficialPlugins.SpritePlugin.Managers
 
         static TextureCoordinateSelectionView View;
         private static System.Windows.Point LastGrabbedMousePoint;
-        static ColoredCircleRuntime circle;
+        //static ColoredCircleRuntime circle;
 
         private static SkiaGum.GueDeriving.RoundedRectangleRuntime HandleOver;
         private static SkiaGum.GueDeriving.RoundedRectangleRuntime HandleGrabbed;
         private static bool IsBodyGrabbed;
+
+        private static int? StartDragSelectX = null;
+        private static int? StartDragSelectY = null;
+        private static Stopwatch LeftClickTimer = new Stopwatch();
 
         static TextureCoordinateSelectionViewModel ViewModel => View.ViewModel;
 
@@ -53,6 +58,7 @@ namespace OfficialPlugins.SpritePlugin.Managers
         public static void Initialize(TextureCoordinateSelectionView view)
         {
             View = view;
+            LeftClickTimer.Start();
 
             //circle = new ColoredCircleRuntime();
             //circle.Width = 16;
@@ -66,10 +72,31 @@ namespace OfficialPlugins.SpritePlugin.Managers
         public static void HandleMousePush(MouseButtonEventArgs args)
         {
             UpdateHandleGrabbed(args);
+
+            //double click
+            if(IsBodyGrabbed && (LeftClickTimer.ElapsedMilliseconds < System.Windows.Forms.SystemInformation.DoubleClickTime)) {
+                HandleGrabbed = null;
+                IsBodyGrabbed = false;
+            }
+            if(args.ChangedButton == MouseButton.Left)
+                LeftClickTimer.Restart();
+
+            //Not interacting with TextureCoordinateRectangle, move TextureCoordinateRectangle to this cell & init start drag select
+            if((HandleGrabbed == null) && (!IsBodyGrabbed) && (args.ChangedButton == MouseButton.Left)) {
+                View.SelectCell(args.GetPosition(View.Canvas), out int columnX, out int columnY);
+                StartDragSelectX = columnX;
+                StartDragSelectY = columnY;
+            }
         }
 
         public static void HandleMouseMove(MouseEventArgs args)
         {
+            //start drag select / not interacting with TextureCoordinateRectangle
+            if((StartDragSelectX != null) && (!IsBodyGrabbed) && (args.LeftButton == MouseButtonState.Pressed)) {
+                View.SelectDragCell(args.GetPosition(View.Canvas), (int)StartDragSelectX, (int)StartDragSelectY);
+                return;
+            }
+
             if (HandleGrabbed == null)
             {
                 UpdateHandleOver(args);
@@ -88,6 +115,9 @@ namespace OfficialPlugins.SpritePlugin.Managers
 
         internal static void HandleMouseUp(MouseButtonEventArgs e)
         {
+            StartDragSelectX = null;
+            StartDragSelectY = null;
+
             if (HandleGrabbed != null)
             {
                 View.TextureCoordinateRectangle.MakeNormal(HandleGrabbed);
@@ -136,7 +166,8 @@ namespace OfficialPlugins.SpritePlugin.Managers
             var yDifference = (decimal)(
                 (newPosition.Y - LastGrabbedMousePoint.Y) * View.WindowsScaleFactor / ViewModel.CurrentZoomScale);
 
-            decimal Snapped(decimal value) => MathFunctions.RoundDecimal(value, ViewModel.Snapping);
+            decimal SnappedX(decimal value) => MathFunctions.RoundDecimal(value, (decimal)ViewModel.CellWidth);
+            decimal SnappedY(decimal value) => MathFunctions.RoundDecimal(value, (decimal)ViewModel.CellHeight);
             if (HandleGrabbed != null)
             {
                 var viewModel = View.ViewModel;
@@ -147,14 +178,14 @@ namespace OfficialPlugins.SpritePlugin.Managers
                     {
                         grabbedDifferenceX -= xDifference;
 
-                        viewModel.SelectedWidthPixels = Snapped( grabbedDifferenceX);
-                        viewModel.LeftTexturePixel = xAnchor - Snapped(grabbedDifferenceX);
+                        viewModel.SelectedWidthPixels = SnappedX(grabbedDifferenceX);
+                        viewModel.LeftTexturePixel = xAnchor - SnappedX(grabbedDifferenceX);
                     }
                     else if(xSideGrabbed == XSide.Right)
                     {
                         grabbedDifferenceX += xDifference;
 
-                        viewModel.SelectedWidthPixels = Snapped( grabbedDifferenceX);
+                        viewModel.SelectedWidthPixels = SnappedX(grabbedDifferenceX);
                     }
 
                 }
@@ -163,13 +194,13 @@ namespace OfficialPlugins.SpritePlugin.Managers
                     if(ySideGrabbed == YSide.Top)
                     {
                         grabbedDifferenceY -= yDifference;
-                        viewModel.SelectedHeightPixels = Snapped(grabbedDifferenceY);
-                        viewModel.TopTexturePixel = yAnchor - Snapped(grabbedDifferenceY);
+                        viewModel.SelectedHeightPixels = SnappedY(grabbedDifferenceY);
+                        viewModel.TopTexturePixel = yAnchor - SnappedY(grabbedDifferenceY);
                     }
                     else if(ySideGrabbed == YSide.Bottom)
                     {
                         grabbedDifferenceY += yDifference;
-                        viewModel.SelectedHeightPixels = Snapped(grabbedDifferenceY);
+                        viewModel.SelectedHeightPixels = SnappedY(grabbedDifferenceY);
                     }
                 }
             }
@@ -179,8 +210,8 @@ namespace OfficialPlugins.SpritePlugin.Managers
                 grabbedDifferenceX += (decimal)xDifference;
                 grabbedDifferenceY += (decimal)yDifference;
 
-                viewModel.LeftTexturePixel = xAnchor + Snapped(grabbedDifferenceX);
-                viewModel.TopTexturePixel = yAnchor + Snapped(grabbedDifferenceY);
+                viewModel.LeftTexturePixel = xAnchor + SnappedX(grabbedDifferenceX);
+                viewModel.TopTexturePixel = yAnchor + SnappedY(grabbedDifferenceY);
             }
 
             LastGrabbedMousePoint = newPosition;
