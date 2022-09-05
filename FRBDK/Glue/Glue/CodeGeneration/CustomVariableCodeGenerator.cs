@@ -42,7 +42,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             return codeBlock;
         }
 
-        private static ICodeBlock AppendCodeForMember(IElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable,
+        private static ICodeBlock AppendCodeForMember(GlueElement saveObject, ICodeBlock codeBlock, CustomVariable customVariable,
             VariableDefinition variableDefinition)
         {
             // Regarding customVariable.IsTunneling -
@@ -348,30 +348,6 @@ namespace FlatRedBall.Glue.CodeGeneration
                 }
             }
         }
-
-        public override ICodeBlock GenerateFields(ICodeBlock codeBlock, SaveClasses.IElement element)
-        {
-            for (int i = 0; i < element.CustomVariables.Count; i++)
-            {
-                CustomVariable customVariable = element.CustomVariables[i];
-
-                VariableDefinition variableDefinition = null;
-                if (!string.IsNullOrEmpty(customVariable.SourceObject))
-                {
-                    var owner = element.GetNamedObjectRecursively(customVariable.SourceObject);
-                    var nosAti = owner.GetAssetTypeInfo();
-                    variableDefinition = nosAti?.VariableDefinitions.Find(item => item.Name == customVariable.SourceObjectProperty);
-                }
-
-                if (CodeWriter.IsVariableHandledByCustomCodeGenerator(customVariable, element) == false)
-                {
-                    AppendCodeForMember(element, codeBlock, customVariable, variableDefinition);
-                }
-            }
-            return codeBlock;
-        }
-
-
 
         #endregion
 
