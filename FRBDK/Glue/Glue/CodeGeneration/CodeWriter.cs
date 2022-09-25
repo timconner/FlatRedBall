@@ -206,6 +206,13 @@ namespace FlatRedBallAddOns.Entities
 
         public static async Task GenerateCode(GlueElement element)
         {
+            // Todo - this probably should not return here (eventually), and this
+            // logic should exist in GenerateCodeCommands. But in the meantime, we're
+            // going to return here.
+            if(element.ExcludeFromGeneration)
+            {
+                return;
+            }
 
             #region Prepare for generation
 

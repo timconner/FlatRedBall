@@ -68,14 +68,8 @@ namespace FlatRedBall.Glue.SaveClasses
         [CategoryAttribute("Inheritance and Interfaces")]
         public bool ImplementsICollidable
         {
-            get
-            {
-                return Properties.GetValue<bool>(nameof(ImplementsICollidable));
-            }
-            set
-            {
-                Properties.SetValue(nameof(ImplementsICollidable), value);
-            }
+            get => Properties.GetValue<bool>(nameof(ImplementsICollidable));
+            set => Properties.SetValue(nameof(ImplementsICollidable), value);
         }
 
         [CategoryAttribute("Inheritance and Interfaces")]

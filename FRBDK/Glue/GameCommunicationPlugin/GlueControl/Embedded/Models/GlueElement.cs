@@ -108,6 +108,20 @@ namespace GlueControl.Models
             return null;
         }
 
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool ExcludeFromGeneration
+        {
+            get => Properties.GetValue<bool>(nameof(ExcludeFromGeneration));
+            set => Properties.SetValue(nameof(ExcludeFromGeneration), value);
+        }
+
+        public List<PropertySave> Properties
+        {
+            get;
+            set;
+        } = new List<PropertySave>();
+
         public override string ToString()
         {
             return this.Name;

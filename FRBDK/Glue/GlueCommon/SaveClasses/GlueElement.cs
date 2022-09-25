@@ -240,6 +240,14 @@ namespace FlatRedBall.Glue.SaveClasses
             return Events != null && Events.Count != 0;
         }
 
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool ExcludeFromGeneration
+        {
+            get => Properties.GetValue<bool>(nameof(ExcludeFromGeneration));
+            set => Properties.SetValue(nameof(ExcludeFromGeneration), value);
+        }
+
         public EventResponseSave GetEvent(string eventName)
         {
             foreach (EventResponseSave es in Events)
@@ -274,11 +282,11 @@ namespace FlatRedBall.Glue.SaveClasses
             return null;
         }
 
-
         public object GetPropertyValue(string propertyName)
         {
             return Properties.GetValue(propertyName);
         }
+
 
         public bool IsAbstract => this.AllNamedObjects.Any(item => item.SetByDerived);
     }

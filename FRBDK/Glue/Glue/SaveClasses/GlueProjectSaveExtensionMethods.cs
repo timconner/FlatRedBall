@@ -474,13 +474,14 @@ namespace FlatRedBall.Glue.SaveClasses
             }
         }
 
-        private static void VerifyElementMembershipInProject(IElement element)
+        private static void VerifyElementMembershipInProject(GlueElement element)
         {
             string fileName = element.Name + ".cs";
 
             string absoluteCodeFile = FileManager.RelativeDirectory + fileName;
 
-            if (ProjectManager.ProjectBase.GetItem(absoluteCodeFile) == null)
+            if (element.ExcludeFromGeneration == false &&
+                ProjectManager.ProjectBase.GetItem(absoluteCodeFile) == null)
             {
                 ((VisualStudioProject)ProjectManager.ProjectBase.CodeProject).AddCodeBuildItem(absoluteCodeFile);
             }
