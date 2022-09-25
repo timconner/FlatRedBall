@@ -26,6 +26,10 @@ using FlatRedBall.Instructions.Reflection;
 using Microsoft.Xna.Framework.Audio;
 using System.Windows.Forms.Integration;
 using GlueFormsCore.Controls;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Linq;
+using Microsoft.Build.Evaluation;
 
 namespace Glue
 {
@@ -61,8 +65,31 @@ namespace Glue
 
         #endregion
 
+        private static void SetMsBuildEnvironmentVariable()
+        {
+            var startInfo = new ProcessStartInfo("dotnet", "--list-sdks")
+            {
+                RedirectStandardOutput = true
+            };
+
+            var process = Process.Start(startInfo);
+            process.WaitForExit(1000);
+
+            var output = process.StandardOutput.ReadToEnd();
+            var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
+                .OfType<Match>()
+                .Select(m => System.IO.Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
+
+            var sdkPath = sdkPaths.Last();
+            Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath);
+        }
+
         public MainGlueWindow()
         {
+            // Vic says - this makes Glue use the latest MSBuild environments
+            // Running on AnyCPU means we run in 64 bit and can load VS 22 64 bit libs.
+            SetMsBuildEnvironmentVariable();
+
             mSelf = this;
             UiThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
             InitializeComponent();
@@ -85,6 +112,7 @@ namespace Glue
 
         }
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -93,6 +121,11 @@ namespace Glue
         }
         internal async void StartUpGlue()
         {
+            //Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
+
+            Microsoft.Build.Evaluation.Project item = null;
+
+
             // Some stuff can be parallelized.  We're going to run stuff
             // that can be parallelized in parallel, and then block to wait for
             // all tasks to finish when we need to

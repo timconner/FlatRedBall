@@ -513,6 +513,7 @@ namespace FlatRedBall.Glue.FormHelpers
 
         static List<GeneralToolStripMenuItem> ListToAddTo = null;
         #endregion
+
         private static void PopulateRightClickMenuItemsShared(ITreeNode targetNode, MenuShowingAction menuShowingAction, ITreeNode draggedNode)
         {
 
@@ -1105,7 +1106,7 @@ namespace FlatRedBall.Glue.FormHelpers
 
             addVariableToolStripMenuItem = new GeneralToolStripMenuItem();
             addVariableToolStripMenuItem.Text = "Add Variable";
-            addVariableToolStripMenuItem.Click += (not, used) => GlueCommands.Self.DialogCommands.ShowAddNewVariableDialog();
+            addVariableToolStripMenuItem.Click += (not, used) => GlueCommands.Self.DialogCommands.ShowAddNewVariableDialog(CustomVariableType.New);
 
             editResetVariablesToolStripMenuItem = new GeneralToolStripMenuItem();
             editResetVariablesToolStripMenuItem.Text = "Edit Reset Variables";
@@ -2550,6 +2551,10 @@ namespace FlatRedBall.Glue.FormHelpers
 
             GlueState.Self.CurrentElement.SortStatesToCustomVariables();
             var elementsToRegen = new HashSet<GlueElement>();
+            if(element != null)
+            {
+                elementsToRegen.Add(element);
+            }
 
             foreach (NamedObjectSave nos in ObjectFinder.Self.GetAllNamedObjectsThatUseElement(element))
             {

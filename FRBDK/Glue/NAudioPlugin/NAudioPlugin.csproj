@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Platforms>x86</Platforms>
+    <Platforms>x86;AnyCPU</Platforms>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="IF NOT EXIST &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\NAudioPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\NAudioPlugin\&quot;&#xD;&#xA; &#xD;&#xA;copy &quot;$(TargetDir)\NAudioPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\NAudioPlugin\NAudioPlugin.dll&quot;" />
+    <Exec Command="IF NOT EXIST &quot;$(SolutionDir)Glue\bin\Debug\Plugins\NAudioPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\NAudioPlugin\&quot;&#xD;&#xA; &#xD;&#xA;copy &quot;$(TargetDir)\NAudioPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\NAudioPlugin\NAudioPlugin.dll&quot;" />
   </Target>
 
 </Project>

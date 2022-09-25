@@ -1,11 +1,13 @@
 ﻿using FlatRedBall.Glue.CodeGeneration.CodeBuilder;
 using FlatRedBall.Glue.Managers;
+using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using Gum.DataTypes;
 using Gum.DataTypes.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static FlatRedBall.Glue.SaveClasses.GlueProjectSave;
 
 namespace GumPlugin.CodeGeneration
 {
@@ -128,6 +130,7 @@ namespace GumPlugin.CodeGeneration
             mVariableNamesToSkipForProperties.Add("CustomFontFile");
             mVariableNamesToSkipForProperties.Add("UseCustomFont");
             mVariableNamesToSkipForProperties.Add("Children Layout");
+            mVariableNamesToSkipForProperties.Add("StackSpacing");
 
             // This restriction is only enforced Gum-side, not runtime-side (yet? ever?)
             mVariableNamesToSkipForProperties.Add("Contained Type");
@@ -156,6 +159,8 @@ namespace GumPlugin.CodeGeneration
             });
 
         }
+
+
 
         #endregion
 
@@ -246,10 +251,17 @@ namespace GumPlugin.CodeGeneration
         {
             currentBlock = currentBlock.Function("public override void", "SetInitialState", "");
             {
-                currentBlock.Line("var wasSuppressed = this.IsLayoutSuspended;");
-                currentBlock.Line("if(!wasSuppressed) this.SuspendLayout();");
+                var suspendLayout = GlueState.Self.CurrentGlueProject.FileVersion >= (int)FlatRedBall.Glue.SaveClasses.GlueProjectSave.GluxVersions.GumHasMIsLayoutSuspendedPublic;
+                if(suspendLayout)
+                {
+                    currentBlock.Line("var wasSuppressed = this.IsLayoutSuspended;");
+                    currentBlock.Line("if(!wasSuppressed) this.SuspendLayout();");
+                }
                 currentBlock.Line("this.CurrentVariableState = VariableState.Default;");
-                currentBlock.Line("if(!wasSuppressed) this.ResumeLayout();");
+                if(suspendLayout)
+                {
+                    currentBlock.Line("if(!wasSuppressed) this.ResumeLayout();");
+                }
 
             }
         }

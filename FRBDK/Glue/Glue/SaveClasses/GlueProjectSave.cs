@@ -40,11 +40,13 @@ namespace FlatRedBall.Glue.SaveClasses
         public enum GluxVersions
         {
             PreVersion = 1,
+            HasFormsObject = 1, // Not sure if this is exact, but it should be maybe around here. This will make old projects work. It's before 4.
             AddedGeneratedGame1 = 2,
             ListsHaveAssociateWithFactoryBool = 3,
             GumGueHasGetAnimation = 4,
-            HasFormsObject = 4, // Not sure if this is exact, but it should be maybe around here. This will make old projects work
+            GumHasMIsLayoutSuspendedPublic = 4,
             CsvInheritanceSupport = 5,
+            IPositionedSizedObjectInEngine = 5,
             NugetPackageInCsproj = 6,
             SupportsEditMode = 7,
             SupportsShapeCollectionAddToManagerMakeAutomaticallyUpdated = 7,
@@ -73,7 +75,11 @@ namespace FlatRedBall.Glue.SaveClasses
             SpriteHasTolerateMissingAnimations = 18,
             AnimationLayerHasName = 19,
             IPlatformer = 19,
-            GumDefaults2 = 20
+            GumDefaults2 = 20,
+            IStackableInEngine = 21,
+            ICollidableHasItemsCollidedAgainst = 22,
+            CollisionRelationshipManualPhysics = 23,
+            GumSupportsStackSpacing = 24
         }
 
         #endregion
@@ -82,7 +88,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
         #region Versions
 
-        public const int LatestVersion = (int)GluxVersions.GumDefaults2;
+        public const int LatestVersion = (int)GluxVersions.ICollidableHasItemsCollidedAgainst;
 
         public int FileVersion { get; set; }
 

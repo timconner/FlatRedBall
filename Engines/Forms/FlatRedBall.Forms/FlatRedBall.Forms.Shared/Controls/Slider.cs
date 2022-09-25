@@ -35,7 +35,7 @@ namespace FlatRedBall.Forms.Controls
         public event FocusUpdateDelegate FocusUpdate;
 
         public event Action<Xbox360GamePad.Button> ControllerButtonPushed;
-
+        public event Action<int> GenericGamepadButtonPushed;
 
         #region Initialize
 
@@ -268,22 +268,10 @@ namespace FlatRedBall.Forms.Controls
             {
                 var gamepad = gamepads[i];
 
-                if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadDown) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down))
-                {
-                    this.HandleTab(TabDirection.Down, this);
-                    // selectindex++
-                    //this.HandleTab(TabDirection.Down, this);
-                }
-                else if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadUp) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up))
-                {
-                    this.HandleTab(TabDirection.Up, this);
+                HandleGamepadNavigation(gamepad, 
+                    // for sliders, left and right are reserved for changing the value
+                    considerLeftAndRight:false);
 
-
-                    //this.HandleTab(TabDirection.Up, this);
-                    // selectindex--
-                }
 
                 if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadLeft) ||
                     gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left))
@@ -310,6 +298,40 @@ namespace FlatRedBall.Forms.Controls
                 RaiseIfPushedAndEnabled(Xbox360GamePad.Button.Y);
                 RaiseIfPushedAndEnabled(Xbox360GamePad.Button.Start);
                 RaiseIfPushedAndEnabled(Xbox360GamePad.Button.Back);
+            }
+
+            var genericGamepads = GuiManager.GenericGamePadsForUiControl;
+            for (int i = 0; i < genericGamepads.Count; i++)
+            {
+                var gamepad = genericGamepads[i];
+
+                HandleGamepadNavigation(gamepad, considerLeftAndRight:false);
+
+                var leftStick = gamepad.AnalogSticks.Length > 0
+                    ? gamepad.AnalogSticks[0]
+                    : null;
+
+                if (gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left) ||
+                    leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left) == true)
+                {
+                    this.Value -= this.SmallChange;
+                }
+                else if (gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Right) ||
+                    leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Right) == true)
+                {
+                    this.Value += this.SmallChange;
+                }
+
+                if (IsEnabled)
+                {
+                    for (int buttonIndex = 0; buttonIndex < gamepad.NumberOfButtons; i++)
+                    {
+                        if (gamepad.ButtonPushed(buttonIndex))
+                        {
+                            GenericGamepadButtonPushed?.Invoke(buttonIndex);
+                        }
+                    }
+                }
             }
         }
 

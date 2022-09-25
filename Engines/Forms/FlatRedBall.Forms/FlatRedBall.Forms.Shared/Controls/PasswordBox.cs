@@ -154,6 +154,7 @@ namespace FlatRedBall.Forms.Controls
 
         private void CallMethodsInResponseToPasswordChanged()
         {
+            TruncateTextToMaxLength();
             UpdateCaretPositionToCaretIndex();
             OffsetTextToKeepCaretInView();
             UpdateDisplayedCharacters();
@@ -262,8 +263,8 @@ namespace FlatRedBall.Forms.Controls
 
         protected override void HandlePaste()
         {
-            var whatToPaste = Clipboard.ClipboardImplementation.GetText();
 
+            var whatToPaste = Clipboard.ClipboardImplementation.GetText();
             if (!string.IsNullOrEmpty(whatToPaste))
             {
                 if (selectionLength != 0)
@@ -306,5 +307,19 @@ namespace FlatRedBall.Forms.Controls
             }
         }
 
+        protected override void TruncateTextToMaxLength()
+        {
+#if UWP
+            while(password.Length > MaxLength)
+            {
+                password = password.Remove(password.Length-1);
+            }
+#else
+            while(SecurePassword.Length > MaxLength)
+            {
+                SecurePassword.RemoveAt(SecurePassword.Length-1);
+            }
+#endif
+        }
     }
 }

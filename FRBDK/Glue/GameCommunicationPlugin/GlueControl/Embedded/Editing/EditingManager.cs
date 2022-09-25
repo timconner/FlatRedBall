@@ -253,6 +253,11 @@ namespace GlueControl.Editing
 
         private void UpdateSelectedMarkers()
         {
+            if (FlatRedBallServices.Game.IsActive == false)
+            {
+                return;
+            }
+
             Vector3 moveVector = Vector3.Zero;
             for (int i = 0; i < itemsSelected.Count; i++)
             {
@@ -378,6 +383,10 @@ namespace GlueControl.Editing
         #region Update/DoXXXXLogic
         public void Update()
         {
+            if (FlatRedBallServices.Game.IsActive == false)
+            {
+                return;
+            }
 #if SupportsEditMode
             var isInEditMode = ScreenManager.IsInEditMode;
 

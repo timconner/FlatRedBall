@@ -43,8 +43,8 @@ using GlueFormsCore.ViewModels;
 using System.Threading.Tasks;
 using FlatRedBall.Glue.Managers;
 using FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces;
-using Gum.Wireframe;
-using Gum.Converters;
+//using Gum.Wireframe;
+//using Gum.Converters;
 
 namespace FlatRedBall.Glue.Plugins
 {
@@ -138,11 +138,11 @@ namespace FlatRedBall.Glue.Plugins
             : base(global)
         {
             // Forces this class to be accesed. Vic is not sure if this is needed as of Sept 13, 2021
-            var throwaway8 = typeof(Microsoft.Build.Utilities.AssemblyFoldersFromConfigInfo);
-            var throwaway2 = typeof(GraphicalUiElement);
-            var gue = new GraphicalUiElement();
-            gue.XUnits = GeneralUnitType.PixelsFromMiddle;
-            var throwaway3 = typeof(GeneralUnitType);
+            //var throwaway8 = typeof(Microsoft.Build.Utilities.AssemblyFoldersFromConfigInfo);
+            //var throwaway2 = typeof(GraphicalUiElement);
+            //var gue = new GraphicalUiElement();
+            //gue.XUnits = GeneralUnitType.PixelsFromMiddle;
+            //var throwaway3 = typeof(GeneralUnitType);
             
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -242,8 +242,11 @@ namespace FlatRedBall.Glue.Plugins
                     // Glue restart.  So to solve this for now we are making global plugins loaded in a non-collectible
                     // context, so at least these plugins can still be used by glue, just not in a project specific
                     // case.
-                    AssemblyContext = new AssemblyLoadContext(null, false),
+                    //AssemblyContext = new AssemblyLoadContext(null, false),
                 };
+
+                mGlobalInstance.AssemblyContext = new AssemblyLoadContext(null, false);
+
                 mGlobalInstance.LoadPlugins(@"FRBDK\Plugins", pluginsToIgnore);
 
                 foreach (var output in mGlobalInstance.CompileOutput)
@@ -1533,12 +1536,15 @@ namespace FlatRedBall.Glue.Plugins
         /// <remarks>Although this has the word "Property" in the name, it applies to both properties and variables.</remarks>
         /// <param name="changedMember">The member that has changed</param>
         /// <param name="oldValue">The value of the member before the change</param>
-        public static void ReactToChangedProperty(string changedMember, object oldValue, GlueElement owner)
-        {
+        public static void ReactToChangedProperty(string changedMember, object oldValue, GlueElement owner) =>
             CallMethodOnPlugin(
                 plugin => plugin.ReactToChangedPropertyHandler(changedMember, oldValue, owner),
                 plugin => plugin.ReactToChangedPropertyHandler != null);
-        }
+
+        public static void ReactToVariableListChanged(List<NamedObjectSaveVariableChange> namedObjectSaveVariableChangeList) =>
+            CallMethodOnPlugin(
+                plugin => plugin.ReactToChangedNamedObjectVariableList(namedObjectSaveVariableChangeList),
+                plugin => plugin.ReactToChangedNamedObjectVariableList != null);
 
         public class NamedObjectSaveVariableChange
         {

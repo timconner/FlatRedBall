@@ -23,7 +23,8 @@ namespace FlatRedBall.Math.Collision
     {
         EventOnlyCollision,
         MoveCollision,
-        BounceCollision
+        BounceCollision,
+        MoveSoftCollision
         //,PlatformerCollision
     }
 
@@ -53,6 +54,7 @@ namespace FlatRedBall.Math.Collision
         protected float moveFirstMass;
         protected float moveSecondMass;
         protected float bounceElasticity;
+        protected float softSeparationCoefficient;
 
         /// <summary>
         /// Whether a collision occurred this frame. This is set when the collision performs its collision logic in DoCollisions, which
@@ -80,6 +82,9 @@ namespace FlatRedBall.Math.Collision
         /// to perform collision.
         /// </summary>
         public bool IsActive { get; set; } = true;
+
+
+        public bool ArePhysicsAppliedAutomatically { get; set; } = true;
 
         /// <summary>
         /// The number of frames to skip after performing collision logic. Default value is 0, which means no values are skipped.
@@ -132,6 +137,14 @@ namespace FlatRedBall.Math.Collision
             this.moveFirstMass = firstMass;
             this.moveSecondMass = secondMass;
             this.bounceElasticity = elasticity;
+        }
+
+        public virtual void SetMoveSoftCollision(float firstMass, float secondMass, float separationCoefficient)
+        {
+            this.CollisionType = CollisionType.MoveSoftCollision;
+            this.moveFirstMass = firstMass;
+            this.moveSecondMass = secondMass;
+            this.softSeparationCoefficient = separationCoefficient;
         }
 
         public void SetEventOnlyCollision()
@@ -193,10 +206,15 @@ namespace FlatRedBall.Math.Collision
 
         #endregion
 
-        protected bool CollideConsideringSubCollisions(FirstCollidableT first, SecondCollidableT second)
+        public bool DoCollisionPhysics(FirstCollidableT first, SecondCollidableT second)
+        {
+            return DoCollisionPhysicsInner(first, second, false);
+        }
+
+        protected bool DoCollisionPhysicsInner(FirstCollidableT first, SecondCollidableT second, bool eventOnly)
         {
 #if DEBUG
-            if(first == second)
+            if (first == second)
             {
                 throw new InvalidOperationException($"Cannot collide a {first.GetType()} named {first.Name} against itself in a CollisionRelationship " +
                     $"named {this.Name}");
@@ -205,7 +223,7 @@ namespace FlatRedBall.Math.Collision
 
             this.DeepCollisionsThisFrame++;
 
-            if (CollisionType == CollisionType.EventOnlyCollision)
+            if (CollisionType == CollisionType.EventOnlyCollision || eventOnly)
             {
                 return CollideAgainstConsiderSubCollisionEventOnly(first, second);
             }
@@ -217,12 +235,15 @@ namespace FlatRedBall.Math.Collision
             {
                 return CollideAgainstConsiderSubCollisionBounce(first, second);
             }
+            else if(CollisionType == CollisionType.MoveSoftCollision)
+            {
+                return CollideAgainstConsiderSubCollisionMoveSoft(first, second);
+            }
             else
             {
                 throw new NotImplementedException();
             }
         }
-
 
         private bool CollideAgainstConsiderSubCollisionEventOnly(FirstCollidableT first, SecondCollidableT second)
         {
@@ -521,6 +542,54 @@ namespace FlatRedBall.Math.Collision
             }
         }
 
+        private bool CollideAgainstConsiderSubCollisionMoveSoft(FirstCollidableT first, SecondCollidableT second)
+        {
+            if (firstSubCollisionCircle != null)
+            {
+                throw new NotImplementedException();
+            }
+            else if (firstSubCollisionRectangle != null)
+            {
+                throw new NotImplementedException();
+            }
+            else if (firstSubCollisionPolygon != null)
+            {
+                throw new NotImplementedException();
+            }
+            else if (firstSubCollisionLine != null)
+            {
+                throw new NotImplementedException();
+            }
+            else if (firstSubCollisionCollidable != null)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                if (secondSubCollisionCircle != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (secondSubCollisionRectangle != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (secondSubCollisionPolygon != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (secondSubCollisionCollidable != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    //return second.CollideAgainstMove(first, moveSecondMass, moveFirstMass);
+                    return second.Collision.CollideAgainstMoveSoft(first.Collision, moveSecondMass, moveFirstMass, softSeparationCoefficient);
+                }
+            }
+        }
+
 
         private bool CollideAgainstConsiderSubCollisionBounce(FirstCollidableT first, SecondCollidableT second)
         {
@@ -703,10 +772,13 @@ namespace FlatRedBall.Math.Collision
             {
                 skippedFrames = 0;
                 // collision limit doesn't do anything here, since it's only 1 vs 1
-                if (CollideConsideringSubCollisions(first, second))
+                if (DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                 {
                     CollisionOccurred?.Invoke(first, second);
                     didCollisionOccur = true;
+
+                    first.ItemsCollidedAgainst.Add(second.Name);
+                    second.ItemsCollidedAgainst.Add(first.Name);
                 }
             }
 
@@ -750,6 +822,15 @@ namespace FlatRedBall.Math.Collision
             if(collided)
             {
                 CollisionOccurred?.Invoke(first, second);
+
+                if(first is ICollidable firstCollidable && second is INameable secondNameable)
+                {
+                    firstCollidable.ItemsCollidedAgainst.Add(secondNameable.Name);
+                }
+                if(second is ICollidable secondCollidable && first is INameable firstNameable)
+                {
+                    secondCollidable.ItemsCollidedAgainst.Add(firstNameable.Name);
+                }
             }
 
             return collided;
@@ -799,6 +880,15 @@ namespace FlatRedBall.Math.Collision
                         CollisionOccurred?.Invoke(singleObject, atI);
                         didCollisionOccur = true;
                         // Collision Limit doesn't do anything here
+
+                        if (singleObject is ICollidable firstCollidable && atI is INameable secondNameable)
+                        {
+                            firstCollidable.ItemsCollidedAgainst.Add(secondNameable.Name);
+                        }
+                        if (atI is ICollidable secondCollidable && singleObject is INameable firstNameable)
+                        {
+                            secondCollidable.ItemsCollidedAgainst.Add(firstNameable.Name);
+                        }
                     }
                 }
             }
@@ -856,6 +946,16 @@ namespace FlatRedBall.Math.Collision
                         CollisionOccurred?.Invoke(atI, singleObject);
                         didCollisionOccur = true;
                         // Collision Limit doesn't do anything here
+
+
+                        if (atI is ICollidable firstCollidable && singleObject is INameable secondNameable)
+                        {
+                            firstCollidable.ItemsCollidedAgainst.Add(secondNameable.Name);
+                        }
+                        if (singleObject is ICollidable secondCollidable && atI is INameable firstNameable)
+                        {
+                            secondCollidable.ItemsCollidedAgainst.Add(firstNameable.Name);
+                        }
                     }
                 }
             }
@@ -973,10 +1073,14 @@ namespace FlatRedBall.Math.Collision
                     for (int i = startInclusive; i > endExclusive; i--)
                     {
                         var atI = list[i];
-                        if (CollideConsideringSubCollisions(singleObject, atI))
+                        if (DoCollisionPhysicsInner(singleObject, atI, !ArePhysicsAppliedAutomatically))
                         {
                             CollisionOccurred?.Invoke(singleObject, atI);
                             didCollisionOccur = true;
+
+                            singleObject.ItemsCollidedAgainst.Add(atI.Name);
+                            atI.ItemsCollidedAgainst.Add(singleObject.Name);
+
                             if (CollisionLimit == CollisionLimit.First)
                             {
                                 break;
@@ -1003,7 +1107,7 @@ namespace FlatRedBall.Math.Collision
             for (int i = startInclusive; i > endExclusive; i--)
             {
                 var atI = list[i];
-                if (CollideConsideringSubCollisions(singleObject, atI))
+                if (DoCollisionPhysicsInner(singleObject, atI, !ArePhysicsAppliedAutomatically))
                 {
                     var distanceVector = singleObject.Position - atI.Position;
                     var distanceSquared = distanceVector.X * distanceVector.X + distanceVector.Y * distanceVector.Y;
@@ -1129,11 +1233,15 @@ namespace FlatRedBall.Math.Collision
                 for (int i = startInclusive; i > endExclusive; i--)
                 {
                     var atI = list[i];
-                    if (CollideConsideringSubCollisions(atI, singleObject))
+                    if (DoCollisionPhysicsInner(atI, singleObject, !ArePhysicsAppliedAutomatically))
                     {
                         CollisionOccurred?.Invoke(atI, singleObject);
                         didCollisionOccur = true;
                         // Collision Limit doesn't do anything here
+
+
+                        singleObject.ItemsCollidedAgainst.Add(atI.Name);
+                        atI.ItemsCollidedAgainst.Add(singleObject.Name);
                     }
                 }
             }
@@ -1362,10 +1470,13 @@ namespace FlatRedBall.Math.Collision
                         var second = secondList[j];
 
                         // first != second needed since the two may be checked if allowing duplicate collisions per frame
-                        if (first != second && CollideConsideringSubCollisions(first, second))
+                        if (first != second && DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                         {
                             CollisionOccurred?.Invoke(first, second);
                             collisionOccurred = true;
+
+                            first.ItemsCollidedAgainst.Add(second.Name);
+                            second.ItemsCollidedAgainst.Add(first.Name);
                             if (CollisionLimit == CollisionLimit.First)
                             {
                                 break;
@@ -1396,7 +1507,7 @@ namespace FlatRedBall.Math.Collision
                             var second = secondList[j];
 
                             // first != second needed since the two may be checked if allowing duplicate collisions per frame
-                            if (first != second && CollideConsideringSubCollisions(first, second))
+                            if (first != second && DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                             {
                                 CollisionOccurred?.Invoke(first, second);
                                 collisionOccurred = true;
@@ -1446,10 +1557,14 @@ namespace FlatRedBall.Math.Collision
                         continue;
                     }
 
-                    if (CollideConsideringSubCollisions(first, second))
+                    if (DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                     {
                         CollisionOccurred?.Invoke(first, second);
                         collisionOccurred = true;
+
+                        first.ItemsCollidedAgainst.Add(second.Name);
+                        second.ItemsCollidedAgainst.Add(first.Name);
+
                         if (CollisionLimit == CollisionLimit.First)
                         {
                             break;
@@ -1499,10 +1614,14 @@ namespace FlatRedBall.Math.Collision
                         continue;
                     }
 
-                    if (CollideConsideringSubCollisions(first, second))
+                    if (DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                     {
                         CollisionOccurred?.Invoke(first, second);
                         collisionOccurred = true;
+
+                        first.ItemsCollidedAgainst.Add(second.Name);
+                        second.ItemsCollidedAgainst.Add(first.Name);
+
                         if (CollisionLimit == CollisionLimit.First)
                         {
                             break;
@@ -1592,7 +1711,7 @@ namespace FlatRedBall.Math.Collision
                 for (int j = startInclusive; j > endExclusive; j--)
                 {
                     var second = secondList[j];
-                    if (CollideConsideringSubCollisions(first, second))
+                    if (DoCollisionPhysicsInner(first, second, !ArePhysicsAppliedAutomatically))
                     {
                         var distanceVector = first.Position - second.Position;
                         var distanceSquared = distanceVector.X * distanceVector.X + distanceVector.Y * distanceVector.Y;
@@ -1609,6 +1728,9 @@ namespace FlatRedBall.Math.Collision
                 if (closestFirst != null)
                 {
                     CollisionOccurred?.Invoke(closestFirst, closestSecond);
+
+                    closestFirst.ItemsCollidedAgainst.Add(closestSecond.Name);
+                    closestSecond.ItemsCollidedAgainst.Add(closestFirst.Name);
                 }
             }
         }
@@ -1717,6 +1839,15 @@ namespace FlatRedBall.Math.Collision
                             {
                                 CollisionOccurred?.Invoke(firstItem, secondItem);
                                 collisionOccurred = true;
+
+                                if(firstItem is ICollidable first && secondItem is INameable second)
+                                {
+                                    first.ItemsCollidedAgainst.Add(second.Name);
+                                }
+                                if(secondItem is ICollidable secondCollidable && firstItem is INameable firstNameable)
+                                {
+                                    secondCollidable.ItemsCollidedAgainst.Add(firstNameable.Name);
+                                }
                             }
                         }
                     }
@@ -1747,6 +1878,15 @@ namespace FlatRedBall.Math.Collision
                             {
                                 CollisionOccurred?.Invoke(firstItem, secondItem);
                                 collisionOccurred = true;
+
+                                if (firstItem is ICollidable first && secondItem is INameable second)
+                                {
+                                    first.ItemsCollidedAgainst.Add(second.Name);
+                                }
+                                if (secondItem is ICollidable secondCollidable && firstItem is INameable firstNameable)
+                                {
+                                    secondCollidable.ItemsCollidedAgainst.Add(firstNameable.Name);
+                                }
                             }
                         }
                     }
@@ -1803,21 +1943,29 @@ namespace FlatRedBall.Math.Collision
             else
             {
                 skippedFrames = 0;
-                if (CollideConsideringSubCollisions(singleObject, shapeCollection))
+                if (DoCollisionPhysicsInner(singleObject, shapeCollection, !ArePhysicsAppliedAutomatically))
                 {
                     CollisionOccurred?.Invoke(singleObject, shapeCollection);
                     didCollisionOccur = true;
                     // Collision Limit doesn't do anything here
+
+                    singleObject.ItemsCollidedAgainst.Add(shapeCollection.Name);
+                    shapeCollection.ItemsCollidedAgainst.Add(singleObject.Name);
                 }
             }
             return didCollisionOccur;
         }
 
-        protected bool CollideConsideringSubCollisions(FirstCollidableT first, ShapeCollection second)
+        public bool DoCollisionPhysics(FirstCollidableT first, ShapeCollection second)
+        {
+            return DoCollisionPhysicsInner(first, second, false);
+        }
+
+        private bool DoCollisionPhysicsInner(FirstCollidableT first, ShapeCollection second, bool eventOnly)
         {
             this.DeepCollisionsThisFrame++;
 
-            if (CollisionType == CollisionType.EventOnlyCollision)
+            if (CollisionType == CollisionType.EventOnlyCollision || eventOnly)
             {
                 return CollideAgainstConsiderSubCollisionEventOnly(first, second);
             }
@@ -1829,11 +1977,16 @@ namespace FlatRedBall.Math.Collision
             {
                 return CollideAgainstConsiderSubCollisionBounce(first, second);
             }
+            else if(CollisionType == CollisionType.MoveSoftCollision)
+            {
+                return CollideAgainstConsiderSubCollisionMoveSoft(first, second);
+            }
             else
             {
                 throw new NotImplementedException();
             }
         }
+
         private bool CollideAgainstConsiderSubCollisionEventOnly(FirstCollidableT first, ShapeCollection second)
         {
             if (firstSubCollisionCircle != null)
@@ -1878,6 +2031,31 @@ namespace FlatRedBall.Math.Collision
             else
             {
                 return first.CollideAgainstMove(second, moveFirstMass, moveSecondMass);
+            }
+        }
+                
+        private bool CollideAgainstConsiderSubCollisionMoveSoft(FirstCollidableT first, ShapeCollection second)
+        {
+            if(firstSubCollisionCircle != null)
+            {
+                throw new NotImplementedException("Circle vs shapecollection move soft collision is not yet implemented.");
+            }
+            else if(firstSubCollisionRectangle != null)
+            {
+                throw new NotImplementedException("AxisAlignedRectangle vs shapecollection move soft collision is not yet implemented.");
+            }
+            else if(firstSubCollisionPolygon != null)
+            {
+                throw new NotImplementedException("Polygon vs shapecollection move soft collision is not yet implemented.");
+
+            }
+            else if(firstSubCollisionCollidable != null)
+            {
+                return firstSubCollisionCollidable(first).Collision.CollideAgainstMoveSoft(second, moveFirstMass, moveSecondMass, softSeparationCoefficient);
+            }
+            else
+            {
+                return first.Collision.CollideAgainstMoveSoft(second, moveFirstMass, moveSecondMass, softSeparationCoefficient);
             }
         }
         private bool CollideAgainstConsiderSubCollisionBounce(FirstCollidableT first, ShapeCollection second)
@@ -1959,11 +2137,14 @@ namespace FlatRedBall.Math.Collision
                 for (int i = startInclusive; i > endExclusive; i--)
                 {
                     var atI = list[i];
-                    if (CollideConsideringSubCollisions(atI, shapeCollection))
+                    if (DoCollisionPhysicsInner(atI, shapeCollection, !ArePhysicsAppliedAutomatically))
                     {
                         CollisionOccurred?.Invoke(atI, shapeCollection);
                         didCollisionOccur = true;
                         // Collision Limit doesn't do anything here
+
+                        atI.ItemsCollidedAgainst.Add(shapeCollection.Name);
+                        shapeCollection.ItemsCollidedAgainst.Add(atI.Name);
                     }
                 }
             }
@@ -1973,11 +2154,16 @@ namespace FlatRedBall.Math.Collision
             return didCollisionOccur;
         }
 
-        protected bool CollideConsideringSubCollisions(FirstCollidableT first, ShapeCollection second)
+        public bool DoCollisionPhysics(FirstCollidableT first, ShapeCollection second)
+        {
+            return DoCollisionPhysicsInner(first, second, true);
+        }
+
+        private bool DoCollisionPhysicsInner(FirstCollidableT first, ShapeCollection second, bool eventOnly)
         {
             this.DeepCollisionsThisFrame++;
 
-            if (CollisionType == CollisionType.EventOnlyCollision)
+            if (CollisionType == CollisionType.EventOnlyCollision || eventOnly)
             {
                 return CollideAgainstConsiderSubCollisionEventOnly(first, second);
             }
@@ -1989,11 +2175,16 @@ namespace FlatRedBall.Math.Collision
             {
                 return CollideAgainstConsiderSubCollisionBounce(first, second);
             }
+            else if (CollisionType == CollisionType.MoveSoftCollision)
+            {
+                return CollideAgainstConsiderSubCollisionMoveSoft(first, second);
+            }
             else
             {
                 throw new NotImplementedException();
             }
         }
+
         private bool CollideAgainstConsiderSubCollisionEventOnly(FirstCollidableT first, ShapeCollection second)
         {
             if (firstSubCollisionCircle != null)
@@ -2040,6 +2231,32 @@ namespace FlatRedBall.Math.Collision
                 return first.CollideAgainstMove(second, moveFirstMass, moveSecondMass);
             }
         }
+        private bool CollideAgainstConsiderSubCollisionMoveSoft(FirstCollidableT first, ShapeCollection second)
+        {
+            {
+                if (firstSubCollisionCircle != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (firstSubCollisionRectangle != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (firstSubCollisionPolygon != null)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (firstSubCollisionCollidable != null)
+                {
+                    return firstSubCollisionCollidable(first).Collision.CollideAgainstMoveSoft(second, moveFirstMass, moveSecondMass, softSeparationCoefficient);
+                }
+                else
+                {
+                    return first.Collision.CollideAgainstMoveSoft(second, moveFirstMass, moveSecondMass, softSeparationCoefficient);
+                }
+            }
+        }
+
         private bool CollideAgainstConsiderSubCollisionBounce(FirstCollidableT first, ShapeCollection second)
         {
             if (firstSubCollisionCircle != null)

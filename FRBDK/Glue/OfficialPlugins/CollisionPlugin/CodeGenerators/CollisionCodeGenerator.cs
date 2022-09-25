@@ -2,6 +2,7 @@
 using FlatRedBall.Glue.CodeGeneration.CodeBuilder;
 using FlatRedBall.Glue.Elements;
 using FlatRedBall.Glue.Parsing;
+using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.Math;
 using OfficialPlugins.CollisionPlugin.Managers;
@@ -18,22 +19,12 @@ namespace OfficialPlugins.CollisionPlugin
 {
     public class CollisionCodeGenerator : ElementComponentCodeGenerator
     {
-        public override ICodeBlock GenerateInitializeLate(ICodeBlock codeBlock, IElement element)
+        public override ICodeBlock GenerateInitialize(ICodeBlock codeBlock, IElement element)
         {
-            //var collisionAti = AssetTypeInfoManager.Self.CollisionRelationshipAti;
-
-            //var collisionRelationships = element.AllNamedObjects
-            //    .Where(item => item.GetAssetTypeInfo() == collisionAti &&
-            //        item.IsDisabled == false &&
-            //        item.DefinedByBase == false &&
-            //        item.SetByDerived == false)
-            //    .ToArray();
-
-            //foreach (var namedObject in collisionRelationships)
-            //{
-            //    GenerateInitializeCodeFor(namedObject, codeBlock);
-            //}
-
+            if(ShouldGenerateCollisionNameListCode(element as GlueElement))
+            {
+                codeBlock.Line("FlatRedBall.Math.Collision.CollisionManager.Self.BeforeCollision += HandleBeforeCollisionGenerated;");
+            }
 
             return codeBlock;
         }
@@ -85,10 +76,22 @@ namespace OfficialPlugins.CollisionPlugin
                 secondSubCollision = null;
             }
 
-            var isCollisionActive = Get<bool>(
-                nameof(CollisionRelationshipViewModel.IsCollisionActive));
+            //var isCollisionActive = Get<bool>(
+            //    nameof(CollisionRelationshipViewModel.IsCollisionActive));
+            // Old projects do not have control over whether the collision relationship is active
+            // therefore, we need to check if the property is there. If not, treat it as active:
+            var collisionActiveProperty = namedObject.Properties
+                .Find(item => item.Name == nameof(CollisionRelationshipViewModel.IsCollisionActive));
+            var isCollisionActive = collisionActiveProperty == null ||
+                (collisionActiveProperty.Value is bool asBool && asBool);
 
-            var collisionLimit = (FlatRedBall.Math.Collision.CollisionLimit) Get<int>(
+            var automaticPhysicsProperty = namedObject.Properties
+                .Find(item => item.Name == nameof(CollisionRelationshipViewModel.IsAutomaticallyApplyPhysicsChecked));
+
+            var isAutomaticPhysics = automaticPhysicsProperty == null ||
+                (automaticPhysicsProperty.Value is bool automaticAsBool && automaticAsBool);
+
+            var collisionLimit = (FlatRedBall.Math.Collision.CollisionLimit)Get<int>(
                 nameof(CollisionRelationshipViewModel.CollisionLimit));
 
             var listVsListLoopingMode = (FlatRedBall.Math.Collision.ListVsListLoopingMode)Get<int>(
@@ -98,7 +101,7 @@ namespace OfficialPlugins.CollisionPlugin
             var airPlatformerVariableName = Get<string>(nameof(CollisionRelationshipViewModel.AirPlatformerVariableName));
             var afterDoubleJumpPlatformerVariableName = Get<string>(nameof(CollisionRelationshipViewModel.AfterDoubleJumpPlatformerVariableName));
 
-            
+
 
             var instanceName = namedObject.InstanceName;
 
@@ -123,19 +126,23 @@ namespace OfficialPlugins.CollisionPlugin
             {
                 GeneratePlatformerCollision(codeBlock, firstCollidable, secondCollidable, firstSubCollision, collisionType, instanceName, isFirstList, firstType, isSecondList, secondType);
             }
-            else if(collisionType == CollisionType.DelegateCollision)
+            else if (collisionType == CollisionType.StackingCollision)
             {
-                if(isFirstList && isSecondList)
+                GenerateStackingCollision(codeBlock, firstCollidable, secondCollidable, namedObject, isFirstList, firstType, isSecondList, secondType);
+            }
+            else if (collisionType == CollisionType.DelegateCollision)
+            {
+                if (isFirstList && isSecondList)
                 {
                     codeBlock.Line($"{instanceName} = new FlatRedBall.Math.Collision.DelegateListVsListRelationship<{firstType}, {secondType}>(" +
                         $"{firstCollidable}, {secondCollidable});");
                 }
-                else if(isFirstList)
+                else if (isFirstList)
                 {
                     codeBlock.Line($"{instanceName} = new FlatRedBall.Math.Collision.DelegateListVsSingleRelationship<{firstType}, {secondType}>(" +
                         $"{firstCollidable}, {secondCollidable});");
                 }
-                else if(isSecondList)
+                else if (isSecondList)
                 {
                     codeBlock.Line($"{instanceName} = new FlatRedBall.Math.Collision.DelegateSingleVsListRelationship<{firstType}, {secondType}>(" +
                         $"{firstCollidable}, {secondCollidable});");
@@ -149,7 +156,7 @@ namespace OfficialPlugins.CollisionPlugin
                 shouldManuallyAddToCollisionManager = true;
 
             }
-            else if(isSecondTileShapeCollection)
+            else if (isSecondTileShapeCollection)
             {
                 // It's possible the second is null since these often come from maps, and the level editor could load something invalid:
                 codeBlock = codeBlock.If($"{secondCollidable} != null");
@@ -160,7 +167,7 @@ namespace OfficialPlugins.CollisionPlugin
                     $"{firstCollidable}, {secondCollidable});");
 
             }
-            else if(isAlwaysColliding)
+            else if (isAlwaysColliding)
             {
                 codeBlock.Line($"{instanceName} = new FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship<{firstType}>({firstCollidable});");
                 shouldManuallyAddToCollisionManager = true;
@@ -185,12 +192,12 @@ namespace OfficialPlugins.CollisionPlugin
                 FlatRedBall.Glue.Plugins.ExportedImplementations.GlueState.Self.CurrentGlueProject.FileVersion >=
                 (int)GlueProjectSave.GluxVersions.SupportsNamedSubcollisions;
 
-            if (!string.IsNullOrEmpty(firstSubCollision) && 
+            if (!string.IsNullOrEmpty(firstSubCollision) &&
                 firstSubCollision != CollisionRelationshipViewModel.EntireObject &&
                 collisionType != CollisionType.PlatformerCloudCollision &&
                 collisionType != CollisionType.PlatformerSolidCollision)
             {
-                if(doesGluxSupportNamedSubcollisions)
+                if (doesGluxSupportNamedSubcollisions)
                 {
                     codeBlock.Line($"{instanceName}.SetFirstSubCollision(item => item.{firstSubCollision}, \"{firstSubCollision}\");");
                 }
@@ -199,14 +206,14 @@ namespace OfficialPlugins.CollisionPlugin
                     codeBlock.Line($"{instanceName}.SetFirstSubCollision(item => item.{firstSubCollision});");
                 }
             }
-            if(!string.IsNullOrEmpty(secondSubCollision) && 
+            if (!string.IsNullOrEmpty(secondSubCollision) &&
                 secondSubCollision != CollisionRelationshipViewModel.EntireObject &&
                 collisionType != CollisionType.PlatformerCloudCollision &&
-                collisionType != CollisionType.PlatformerSolidCollision && 
+                collisionType != CollisionType.PlatformerSolidCollision &&
                 // delegate collision cannot specify subcollision, that can be done manually in the collision
                 collisionType != CollisionType.DelegateCollision)
             {
-                if(doesGluxSupportNamedSubcollisions)
+                if (doesGluxSupportNamedSubcollisions)
                 {
                     codeBlock.Line($"{instanceName}.SetSecondSubCollision(item => item.{secondSubCollision}, \"{secondSubCollision}\");");
                 }
@@ -216,14 +223,14 @@ namespace OfficialPlugins.CollisionPlugin
                 }
             }
 
-            if(isFirstList && isSecondList)
+            if (isFirstList && isSecondList)
             {
                 codeBlock.Line($"{instanceName}.CollisionLimit = FlatRedBall.Math.Collision.CollisionLimit.{collisionLimit};");
 
                 // currently list vs list delegate collision doesn't support the looping mode:
                 var supportsLoopingMode = collisionType != CollisionType.PlatformerSolidCollision &&
                     collisionType != CollisionType.PlatformerCloudCollision;
-                if(supportsLoopingMode)
+                if (supportsLoopingMode)
                 {
                     codeBlock.Line($"{instanceName}.ListVsListLoopingMode = FlatRedBall.Math.Collision.ListVsListLoopingMode.{listVsListLoopingMode};");
                 }
@@ -233,7 +240,7 @@ namespace OfficialPlugins.CollisionPlugin
 
 
 
-            switch(collisionType)
+            switch (collisionType)
             {
                 case CollisionType.NoPhysics:
                     // don't do anything
@@ -249,19 +256,26 @@ namespace OfficialPlugins.CollisionPlugin
                     break;
             }
 
-            if(!isCollisionActive)
+            if (!isCollisionActive)
             {
                 codeBlock.Line(
                     $"{instanceName}.{nameof(FlatRedBall.Math.Collision.CollisionRelationship.IsActive)} = false;");
             }
 
-            if(!string.IsNullOrEmpty(groupPlatformerVariableName) ||
+            if(GlueState.Self.CurrentGlueProject.FileVersion >= (int)GlueProjectSave.GluxVersions.CollisionRelationshipManualPhysics && 
+                !isAutomaticPhysics)
+            {
+                codeBlock.Line(
+                    $"{instanceName}.{nameof(FlatRedBall.Math.Collision.CollisionRelationship.ArePhysicsAppliedAutomatically)} = false;");
+            }
+
+            if (!string.IsNullOrEmpty(groupPlatformerVariableName) ||
                 !string.IsNullOrEmpty(airPlatformerVariableName) ||
-                !string.IsNullOrEmpty(afterDoubleJumpPlatformerVariableName) )
+                !string.IsNullOrEmpty(afterDoubleJumpPlatformerVariableName))
             {
                 string StrippedName(string nameWithCsv)
                 {
-                    if(nameWithCsv?.Contains(" in ") == true)
+                    if (nameWithCsv?.Contains(" in ") == true)
                     {
                         var index = nameWithCsv.IndexOf(" in ");
                         return nameWithCsv.Substring(0, index);
@@ -272,7 +286,7 @@ namespace OfficialPlugins.CollisionPlugin
                     }
                 }
 
-                if(isAlwaysColliding)
+                if (isAlwaysColliding)
                 {
                     codeBlock.Line(
                         $"{instanceName}.CollisionOccurred += (first) =>");
@@ -286,7 +300,7 @@ namespace OfficialPlugins.CollisionPlugin
 
                 string GetRightSide(string variableName)
                 {
-                    if(variableName == "<NULL>")
+                    if (variableName == "<NULL>")
                     {
                         return "null";
                     }
@@ -301,7 +315,7 @@ namespace OfficialPlugins.CollisionPlugin
                     eventBlock.Line(
                         $"first.GroundMovement = {GetRightSide(groupPlatformerVariableName)};");
                 }
-                if(!string.IsNullOrEmpty(airPlatformerVariableName) )
+                if (!string.IsNullOrEmpty(airPlatformerVariableName))
                 {
                     eventBlock.Line(
                         $"first.AirMovement = {GetRightSide(airPlatformerVariableName)};");
@@ -317,8 +331,8 @@ namespace OfficialPlugins.CollisionPlugin
 
         }
 
-        private static void GeneratePlatformerCollision(ICodeBlock codeBlock, 
-            string firstCollidable, string secondCollidable, 
+        private static void GeneratePlatformerCollision(ICodeBlock codeBlock,
+            string firstCollidable, string secondCollidable,
             string firstSubCollision, CollisionType collisionType,
             string instanceName, bool isFirstList, string firstType, bool isSecondList, string secondType)
         {
@@ -343,11 +357,11 @@ namespace OfficialPlugins.CollisionPlugin
             {
                 relationshipType = $"FlatRedBall.Math.Collision.DelegateListVsListRelationship<{firstType}, {secondType}>";
             }
-            else if(isFirstList)
+            else if (isFirstList)
             {
                 relationshipType = $"FlatRedBall.Math.Collision.DelegateListVsSingleRelationship<{firstType}, {secondType}>";
             }
-            else if(isSecondList)
+            else if (isSecondList)
             {
                 relationshipType = $"FlatRedBall.Math.Collision.DelegateSingleVsListRelationship<{firstType}, {secondType}>";
             }
@@ -359,16 +373,16 @@ namespace OfficialPlugins.CollisionPlugin
 
             string whatToCollideAgainst = "second";
 
-            if( !isFirstList && isSecondList)
+            if (!isFirstList && isSecondList)
             {
-                if(collisionType == CollisionType.PlatformerCloudCollision || collisionType == CollisionType.PlatformerSolidCollision)
+                if (collisionType == CollisionType.PlatformerCloudCollision || collisionType == CollisionType.PlatformerSolidCollision)
                 {
                     block.Line($"return first.CollideAgainst({whatToCollideAgainst}, isCloud);");
                 }
                 else
                 {
                     // list vs list is internally handled already
-                    if(firstSubCollision == null)
+                    if (firstSubCollision == null)
                     {
                         // it's an icollidable probably
                         block.Line($"return first.CollideAgainst({whatToCollideAgainst}.Collision, isCloud);");
@@ -402,6 +416,75 @@ namespace OfficialPlugins.CollisionPlugin
             //CollisionManager.Self.Relationships.Add(PlayerVsSolidCollision);
         }
 
+        private static void GenerateStackingCollision(ICodeBlock codeBlock,
+
+            string firstCollidable, string secondCollidable,
+            NamedObjectSave namedObjectSave, bool isFirstList, string firstType, bool isSecondList, string secondType)
+        {
+            var instanceName = namedObjectSave.InstanceName;
+
+
+            var block = codeBlock.Block();
+
+            var effectiveFirstType = firstType;
+            if (isFirstList)
+            {
+                effectiveFirstType = $"FlatRedBall.Math.PositionedObjectList<{firstType}>";
+            }
+            var effectiveSecondType = secondType;
+            if (isSecondList)
+            {
+                effectiveSecondType = $"FlatRedBall.Math.PositionedObjectList<{secondType}>";
+            }
+
+            string relationshipType;
+            relationshipType = namedObjectSave
+                //.GetAssetTypeInfo()?.QualifiedRuntimeTypeName.QualifiedType;
+                .SourceClassType;
+            //if(isFirstList)
+            //{
+            //    relationshipType =
+            //        //$"FlatRedBall.Math.Collision.DelegateCollisionRelationship<{effectiveFirstType}, {effectiveSecondType}>";
+            //        // Since we create a list delegate if necessary, we don't use the list type:
+            //        $"FlatRedBall.Math.Collision.DelegateListVsSingleRelationship<{firstType}, {secondType}>";
+
+
+            //}
+
+            //else
+            //{
+            //    relationshipType =
+            //        //$"FlatRedBall.Math.Collision.DelegateCollisionRelationship<{effectiveFirstType}, {effectiveSecondType}>";
+            //        // Since we create a list delegate if necessary, we don't use the list type:
+            //        $"FlatRedBall.Math.Collision.DelegateCollisionRelationship<{firstType}, {secondType}>";
+
+
+            //}
+
+            block.Line($"var temp = new {relationshipType}({firstCollidable}, {secondCollidable});");
+            block.Line($"temp.CollisionFunction = (first, second) =>");
+            block = block.Block();
+
+            var isSecondTileShapeCollection = secondType == "FlatRedBall.TileCollisions.TileShapeCollection" || secondType == "TileShapeCollection";
+
+            if (isSecondTileShapeCollection == false)
+            {
+                // return stackable vs stackable
+                block.Line($"return FlatRedBall.Math.Geometry.IStackableExtensionMethods.CollideAgainstBounceStackable(first, second, 1, 1);");
+            }
+            else
+            {
+                // stackable vs TileShapeCollection
+                block.Line($"return second.CollideAgainstSolid(first);");
+            }
+
+            block = block.End();
+            block.Line(";");
+
+            block.Line("FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Add(temp);");
+            block.Line($"{instanceName} = temp;");
+        }
+
         public static bool CanBePartitioned(NamedObjectSave nos)
         {
             if (nos.IsList)
@@ -420,9 +503,9 @@ namespace OfficialPlugins.CollisionPlugin
         public override ICodeBlock GenerateAddToManagers(ICodeBlock codeBlock, IElement element)
         {
             // we only care about the top-level
-            foreach(var nos in element.NamedObjects)
+            foreach (var nos in element.NamedObjects)
             {
-                if(CanBePartitioned(nos))
+                if (CanBePartitioned(nos))
                 {
                     T Get<T>(string propName) =>
                         nos.Properties.GetValue<T>(propName);
@@ -430,7 +513,7 @@ namespace OfficialPlugins.CollisionPlugin
                     if (Get<bool>(nameof(CollidableNamedObjectRelationshipViewModel.PerformCollisionPartitioning)))
                     {
                         var sortAxis = Get<Axis>(nameof(CollidableNamedObjectRelationshipViewModel.SortAxis));
-                        var sortEveryFrame = Get<bool> (nameof(CollidableNamedObjectRelationshipViewModel.IsSortListEveryFrameChecked));
+                        var sortEveryFrame = Get<bool>(nameof(CollidableNamedObjectRelationshipViewModel.IsSortListEveryFrameChecked));
                         var partitionWidthHeight = Get<float>(nameof(CollidableNamedObjectRelationshipViewModel.PartitionWidthHeight));
 
                         // fill in this line:
@@ -444,13 +527,86 @@ namespace OfficialPlugins.CollisionPlugin
             return codeBlock;
         }
 
+        static bool IsTileShapeCollection(NamedObjectSave nos) => nos?.GetAssetTypeInfo()?.FriendlyName == "TileShapeCollection";
+
+        bool ShouldGenerateCollisionNameListCode(GlueElement element) =>
+            GlueState.Self.CurrentGlueProject.FileVersion >= (int)GlueProjectSave.GluxVersions.ICollidableHasItemsCollidedAgainst &&
+            element.NamedObjects.Any(item => item.IsCollisionRelationship());
+
+        
         public override ICodeBlock GenerateDestroy(ICodeBlock codeBlock, IElement element)
         {
-			if (element is ScreenSave)
-			{
-				codeBlock.Line("FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();");
-			}
-			return codeBlock;
+            if(ShouldGenerateCollisionNameListCode(element as GlueElement))
+            {
+                codeBlock.Line("FlatRedBall.Math.Collision.CollisionManager.Self.BeforeCollision -= HandleBeforeCollisionGenerated;");
+            }
+
+            if (element is ScreenSave)
+            {
+                codeBlock.Line("FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();");
+            }
+            return codeBlock;
+        }
+
+        public override ICodeBlock GenerateAdditionalMethods(ICodeBlock codeBlock, IElement element)
+        {
+            if(ShouldGenerateCollisionNameListCode(element as GlueElement))
+            {
+                codeBlock = codeBlock.Function("void", "HandleBeforeCollisionGenerated");
+                var itemsToGenerate = element
+                    // Only use the top level - lists will handle it
+                    .NamedObjects.Where(item => item.IsCollidableOrCollidableList() && !IsTileShapeCollection(item));
+
+
+                foreach (var item in itemsToGenerate)
+                {
+                    if (item.IsList)
+                    {
+                        var forBlock = codeBlock.For($"int i = 0; i < {item.FieldName}.Count; i++");
+                        forBlock.Line($"var item = {item.FieldName}[i];");
+
+                        if (IsPlatformer(item.SourceClassGenericType))
+                        {
+                            forBlock.Line("item.GroundCollidedAgainst.Clear();");
+                        }
+
+                        forBlock.Line($"item.LastFrameItemsCollidedAgainst.Clear();");
+                        {
+                            var innerForeach = forBlock.ForEach("var name in item.ItemsCollidedAgainst");
+                            innerForeach.Line("item.LastFrameItemsCollidedAgainst.Add(name);");
+                        }
+                        forBlock.Line($"item.ItemsCollidedAgainst.Clear();");
+
+                    }
+                    else
+                    {
+                        if(IsPlatformer(item.SourceClassType))
+                        {
+                            codeBlock.Line($"{item.FieldName}.GroundCollidedAgainst.Clear();");
+
+                        }
+                        codeBlock.Line($"{item.FieldName}.LastFrameItemsCollidedAgainst.Clear();");
+                        {
+                            var innerForeach = codeBlock.ForEach($"var name in {item.FieldName}.ItemsCollidedAgainst");
+                            innerForeach.Line($"{item.FieldName}.LastFrameItemsCollidedAgainst.Add(name);");
+                        }
+                        codeBlock.Line($"{item.FieldName}.ItemsCollidedAgainst.Clear();");
+
+                    }
+                }
+
+            }
+
+
+            return codeBlock;
+        }
+
+        private bool IsPlatformer(string sourceClassGenericType)
+        {
+            var entity = ObjectFinder.Self.GetEntitySave(sourceClassGenericType);
+
+            return entity?.Properties.GetValue<bool>("IsPlatformer") == true;
+
         }
     }
 }

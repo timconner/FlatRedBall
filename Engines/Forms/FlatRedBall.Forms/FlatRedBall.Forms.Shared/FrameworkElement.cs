@@ -26,6 +26,12 @@ namespace FlatRedBall.Forms.Controls
         Down
     }
 
+    public enum TabbingFocusBehavior
+    {
+        FocusableIfInputReceiver,
+        SkipOnTab
+    }
+
     #endregion
 
     #region Events
@@ -67,6 +73,11 @@ namespace FlatRedBall.Forms.Controls
                     else
                     {
                         LostFocus?.Invoke(this, null);
+
+                        if(this is IInputReceiver inputReceiver2 && InputManager.InputReceiver == inputReceiver2)
+                        {
+                            InputManager.InputReceiver = null;
+                        }
                     }
                 }
             }
@@ -317,6 +328,8 @@ namespace FlatRedBall.Forms.Controls
                 }
             }
         }
+
+        public TabbingFocusBehavior GamepadTabbingFocusBehavior { get; set; } = TabbingFocusBehavior.FocusableIfInputReceiver;
 
         #endregion
 
@@ -653,9 +666,57 @@ namespace FlatRedBall.Forms.Controls
                     {
                         var uiValue = uiProperty.GetValue(this, null);
 
-                        vmProperty.SetValue(BindingContext, uiValue, null);
+                        try
+                        {
+                            vmProperty.SetValue(BindingContext, uiValue, null);
+                        }
+                        catch(System.ArgumentException argumentException)
+                        {
+                            throw new Exception($"Could not convert UI value {GetType().Name}.{uiPropertyName} of type {uiProperty.PropertyType} " +
+                                $"into ViewModel {BindingContext.GetType().Name}.{vmProperty.Name} of type {vmProperty.PropertyType}", argumentException);
+                        }
                     }
                 }
+            }
+        }
+
+        protected void HandleGamepadNavigation(Xbox360GamePad gamepad, bool considerLeftAndRight = true)
+        {
+            if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadDown) ||
+                (considerLeftAndRight && gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadRight)) ||
+                gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down) ||
+                (considerLeftAndRight && gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Right)))
+            {
+                this.HandleTab(TabDirection.Down, this);
+            }
+            else if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadUp) ||
+                (considerLeftAndRight && gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadLeft)) ||
+                gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up) ||
+                (considerLeftAndRight && gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left)))
+            {
+                this.HandleTab(TabDirection.Up, this);
+            }
+        }
+
+        protected void HandleGamepadNavigation(GenericGamePad gamepad, bool considerLeftAndRight = true)
+        {
+            AnalogStick leftStick = gamepad.AnalogSticks.Length > 0
+                ? gamepad.AnalogSticks[0]
+                : null;
+
+            if (gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down) ||
+                (considerLeftAndRight && gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Right)) ||
+                leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down) == true ||
+                (considerLeftAndRight && leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Right) == true))
+            {
+                this.HandleTab(TabDirection.Down, this);
+            }
+            else if (gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up) ||
+                (considerLeftAndRight && gamepad.DPadRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left)) ||
+                leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up) == true||
+                (considerLeftAndRight && leftStick?.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Left) == true))
+            {
+                this.HandleTab(TabDirection.Up, this);
             }
         }
 
@@ -759,7 +820,8 @@ namespace FlatRedBall.Forms.Controls
                     var childAtI = children[newIndex] as GraphicalUiElement;
                     var elementAtI = childAtI.FormsControlAsObject as FrameworkElement;
 
-                    if(elementAtI is IInputReceiver && elementAtI.IsVisible && elementAtI.IsEnabled)
+                    if(elementAtI is IInputReceiver && elementAtI.IsVisible && 
+                        elementAtI.IsEnabled && elementAtI.GamepadTabbingFocusBehavior == TabbingFocusBehavior.FocusableIfInputReceiver)
                     {
                         elementAtI.IsFocused = true;
 

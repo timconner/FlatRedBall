@@ -166,8 +166,8 @@ namespace OfficialPlugins.SpritePlugin.Managers
             var yDifference = (decimal)(
                 (newPosition.Y - LastGrabbedMousePoint.Y) * View.WindowsScaleFactor / ViewModel.CurrentZoomScale);
 
-            decimal SnappedX(decimal value) => MathFunctions.RoundDecimal(value, (decimal)ViewModel.CellWidth);
-            decimal SnappedY(decimal value) => MathFunctions.RoundDecimal(value, (decimal)ViewModel.CellHeight);
+            decimal SnappedX(decimal value) => MathFunctions.RoundDecimal(value, ViewModel.SnapChecked ? (decimal)ViewModel.CellWidth : 1);
+            decimal SnappedY(decimal value) => MathFunctions.RoundDecimal(value, ViewModel.SnapChecked ? (decimal)ViewModel.CellHeight : 1);
             if (HandleGrabbed != null)
             {
                 var viewModel = View.ViewModel;
@@ -180,12 +180,20 @@ namespace OfficialPlugins.SpritePlugin.Managers
 
                         viewModel.SelectedWidthPixels = SnappedX(grabbedDifferenceX);
                         viewModel.LeftTexturePixel = xAnchor - SnappedX(grabbedDifferenceX);
+
+                        //Make sure it's on a snap line
+                        var off = viewModel.LeftTexturePixel % ViewModel.CellWidth;
+                        viewModel.LeftTexturePixel -= off;
+                        viewModel.SelectedWidthPixels += off;
                     }
                     else if(xSideGrabbed == XSide.Right)
                     {
                         grabbedDifferenceX += xDifference;
-
                         viewModel.SelectedWidthPixels = SnappedX(grabbedDifferenceX);
+
+                        //Make sure it's on a snap line
+                        var off = viewModel.SelectedWidthPixels % ViewModel.CellWidth;
+                        viewModel.SelectedWidthPixels -= off;
                     }
 
                 }
@@ -196,11 +204,20 @@ namespace OfficialPlugins.SpritePlugin.Managers
                         grabbedDifferenceY -= yDifference;
                         viewModel.SelectedHeightPixels = SnappedY(grabbedDifferenceY);
                         viewModel.TopTexturePixel = yAnchor - SnappedY(grabbedDifferenceY);
+                        
+                        //Make sure it's on a snap line
+                        var off = viewModel.TopTexturePixel % ViewModel.CellHeight;
+                        viewModel.TopTexturePixel -= off;
+                        viewModel.SelectedHeightPixels += off;
                     }
                     else if(ySideGrabbed == YSide.Bottom)
                     {
                         grabbedDifferenceY += yDifference;
                         viewModel.SelectedHeightPixels = SnappedY(grabbedDifferenceY);
+                        
+                        //Make sure it's on a snap line
+                        var off = viewModel.SelectedHeightPixels % ViewModel.CellHeight;
+                        viewModel.SelectedHeightPixels -= off;
                     }
                 }
             }
@@ -212,6 +229,12 @@ namespace OfficialPlugins.SpritePlugin.Managers
 
                 viewModel.LeftTexturePixel = xAnchor + SnappedX(grabbedDifferenceX);
                 viewModel.TopTexturePixel = yAnchor + SnappedY(grabbedDifferenceY);
+
+                //Make sure it's on all the snap lines
+                viewModel.LeftTexturePixel -= viewModel.LeftTexturePixel % ViewModel.CellWidth;
+                viewModel.SelectedWidthPixels -= viewModel.SelectedWidthPixels % ViewModel.CellWidth;
+                viewModel.TopTexturePixel -= viewModel.TopTexturePixel % ViewModel.CellHeight;
+                viewModel.SelectedHeightPixels -= viewModel.SelectedHeightPixels % ViewModel.CellHeight;
             }
 
             LastGrabbedMousePoint = newPosition;

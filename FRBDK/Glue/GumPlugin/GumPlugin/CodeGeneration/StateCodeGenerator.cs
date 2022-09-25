@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static FlatRedBall.Glue.SaveClasses.GlueProjectSave;
 
 namespace GumPlugin.CodeGeneration
 {
@@ -74,8 +75,11 @@ namespace GumPlugin.CodeGeneration
             //mVariableNamesToSkipForStates.Add("Font");
             //mVariableNamesToSkipForStates.Add("FontSize");
             //mVariableNamesToSkipForStates.Add("OutlineThickness");
-            mVariableNamesToSkipForStates.Add("HasEvents");
-            mVariableNamesToSkipForStates.Add("ExposeChildrenEvents");
+
+            // August 29 - adding support for these:
+            //mVariableNamesToSkipForStates.Add("HasEvents");
+            //mVariableNamesToSkipForStates.Add("ExposeChildrenEvents");
+
             //mVariableNamesToSkipForStates.Add("SourceFile");
             mVariableNamesToSkipForStates.Add("Contained Type");
             mVariableNamesToSkipForStates.Add("IsXamarinFormsControl");
@@ -92,6 +96,26 @@ namespace GumPlugin.CodeGeneration
 
 
 
+        }
+
+        public void RefreshVariableNamesToSkipBasedOnGlueVersion()
+        {
+            var version = (int)GlueState.Self.CurrentGlueProject.FileVersion;
+
+            if (version >= (int)GluxVersions.GumSupportsStackSpacing)
+            {
+                if (mVariableNamesToSkipForStates.Contains("StackSpacing"))
+                {
+                    mVariableNamesToSkipForStates.Remove("StackSpacing");
+                }
+            }
+            else
+            {
+                if (!mVariableNamesToSkipForStates.Contains("StackSpacing"))
+                {
+                    mVariableNamesToSkipForStates.Add("StackSpacing");
+                }
+            }
         }
 
         #endregion

@@ -9,6 +9,8 @@ using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.PlatformerPlugin.ViewModels;
 using FlatRedBall.Glue.Plugins.Interfaces;
 using FlatRedBall.Glue.Elements;
+using FlatRedBall.Glue.Plugins.ExportedImplementations;
+using static FlatRedBall.Glue.SaveClasses.GlueProjectSave;
 
 namespace FlatRedBall.PlatformerPlugin.Generators
 {
@@ -269,6 +271,15 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         public System.Action LandedAction;
 
 ");
+
+
+
+            if(GlueState.Self.CurrentGlueProject.FileVersion >= (int)GlueProjectSave.GluxVersions.ICollidableHasItemsCollidedAgainst)
+            {
+                codeBlock.Line("public HashSet<string> GroundCollidedAgainst { get; private set;} = new HashSet<string>();");
+            }
+
+
             return codeBlock;
         }
 
@@ -288,7 +299,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
             BeforeGroundMovementSet += (newValue) => 
             {
-                if(mGroundMovement != null && mGroundMovement == ValuesJumpedWith)
+                if(mGroundMovement != null && mGroundMovement == ValuesJumpedWith && IsOnGround)
                 {
                     ValuesJumpedWith = newValue;
                 }
@@ -749,7 +760,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
         /// </summary>
         /// <param name=""collisionFunction"">The collision function to execute.</param>
         /// <param name=""isCloudCollision"">Whether to perform cloud collision (only check when moving down)</param>
-        public bool CollideAgainst(System.Func<(bool, PositionedObject)> collisionFunction, bool isCloudCollision)
+        public bool CollideAgainst(System.Func<(bool, PositionedObject)> collisionFunction, bool isCloudCollision, string objectName = null)
         {
             Microsoft.Xna.Framework.Vector3 positionBeforeCollision = this.Position;
             Microsoft.Xna.Framework.Vector3 velocityBeforeCollision = this.Velocity;
@@ -852,7 +863,21 @@ namespace FlatRedBall.PlatformerPlugin.Generators
                             {
                                 LandedAction();
                             }
-                            mIsOnGround = true;
+                            mIsOnGround = true;");
+
+            if(GlueState.Self.CurrentGlueProject.FileVersion >= (int)GluxVersions.ICollidableHasItemsCollidedAgainst)
+            {
+                codeBlock.Line(
+@"
+                    if(!string.IsNullOrEmpty(objectCollidedAgainst?.Name ?? objectName))
+                    {
+                        GroundCollidedAgainst.Add(objectCollidedAgainst?.Name ?? objectName);
+                    }
+");
+            }
+
+            codeBlock.Line(
+@"
 
                             groundHorizontalVelocity = objectCollidedAgainst?.TopParent.XVelocity ?? 0;
                         }
@@ -907,7 +932,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             {
                 var didCollideInternal = shapeCollection.CollideAgainstSolid(this);
                 return (didCollideInternal, null);
-            }, isCloudCollision);
+            }, isCloudCollision, shapeCollection.Name);
 
             if(collided)
             {
@@ -1034,7 +1059,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             {
                 var didCollide = shapeCollection.CollideAgainstSolid(thisCollision);
                 return (didCollide, null);
-            }, isCloudCollision);
+            }, isCloudCollision, shapeCollection.Name);
         }
 
 ");

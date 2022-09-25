@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static FlatRedBall.Glue.SaveClasses.GlueProjectSave;
 
 namespace OfficialPlugins.CollisionPlugin.Controllers
 {
@@ -205,15 +206,18 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             ViewModel.IsUpdatingFromGlueObject = true;
             RefreshAvailableCollisionObjects(currentElement, ViewModel, collisionRelationship);
             RefreshSubcollisionObjects(currentElement, ViewModel);
-            RefreshIfIsPlatformer(currentElement, ViewModel, out IElement firstNosElementType);
+            RefreshFirstProperties(currentElement, ViewModel, out IElement firstNosElementType);
+            RefreshSecondProperties(currentElement, ViewModel);
             RefreshPlatformerMovementValues(ViewModel, firstNosElementType);
             RefreshPartitioningIcons(currentElement, ViewModel);
             ViewModel.IsUpdatingFromGlueObject = wasUpdatingFromGlue;
 
+            ViewModel.SupportsManualPhysics = GlueState.Self.CurrentGlueProject.FileVersion >= (int)GluxVersions.CollisionRelationshipManualPhysics;
             // UpdateFromGlueObject should be called after refreshing the lists so the right values
             // get set
             ViewModel.UpdateFromGlueObject();
         }
+
 
         private static void RefreshFirstAndSecondTypes(CollisionRelationshipViewModel viewModel, NamedObjectSave collisionRelationship)
         {
@@ -277,7 +281,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             {
                 var firstEntity = GetEntitySaveReferencedBy(firstNos);
 
-                var list = GetAvailableValues(firstEntity);
+                var list = GetAvailableSubCollisions(firstEntity);
 
                 var oldValue = viewModel.FirstSubCollisionSelectedItem;
 
@@ -305,7 +309,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             {
                 var secondEntity = GetEntitySaveReferencedBy(secondNos);
 
-                var list = GetAvailableValues(secondEntity);
+                var list = GetAvailableSubCollisions(secondEntity);
 
                 var oldValue = viewModel.SecondSubCollisionSelectedItem;
 
@@ -330,14 +334,16 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             }
         }
 
-        private static List<string> GetAvailableValues(EntitySave firstEntity)
+        private static List<string> GetAvailableSubCollisions(EntitySave firstEntity)
         {
             List<string> availableValues = new List<string>();
             availableValues.Add(CollisionRelationshipViewModel.EntireObject);
 
             foreach (var nos in firstEntity.AllNamedObjects)
             {
-                if (IsShape(nos))
+                var canBeSubCollision = IsShape(nos) || nos.GetAssetTypeInfo() == AvailableAssetTypes.CommonAtis.ShapeCollection;
+
+                if (canBeSubCollision)
                 {
                     availableValues.Add(nos.InstanceName);
                 }
@@ -541,7 +547,8 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
 
                     TryApplyAutoName(element, namedObject);
 
-                    RefreshIfIsPlatformer(element, viewModel, out IElement firstElementType);
+                    RefreshFirstProperties(element, viewModel, out IElement firstElementType);
+                    RefreshSecondProperties(element, ViewModel);
 
                     RefreshPlatformerMovementValues(viewModel, firstElementType);
 
@@ -575,7 +582,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             }
         }
 
-        static void RefreshIfIsPlatformer(IElement collisionRelationshipOwner, CollisionRelationshipViewModel viewModel, out IElement firstNosElementType)
+        static void RefreshFirstProperties(GlueElement collisionRelationshipOwner, CollisionRelationshipViewModel viewModel, out IElement firstNosElementType)
         {
             firstNosElementType = null;
             var firstName = viewModel.FirstCollisionName;
@@ -583,6 +590,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             var firstNos = collisionRelationshipOwner.GetNamedObject(firstName);
 
             bool isPlatformer = false;
+            bool isStackable = false;
                        
             if (firstNos != null)
             {                
@@ -598,9 +606,43 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
                 }
 
                 isPlatformer = firstNosElementType?.Properties.GetValue<bool>("IsPlatformer") == true;
+                isStackable = firstNosElementType?.Properties.GetValue<bool>("ImplementsIStackable") == true;
             }
 
             viewModel.IsFirstPlatformer = isPlatformer;
+            viewModel.IsFirstStackable = isStackable;
+        }
+
+        static void RefreshSecondProperties(GlueElement collisionRelationshipOwner, CollisionRelationshipViewModel viewModel)
+        {
+            GlueElement secondNosElement = null;
+
+            var secondName = viewModel.SecondCollisionName;
+
+            var secondNos = collisionRelationshipOwner.GetNamedObject(secondName);
+
+            bool isStackable = false;
+            bool isTileShapeCollection = false;
+
+            if(secondNos != null)
+            {
+                if (secondNos.IsList)
+                {
+                    var genericType = secondNos.SourceClassGenericType;
+                    secondNosElement = ObjectFinder.Self.GetEntitySave(genericType);
+
+                }
+                else
+                {
+                    secondNosElement = secondNos.GetReferencedElement();
+                }
+
+                isStackable = secondNosElement?.Properties.GetValue<bool>("ImplementsIStackable") == true;
+                isTileShapeCollection = secondNos?.GetAssetTypeInfo()?.FriendlyName == "TileShapeCollection";
+            }
+
+            viewModel.IsSecondStackable = isStackable;
+            viewModel.IsSecondTileShapeCollection = isTileShapeCollection;
         }
 
         static void RefreshPlatformerMovementValues(CollisionRelationshipViewModel viewModel, IElement firstNosElementType)

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <Platforms>x86</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <RootNamespace>GameCommunicationPlugin</RootNamespace>
   </PropertyGroup>
@@ -140,7 +140,7 @@
 
   <ItemGroup>
     <PackageReference Include="JsonDiffPatch.Net" Version="2.3.0" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -191,7 +191,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo Creating $(SolutionDir)Glue\bin\x86\Debug\Plugins\&#xD;&#xA;if not exist &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\&quot; md &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\&quot;&#xD;&#xA;&#xD;&#xA;echo $(TargetDir)&#xD;&#xA;&#xD;&#xA;echo creating $(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\&#xD;&#xA;if not exist &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\&quot; md &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\&quot;&#xD;&#xA;echo copy $(TargetDir)GameCommunicationPlugin.dll to $(SolutionDir)Glue\bin\x86\Debug\Plugins\OfficialPlugins\GameCommunicationPlugin.dll&#xD;&#xA;copy &quot;$(TargetDir)GameCommunicationPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\GameCommunicationPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)GameCommunicationPlugin.pdb&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\GameCommunicationPlugin.pdb&quot;&#xD;&#xA;copy &quot;$(TargetDir)CompilerLibrary.dll&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\CompilerLibrary.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)CompilerLibrary.pdb&quot; &quot;$(SolutionDir)Glue\bin\x86\Debug\Plugins\GameCommunicationPlugin\CompilerLibrary.pdb&quot;" />
+    <Exec Command="echo Creating $(SolutionDir)Glue\bin\x86\Debug\Plugins\&#xD;&#xA;if not exist &quot;$(SolutionDir)Glue\bin\Debug\Plugins\&quot; md &quot;$(SolutionDir)Glue\bin\Debug\Plugins\&quot;&#xD;&#xA;&#xD;&#xA;echo $(TargetDir)&#xD;&#xA;&#xD;&#xA;echo creating $(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\&#xD;&#xA;if not exist &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\&quot; md &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\&quot;&#xD;&#xA;echo copy $(TargetDir)GameCommunicationPlugin.dll to $(SolutionDir)Glue\bin\Debug\Plugins\OfficialPlugins\GameCommunicationPlugin.dll&#xD;&#xA;copy &quot;$(TargetDir)GameCommunicationPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\GameCommunicationPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)GameCommunicationPlugin.pdb&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\GameCommunicationPlugin.pdb&quot;&#xD;&#xA;copy &quot;$(TargetDir)CompilerLibrary.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\CompilerLibrary.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)CompilerLibrary.pdb&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GameCommunicationPlugin\CompilerLibrary.pdb&quot;" />
   </Target>
 
 </Project>

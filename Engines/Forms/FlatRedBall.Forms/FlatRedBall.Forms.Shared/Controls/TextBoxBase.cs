@@ -169,6 +169,17 @@ namespace FlatRedBall.Forms.Controls
         }
 
         protected abstract string CategoryName { get;  }
+
+        int? maxLength;
+        public int? MaxLength
+        {
+            get => maxLength;
+            set
+            {
+                maxLength = value;
+                TruncateTextToMaxLength();
+            }
+        }
         #endregion
 
         #region Events
@@ -218,9 +229,6 @@ namespace FlatRedBall.Forms.Controls
 
             HasFocus = false;
         }
-
-
-
 
 
         #endregion
@@ -659,16 +667,7 @@ namespace FlatRedBall.Forms.Controls
             {
                 var gamepad = gamepads[i];
 
-                if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadDown) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down))
-                {
-                    this.HandleTab(TabDirection.Down, this);
-                }
-                else if (gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadUp) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up))
-                {
-                    this.HandleTab(TabDirection.Up, this);
-                }
+                HandleGamepadNavigation(gamepad);
 
                 if (gamepad.ButtonPushed(FlatRedBall.Input.Xbox360GamePad.Button.A))
                 {
@@ -676,11 +675,26 @@ namespace FlatRedBall.Forms.Controls
 
                     ControllerButtonPushed?.Invoke(Xbox360GamePad.Button.A);
                 }
-                if (gamepad.ButtonReleased(FlatRedBall.Input.Xbox360GamePad.Button.A))
+
+            }
+
+            var genericGamepads = GuiManager.GenericGamePadsForUiControl;
+            for (int i = 0; i < genericGamepads.Count; i++)
+            {
+                var gamepad = genericGamepads[i];
+
+                HandleGamepadNavigation(gamepad);
+
+                var inputDevice = gamepad as IInputDevice;
+
+                if (inputDevice.DefaultConfirmInput.WasJustPressed)
                 {
-                    //this.HandleClick(null);
+                    this.Visual.CallClick();
+
+                    ControllerButtonPushed?.Invoke(Xbox360GamePad.Button.A);
                 }
             }
+
         }
 
         public void OnGainFocus()
@@ -901,6 +915,8 @@ namespace FlatRedBall.Forms.Controls
         #endregion
 
         public abstract void SelectAll();
+
+        protected abstract void TruncateTextToMaxLength();
 
         #region Utilities
 

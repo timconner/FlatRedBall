@@ -194,7 +194,7 @@ namespace GameCommunicationPlugin.GlueControl
             this.NewEntityCreated += _refreshManager.HandleNewEntityCreated;
             this.NewScreenCreated += async (newScreen) =>
             {
-                ToolbarController.Self.HandleNewScreenCreated(newScreen);
+                GlueCommands.Self.DoOnUiThread(() => ToolbarController.Self.HandleNewScreenCreated(newScreen));
                 await _refreshManager.HandleNewScreenCreated();
             };
             this.ReactToScreenRemoved += ToolbarController.Self.HandleScreenRemoved;
@@ -1116,6 +1116,11 @@ namespace GameCommunicationPlugin.GlueControl
             if (handle != null)
             {
                 await gameHostView.EmbedHwnd(handle.Value);
+
+                // sometimes the game doesn't embed itself properly. To fix this, we can resize the window:
+                await Task.Delay(50);
+
+                await GlueCommands.Self.DoOnUiThread(() => gameHostView.ForceRefreshGameArea(force: true));
             }
             else
             {

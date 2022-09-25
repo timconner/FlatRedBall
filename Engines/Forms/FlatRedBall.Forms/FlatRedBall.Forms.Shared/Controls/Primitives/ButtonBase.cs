@@ -39,6 +39,8 @@ namespace FlatRedBall.Forms.Controls.Primitives
         public event FocusUpdateDelegate FocusUpdate;
 
         public event Action<Xbox360GamePad.Button> ControllerButtonPushed;
+        public event Action<int> GenericGamepadButtonPushed;
+
         public event Action<FlatRedBall.Input.Mouse.MouseButtons> MouseButtonPushed;
 
 
@@ -115,16 +117,7 @@ namespace FlatRedBall.Forms.Controls.Primitives
             {
                 var gamepad = gamepads[i];
 
-                if(gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadDown) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Down))
-                {
-                    this.HandleTab(TabDirection.Down, this);
-                }
-                else if(gamepad.ButtonRepeatRate(FlatRedBall.Input.Xbox360GamePad.Button.DPadUp) ||
-                    gamepad.LeftStick.AsDPadPushedRepeatRate(FlatRedBall.Input.Xbox360GamePad.DPadDirection.Up))
-                {
-                    this.HandleTab(TabDirection.Up, this);
-                }
+                HandleGamepadNavigation(gamepad);
                 
                 if(gamepad.ButtonPushed(FlatRedBall.Input.Xbox360GamePad.Button.A) && 
                     // A button may be focused, then through the action of clicking the button
@@ -154,6 +147,30 @@ namespace FlatRedBall.Forms.Controls.Primitives
 
                 if (gamepad.ButtonReleased(FlatRedBall.Input.Xbox360GamePad.Button.A))
                 {
+                }
+            }
+
+            for (int i = 0; i < GuiManager.GenericGamePadsForUiControl.Count; i++)
+            {
+                var gamepad = GuiManager.GenericGamePadsForUiControl[i];
+
+                HandleGamepadNavigation(gamepad);
+
+                if((gamepad as IInputDevice).DefaultConfirmInput.WasJustPressed && IsEnabled)
+                {
+                    //this.HandlePush(null);
+                    this.HandleClick(null);
+                }
+
+                if(IsEnabled)
+                {
+                    for(int buttonIndex = 0; buttonIndex < gamepad.NumberOfButtons; i++)
+                    {
+                        if(gamepad.ButtonPushed(buttonIndex))
+                        {
+                            GenericGamepadButtonPushed?.Invoke(buttonIndex);
+                        }
+                    }
                 }
             }
 
