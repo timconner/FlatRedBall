@@ -749,6 +749,35 @@ namespace FlatRedBall.Graphics
                 try { mTechniqueColor_Linear = mEffect.Techniques["Color_Linear"]; } catch { }
                 try { mTechniqueColorTextureAlpha_Linear = mEffect.Techniques["ColorTextureAlpha_Linear"]; } catch { }
                 try { mTechniqueInterpolateColor_Linear = mEffect.Techniques["InterpolateColor_Linear"]; } catch { }
+
+                if(mTechniqueTexture == null)
+                {
+                    // These could be old projects that don't have the new shader, so check for nulls:
+                    try { mTechniqueTexture = mEffect.Techniques["Texture"]; } catch { }
+                    try { mTechniqueAdd = mEffect.Techniques["Add"]; } catch { }
+                    try { mTechniqueSubtract = mEffect.Techniques["Subtract"]; } catch { }
+                    try { mTechniqueModulate = mEffect.Techniques["Modulate"]; } catch { }
+                    try { mTechniqueModulate2X = mEffect.Techniques["Modulate2X"]; } catch { }
+                    try { mTechniqueModulate4X = mEffect.Techniques["Modulate4X"]; } catch { }
+                    try { mTechniqueInverseTexture = mEffect.Techniques["InverseTexture"]; } catch { }
+                    try { mTechniqueColor = mEffect.Techniques["Color"]; } catch { }
+                    try { mTechniqueColorTextureAlpha = mEffect.Techniques["ColorTextureAlpha"]; } catch { }
+                    try { mTechniqueInterpolateColor = mEffect.Techniques["InterpolateColor"]; } catch { }
+
+                    try { mTechniqueTexture_Linear = mEffect.Techniques["Texture"]; } catch { }
+                    try { mTechniqueAdd_Linear = mEffect.Techniques["Add"]; } catch { }
+                    try { mTechniqueSubtract_Linear = mEffect.Techniques["Subtract"]; } catch { }
+                    try { mTechniqueModulate_Linear = mEffect.Techniques["Modulate"]; } catch { }
+                    try { mTechniqueModulate2X_Linear = mEffect.Techniques["Modulate2X"]; } catch { }
+                    try { mTechniqueModulate4X_Linear = mEffect.Techniques["Modulate4X"]; } catch { }
+                    try { mTechniqueInverseTexture_Linear = mEffect.Techniques["InverseTexture"]; } catch { }
+                    try { mTechniqueColor_Linear = mEffect.Techniques["Color"]; } catch { }
+                    try { mTechniqueColorTextureAlpha_Linear = mEffect.Techniques["ColorTextureAlpha"]; } catch { }
+                    try { mTechniqueInterpolateColor_Linear = mEffect.Techniques["InterpolateColor"]; } catch { }
+                }
+
+
+
 #else
                 try { mTechniqueTexture = mEffect.Techniques["Texture"]; } catch { }
                 try { mTechniqueAdd = mEffect.Techniques["Add"]; } catch { }
@@ -1321,9 +1350,8 @@ namespace FlatRedBall.Graphics
                 case ColorOperation.InterpolateColor: technique = useDefaultOrPointFilter ? mTechniqueInterpolateColor : mTechniqueInterpolateColor_Linear; break;
                 default: throw new InvalidOperationException();
             }
-
             if (technique == null)
-            {
+            { 
                 string errorString =
                     "Could not find a technique for " + value.ToString() +
                     ", filter: " + FlatRedBallServices.GraphicsOptions.TextureFilter +
