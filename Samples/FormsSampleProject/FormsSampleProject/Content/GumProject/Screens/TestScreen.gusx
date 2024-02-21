@@ -35,6 +35,18 @@
     </Variable>
     <Variable>
       <Type>float</Type>
+      <Name>PolygonInstance.X</Name>
+      <Value xsi:type="xsd:float">104</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>PolygonInstance.Y</Name>
+      <Value xsi:type="xsd:float">197</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
       <Name>WhiteRectangle.X</Name>
       <Value xsi:type="xsd:float">227</Value>
       <SetsValue>true</SetsValue>
@@ -54,6 +66,41 @@
         <string>X = Screens/TestScreen.BlueRectangle.X</string>
       </Value>
     </VariableList>
+    <VariableList xsi:type="VariableListSaveOfVector2">
+      <Name>PolygonInstance.Points</Name>
+      <IsFile>false</IsFile>
+      <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
+      <Value>
+        <Vector2>
+          <X>-61.8850632</X>
+          <Y>-49.2413826</Y>
+        </Vector2>
+        <Vector2>
+          <X>0.7999873</X>
+          <Y>-74.67814</Y>
+        </Vector2>
+        <Vector2>
+          <X>58.8873367</X>
+          <Y>-44.9425</Y>
+        </Vector2>
+        <Vector2>
+          <X>80.5011</X>
+          <Y>19.9655151</Y>
+        </Vector2>
+        <Vector2>
+          <X>46.9425354</X>
+          <Y>106.712639</Y>
+        </Vector2>
+        <Vector2>
+          <X>-49.2413826</X>
+          <Y>75.678154</Y>
+        </Vector2>
+        <Vector2>
+          <X>-61.8850632</X>
+          <Y>-49.2413826</Y>
+        </Vector2>
+      </Value>
+    </VariableList>
   </State>
   <Instance>
     <Name>WhiteRectangle</Name>
@@ -63,6 +110,11 @@
   <Instance>
     <Name>BlueRectangle</Name>
     <BaseType>ColoredRectangle</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>PolygonInstance</Name>
+    <BaseType>Polygon</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />

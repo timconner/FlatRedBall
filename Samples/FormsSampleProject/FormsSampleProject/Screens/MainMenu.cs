@@ -54,7 +54,6 @@ namespace FormsSampleProject.Screens
         private async void HandleShowDialogButtonClicked(object sender, EventArgs e)
         {
             var dialog = new DialogBox();
-            dialog.LettersPerSecond = 47;
             dialog.IsFocused = true;
             var dialogVisual = dialog.Visual;
             dialogVisual.XUnits = Gum.Converters.GeneralUnitType.PixelsFromMiddle;
@@ -63,20 +62,32 @@ namespace FormsSampleProject.Screens
             dialogVisual.YUnits = Gum.Converters.GeneralUnitType.PixelsFromLarge;
             dialogVisual.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
-            await dialog.ShowAsync("This is a DialogBox in [Color=Red]FlatRedBall.Forms[/Color]. It supports " +
-                "lots of features including typing out the text [Color=Yellow]letter-by-letter[/Color], multiple pages, " +
-                "and even [Color=Green]styling[/Color] using BBCode. Wow, how handy! You can create mulitple " +
-                "pages by explicitly giving it a string array, or you can give it a long string and let the " +
-                "dialog box [Color=Pink]automatically[/Color] handle the multiple pages.");
+            dialog.LettersPerSecond = 60;
+            dialog.LettersPerSecond = null;
+            //string textToDisplay =
+            //    "Now that I've found the [Color=Yellow]ring[/Color], " +
+            //    "I can return it back to the [Color=Green]king[/Color]. " +
+            //    "I should hurry before [Color=Purple]nightfall[/Color].";
+
+            //string textToDisplay = "0\n1\n[Color=Red]2[/Color]\n3\n4\n5\n6";
+
+            //await dialog.ShowAsync(textToDisplay);
 
 
 
-            //await dialog.ShowAsync("This is [Color=Orange]some really[/Color] long [Color=Pink]text[/Color]. [Color=Purple]We[/Color] want to show long text so that it " + 
-            //    "line wraps [Color=Cyan]and[/Color] so that it has [Color=Green]enough[/Color] text to fill an [Color=Yellow]entire page[/Color]. The DialogBox control " +
-            //    "should automatically detect if the text is too long for a single page and it should break " +
-            //    "it up into multiple pages. You can advance this dialog by clicking on it with the [Color=Blue]mouse[/Color] or " +
-            //    "by pressing the [Color=Gold]space bar[/Color] on the keyboard.");
+            await dialog.ShowAsync("This is [Color=Orange]some really[/Color] long [Color=Pink]text[/Color]. " +
+                "[Color=Purple]We[/Color] want to show long text so that it " +
+                "line wraps [Color=Cyan]and[/Color] so that it has [Color=Green]enough[/Color] text to fill an " +
+                "[Color=Yellow]entire page[/Color]. The DialogBox control " +
+                "should automatically detect if the text is too long for a single page and it should break " +
+                "it up into multiple pages. You can advance this dialog by clicking on it with the [Color=Blue]mouse[/Color] or " +
+                "by pressing the [Color=Gold]space bar[/Color] on the keyboard.");
 
+            //await dialog.ShowAsync("[Color=Cyan]and[/Color] so that it has [Color=Green]enough[/Color] text to fill an " +
+            //    "[Color=Yellow]entire page[/Color]. The DialogBox control " +
+            //    "should\n0\n1\n2\n3");
+
+            //await dialog.ShowAsync("and so that it has enough text to fill an \nentire");
             dialog.Visual.RemoveFromManagers();
         }
 

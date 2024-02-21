@@ -261,6 +261,13 @@
         "ElementType": "Screens",
         "EventType": 6,
         "TimestampUtc": "2024-02-17T17:18:41.945088Z"
+      },
+      {
+        "NewName": "TestScreen.PolygonInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-02-19T22:08:30.6363684Z"
       }
     ]
   }
