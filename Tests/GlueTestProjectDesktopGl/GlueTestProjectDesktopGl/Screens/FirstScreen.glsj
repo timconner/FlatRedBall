@@ -1,0 +1,9 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "NextScreen": "Screens\\RenderTargetScreen",
+  "Name": "Screens\\FirstScreen",
+  "CustomClassesForExport": []
+}

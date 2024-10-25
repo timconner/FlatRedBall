@@ -222,11 +222,14 @@ namespace FlatRedBall.Glue.SaveClasses
         {
             customVariable.FixEnumerationTypes();
 
-
-            if (!string.IsNullOrEmpty(customVariable.Type) && customVariable.DefaultValue != null)
+            var type = customVariable.OverridingPropertyType;
+            if(string.IsNullOrEmpty(type))
+            {
+                type = customVariable.Type;
+            }
+            if (!string.IsNullOrEmpty(type) && customVariable.DefaultValue != null)
             {
                 object variableValue = customVariable.DefaultValue;
-                var type = customVariable.Type;
                 variableValue = FixValue(variableValue, type);
                 customVariable.DefaultValue = variableValue;
             }

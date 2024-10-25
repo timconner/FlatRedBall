@@ -36,13 +36,6 @@ namespace GlueTestProject
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
 #endif
-
-
-#if WINDOWS_8
-            FlatRedBall.Instructions.Reflection.PropertyValuePair.TopLevelAssembly = 
-                this.GetType().GetTypeInfo().Assembly;
-#endif
-
         }
 
         protected override void Initialize()

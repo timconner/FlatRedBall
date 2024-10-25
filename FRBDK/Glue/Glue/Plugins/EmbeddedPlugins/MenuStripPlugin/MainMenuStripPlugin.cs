@@ -43,7 +43,8 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.MenuStripPlugin
             var File = AddTopLevelMenuItem(Localization.Texts.File, Localization.MenuIds.FileId);
             {
                 File.Add(Localization.Texts.ProjectNew, GlueCommands.Self.ProjectCommands.CreateNewProject);
-                File.Add(Localization.Texts.ProjectLoad, GlueCommands.Self.DialogCommands.ShowLoadProjectDialog);
+                File.Add("Load Project...", GlueCommands.Self.DialogCommands.ShowLoadProjectDialog);
+                File.Add("Force Save Project", () => GlueCommands.Self.GluxCommands.SaveProjectAndElements());
                 File.Add(Localization.Texts.ProjectClose, () => GlueCommands.Self.CloseGlueProject());
             }
 

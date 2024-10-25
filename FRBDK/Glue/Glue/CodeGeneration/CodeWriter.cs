@@ -1444,18 +1444,7 @@ namespace FlatRedBallAddOns.Entities
             // Old version (before file version 10 in Dec 24 2021) required code gen to call custom activity.
             foreach(NamedObjectSave nos in saveObject.NamedObjects)
             {
-                if(!nos.DefinedByBase && !nos.IsDisabled)
-                {
-                    if(nos.SourceType == SourceType.Entity)
-                    {
-                        currentBlock.Line($"{nos.InstanceName}.ActivityEditMode();");
-                    }
-                    else if(nos.IsList && ObjectFinder.Self.GetEntitySave(nos.SourceClassGenericType) != null)
-                    {
-                        ICodeBlock foreachBlock = currentBlock.ForEach($"var item in {nos.InstanceName}");
-                        foreachBlock.Line($"item.ActivityEditMode();");
-                    }
-                }
+                NamedObjectSaveCodeGenerator.GenerateActivityEditModeFor(nos, saveObject, currentBlock);
             }
         }
 

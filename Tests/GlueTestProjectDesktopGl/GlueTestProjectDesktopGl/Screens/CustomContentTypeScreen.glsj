@@ -1,0 +1,17 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "NextScreen": "Screens\\AudioScreen",
+  "ReferencedFiles": [
+    {
+      "Name": "Screens/CustomContentTypeScreen/LineOfTextFile.lin",
+      "IsSharedStatic": true,
+      "RuntimeType": "ProjectNamespace.RuntimeTypes.LinesOfText",
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "Name": "Screens\\CustomContentTypeScreen",
+  "CustomClassesForExport": []
+}

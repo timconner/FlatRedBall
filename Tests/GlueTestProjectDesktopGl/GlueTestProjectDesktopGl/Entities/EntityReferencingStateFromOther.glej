@@ -1,0 +1,21 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Is2D": true,
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "Entities.StateEntity.TopOrBottom"
+        }
+      ],
+      "Name": "TopOrBottom",
+      "DefaultValue": "Top"
+    }
+  ],
+  "Name": "Entities\\EntityReferencingStateFromOther",
+  "CustomClassesForExport": []
+}

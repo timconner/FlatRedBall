@@ -1,0 +1,9 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "NextScreen": "Screens\\IWindowScreen",
+  "Name": "Screens\\SlowLoadScreen",
+  "CustomClassesForExport": []
+}

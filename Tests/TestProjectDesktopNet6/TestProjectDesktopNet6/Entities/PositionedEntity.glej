@@ -1,0 +1,21 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Is2D": true,
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float"
+        }
+      ],
+      "Name": "X",
+      "DefaultValue": 50.0
+    }
+  ],
+  "Name": "Entities\\PositionedEntity",
+  "CustomClassesForExport": []
+}
