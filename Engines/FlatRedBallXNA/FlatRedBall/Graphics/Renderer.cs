@@ -218,12 +218,10 @@ namespace FlatRedBall.Graphics
 
     #endregion
 
-    #region XML Docs
     /// <summary>
     /// Static class responsible for drawing/rendering content to the cameras on screen.
     /// </summary> 
     /// <remarks>This class is called by <see cref="FlatRedBallServices.Draw()"/></remarks>
-    #endregion
     public static partial class Renderer
     {
         #region Enums
