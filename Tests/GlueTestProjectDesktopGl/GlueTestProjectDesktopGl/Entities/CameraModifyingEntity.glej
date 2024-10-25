@@ -1,0 +1,15 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Is2D": true,
+  "Properties": [
+    {
+      "Name": "InputDevice",
+      "Value": 0
+    }
+  ],
+  "Name": "Entities\\CameraModifyingEntity",
+  "CustomClassesForExport": []
+}

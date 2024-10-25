@@ -1,0 +1,16 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "NextScreen": "Screens\\InstructionScreen",
+  "ReferencedFiles": [
+    {
+      "Name": "Screens/XmlScreen/XmlFileWithNoBackingObject.xml",
+      "IsSharedStatic": true,
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "Name": "Screens\\XmlScreen",
+  "CustomClassesForExport": []
+}

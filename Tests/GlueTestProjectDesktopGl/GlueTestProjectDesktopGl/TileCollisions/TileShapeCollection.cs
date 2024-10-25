@@ -14,6 +14,8 @@
 #define TimeManagerHasDelaySeconds
 #define GumTextHasIsBold
 #define GlueSavedToJson
+#define IEntityInFrb
+#define SeparateJsonFilesForElements
 #define REFERENCES_FRB_SOURCE
 
 
