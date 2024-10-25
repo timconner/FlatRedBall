@@ -99,10 +99,18 @@ namespace FlatRedBall.Glue.SaveClasses
                     object variableValue = instruction.Value;
 
                     var matchingVariable = owner.GetCustomVariable(instruction.Member);
-                    if( !string.IsNullOrWhiteSpace( matchingVariable?.Type ) && matchingVariable.Type != instruction.Type)
+
+                    var variableType = matchingVariable?.Type;
+
+                    if(!string.IsNullOrEmpty(matchingVariable.TypeConverter) && matchingVariable.TypeConverter != "<default>")
+                    {
+                        int m = 3;
+                    }
+
+                    if( !string.IsNullOrWhiteSpace(variableType) && variableType != instruction.Type)
                     {
                         // The variable type has been changed, so let's update the state type:
-                        instruction.Type = matchingVariable.Type;
+                        instruction.Type = variableType;
                     }
 
                     var type = instruction.Type;

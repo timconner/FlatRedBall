@@ -13,6 +13,7 @@
 #define SupportsNamedSubcollisions
 #define TimeManagerHasDelaySeconds
 #define GumTextHasIsBold
+#define GlueSavedToJson
 #define REFERENCES_FRB_SOURCE
 
 
