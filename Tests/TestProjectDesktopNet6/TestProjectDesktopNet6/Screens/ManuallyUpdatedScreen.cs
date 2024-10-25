@@ -303,7 +303,7 @@ namespace GlueTestProject.Screens
 
         private void TextManualUpdateSpriteIsContainerVariables()
         {
-            ManuallyUpdatedSpriteIsContainerInstance.ScaleX.ShouldBeGreaterThan(1.5f, "because scale velocity should apply");
+            ManuallyUpdatedSpriteIsContainerInstance.ScaleX.ShouldBeGreaterThan(1.5f, "because scale velocity should apply. If not, verify that EntityPerformance.json exists in the same folder as the .csproj");
             ManuallyUpdatedSpriteIsContainerInstance.ScaleX.ShouldBeLessThan(2.5f, "because scale velocity should only apply once per frame and the velocity is set to not go much bigger than 2");
 
 
