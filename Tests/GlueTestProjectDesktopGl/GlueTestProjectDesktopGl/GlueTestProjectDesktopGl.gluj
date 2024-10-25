@@ -4505,6 +4505,22 @@
           "DefaultValue": "T_Hello",
           "SourceObject": "TextObjectNotFromFile",
           "SourceObjectProperty": "DisplayText"
+        },
+        {
+          "Properties": [
+            {
+              "Name": "Type",
+              "Value": "string",
+              "Type": "String"
+            },
+            {
+              "Name": "Category",
+              "Value": "Layer",
+              "Type": "String"
+            }
+          ],
+          "Name": "DefaultLayer",
+          "Category": "Layer"
         }
       ],
       "NamedObjects": [

@@ -29,7 +29,7 @@ namespace GlueTestProject.Screens
 		{
             string translated = LocalizationManager.Translate("T_Hello");
 
-            if (this.SceneFile.Texts[0].DisplayText != translated)
+            if (SceneFile.Texts[0].DisplayText != translated)
             {
                 throw new Exception("Localiation of object-less Text objects in .scnx files in Screens does not seem to work");
             }
