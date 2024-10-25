@@ -1,0 +1,14 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Properties": [
+    {
+      "Name": "IsLoadingScreen",
+      "Value": true
+    }
+  ],
+  "Name": "Screens\\LoadingScreen",
+  "CustomClassesForExport": []
+}

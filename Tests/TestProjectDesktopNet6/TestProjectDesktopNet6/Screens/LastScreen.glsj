@@ -1,0 +1,20 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "double"
+        }
+      ],
+      "Name": "ExitTimeAfterScreenCreation",
+      "DefaultValue": 1.0
+    }
+  ],
+  "Name": "Screens\\LastScreen",
+  "CustomClassesForExport": []
+}

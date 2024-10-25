@@ -1,0 +1,27 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Is2D": true,
+  "Properties": [
+    {
+      "Name": "InputDevice",
+      "Value": 0
+    }
+  ],
+  "StateCategoryList": [
+    {
+      "Name": "SomeCategory",
+      "States": [
+        {
+          "Name": "StateInCategory",
+          "InstructionSaves": []
+        }
+      ],
+      "ExcludedVariables": []
+    }
+  ],
+  "Name": "Entities\\BaseStateEntityWithOnlyCategorized",
+  "CustomClassesForExport": []
+}

@@ -1,0 +1,22 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "Is2D": true,
+  "ReferencedFiles": [
+    {
+      "Name": "Entities/XmlEntity/XMLFile.xml",
+      "IsSharedStatic": true,
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "Properties": [
+    {
+      "Name": "InputDevice",
+      "Value": 0
+    }
+  ],
+  "Name": "Entities\\XmlEntity",
+  "CustomClassesForExport": []
+}

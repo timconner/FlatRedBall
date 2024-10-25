@@ -1,0 +1,17 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "NextScreen": "Screens\\GumScreenLayered",
+  "ReferencedFiles": [
+    {
+      "Name": "gumproject/Screens/GumScreenNoGumIdbScreenGum.gusx",
+      "IsSharedStatic": true,
+      "RuntimeType": "Gum.Wireframe.GraphicalUiElement",
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "Name": "Screens\\GumScreenNoGumIdbScreen",
+  "CustomClassesForExport": []
+}
