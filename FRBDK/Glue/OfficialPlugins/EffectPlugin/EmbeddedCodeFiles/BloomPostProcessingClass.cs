@@ -362,7 +362,12 @@ internal class ReplaceClassName : IPostProcess
             _bloomStrengthParameter = _bloomEffect.Parameters["Strength"];
             _bloomThresholdParameter = _bloomEffect.Parameters["Threshold"];
 
-            _bloomParameterScreenTexture = _bloomEffect.Parameters["LinearSampler+ScreenTexture"];
+            var screenTextureName =
+                "LinearSampler+ScreenTexture";
+#if WEB
+            screenTextureName = "ScreenTexture";
+#endif
+            _bloomParameterScreenTexture = _bloomEffect.Parameters[screenTextureName];
 
             _bloomPassExtract = _bloomEffect.Techniques["Extract"].Passes[0];
             _bloomPassExtractLuminance = _bloomEffect.Techniques["ExtractLuminance"].Passes[0];
@@ -400,12 +405,19 @@ internal class ReplaceClassName : IPostProcess
         var usage = _preserveContents ? RenderTargetUsage.PreserveContents : RenderTargetUsage.DiscardContents;
         int width = (int)(FlatRedBallServices.ClientWidth * Quality);
         int height = (int)(FlatRedBallServices.ClientHeight * Quality);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip0, width, height, SurfaceFormat.HalfVector4);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip1, width / 2, height / 2, SurfaceFormat.HalfVector4, usage);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip2, width / 4, height / 4, SurfaceFormat.HalfVector4, usage);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip3, width / 8, height / 8, SurfaceFormat.HalfVector4, usage);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip4, width / 16, height / 16, SurfaceFormat.HalfVector4, usage);
-        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip5, width / 32, height / 32, SurfaceFormat.HalfVector4, usage);
+
+        var surfaceFormat = SurfaceFormat.HalfVector4;
+#if WEB
+        // Until Kni supports HalfVector4, and until we upgrade to that version, we have to do this:
+        surfaceFormat = SurfaceFormat.Color;
+#endif
+
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip0, width, height, surfaceFormat);
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip1, width / 2, height / 2, surfaceFormat, usage);
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip2, width / 4, height / 4, surfaceFormat, usage);
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip3, width / 8, height / 8, surfaceFormat, usage);
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip4, width / 16, height / 16, surfaceFormat, usage);
+        PostProcessingHelper.CreateRenderTarget(ref _bloomRenderTarget2DMip5, width / 32, height / 32, surfaceFormat, usage);
 
         _needsCreateRenderTargets = false;
     }

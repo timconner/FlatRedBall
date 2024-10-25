@@ -483,11 +483,18 @@ internal class ReplaceClassName : IPostProcess
 
     private void CreateRenderTargets()
     {
+        var surfaceFormat = SurfaceFormat.HalfVector4;
+
+#if WEB
+        // Do this until kni supports this format, and until we upgrade to this version:
+        surfaceFormat = SurfaceFormat.Color;
+#endif
+
         PostProcessingHelper.CreateRenderTarget(
             ref _intermediatePass,
             FlatRedBallServices.Game.Window.ClientBounds.Width,
             FlatRedBallServices.Game.Window.ClientBounds.Height,
-            SurfaceFormat.HalfVector4);
+            surfaceFormat);
     }
 
     void ApplySettings()

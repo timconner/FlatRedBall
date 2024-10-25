@@ -25,11 +25,13 @@ namespace FlatRedBall.Utilities
         public GameRandom(int seed) : base(seed) { }
 
         /// <summary>
-        /// Returns a random element in a list.
+        /// Returns a random element in a list. The list must have at least one item.
         /// </summary>
         /// <typeparam name="T">The list type.</typeparam>
-        /// <param name="list">The list to return an element from.</param>
+        /// <param name="list">The list to return an element from. This item must have at least one item.</param>
         /// <returns>A random element, obtained by using the Next method to obtain a random index.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the list argument is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the list argument is empty.</exception>
         public T In<T>(IList<T> list)
         {
 #if DEBUG
@@ -53,6 +55,7 @@ namespace FlatRedBall.Utilities
         /// <param name="list">The list to pull from"</param>
         /// <param name="numberToReturn">The number of unique items to return, which must be less than the size of the argument list</param>
         /// <returns>A resulting collection of size numberToReturn</returns>
+        /// <exception cref="ArgumentException">Thrown if the numberToReturn argument is greater than the size of the list argument.</exception>
         public IList<T> MultipleIn<T>(IList<T> list, int numberToReturn)
         {
 #if DEBUG
@@ -194,13 +197,16 @@ namespace FlatRedBall.Utilities
             return WedgeVector2Radians(minLength, maxLength, minRadians, maxRadians);
         }
 
-
+        /// <summary>
+        /// Returns a random bool value.
+        /// </summary>
+        /// <returns>Random bool value</returns>
         public bool NextBool() => Next(2) == 0;
 
         /// <summary>
         /// Returns a <see cref="float"/> representing a random sign, that is, +1 or -1.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Random value either -1 or +1</returns>
         public float NextSign() => NextBool() ? 1f : -1f;
 
         class CumulativeAreaRectangle
