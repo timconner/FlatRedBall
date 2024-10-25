@@ -1619,6 +1619,11 @@
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
             </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceClassGenericType>Entities\BasePooledEntity</SourceClassGenericType>
@@ -1665,6 +1670,11 @@
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
             </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceClassGenericType>Entities\PooledEntityInheritFromSprite</SourceClassGenericType>
@@ -1679,6 +1689,11 @@
             <PropertySave>
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
+            </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
             </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
@@ -1770,6 +1785,11 @@
               <Name>IsSortListEveryFrameChecked</Name>
               <ValueAsBool>true</ValueAsBool>
             </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile>PositionedObjectList (Generic)</SourceFile>
@@ -1800,6 +1820,11 @@
             <PropertySave>
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
+            </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
             </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
@@ -6158,6 +6183,11 @@
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
             </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceClassGenericType>Entities\CreatedByTiled</SourceClassGenericType>
@@ -6173,6 +6203,11 @@
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
             </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceClassGenericType>Entities\CreatedByTiledType</SourceClassGenericType>
@@ -6187,6 +6222,11 @@
             <PropertySave>
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
+            </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
             </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
@@ -6667,6 +6707,11 @@
             <PropertySave>
               <Name>SourceType</Name>
               <ValueAsInt>2</ValueAsInt>
+            </PropertySave>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+              <Type>bool</Type>
             </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>

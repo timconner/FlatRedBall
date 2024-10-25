@@ -152,10 +152,12 @@ namespace GlueTestProject.Screens
         private void TestPooledAttachment()
         {
             int numberToCreate = 50; // enough to actually pool:
+            var countBefore = PooledEntityContainingEntityList.Count;
             for (int i = 0; i < numberToCreate; i++)
             {
                 Factories.PooledEntityContainingEntityFactory.CreateNew();
             }
+            PooledEntityContainingEntityList.Count.ShouldBe(50 + countBefore);
 
             while (this.PooledEntityContainingEntityList.Count != 0)
             {
@@ -173,12 +175,14 @@ namespace GlueTestProject.Screens
         private void TestPooledSpriteInheritingCollisionAttachment()
         {
             int numberToCreate = 50; // enough to actually pool:
-            for(int i = 0; i < numberToCreate; i++)
+            var countBefore = PooledEntityInheritFromSpriteList.Count;
+            for (int i = 0; i < numberToCreate; i++)
             {
                 Factories.PooledEntityInheritFromSpriteFactory.CreateNew();
             }
+            PooledEntityInheritFromSpriteList.Count.ShouldBe(numberToCreate + countBefore);
 
-            while(this.PooledEntityInheritFromSpriteList.Count != 0)
+            while (this.PooledEntityInheritFromSpriteList.Count != 0)
             {
                 this.PooledEntityInheritFromSpriteList.Last.Destroy();
             }

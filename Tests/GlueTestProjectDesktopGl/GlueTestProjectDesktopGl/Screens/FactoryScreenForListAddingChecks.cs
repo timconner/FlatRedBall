@@ -25,7 +25,7 @@ namespace GlueTestProject.Screens
 
             var contains =
                 this.BaseNotPooledToSeeIfDerivedFactoryAddsToThis.Contains(instance);
-            contains.ShouldBe(true, "because derived entities should automatically add to all base entity lists as of mid Dec 2018");
+            contains.ShouldBe(true, "because BaseNotPooledToSeeIfDerivedFactoryAddsToThis should have its AddToFactories set to true");
 
             instance.Destroy();
         }
