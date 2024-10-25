@@ -3,6 +3,12 @@
 #define HasFormsObject
 #define AddedGeneratedGame1
 #define ListsHaveAssociateWithFactoryBool
+#define GumGueHasGetAnimation
+#define CsvInheritanceSupport
+#define IPositionedSizedObjectInEngine
+#define NugetPackageInCsproj
+#define SupportsEditMode
+#define SupportsShapeCollectionAddToManagerMakeAutomaticallyUpdated
 #define REFERENCES_FRB_SOURCE
 
 

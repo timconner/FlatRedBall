@@ -21400,8 +21400,9 @@
       <UseGlobalContent>false</UseGlobalContent>
       <ReferencedFiles>
         <ReferencedFileSave>
-          <Name>Entities/TopDownPluginEntity/TopDownValues.csv</Name>
+          <Name>Entities/TopDownPluginEntity/TopDownValuesStatic.csv</Name>
           <IsSharedStatic>true</IsSharedStatic>
+          <HasPublicProperty>true</HasPublicProperty>
           <CreatesDictionary>true</CreatesDictionary>
           <ProjectsToExcludeFrom />
           <IsCreatedByWildcard>false</IsCreatedByWildcard>
@@ -22649,7 +22650,7 @@
     <CustomClassSave>
       <Name>TopDownValues</Name>
       <CsvFilesUsingThis>
-        <string>Entities/TopDownPluginEntity/TopDownValues.csv</string>
+        <string>Entities/TopDownPluginEntity/TopDownValuesStatic.csv</string>
       </CsvFilesUsingThis>
       <RequiredProperties />
       <GenerateCode>true</GenerateCode>
@@ -22658,7 +22659,7 @@
   </CustomClasses>
   <ApplyToFixedResolutionPlatforms>false</ApplyToFixedResolutionPlatforms>
   <ExternallyBuiltFileDirectory>../../</ExternallyBuiltFileDirectory>
-  <FileVersion>3</FileVersion>
+  <FileVersion>7</FileVersion>
   <ScreenReferences />
   <EntityReferences />
   <Bookmarks />

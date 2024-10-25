@@ -1875,9 +1875,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TmxFile</Name>
     </None>
-    <None Include="content\entities\topdownpluginentity\topdownvalues.csv">
+    <None Include="Content\Entities\TopDownPluginEntity\TopDownValuesStatic.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>TopDownValues</Name>
+      <Name>TopDownValuesStatic</Name>
     </None>
     <None Include="content\entities\tunneledvariableentity\animationchainlistfile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
