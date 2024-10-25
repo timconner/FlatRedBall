@@ -838,6 +838,42 @@ namespace FlatRedBall.Glue.CodeGeneration
 
         #endregion
 
+        #region
+
+
+
+        public static void GenerateActivityEditModeFor(NamedObjectSave nos, GlueElement container, ICodeBlock currentBlock)
+        {
+            var shouldGenerate = !nos.DefinedByBase && !nos.IsDisabled;
+            if(shouldGenerate)
+            {
+                CodeGenerationType codeGenerationType = GetInitializeCodeGenerationType(nos, container);
+                shouldGenerate = codeGenerationType != CodeGenerationType.Nothing;
+            }
+
+
+            if (shouldGenerate)
+            {
+                if(nos.SourceType == SourceType.Entity)
+                {
+                    NamedObjectSaveCodeGenerator.AddIfConditionalSymbolIfNecesssary(currentBlock, nos);
+                    currentBlock.Line($"{nos.InstanceName}.ActivityEditMode();");
+                    NamedObjectSaveCodeGenerator.AddEndIfIfNecessary(currentBlock, nos);
+
+                }
+                else if(nos.IsList && ObjectFinder.Self.GetEntitySave(nos.SourceClassGenericType) != null)
+                {
+                    NamedObjectSaveCodeGenerator.AddIfConditionalSymbolIfNecesssary(currentBlock, nos);
+
+                    ICodeBlock foreachBlock = currentBlock.ForEach($"var item in {nos.InstanceName}");
+                    foreachBlock.Line($"item.ActivityEditMode();");
+                    NamedObjectSaveCodeGenerator.AddEndIfIfNecessary(currentBlock, nos);
+                }
+            }
+        }
+
+        #endregion
+
         public override ICodeBlock GenerateAdditionalMethods(ICodeBlock codeBlock, SaveClasses.IElement element)
         {
             return codeBlock;

@@ -9,6 +9,10 @@
 #define NugetPackageInCsproj
 #define SupportsEditMode
 #define SupportsShapeCollectionAddToManagerMakeAutomaticallyUpdated
+#define ScreensHaveActivityEditMode
+#define SupportsNamedSubcollisions
+#define TimeManagerHasDelaySeconds
+#define GumTextHasIsBold
 #define REFERENCES_FRB_SOURCE
 
 
