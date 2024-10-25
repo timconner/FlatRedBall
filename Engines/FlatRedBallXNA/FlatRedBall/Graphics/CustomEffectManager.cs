@@ -1,6 +1,4 @@
-﻿#define USE_CUSTOM_SHADER
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 

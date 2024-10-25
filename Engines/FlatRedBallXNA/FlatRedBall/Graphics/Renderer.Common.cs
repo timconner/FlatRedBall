@@ -1,5 +1,3 @@
-#define USE_CUSTOM_SHADER
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1204,17 +1202,8 @@ namespace FlatRedBall.Graphics
                     }
                     if (SpriteManager.ZBufferedSpritesWriteable.Count != 0)
                     {
-#if !USE_CUSTOM_SHADER
-                        // Note, this means that we can't use the "Color" color operation.
-                        // For PC we do clip() in the shader.  We can't do that on WP7 so we use an alpha test effect
-                        SetCurrentEffect(mAlphaTestEffect, camera);
-#endif
                         // Draw the Z Buffered Sprites
                         DrawZBufferedSprites(camera, SpriteManager.ZBufferedSpritesWriteable);
-
-#if !USE_CUSTOM_SHADER
-                        SetCurrentEffect(mEffect, camera);
-#endif
                     }
 
                     foreach (var drawableBatch in SpriteManager.mZBufferedDrawableBatches)

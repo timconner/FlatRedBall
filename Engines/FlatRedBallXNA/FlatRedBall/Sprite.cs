@@ -1,5 +1,3 @@
-#define USE_CUSTOM_SHADER
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -238,17 +236,7 @@ namespace FlatRedBall
             float blueValue = mBlue;
 
 
-#if USE_CUSTOM_SHADER
             if (ColorOperation == Graphics.ColorOperation.Color)
-
-#else
-
-            if (ColorOperation == Graphics.ColorOperation.Modulate || 
-                ColorOperation == Graphics.ColorOperation.Color ||
-                ColorOperation == Graphics.ColorOperation.ColorTextureAlpha ||
-                Texture == null
-                )
-#endif
             {
                 redValue = mRed * mAlpha;
                 greenValue = mGreen * mAlpha;
@@ -257,15 +245,9 @@ namespace FlatRedBall
                 
             else
             {
-#if USE_CUSTOM_SHADER
                 redValue = mRed;
                 greenValue = mGreen;
                 blueValue = mBlue;
-#else
-                redValue = mAlpha;
-                greenValue = mAlpha;
-                blueValue = mAlpha;
-#endif
             }
 
 
