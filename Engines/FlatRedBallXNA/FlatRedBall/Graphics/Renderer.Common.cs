@@ -1,7 +1,5 @@
-#if WINDOWS|| MONOGAME_381
-
 #define USE_CUSTOM_SHADER
-#endif
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

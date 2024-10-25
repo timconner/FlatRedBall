@@ -640,22 +640,15 @@ namespace FlatRedBall
         {
             // All InitializeFlatRedBall methods call this one
 
-#if !MONOGAME && !FNA
-            //PngLoader.Initialize();
-#endif
-
-            Texture2D fontTexture = null;
-
             #region Set up the resources manager and load fonts
            
+            Texture2D fontTexture = null;
             fontTexture = FlatRedBall.Content.ContentManager.GetDefaultFontTexture(graphics.GraphicsDevice);
             
             fontTexture.Name = "Default Font Texture";
 
             var fontPattern = DefaultFontDataColors.GetFontPattern();
             TextManager.DefaultFont = new BitmapFont(fontTexture, fontPattern);
-
-
             #endregion
 
             #region Initialize the Managers
@@ -681,13 +674,7 @@ namespace FlatRedBall
 
             mIsInitialized = true;
 
-
-
-
-            GuiManager.Initialize(fontTexture, new Cursor(SpriteManager.Camera));
-
-
-            
+            GuiManager.Initialize(new Cursor(SpriteManager.Camera));
         }
 
         public const string ShaderContentManager = "InternalShaderContentManager";
@@ -706,28 +693,23 @@ namespace FlatRedBall
             Renderer.Effect = mResourceContentManager.Load<Effect>("FlatRedBallShader");
 #endif
 
-            // eventually we can look into this on iOS
-#if MONOGAME_381
 
             // We'll make a content manager that is never disposed. At this
             // point the FRB engine is not initialized so we can't use the global
             // content manager. That should be okay as global content is never unloaded
-            // and this shader is never exposed for any good reason in diagnostics (like
-            // render breaks. I don't know if we'll ever need to do something different but
+            // and this shader is never exposed.
+            // I don't know if we'll ever need to do something different but
             // this is simple code that works well enough for now.
 
             var shaderFileName =
                 "Content/Shader";
-
             var preInitGlobalContent = new Microsoft.Xna.Framework.Content.ContentManager(mServices);
-                Renderer.Effect = preInitGlobalContent.Load<Effect>(shaderFileName);
-
-
+            var effect = preInitGlobalContent.Load<Effect>(shaderFileName);
+            Renderer.Effect = effect;
             // We need two separate instances of the custom effect so we need another 
             // pre initialization content manager.
             var anotherPreInitGlobalContent = new Microsoft.Xna.Framework.Content.ContentManager(mServices);
             Renderer.ExternalEffect = anotherPreInitGlobalContent.Load<Effect>(shaderFileName);
-#endif
         }
 
         #region Graphics Device Reset Events
@@ -831,54 +813,6 @@ namespace FlatRedBall
             return arr.FirstOrDefault(s => extensions.Any(ext => s.Equals(search + ext, StringComparison.OrdinalIgnoreCase)));
         }
 
-#if ASK_VIC //MDS_TODO ASK VIC
-        public static void PreInitializeDraw(Game game, string textureToDraw)
-        {
-            var texture = Texture2D.FromFile(game.GraphicsDevice, Game.Activity.Assets.Open(Normalize(textureToDraw)));
-            var spriteBatch = new SpriteBatch(game.GraphicsDevice);
-
-            texture.Apply();
-
-            game.GraphicsDevice.Clear(Color.Black);
-
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(texture,
-                            new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height),
-                                          Color.White);
-
-            spriteBatch.End();
-
-            game.GraphicsDevice.Present();
-
-            spriteBatch.Dispose();
-            game.Content.Unload();
-        }
-
-        public static void PreInitializeDraw(Game game, string textureToDraw, Rectangle sourceRect)
-        {
-            var texture = Texture2D.FromFile(game.GraphicsDevice, Game.Activity.Assets.Open(Normalize(textureToDraw)));
-            var spriteBatch = new SpriteBatch(game.GraphicsDevice);
-
-            texture.Apply();
-
-            game.GraphicsDevice.Clear(Color.Black);
-
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(   texture, 
-                                new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height),
-                                sourceRect,
-                                Color.White);
-
-            spriteBatch.End();
-
-            game.GraphicsDevice.Present();
-
-            texture.Dispose();
-            spriteBatch.Dispose();
-        }
-#endif // IF 0
 
 #endif
 
@@ -1079,26 +1013,8 @@ namespace FlatRedBall
                 textureNames.Add(s, s.Texture.Name);
             }
 
-            // Justin Johnson 04/2015: Retired particle blueprint system
-            foreach (FlatRedBall.Graphics.Particle.Emitter emitter in SpriteManager.Emitters)
-            {
-                // TODO: not sure how to add texture names since 
-                // no sprite exists without the particle blueprint
-                // if we still need this, the dictionary needs to support
-                // texture names with no sprite key
-                // textureNames.Add(emitter.ParticleBlueprint, emitter.ParticleBlueprint.Texture.Name);
-            }
-
             List<string> contentManagers = new List<string>();
             List<string> fileNames = new List<string>();
-
-            // Vic says: I don't think we need this anymore:
-
-            //foreach (FlatRedBall.Content.ContentManager contentManager in mContentManagers.Values)
-            //{
-            //    contentManager.RefreshTextureOnDeviceLost();
-            //}
-
 
             for (int i = 0; i < fileNames.Count; i++)
             {
