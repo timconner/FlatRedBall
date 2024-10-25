@@ -13,7 +13,7 @@ using FlatRedBall.Math.Geometry;
 using FlatRedBall.Localization;
 using GlueTestProject.TestFramework;
 
-namespace TestProjectDesktopNet6.Screens
+namespace GlueTestProject.Screens
 {
 	public partial class AnimationChainScreen
 	{

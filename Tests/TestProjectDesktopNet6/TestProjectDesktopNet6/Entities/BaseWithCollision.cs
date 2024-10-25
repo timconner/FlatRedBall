@@ -24,7 +24,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 #endif
 #endregion
 
-namespace TestProjectDesktopNet6.Entities
+namespace GlueTestProject.Entities
 {
 	public partial class BaseWithCollision
 	{

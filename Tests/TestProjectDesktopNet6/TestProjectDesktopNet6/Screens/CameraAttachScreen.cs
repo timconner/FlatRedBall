@@ -21,7 +21,7 @@ using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 #endif
 
-namespace TestProjectDesktopNet6.Screens
+namespace GlueTestProject.Screens
 {
 	public partial class CameraAttachScreen
 	{

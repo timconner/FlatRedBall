@@ -22,7 +22,7 @@ using Microsoft.Xna.Framework.Audio;
 using FlatRedBall.Audio;
 #endif
 
-namespace TestProjectDesktopNet6.Screens
+namespace GlueTestProject.Screens
 {
 	public partial class AudioScreen
 	{

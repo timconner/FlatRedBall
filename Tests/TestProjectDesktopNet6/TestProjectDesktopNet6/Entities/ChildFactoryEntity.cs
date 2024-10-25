@@ -9,7 +9,7 @@ using FlatRedBall.Graphics.Animation;
 using FlatRedBall.Graphics.Particle;
 using FlatRedBall.Math.Geometry;
 
-namespace TestProjectDesktopNet6.Entities
+namespace GlueTestProject.Entities
 {
 	public partial class ChildFactoryEntity
 	{

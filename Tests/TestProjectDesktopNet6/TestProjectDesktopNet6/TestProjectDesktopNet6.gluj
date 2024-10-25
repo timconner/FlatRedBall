@@ -308,7 +308,7 @@
       ],
       "RequiredProperties": [],
       "GenerateCode": true,
-      "CustomNamespace": "TestProjectDesktopNet6.CustomDataTypes"
+      "CustomNamespace": "GlueTestProject.CustomDataTypes"
     },
     {
       "Name": "CustomClassForDupeTest",

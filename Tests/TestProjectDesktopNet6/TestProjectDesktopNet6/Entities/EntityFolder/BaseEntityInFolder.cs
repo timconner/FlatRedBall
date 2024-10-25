@@ -24,7 +24,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 #endif
 #endregion
 
-namespace TestProjectDesktopNet6.Entities.EntityFolder
+namespace GlueTestProject.Entities.EntityFolder
 {
 	public partial class BaseEntityInFolder
 	{

@@ -39,23 +39,47 @@ namespace GlueTestProject
 
         protected override void Initialize()
         {
-            #if IOS
+#if IOS
             var bounds = UIKit.UIScreen.MainScreen.Bounds;
             var nativeScale = UIKit.UIScreen.MainScreen.Scale;
             var screenWidth = (int)(bounds.Width * nativeScale);
             var screenHeight = (int)(bounds.Height * nativeScale);
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
-            #endif
-        
-            GeneratedInitializeEarly();
+#endif
 
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
-            FlatRedBall.Screens.			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
-            FlatRedBall.Screens.ScreenManager.Start(typeof(GlueTestProject.Screens.FirstScreen));
+
             GlobalContent.Initialize();
 
+            CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
+            Type startScreenType = typeof(GlueTestProject.Screens.FirstScreen);
+
+            var commandLineArgs = Environment.GetCommandLineArgs();
+            if (commandLineArgs.Length > 0)
+            {
+                var thisAssembly = this.GetType().Assembly;
+                // see if any of these are screens:
+                foreach (var item in commandLineArgs)
+                {
+                    var type = thisAssembly.GetType(item);
+
+                    if (type != null)
+                    {
+                        startScreenType = type;
+                        break;
+                    }
+                }
+            }
+
+            // Call this before starting the screens, so that plugins can initialize their systems.
             GeneratedInitialize();
+
+            if (startScreenType != null)
+            {
+                FlatRedBall.Screens.ScreenManager.Start(startScreenType);
+            }
+
 
             base.Initialize();
         }

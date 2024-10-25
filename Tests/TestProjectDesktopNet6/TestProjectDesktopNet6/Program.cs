@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace TestProjectDesktopNet6
+namespace GlueTestProject
 {
     /// <summary>
     /// The main class.

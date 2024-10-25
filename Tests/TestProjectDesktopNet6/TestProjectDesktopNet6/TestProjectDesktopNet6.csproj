@@ -2066,7 +2066,10 @@
     <Compile Include="GumRuntimes\NineSliceButtonRuntime.Generated.cs">
       <DependentUpon>NineSliceButtonRuntime.cs</DependentUpon>
     </Compile>
-    <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\NineSliceRuntime.cs" />
+    <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs">
+      <DependentUpon>NineSliceRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ParentStateComponentRuntime.cs" />
     <Compile Include="GumRuntimes\ParentStateComponentRuntime.Generated.cs">
       <DependentUpon>ParentStateComponentRuntime.cs</DependentUpon>
@@ -2188,6 +2191,9 @@
       <DependentUpon>CsvScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\CursorTestScreen.cs" />
+    <Compile Include="Screens\CursorTestScreen.Generated.cs">
+      <DependentUpon>CursorTestScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\CustomContentTypeScreen.cs" />
     <Compile Include="Screens\CustomContentTypeScreen.Generated.cs">
       <DependentUpon>CustomContentTypeScreen.cs</DependentUpon>
@@ -2283,6 +2289,9 @@
       <DependentUpon>LastScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\LayerScreen.cs" />
+    <Compile Include="Screens\LayerScreen.Generated.cs">
+      <DependentUpon>LayerScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\Level1.cs" />
     <Compile Include="Screens\Level1.Generated.cs">
       <DependentUpon>Level1.cs</DependentUpon>
@@ -2392,9 +2401,6 @@
       <DependentUpon>ZBufferedScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
-    <Compile Include="Setup\CameraSetup.Generated.cs">
-      <DependentUpon>CameraSetup.cs</DependentUpon>
-    </Compile>
     <Compile Include="TestFramework\ShouldExtensions.cs" />
     <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
     <Compile Include="TileCollisions\CollidableVsTileShapeCollectionRelationship.cs" />
