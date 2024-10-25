@@ -15,8 +15,8 @@ namespace Game1Copier
         static List<TemplateInformation> templates = new List<TemplateInformation>
         {
             new TemplateInformation {
-                DestinationGameFile = "FlatRedBallDesktopGLTemplate/FlatRedBallDesktopGLTemplate/Game1.cs",
-                Namespace = "FlatRedBallDesktopGlTemplate"
+                DestinationGameFile = "FlatRedBallWebTemplate/FlatRedBallWebTemplate/Game1.cs",
+                Namespace = "FlatRedBallWebTemplate"
             },
             new TemplateInformation {
                 DestinationGameFile = "FlatRedBallDesktopGlNet6Template/FlatRedBallDesktopGlNet6Template/Game1.cs",

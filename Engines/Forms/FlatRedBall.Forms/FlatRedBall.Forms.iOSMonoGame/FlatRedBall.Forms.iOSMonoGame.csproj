@@ -10,10 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\FlatRedBall.Forms.iOS\Clipboard\ClipboardImplementation.iOS.cs" Link="Clipboard\ClipboardImplementation.iOS.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Clipboard\" />
   </ItemGroup>
 

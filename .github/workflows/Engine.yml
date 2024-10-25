@@ -179,28 +179,6 @@ jobs:
 
 
     ## ## -----------------------------------------------------------------------------------------------------
-    - name: Build FlatRedBall .NET 4 Debug
-      if: ${{ github.event.inputs.IsBeta == 'false' }}
-      run: dotnet build -c Debug 'FlatRedBall\Engines\Forms\FlatRedBall.Forms\FlatRedBall.Forms.DesktopGL.sln'
-    - name: Package FlatRedBall .NET 4
-      if: ${{ github.event.inputs.IsBeta == 'false' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: DesktopGlNet4Debug
-        path: FlatRedBall/Engines/Forms/FlatRedBall.Forms/FlatRedBall.Forms/bin/DesktopGL/Debug/
-        ## Net4 doesn't (and maybe never will) nuget publish. We still have this as of April 25,2024 for historical reasons but this will get retired in the future
-
-    - name: Build FlatRedBall .NET 4 Release
-      if: ${{ github.event.inputs.IsBeta == 'false' }}
-      run: dotnet build -c Release 'FlatRedBall\Engines\Forms\FlatRedBall.Forms\FlatRedBall.Forms.DesktopGL.sln'
-      ## We don't (yet?) publish any release nuget packages, but we do this in preparation for this in the future
-    - name: Package FlatRedBall .NET 4
-      if: ${{ github.event.inputs.IsBeta == 'false' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: DesktopGlNet4Release
-        path: FlatRedBall/Engines/Forms/FlatRedBall.Forms/FlatRedBall.Forms/bin/DesktopGL/Release/
-
     # - name: Directory listing
     #   run: |
     #     Get-ChildItem -Path . -Recurse -ErrorAction SilentlyContinue -Force

@@ -309,7 +309,7 @@ namespace FlatRedBall.Gui
         #region Constructors
 
         // made public for unit tests
-		public static void Initialize(Texture2D guiTextureToUse, Cursor cursor)
+		public static void Initialize(Cursor cursor)
 
 		{
             RemoveInvisibleDominantWindows = false;

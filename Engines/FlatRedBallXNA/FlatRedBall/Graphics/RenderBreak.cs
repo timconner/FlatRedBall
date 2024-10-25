@@ -1,8 +1,3 @@
-//#if DESKTOP_GL || WINDOWS
-#if WINDOWS|| MONOGAME_381
-#define USE_CUSTOM_SHADER
-#endif
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -181,15 +176,6 @@ namespace FlatRedBall.Graphics
             Red = 1;
             Green = 1;
             Blue = 1;
-#if !USE_CUSTOM_SHADER
-
-            if (text.ColorOperation != Graphics.ColorOperation.Texture)
-            {
-                Red = text.Red;
-                Green = text.Green;
-                Blue = text.Blue;
-            }
-#endif
 
             ItemNumber = itemNumber;
 
@@ -290,14 +276,7 @@ namespace FlatRedBall.Graphics
             return text.Font.Texture != Texture ||
                 text.ColorOperation != ColorOperation ||
                 text.BlendOperation != BlendOperation ||
-                TextureAddressMode != TextureAddressMode.Clamp
-#if !USE_CUSTOM_SHADER
-                ||
-                text.Red != Red ||
-                text.Green != Green ||
-                text.Blue != Blue
-#endif
-;
+                TextureAddressMode != TextureAddressMode.Clamp;
         }
 
 
@@ -322,13 +301,6 @@ namespace FlatRedBall.Graphics
                 _originalTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
                 //if (TextureFilter != FlatRedBallServices.GraphicsOptions.TextureFilter)
                     FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter;
-
-#if !USE_CUSTOM_SHADER
-                if (ColorOperation == Graphics.ColorOperation.ColorTextureAlpha)
-                {
-                    Renderer.SetFogForColorOperation(Red, Green, Blue);
-                }
-#endif
             }
         }
 

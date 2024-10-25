@@ -1,9 +1,4 @@
-﻿#if WINDOWS || MONOGAME_381
-
-#define USE_CUSTOM_SHADER
-#endif
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -115,7 +110,6 @@ namespace FlatRedBall.Graphics
             {
                 mEffect = value;
 
-#if USE_CUSTOM_SHADER
                 ParameterViewProj = mEffect.Parameters["ViewProj"];
                 ParameterCurrentTexture = mEffect.Parameters["CurrentTexture"];
                 try { ParameterColorModifier = mEffect.Parameters["ColorModifier"]; } catch { }
@@ -232,7 +226,6 @@ namespace FlatRedBall.Graphics
                     try { mTechniqueColorTextureAlpha = mEffect.Techniques["ColorTextureAlpha"]; } catch { }
                     try { mTechniqueInterpolateColor = mEffect.Techniques["InterpolateColor"]; } catch { }
                 }
-#endif
             }
         }
 

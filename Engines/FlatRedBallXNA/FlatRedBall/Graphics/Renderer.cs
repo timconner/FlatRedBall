@@ -1,8 +1,3 @@
-//#if DESKTOP_GL || WINDOWS
-#if (WINDOWS || MONOGAME_381)
-#define USE_CUSTOM_SHADER
-#endif
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -15,14 +10,7 @@ using FlatRedBall.Math;
 using FlatRedBall.Graphics;
 using FlatRedBall.Utilities;
 
-
-#if !USE_CUSTOM_SHADER
-using Effect = FlatRedBall.Graphics.GenericEffect;
-#else
 using Effect = Microsoft.Xna.Framework.Graphics.Effect;
-#endif
-
-
 using Microsoft.Xna.Framework.Content;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Performance.Measurement;
@@ -218,12 +206,10 @@ namespace FlatRedBall.Graphics
 
     #endregion
 
-    #region XML Docs
     /// <summary>
     /// Static class responsible for drawing/rendering content to the cameras on screen.
     /// </summary> 
     /// <remarks>This class is called by <see cref="FlatRedBallServices.Draw()"/></remarks>
-    #endregion
     public static partial class Renderer
     {
         #region Enums
@@ -308,27 +294,13 @@ namespace FlatRedBall.Graphics
 
         #region Effects
 
-#if USE_CUSTOM_SHADER
         static BasicEffect mBasicEffect;
         static Effect mEffect;
         static Effect mExternalEffect;
         static Effect mCurrentEffect;
 
-#else
-        
-        static GenericEffect mGenericEffect;
-        static GenericEffect mEffect = new GenericEffect( GenericEffect.DefaultShaderType.Determine );
-        static GenericEffect mAlphaTestEffect;
-        static GenericEffect mCurrentEffect = new GenericEffect( GenericEffect.DefaultShaderType.Determine );
-#endif
-
-#if USE_CUSTOM_SHADER
-
         static EffectCache mModelEffectParameterCache;
-
         public static Dictionary<int, String> EffectTechniqueNames;
-#endif
-
         #endregion
 
         #region Texture Fields
@@ -402,12 +374,7 @@ namespace FlatRedBall.Graphics
         private static void ForceSetTexture(Texture2D value)
         {
             mTexture = value;
-#if !USE_CUSTOM_SHADER
-            mCurrentEffect.TextureEnabled = value != null;
-            mCurrentEffect.Texture = mTexture;
-#else
             mEffectManager.ParameterCurrentTexture.SetValue(mTexture);
-#endif
         }
 
         static public Texture2D TextureOnDevice
@@ -481,28 +448,7 @@ namespace FlatRedBall.Graphics
 
         static public void SetCurrentEffect(Effect value, Camera camera)
         {
-#if USE_CUSTOM_SHADER
             mCurrentEffect = value; 
-            //internal get { return mCurrentEffect; }
-#else
-                if (value != mCurrentEffect)
-                {
-                    Texture2D oldTexture = null;
-                    if (mCurrentEffect != null)
-                    {
-                        oldTexture = mCurrentEffect.Texture;
-                    }
-
-                    mCurrentEffect = value;
-                    if (mCurrentEffect.LightingEnabled)
-                    {
-                        mCurrentEffect.LightingEnabled = false;
-                    }
-                    camera.SetDeviceViewAndProjection(mCurrentEffect, false);
-
-                    ForceSetTexture(oldTexture);
-                }
-#endif
         }
          
 
@@ -667,10 +613,6 @@ namespace FlatRedBall.Graphics
         {
             mTextureAddressMode = value;
 
-#if !USE_CUSTOM_SHADER
-            mCurrentEffect.SetTextureAddressModeNoCall(mTextureAddressMode);
-#endif
-
             FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(0);
             FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(1);
         }
@@ -688,7 +630,6 @@ namespace FlatRedBall.Graphics
 			}
         }
 
-#if USE_CUSTOM_SHADER
         static CustomEffectManager mEffectManager = new CustomEffectManager();
         public static CustomEffectManager ExternalEffectManager { get; } = new CustomEffectManager();
 
@@ -711,7 +652,6 @@ namespace FlatRedBall.Graphics
                 ExternalEffectManager.Effect = mExternalEffect;
             }
         }
-#endif
 
         #endregion
 
@@ -783,11 +723,6 @@ namespace FlatRedBall.Graphics
 
             mGraphics = graphics;
 
-#if !USE_CUSTOM_SHADER
-            mAlphaTestEffect = new GenericEffect(GenericEffect.DefaultShaderType.AlphaTest);
-#endif
-
-
             InitializeEffect();
 
             ForceSetBlendOperation();
@@ -829,17 +764,10 @@ namespace FlatRedBall.Graphics
 
             // Basic effect
 
-#if !USE_CUSTOM_SHADER
-            mGenericEffect = new GenericEffect( GenericEffect.DefaultShaderType.Basic );
-            mGenericEffect.Alpha = 1.0f;
-            mGenericEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-            mGenericEffect.World = Matrix.Identity;
-#else
             mBasicEffect = new BasicEffect(mGraphics.GraphicsDevice);
             mBasicEffect.Alpha = 1.0f;
             mBasicEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
             mBasicEffect.World = Matrix.Identity;
-#endif
 
 
             mWireframeEffect = new BasicEffect(FlatRedBallServices.GraphicsDevice);
@@ -951,19 +879,12 @@ namespace FlatRedBall.Graphics
 
             #region Set camera values on the current effect
             mCurrentEffect = mEffect;
-#if !USE_CUSTOM_SHADER
-            if (mEffect.LightingEnabled)
-            {
-                mEffect.LightingEnabled = false;
-            }
-#endif
             camera.SetDeviceViewAndProjection(mCurrentEffect, false);
             #endregion
         }
 
         #endregion
 
-#if USE_CUSTOM_SHADER
         public static Texture2D GetTextureFromEffect(Effect effect)
         {
 
@@ -985,13 +906,6 @@ namespace FlatRedBall.Graphics
             }
             return null;
         }
-#else
-        public static Texture2D GetTextureFromEffect(Microsoft.Xna.Framework.Graphics.Effect effect)
-        {
-            GenericEffect effectToReturn = new GenericEffect(effect);
-            return effectToReturn.Texture;
-        }
-#endif
 
         public static void SetEffectTexture(Microsoft.Xna.Framework.Graphics.Effect effect, Texture2D texture2D)
         {
@@ -1232,81 +1146,10 @@ namespace FlatRedBall.Graphics
             }
         }
 
-#if !USE_CUSTOM_SHADER
-
-        internal static void SetFogForColorOperation(float red, float green, float blue)
-        {
-
-            mCurrentEffect.FogColor = new Vector3(
-                red,
-                green,
-                blue);
-        }
-#endif
-
         public static void ForceSetColorOperation(ColorOperation value)
         {
             mLastColorOperationSet = value;
 
-#if !USE_CUSTOM_SHADER
-            switch (value)
-            {
-                case FlatRedBall.Graphics.ColorOperation.Texture:
-                    mCurrentEffect.TextureEnabled = true;
-                    mCurrentEffect.FogEnabled = false;
-
-
-                    // not sure why we enable vertex color, but this
-                    // causes problems on Web, so let's disable it there
-#if WEB
-                    mCurrentEffect.VertexColorEnabled = false;
-
-#else
-                    mCurrentEffect.VertexColorEnabled = true;
-#endif
-
-                    break;
-                case FlatRedBall.Graphics.ColorOperation.Add:
-                    mCurrentEffect.TextureEnabled = true;
-                    mCurrentEffect.VertexColorEnabled = false;
-                    // This is handled in the emissive for the shader - or will be at least
-                    mCurrentEffect.FogEnabled = false;
-
-                    break;
-
-                case FlatRedBall.Graphics.ColorOperation.Color:
-                    mCurrentEffect.TextureEnabled = false;
-                    mCurrentEffect.VertexColorEnabled = true;
-                    mCurrentEffect.FogEnabled = false;
-                    Renderer.Texture = null;
-
-                    break;
-
-                case FlatRedBall.Graphics.ColorOperation.ColorTextureAlpha:
-                    mCurrentEffect.TextureEnabled = true;
-                    mCurrentEffect.VertexColorEnabled = true;
-
-                    // Since MonoGame doesn't use custom shaders, we have to hack this
-                    // using Fog. It works...but it's slow and introduces a lot of render breaks. 
-                    // At some point in the future we should try to fix this.
-                        mCurrentEffect.FogEnabled = true;
-                        mCurrentEffect.FogStart = 0;
-                        mCurrentEffect.FogEnd = 1;
-                    break;
-
-                case FlatRedBall.Graphics.ColorOperation.Modulate:
-                    mCurrentEffect.TextureEnabled = true;
-                    mCurrentEffect.FogEnabled = false;
-
-                    mCurrentEffect.VertexColorEnabled = true;
-                    break;
-                default:
-                    throw new InvalidOperationException("The color operation " + value + " is not supported");
-
-                    //break;
-            }
-
-#else
             var technique = mEffectManager.GetVertexColorTechniqueFromColorOperation(value);
 
             if (technique == null)
@@ -1327,8 +1170,7 @@ namespace FlatRedBall.Graphics
 
                 mCurrentEffect.CurrentTechnique = technique;
             }
-#endif
-            }
+        }
 
 
         public static BlendState AddBlendState = new BlendState()
@@ -1577,26 +1419,13 @@ namespace FlatRedBall.Graphics
             if (layer == null)
             {
                 // reset the camera as it may have been set differently by layers
-#if !USE_CUSTOM_SHADER
-                camera.SetDeviceViewAndProjection( mEffect, false);
-                camera.SetDeviceViewAndProjection( mGenericEffect, false );
-#else
-
                 camera.SetDeviceViewAndProjection(mBasicEffect, false);
                 camera.SetDeviceViewAndProjection(mEffect, false);
-#endif
             }
             else
             {
-
-#if !USE_CUSTOM_SHADER
-                camera.SetDeviceViewAndProjection( mEffect, layer.RelativeToCamera);
-                camera.SetDeviceViewAndProjection( mGenericEffect, layer.RelativeToCamera );
-#else
                 camera.SetDeviceViewAndProjection(mBasicEffect, layer.RelativeToCamera);
                 camera.SetDeviceViewAndProjection( mEffect, layer.RelativeToCamera);
-
-#endif
             }
             #region 3D Shapes - these are different because we just render using FlatRedBall's built-in models in wireframe
 
@@ -2152,11 +1981,6 @@ namespace FlatRedBall.Graphics
             {
                 Renderer.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
             }
-#if !USE_CUSTOM_SHADER
-            mCurrentEffect.LightingEnabled = false;
-#endif
-
-
         }
 
         private static void PrepareSprites(
@@ -2390,24 +2214,14 @@ namespace FlatRedBall.Graphics
             int numPasses = 0;
 
             int numberOfPrimitivesPerVertexBuffer = verticesPerVertexBuffer / verticesPerPrimitive;
-#if USE_CUSTOM_SHADER
             Microsoft.Xna.Framework.Graphics.Effect effectToUse = mCurrentEffect;
-#else
-            GenericEffect effectToUse = mCurrentEffect;
-#endif
 
             if (primitiveType == PrimitiveType.LineStrip)
             {
 
-#if USE_CUSTOM_SHADER
                 mBasicEffect.LightingEnabled = false;
                 mBasicEffect.VertexColorEnabled = true;
                 effectToUse = mBasicEffect;
-#else
-                mGenericEffect.LightingEnabled = false;
-                mGenericEffect.VertexColorEnabled = true;
-                effectToUse = mGenericEffect;
-#endif
             }
 
             if (renderBreaks.Count != 0)
@@ -2442,28 +2256,6 @@ namespace FlatRedBall.Graphics
                 {
                     drawToOnThisVB = renderBreaks[renderBreakIndex].ItemNumber - (numberOfPrimitivesPerVertexBuffer * VBOn);
                     //drawToOnThisVB = renderBreaks[renderBreakIndex].ItemNumber;
-#if !USE_CUSTOM_SHADER
-                    EffectTechnique currentTechnique = effectToUse.GetCurrentTechnique(true);
-                    foreach (EffectPass pass in currentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        if (drawToOnThisVB != drawnOnThisVB)
-                        {
-                            GraphicsDevice device = mGraphics.GraphicsDevice;
-                            T[] verts = vertexList[VBOn];
-
-                            int start = verticesPerPrimitive * drawnOnThisVB;
-                            int numberToDraw = drawToOnThisVB - drawnOnThisVB - extraVertices;
-                            device.DrawUserPrimitives<T>(
-                                primitiveType,
-                                verts,
-                                start,
-                                numberToDraw);
-
-
-                        }
-                    }
-#else
                     EffectTechnique currentTechnique = effectToUse.CurrentTechnique;
                     foreach (EffectPass pass in currentTechnique.Passes)
                     {
@@ -2481,9 +2273,6 @@ namespace FlatRedBall.Graphics
                         }
                     }
 
-
-#endif
-
                     renderBreaks[renderBreakIndex - 1].Cleanup();
                     renderBreaks[renderBreakIndex].SetStates();
 
@@ -2491,25 +2280,6 @@ namespace FlatRedBall.Graphics
                 }
                 else
                 {
-#if !USE_CUSTOM_SHADER
-                    EffectTechnique currentTechnique = effectToUse.GetCurrentTechnique(true);
-                    foreach (EffectPass pass in currentTechnique.Passes)
-                    {
-                        pass.Apply();
-
-                        if (drawToOnThisVB - extraVertices != drawnOnThisVB)
-                        {
-                            var start = verticesPerPrimitive * drawnOnThisVB;
-                            var count = drawToOnThisVB - drawnOnThisVB - extraVertices;
-
-                            mGraphics.GraphicsDevice.DrawUserPrimitives<T>(
-                                primitiveType,
-                                vertexList[VBOn],
-                                vertexOffset: start,
-                                primitiveCount: count);
-                        }
-                    }
-#else
                     EffectTechnique currentTechnique = effectToUse.CurrentTechnique;
                     foreach (EffectPass pass in currentTechnique.Passes)
                     {
@@ -2532,7 +2302,6 @@ namespace FlatRedBall.Graphics
                             }
                         }
                     }
-#endif
                     renderBreaks[renderBreakIndex - 1].Cleanup();
                 }
 
@@ -3138,7 +2907,6 @@ namespace FlatRedBall.Graphics
 
         public static void SetSharedEffectParameters(Camera camera, Effect effect)
         {
-#if USE_CUSTOM_SHADER
             // Set effect variables
             if (effect.Parameters["PixelSize"] != null)
                 effect.Parameters["PixelSize"].SetValue(new Vector2(
@@ -3160,7 +2928,6 @@ namespace FlatRedBall.Graphics
                 effect.Parameters["FarClipPlane"].SetValue(camera.FarClipPlane);
             if (effect.Parameters["CameraPosition"] != null)
                 effect.Parameters["CameraPosition"].SetValue(camera.Position);
-#endif
         }
 
         private static void SortBatchesZInsertionAscending(IList<IDrawableBatch> batches)
