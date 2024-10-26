@@ -76,6 +76,7 @@ namespace FlatRedBall.Glue.Plugins
     public class PluginTab : ViewModel
     {
         public event EventHandler AfterHide;
+        public event EventHandler Closed;
 
         public string Title
         {
@@ -141,6 +142,12 @@ namespace FlatRedBall.Glue.Plugins
 
         public event Action TabShown;
 
+        public void Close()
+        {
+            Hide();
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
         public void Hide()
         {
             ParentContainer?.Remove(this);
@@ -174,7 +181,7 @@ namespace FlatRedBall.Glue.Plugins
         public PluginTab()
         {
             CanClose = true;
-            CloseCommand = new (Hide, nameof(CanClose), this);
+            CloseCommand = new (Close, nameof(CanClose), this);
             MoveTabCommand = new (MoveTab, nameof(CanMoveTo), nameof(CurrentLocation), this);
         }
 
