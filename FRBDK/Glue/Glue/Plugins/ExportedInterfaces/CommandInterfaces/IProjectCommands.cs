@@ -13,7 +13,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
     public interface IProjectCommands
     {
         /// <summary>
-        /// Saves the main project and synced projects immediately if run from an existing task. Adds a task if not.
+        /// Saves the main project and synced projects (csproj) immediately if run from an existing task. Adds a task if not.
         /// </summary>
         void SaveProjects();
 
