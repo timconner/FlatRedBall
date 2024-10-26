@@ -13,6 +13,7 @@ using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using FlatRedBall.Glue.Plugins.Interfaces;
 using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.IO;
+using GlueFormsCore.FormHelpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,18 +39,12 @@ namespace EntityPerformancePlugin
 
         PluginTab tab;
 
-        public override string FriendlyName
-        {
-            get { return "Entity Performance Plugin"; }
-        }
-
-        public override Version Version
-        {
-            get { return new Version(1, 0); }
-        }
+        public override string FriendlyName => "Entity Performance Plugin"; 
 
         VariableActivityCodeGenerator variableActivityCodeGenerator;
         UpdateDependenciesCodeGenerator updateDependenciesCodeGenerator;
+
+        bool isTabShownOnSelection = false;
 
         #endregion
 
@@ -74,10 +69,28 @@ namespace EntityPerformancePlugin
         {
             this.ReactToLoadedGluxEarly += HandleLoadGlux;
             this.ReactToUnloadedGlux += HandleGluxUnload;
-            this.ReactToItemSelectHandler += HandleGlueItemSelected;
+            this.ReactToItemsSelected += HandleItemsSelected;
             this.ReactToChangedPropertyHandler += HandleGluePropertyChanged;
             this.ReactToFileChange += HandleFileChange;
             this.ReactToChangedPropertyHandler += HandlePropertyChanged;
+            this.ReactToTreeViewRightClickHandler += HandleTreeViewRightClicked;
+        }
+
+        private void HandleTreeViewRightClicked(ITreeNode rightClickedTreeNode, List<GeneralToolStripMenuItem> listToAddTo)
+        {
+            if(rightClickedTreeNode.Tag is EntitySave)
+            {
+                listToAddTo.Add(new GeneralToolStripMenuItem("Show Performance Tab")
+                {
+                    Click = HandleShowTabClick,
+                });
+            }
+        }
+
+        private void HandleShowTabClick(object sender, EventArgs e)
+        {
+            isTabShownOnSelection = true;
+            ShowAndRefreshTab(focus: true);
         }
 
         private void HandleFileChange(FilePath filePath, FileChangeType changeType)
@@ -349,26 +362,38 @@ namespace EntityPerformancePlugin
                 "EntityPerformance.json";
         }
 
-
-        private void HandleGlueItemSelected(ITreeNode selectedTreeNode)
+        private void HandleItemsSelected(List<ITreeNode> list)
         {
-            var shouldShow = selectedTreeNode?.IsEntityNode() == true || selectedTreeNode?.IsRootNamedObjectNode() == true;
+            var shouldShow = list.Any(item => item?.IsEntityNode() == true || item?.IsRootNamedObjectNode() == true)
+                && isTabShownOnSelection;
 
             if (shouldShow)
             {
-                if(mainControl == null)
-                {
-                    mainControl = new MainControl();
-                    tab = this.CreateTab(mainControl, "Entity Performance");
-                }
-                tab.Show();
-                RefreshView(GlueState.Self.CurrentEntitySave);
+                ShowAndRefreshTab(focus:false);
             }
             else
             {
                 tab?.Hide();
             }
 
+        }
+
+        private void ShowAndRefreshTab( bool focus)
+        {
+            if (mainControl == null)
+            {
+                mainControl = new MainControl();
+                tab = this.CreateTab(mainControl, "Entity Performance",
+                    // Right is super crowded, let's move it to middle
+                    TabLocation.Center);
+                tab.Closed += (_, _) => isTabShownOnSelection = false;
+            }
+            tab.Show();
+            RefreshView(GlueState.Self.CurrentEntitySave);
+            if (focus)
+            {
+                tab.Focus();
+            }
         }
 
         private void RefreshView(EntitySave entitySave)

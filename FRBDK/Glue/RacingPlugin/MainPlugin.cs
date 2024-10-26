@@ -74,9 +74,15 @@ namespace RacingPlugin
 
         private void HandleItemSelected(ITreeNode selectedTreeNode)
         {
-            bool shouldShow = GlueState.Self.CurrentEntitySave != null &&
+            // October 26, 2024
+            // The racing plugin has not been updated in a long time. IT is likely
+            // not working well with the new FRB so we are going to hide this until
+            // it can get proper attention.
+            bool shouldShow =
+                false;
+                //GlueState.Self.CurrentEntitySave != null &&
                 // So this only shows if the entity itself is selected:
-                selectedTreeNode?.Tag == GlueState.Self.CurrentEntitySave;
+                //selectedTreeNode?.Tag == GlueState.Self.CurrentEntitySave;
 
 
             if (shouldShow)

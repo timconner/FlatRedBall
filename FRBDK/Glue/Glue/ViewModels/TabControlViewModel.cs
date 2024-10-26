@@ -61,8 +61,14 @@ namespace GlueFormsCore.ViewModels
                 return;
             }
 
-            SelectedTab = Tabs.OrderByDescending(item => item.LastTimeClicked)
-                    .ThenByDescending(item => item.IsPreferredDisplayerForType(typeName))
+            // removing remembering of last tabs clicked
+            // https://github.com/vchelaru/FlatRedBall/issues/1593
+            //SelectedTab =
+            //    Tabs.OrderByDescending(item => item.LastTimeClicked)
+            //        .ThenByDescending(item => item.IsPreferredDisplayerForType(typeName))
+            //        .First();
+            SelectedTab =
+                Tabs.OrderByDescending(item => item.IsPreferredDisplayerForType(typeName))
                     .First();
         }
     }
