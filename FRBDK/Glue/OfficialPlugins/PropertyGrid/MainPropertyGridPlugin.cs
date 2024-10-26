@@ -321,10 +321,9 @@ namespace OfficialPlugins.VariableDisplay
                 variableTab = this.CreateTab(VariableGrid, "Variables");
                 variableTab.IsPreferredDisplayerForType = (typeName) =>
                 {
-                    if (typeName == "Variables") return true;
-                    if (typeName == nameof(NamedObjectSave)) return true;
-
-                    return false;
+                    return typeName is "Variables" or
+                        (nameof(NamedObjectSave)) or
+                        nameof(EntitySave);
 
                 };
 

@@ -51,13 +51,15 @@ namespace EntityInputMovementPlugin
         private void AssignEvents()
         {
             this.ReactToLoadedGlux += HandleGluxLoaded;
-            this.ReactToItemSelectHandler += HandleItemSelected;
+            this.ReactToItemsSelected += HandleItemsSelected;
             this.ReactToEntityRemoved += HandleElementRemoved;
             this.ReactToElementRenamed += HandleElementRenamed;
             this.ModifyAddEntityWindow += TopDownPlugin.Logic.ModifyAddEntityWindowLogic.HandleModifyAddEntityWindow;
             this.NewEntityCreatedWithUi += HandleNewEntityCreatedWithUi;
             this.ReactToImportedElement += HandleEntityImported;
         }
+
+        
 
         #endregion
 
@@ -182,11 +184,11 @@ namespace EntityInputMovementPlugin
             return didChangeGlux;
         }
 
-        private void HandleItemSelected(ITreeNode selectedTreeNode)
+        private void HandleItemsSelected(List<ITreeNode> list)
         {
             bool shouldShow = GlueState.Self.CurrentEntitySave != null &&
                 // So this only shows if the entity itself is selected:
-                selectedTreeNode?.Tag == GlueState.Self.CurrentEntitySave;
+                list.Any(item => item?.Tag == GlueState.Self.CurrentEntitySave);
 
 
             if (shouldShow)

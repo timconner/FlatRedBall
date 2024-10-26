@@ -717,7 +717,7 @@ namespace OfficialPlugins.TreeViewPlugin.ViewModels
         {
             string containingDirectory = FileManager.MakeRelative(FileManager.GetDirectory(screenSave.Name));
 
-            NodeViewModel treeNodeToAddTo;
+            NodeViewModel? treeNodeToAddTo;
 
             if (containingDirectory == $"Screens/")
             {
@@ -749,9 +749,11 @@ namespace OfficialPlugins.TreeViewPlugin.ViewModels
             treeNode.Text = FileManager.RemovePath(screenSave.Name);
             treeNode.Tag = screenSave;
 
-            treeNodeToAddTo.Children.Add(treeNode);
-            treeNodeToAddTo.SortByTextConsideringDirectories();
-
+            if (treeNodeToAddTo != null)
+            {
+                treeNodeToAddTo.Children.Add(treeNode);
+                treeNodeToAddTo.SortByTextConsideringDirectories();
+            }
             string generatedFile = screenSave.Name + ".Generated.cs";
 
             ScreenRootNode.SortByTextConsideringDirectories();
@@ -1227,7 +1229,7 @@ namespace OfficialPlugins.TreeViewPlugin.ViewModels
 
         public NodeViewModel? GetTreeNodeForGlobalContent(ReferencedFileSave rfs, NodeViewModel nodeToStartAt)
         {
-            NodeViewModel containerTreeNode = nodeToStartAt;
+            NodeViewModel? containerTreeNode = nodeToStartAt;
 
             if (rfs.Name.StartsWith("globalcontent/", StringComparison.OrdinalIgnoreCase) && nodeToStartAt == GlobalContentRootNode)
             {
@@ -1285,7 +1287,7 @@ namespace OfficialPlugins.TreeViewPlugin.ViewModels
             return null;
         }
 
-        public NodeViewModel TreeNodeForDirectory(FilePath containingDirectory)
+        public NodeViewModel? TreeNodeForDirectory(FilePath containingDirectory)
         {
             bool isEntity = true;
 

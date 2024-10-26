@@ -785,7 +785,7 @@ namespace OfficialPlugins.Wizard.Managers
 
         private static async Task<EntitySave> ImportPlayerEntity(WizardViewModel vm)
         {
-            EntitySave playerEntity = null;
+            EntitySave? playerEntity = null;
             var downloadFolder = FileManager.UserApplicationDataForThisApplication + "ImportDownload\\";
 
             if (FileManager.IsUrl(vm.PlayerEntityImportUrlOrFile) == false)

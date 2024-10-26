@@ -73,10 +73,10 @@ namespace GlueFormsCore.ViewModels
         #region Fields/Properties
 
         public TabContainerViewModel TopTabItems { get; } = new() { Location = TabLocation.Top };
-        public TabContainerViewModel BottomTabItems { get; } = new () { Location = TabLocation.Bottom };
-        public TabContainerViewModel LeftTabItems { get; } = new () { Location = TabLocation.Left };
-        public TabContainerViewModel RightTabItems { get; } =  new () { Location = TabLocation.Right };
-        public TabContainerViewModel CenterTabItems { get; } = new () { Location = TabLocation.Center };
+        public TabContainerViewModel BottomTabItems { get; } = new() { Location = TabLocation.Bottom };
+        public TabContainerViewModel LeftTabItems { get; } = new() { Location = TabLocation.Left };
+        public TabContainerViewModel RightTabItems { get; } = new() { Location = TabLocation.Right };
+        public TabContainerViewModel CenterTabItems { get; } = new() { Location = TabLocation.Center };
 
         public GridLength TopPanelHeight
         {
@@ -182,14 +182,15 @@ namespace GlueFormsCore.ViewModels
 
         internal void UpdateToSelection(ITreeNode selectedTreeNode)
         {
-            string selectedType = selectedTreeNode?.Tag?.GetType().Name ?? selectedTreeNode?.Text;
-
-            foreach (var (_, vm) in Containers)
+            if(selectedTreeNode == null)
             {
-                if(selectedTreeNode != null)
-                {
-                    vm.ShowMostRecentTabFor(selectedType);
-                }
+                return;
+            }
+            string selectedType = selectedTreeNode.Tag?.GetType().Name ?? selectedTreeNode.Text;
+
+            foreach (var vm in Containers.Values)
+            {
+                vm.ShowMostRecentTabFor(selectedType);
             }
         }
     }
