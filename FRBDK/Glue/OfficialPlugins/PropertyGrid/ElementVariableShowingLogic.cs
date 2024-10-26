@@ -89,11 +89,21 @@ namespace OfficialPlugins.VariableDisplay
 
         public static void UpdateShownVariables(DataUiGrid grid, GlueElement element)
         {
+            var collapsed = grid.Categories.Where(item => item.IsExpanded == false).Select(item => item.Name).ToArray();
             grid.Categories.Clear();
 
             List<MemberCategory> categories = new List<MemberCategory>();
 
             CreateInstanceMembersForVariables(element, categories);
+
+            foreach(var collapsedCategory in collapsed)
+            {
+                var category = categories.FirstOrDefault(item => item.Name == collapsedCategory);
+                if (category != null)
+                {
+                    category.IsExpanded = false;
+                }
+            }
 
             AddAlternatingColors(grid, categories);
 
