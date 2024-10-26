@@ -122,7 +122,7 @@ namespace DialogTreePlugin
                 if (mainControl == null)
                 {
                     mainControl = TabConroller.Self.GetControl();
-                    var tab = this.CreateTab(mainControl, "Dialog Tree");
+                    tab = this.CreateTab(mainControl, "Dialog Tree");
                 }
                 tab.Focus();
 

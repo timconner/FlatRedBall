@@ -505,9 +505,9 @@ namespace OfficialPlugins.Wizard.Managers
         #region Additional serialized Objects(from json)
         private async Task ImportAdditionalObjects(string namedObjectSavesSerialized)
         {
-            Dictionary<string, List<NamedObjectSave>> deserialized = null;
+            Dictionary<string, List<NamedObjectSave>>? deserialized = null;
 
-            Exception deserializeException = null;
+            Exception? deserializeException = null;
 
             try
             {
@@ -521,32 +521,35 @@ namespace OfficialPlugins.Wizard.Managers
 
             List<ElementAndNosList> imports = new List<ElementAndNosList>();
 
-            foreach (var kvp in deserialized)
+            if(deserialized != null)
             {
-                var elementName = kvp.Key;
-                if (elementName.StartsWith("Screens\\"))
+                foreach (var kvp in deserialized)
                 {
-                    var screen = ObjectFinder.Self.GetScreenSave(elementName);
-
-                    imports.Add(new ElementAndNosList
+                    var elementName = kvp.Key;
+                    if (elementName.StartsWith("Screens\\"))
                     {
-                        Element = screen,
-                        NosList = kvp.Value
-                    });
+                        var screen = ObjectFinder.Self.GetScreenSave(elementName);
+
+                        imports.Add(new ElementAndNosList
+                        {
+                            Element = screen,
+                            NosList = kvp.Value
+                        });
+
+                    }
+                    else if (elementName.StartsWith("Entities\\"))
+                    {
+                        var entity = ObjectFinder.Self.GetEntitySave(elementName);
+
+                        imports.Add(new ElementAndNosList
+                        {
+                            Element = entity,
+                            NosList = kvp.Value
+                        });
+
+                    }
 
                 }
-                else if (elementName.StartsWith("Entities\\"))
-                {
-                    var entity = ObjectFinder.Self.GetEntitySave(elementName);
-
-                    imports.Add(new ElementAndNosList
-                    {
-                        Element = entity,
-                        NosList = kvp.Value
-                    });
-
-                }
-
             }
 
             // we want base implementations first, then derived
@@ -604,7 +607,7 @@ namespace OfficialPlugins.Wizard.Managers
 
         #region Player
 
-        private static async Task<EntitySave> HandleAddPlayerEntity(WizardViewModel vm)
+        private static async Task<EntitySave?> HandleAddPlayerEntity(WizardViewModel vm)
         {
             EntitySave playerEntity;
 
@@ -783,7 +786,7 @@ namespace OfficialPlugins.Wizard.Managers
             return Task.CompletedTask;
         }
 
-        private static async Task<EntitySave> ImportPlayerEntity(WizardViewModel vm)
+        private static async Task<EntitySave?> ImportPlayerEntity(WizardViewModel vm)
         {
             EntitySave? playerEntity = null;
             var downloadFolder = FileManager.UserApplicationDataForThisApplication + "ImportDownload\\";
