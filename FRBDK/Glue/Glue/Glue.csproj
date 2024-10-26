@@ -152,7 +152,7 @@
 		<ProjectReference Include="..\..\..\..\Gum\SkiaGumMonogame\SkiaGumMonogame.csproj" />
 		<ProjectReference Include="..\..\..\..\Gum\ToolsUtilities\ToolsUtilitiesStandard.csproj" />
 		<ProjectReference Include="..\..\..\..\Gum\WpfDataUiCore\WpfDataUiCore.csproj" />
-		<ProjectReference Include="..\..\..\FlatRedBall\FlatRedBall.csproj" />
+		<ProjectReference Include="..\..\..\Engines\FlatRedBallXNA\FlatRedBallDesktopGLNet6\FlatRedBallDesktopGLNet6.csproj" />
 		<ProjectReference Include="..\..\..\Tiled\TMXGlueLib\TMXGlueLib.csproj" />
 		<ProjectReference Include="..\..\FRBDKUpdater\UpdaterWpf\UpdaterWpf\UpdaterWpf.csproj" />
 		<ProjectReference Include="..\..\Localization\Localization.csproj" />
@@ -171,7 +171,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AsepriteDotNet" Version="1.8.1" />
+		<PackageReference Include="AsepriteDotNet" Version="1.9.0" />
 		<PackageReference Include="CompareNETObjects" Version="4.72.0" />
 		<PackageReference Include="DotNetZip" Version="1.16.0" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />

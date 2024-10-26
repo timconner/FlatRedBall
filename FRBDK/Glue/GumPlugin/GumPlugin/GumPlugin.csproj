@@ -375,7 +375,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Gum\GumCommon\GumCommon.csproj" />
-    <ProjectReference Include="..\..\..\..\FlatRedBall\FlatRedBall.csproj" />
+    <ProjectReference Include="..\..\..\..\Engines\FlatRedBallXNA\FlatRedBallDesktopGLNet6\FlatRedBallDesktopGLNet6.csproj" />
     <ProjectReference Include="..\..\GlueCommon\GlueCommon.csproj" />
     <ProjectReference Include="..\..\Glue\Glue.csproj" />
     <ProjectReference Include="..\..\StateInterpolationPlugin\StateInterpolationNet6\StateInterpolationNet6.csproj" />

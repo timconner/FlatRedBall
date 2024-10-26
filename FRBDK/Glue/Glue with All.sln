@@ -97,6 +97,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frb", "Frb", "{69D428BA-766
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBallShared", "..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.shproj", "{0BB8CBE3-8503-46C1-9272-D98E153A230E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRedBallDesktopGLNet6", "..\..\Engines\FlatRedBallXNA\FlatRedBallDesktopGLNet6\FlatRedBallDesktopGLNet6.csproj", "{8AD810AF-716D-4BCE-A6C6-475E57E2F100}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +229,10 @@ Global
 		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -271,6 +277,7 @@ Global
 		{82348794-B260-45E4-AC62-68BD68E76A10} = {3DDD0995-4B47-47A2-82A4-F0A6367C9FF2}
 		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9} = {69D428BA-766B-491B-8256-F0B68425B7DD}
 		{0BB8CBE3-8503-46C1-9272-D98E153A230E} = {69D428BA-766B-491B-8256-F0B68425B7DD}
+		{8AD810AF-716D-4BCE-A6C6-475E57E2F100} = {69D428BA-766B-491B-8256-F0B68425B7DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {878CCBB8-EADE-4F25-9DE7-D55D999D414A}
@@ -280,6 +287,7 @@ Global
 		StateInterpolationPlugin\StateInterpolationPlugin\StateInterpolationShared.projitems*{48261027-dfd2-4571-948e-129136a6e6be}*SharedItemsImports = 5
 		..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{70a4be37-617a-4b58-acb9-9fbf62cb38a9}*SharedItemsImports = 5
 		..\..\Engines\Forms\FlatRedBall.Forms\FlatRedBall.Forms.Shared\FlatRedBall.Forms.Shared.projitems*{728151f0-03e0-4253-94fe-46b9c77edea6}*SharedItemsImports = 13
+		..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{8ad810af-716d-4bce-a6c6-475e57e2f100}*SharedItemsImports = 5
 		StateInterpolationPlugin\StateInterpolationPlugin\StateInterpolationShared.projitems*{d00d287d-385b-42fb-bf5f-04401e7d37d0}*SharedItemsImports = 13
 		..\..\..\Gum\GumCoreShared.projitems*{f919c045-eac7-4806-9a1f-ce421f923e97}*SharedItemsImports = 13
 	EndGlobalSection

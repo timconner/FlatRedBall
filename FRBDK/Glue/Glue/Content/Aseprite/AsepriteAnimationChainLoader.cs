@@ -20,7 +20,9 @@ namespace FlatRedBall.Glue.Content.Aseprite
         }
         private static AnimationChainListSave ToAnimationChainListSave(AsepriteFile file)
         {
-            var spriteSheet = SpriteSheetProcessor.Process(file);
+            var spriteSheet = SpriteSheetProcessor.Process(file,
+                // This parameter exists to resolve ambiguity
+                onlyVisibleLayers:true);
 
             AnimationChainListSave list = new AnimationChainListSave();
             var aseTexture = spriteSheet.TextureAtlas.Texture;

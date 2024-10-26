@@ -29,7 +29,7 @@ namespace OfficialPlugins.VariableDisplay
         #region Fields
 
         DataUiGrid settingsGrid;
-        public static VariableView VariableGrid;
+        public static VariableView? VariableGrid;
 
         VariableViewModel variableViewModel;
 

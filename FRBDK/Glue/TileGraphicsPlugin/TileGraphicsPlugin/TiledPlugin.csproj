@@ -85,7 +85,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\FlatRedBall\FlatRedBall.csproj" />
+		<ProjectReference Include="..\..\..\..\Engines\FlatRedBallXNA\FlatRedBallDesktopGLNet6\FlatRedBallDesktopGLNet6.csproj" />
 		<ProjectReference Include="..\..\..\..\Tiled\TMXGlueLib\TMXGlueLib.csproj" />
 		<ProjectReference Include="..\..\GlueCommon\GlueCommon.csproj" />
 		<ProjectReference Include="..\..\Glue\Glue.csproj">

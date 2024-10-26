@@ -228,7 +228,7 @@ namespace OfficialPlugins.SpritePlugin.Managers
 
         }
 
-        static VariableDefinition setCollisionFromAnimationVariableDefinition;
+        static VariableDefinition? setCollisionFromAnimationVariableDefinition;
         const string SetCollisionFromAnimationVariableName = nameof(Sprite.SetCollisionFromAnimation);
         public static VariableDefinition GetSetCollisionFromAnimationVariableDefinition()
         {
@@ -253,7 +253,7 @@ namespace OfficialPlugins.SpritePlugin.Managers
         }
 
 
-        static VariableDefinition createMissingShapesDefinition;
+        static VariableDefinition? createMissingShapesDefinition;
         public static VariableDefinition GetCreateMissingShapesDefinition()
         {
             if(createMissingShapesDefinition == null)
