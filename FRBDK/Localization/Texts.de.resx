@@ -462,21 +462,6 @@
   <data name="CancelBuild" xml:space="preserve">
     <value>Bau abbrechen</value>
   </data>
-  <data name="BuildGame" xml:space="preserve">
-    <value>Baue das Spiel</value>
-  </data>
-  <data name="BuildCurrentGame" xml:space="preserve">
-    <value>Bauet das aktuelle Spielprojekt</value>
-  </data>
-  <data name="PackageGame" xml:space="preserve">
-    <value>Packe das Spiel</value>
-  </data>
-  <data name="CreateZipGameDistribution" xml:space="preserve">
-    <value>Erstellt eine .zip-Datei zur Verteilung Ihres Spiels.</value>
-  </data>
-  <data name="PrintMsBuildCommand" xml:space="preserve">
-    <value>MSBuild-Befehl kopieren</value>
-  </data>
   <data name="SlowDown" xml:space="preserve">
     <value>Verlangsamen</value>
   </data>
@@ -806,9 +791,6 @@
   </data>
   <data name="ProjectView" xml:space="preserve">
     <value>Projekte anzeigen</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>Um</value>
   </data>
   <data name="CameraSettings" xml:space="preserve">
     <value>Kameraeinstellungen</value>

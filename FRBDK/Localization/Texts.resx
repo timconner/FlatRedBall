@@ -463,21 +463,6 @@ for {1}?</value>
   <data name="CancelBuild" xml:space="preserve">
     <value>Cancel Build</value>
   </data>
-  <data name="BuildGame" xml:space="preserve">
-    <value>Build Game</value>
-  </data>
-  <data name="BuildCurrentGame" xml:space="preserve">
-    <value>Builds the current game project</value>
-  </data>
-  <data name="PackageGame" xml:space="preserve">
-    <value>Package Game</value>
-  </data>
-  <data name="CreateZipGameDistribution" xml:space="preserve">
-    <value>Creates a .zip file for distributing your game.</value>
-  </data>
-  <data name="PrintMsBuildCommand" xml:space="preserve">
-    <value>Print MSBuild Command</value>
-  </data>
   <data name="SlowDown" xml:space="preserve">
     <value>Slow Down</value>
   </data>
@@ -807,9 +792,6 @@ for {1}?</value>
   </data>
   <data name="ProjectView" xml:space="preserve">
     <value>View Projects</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
   </data>
   <data name="CameraSettings" xml:space="preserve">
     <value>Camera Settings</value>

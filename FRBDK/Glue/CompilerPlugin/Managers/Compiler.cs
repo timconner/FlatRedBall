@@ -215,7 +215,7 @@ namespace CompilerPlugin.Managers
 
                         if(shouldDoNugetRestore)
                         {
-                            succeeded = DoNugetRestore(printOutput, printError, printMsBuildCommand, projectFileName, msBuildPath, additionalArgumentPrefix);
+                            succeeded = await DoNugetRestore(printOutput, printError, printMsBuildCommand, projectFileName, msBuildPath, additionalArgumentPrefix);
                         }
                         else
                         {
@@ -251,7 +251,7 @@ namespace CompilerPlugin.Managers
                                 printOutput?.Invoke($"\"{msBuildPath}\" {arguments}");
                             }
 
-                            succeeded = StartMsBuildWithParameters(printOutput, printError, startOutput, endOutput, arguments, msBuildPath);
+                            succeeded = await StartMsBuildWithParameters(printOutput, printError, startOutput, endOutput, arguments, msBuildPath);
                         }
 
                         #endregion
@@ -297,7 +297,7 @@ namespace CompilerPlugin.Managers
             return toReturn;
         }
 
-        private bool DoNugetRestore(Action<string> printOutput, Action<string> printError, bool printMsBuildCommand, FilePath projectFileName, string msBuildPath, string additionalArgumentPrefix)
+        private async Task<bool> DoNugetRestore(Action<string> printOutput, Action<string> printError, bool printMsBuildCommand, FilePath projectFileName, string msBuildPath, string additionalArgumentPrefix)
         {
             bool succeeded;
             {
@@ -326,14 +326,17 @@ namespace CompilerPlugin.Managers
                     }
                 }
 
-                succeeded = StartMsBuildWithParameters(printOutput, printError, startOutput, endOutput, arguments, msBuildPath);
+                succeeded = await StartMsBuildWithParameters(printOutput, printError, startOutput, endOutput, arguments, msBuildPath);
             }
 
             return succeeded;
         }
 
-        private bool StartMsBuildWithParameters(Action<string> printOutput, Action<string> printError, string startOutput, string endOutput, string arguments, string msbuildLocation)
+        private async Task<bool> StartMsBuildWithParameters(Action<string> printOutput, Action<string> printError, string startOutput,
+            // We pass the endOutput because this method is used for different types of builds
+            string endOutput, string arguments, string msbuildLocation)
         {
+            var start = DateTime.Now;
             var effectiveMsBuildLocation = msBuildLocation == "dotnet" ? "dotnet" : $"\"{msbuildLocation}\"";
             Process process = CreateProcess(effectiveMsBuildLocation, arguments);
             printOutput(startOutput);
@@ -342,10 +345,13 @@ namespace CompilerPlugin.Managers
 
             StringBuilder outputStringBuilder = new StringBuilder();
             StringBuilder errorStringBuilder = new StringBuilder();
-            
+
             // This puts the task on a different thread, we don't want that!
             //var errorString = await Task.Run(() => RunProcess(outputStringBuilder, errorStringBuilder, msbuildLocation, process));
-            var errorString = RunProcess(outputStringBuilder, errorStringBuilder, msbuildLocation, process);
+            // Update October 26, 2024 - I tried to make it all async but it still freezes. Why not have it on a separate thread?
+            //var errorString = await RunProcessAsync(outputStringBuilder, errorStringBuilder, msbuildLocation, process);
+            var errorString = await Task.Run(() => RunProcess(outputStringBuilder, errorStringBuilder, msbuildLocation, process));
+
 
             if (outputStringBuilder.Length > 0)
             {
@@ -366,39 +372,22 @@ namespace CompilerPlugin.Managers
             else
             {
                 succeeded = true;
-                printOutput($"{endOutput} at {DateTime.Now.ToLongTimeString()}");
+                var endTime = DateTime.Now;
+                var duration = endTime - start;
+
+                var durationWithoutMs = new TimeSpan(duration.Days, duration.Hours, duration.Minutes, duration.Seconds);
+
+
+                printOutput($"{endOutput} at {endTime.ToLongTimeString()} in ({durationWithoutMs}.{duration.Milliseconds:000})");
             }
 
             return succeeded;
         }
 
-        // no longer needed for .NET Core/Standard
-        //private string GetMissingFrameworkMessage()
-        //{
-        //    string whyCantRun = null;
-
-        //    // check if .NET is installed:
-        //    // This is where the .NET 4.5.2 SDK 
-        //    // installs the files, which seems to 
-        //    // be required for running the build tool.
-        //    const string dotNet452Directory = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\";
-
-        //    var directoryExists = System.IO.Directory.Exists(dotNet452Directory);
-        //    if(directoryExists == false)
-        //    {
-        //        var sdkLocation = "https://www.microsoft.com/en-us/download/details.aspx?id=42637";
-        //        whyCantRun = $"Your computer is missing the .NET framework version 4.5.2. Glue is expecting " +
-        //            " it it in the following location:\n{dotNet452Directory}\n\n" +
-        //            $"This can be downloaded here: {sdkLocation}";
-        //    }
-
-        //    return whyCantRun;
-        //}
-
         private string RunProcess(StringBuilder printOutput, StringBuilder printError, string processPath, Process process)
         {
             string errorString = "";
-            const int timeToWait = 50;
+            const int msToWait = 50;
             bool hasUserTerminatedProcess = false;
 
             StringBuilder outputWhileRunning = new StringBuilder();
@@ -408,7 +397,7 @@ namespace CompilerPlugin.Managers
 
             while (!process.HasExited)
             {
-                System.Threading.Thread.Sleep(timeToWait);
+                System.Threading.Thread.Sleep(msToWait);
                 // If we don't read the output, this seems to freeze and never exit
                 while (!process.StandardOutput.EndOfStream)
                 {
