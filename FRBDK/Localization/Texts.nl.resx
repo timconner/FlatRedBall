@@ -462,21 +462,6 @@
   <data name="CancelBuild" xml:space="preserve">
     <value>Bouwen annuleren</value>
   </data>
-  <data name="BuildGame" xml:space="preserve">
-    <value>Bouw spel</value>
-  </data>
-  <data name="BuildCurrentGame" xml:space="preserve">
-    <value>Bouwt het huidige spelproject</value>
-  </data>
-  <data name="PackageGame" xml:space="preserve">
-    <value>Verpak het spel</value>
-  </data>
-  <data name="CreateZipGameDistribution" xml:space="preserve">
-    <value>Creëert een .zip-bestand voor het distribueren van uw spel.</value>
-  </data>
-  <data name="PrintMsBuildCommand" xml:space="preserve">
-    <value>Kopieer de MSBuild-opdracht</value>
-  </data>
   <data name="SlowDown" xml:space="preserve">
     <value>Vertragen</value>
   </data>
@@ -806,9 +791,6 @@
   </data>
   <data name="ProjectView" xml:space="preserve">
     <value>Bekijk projecten</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>Over</value>
   </data>
   <data name="CameraSettings" xml:space="preserve">
     <value>Camera instellingen</value>

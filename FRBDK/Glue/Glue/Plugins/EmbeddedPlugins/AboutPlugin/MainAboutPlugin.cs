@@ -28,7 +28,7 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.AboutPlugin
 
         public override void StartUp()
         {
-            this.AddMenuItemTo(Localization.Texts.About, Localization.MenuIds.AboutId, HandleAboutClicked, Localization.MenuIds.HelpId);
+            this.AddMenuItemTo("About", Localization.MenuIds.AboutId, HandleAboutClicked, Localization.MenuIds.HelpId);
 
             this.ReactToLoadedGlux += () =>
             {

@@ -7,32 +7,32 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="800">
-    <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="3" >
-        <Button Click="HandleCompileClick" Content="{materialDesign:PackIcon Build}" Style="{DynamicResource ToolIcon}" Padding="0,1">
-            <Button.ToolTip>
-                <ToolTip>
-                    <StackPanel>
-                        <TextBlock FontWeight="Bold" Text="{x:Static localization:Texts.BuildGame}"></TextBlock>
-                        <TextBlock Text="{x:Static localization:Texts.BuildCurrentGame}"></TextBlock>
-                    </StackPanel>
-                </ToolTip>
-            </Button.ToolTip>
-        </Button>
-        <Button Margin="4,0" Click="HandlePackageClicked" Content="{materialDesign:PackIcon PackageDown}" Style="{DynamicResource ToolIcon}">
-            <Button.ToolTip>
-                <ToolTip>
-                    <StackPanel>
-                        <TextBlock FontWeight="Bold" Text="{x:Static localization:Texts.PackageGame}"></TextBlock>
-                        <TextBlock Text="{x:Static localization:Texts.CreateZipGameDistribution}"></TextBlock>
-                    </StackPanel>
-                </ToolTip>
-            </Button.ToolTip>
-        </Button>
-        <ComboBox IsEditable="True" Margin="4,0" Width="150" 
+  <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="3" >
+    <Button Click="HandleCompileClick" Content="{materialDesign:PackIcon Build}" Style="{DynamicResource ToolIcon}" Padding="0,1">
+      <Button.ToolTip>
+        <ToolTip>
+          <StackPanel>
+            <TextBlock FontWeight="Bold" Text="Build Game"></TextBlock>
+            <TextBlock Text="Builds the current game project"></TextBlock>
+          </StackPanel>
+        </ToolTip>
+      </Button.ToolTip>
+    </Button>
+    <Button Margin="4,0" Click="HandlePackageClicked" Content="{materialDesign:PackIcon PackageDown}" Style="{DynamicResource ToolIcon}">
+      <Button.ToolTip>
+        <ToolTip>
+          <StackPanel>
+            <TextBlock FontWeight="Bold" Text="Package Game"></TextBlock>
+            <TextBlock Text="Creates a .zip file for distributing your game."></TextBlock>
+          </StackPanel>
+        </ToolTip>
+      </Button.ToolTip>
+    </Button>
+    <ComboBox IsEditable="True" Margin="4,0" Width="150" 
                   ItemsSource="{Binding AvailableConfigurations}"
                  Text="{Binding Configuration}"></ComboBox>
-        <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding IsPrintMsBuildCommandChecked}" Content="{x:Static localization:Texts.PrintMsBuildCommand}" Margin="4,0"></CheckBox>
-        <Button VerticalAlignment="Top" Height="24" Click="MSBuildSettingsButtonClicked" Margin="4,0" Content="{materialDesign:PackIcon Cog}" Style="{DynamicResource ToolIcon}">
-        </Button>
-    </StackPanel>
+    <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding IsPrintMsBuildCommandChecked}" Content="Print MSBuild Command" Margin="4,0"></CheckBox>
+    <Button VerticalAlignment="Top" Height="24" Click="MSBuildSettingsButtonClicked" Margin="4,0" Content="{materialDesign:PackIcon Cog}" Style="{DynamicResource ToolIcon}">
+    </Button>
+  </StackPanel>
 </UserControl>
