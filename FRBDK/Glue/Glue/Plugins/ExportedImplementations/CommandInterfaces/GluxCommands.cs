@@ -140,12 +140,6 @@ public class GluxCommands : IGluxCommands
 
     #region Save Glux Methods
 
-    [Obsolete("Use SaveProjectAndElements since it more clearly explains what it does.")]
-    public void SaveGlux(TaskExecutionPreference taskExecutionPreference = TaskExecutionPreference.Asap)
-    {
-        SaveProjectAndElements(taskExecutionPreference);
-    }
-
     /// <summary>
     /// Saves the gluj (and all elements) in a task.
     /// </summary>
@@ -268,14 +262,6 @@ public class GluxCommands : IGluxCommands
         }
     }
 
-    [Obsolete("Use SaveProjectAndElementsImmediately because it more clearly " +
-        "indicates that everything (main project and all screens/entities) are saved")]
-    public void SaveGlueProjectImmediately()
-    {
-        SaveProjectAndElementsImmediately();
-    }
-
-
     /// <summary>
     /// Saves the current project immediately - this should not 
     /// be called except in very rare circumstances as it will run right away and may result
@@ -322,7 +308,8 @@ public class GluxCommands : IGluxCommands
                 // file to disk.
                 try
                 {
-                    ProjectManager.GlueProjectSave.TestSave("GLUE");
+                    GlueState.Self.CurrentGlueProject.TestSave("GLUE");
+                    //ProjectManager.GlueProjectSave.TestSave("GLUE");
                 }
                 catch (Exception e)
                 {
@@ -467,7 +454,7 @@ public class GluxCommands : IGluxCommands
             directory = GlueState.Self.CurrentTreeNode.GetRelativeFilePath().Replace("/", "\\");
         }
 
-        await TaskManager.Self.AddAsync(() =>
+        await TaskManager.Self.AddAsync(async () =>
         {
             string name = viewModel.FileName;
             AssetTypeInfo resultAssetTypeInfo =
@@ -476,15 +463,11 @@ public class GluxCommands : IGluxCommands
             string errorMessage;
 
 
-            rfs = GlueProjectSaveExtensionMethods.AddReferencedFileSave(
+            rfs = await GlueProjectSaveExtensionMethods.AddReferencedFileSave(
                 element, directory, name, resultAssetTypeInfo,
-                creationOptions, out errorMessage);
+                creationOptions);
 
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                GlueCommands.Self.DialogCommands.ShowMessageBox(errorMessage);
-            }
-            else if (rfs != null)
+            if (rfs != null)
             {
 
                 var createdFile = GlueCommands.Self.GetAbsoluteFileName(rfs);
@@ -508,7 +491,8 @@ public class GluxCommands : IGluxCommands
 
                 PluginManager.ReactToNewFile(rfs, resultAssetTypeInfo);
 
-                GluxCommands.Self.SaveProjectAndElements();
+                // no need to save, this is handled internally...
+                //GluxCommands.Self.SaveProjectAndElements();
             }
 
         }, $"Adding file with name {viewModel.FileName}");
@@ -612,8 +596,14 @@ public class GluxCommands : IGluxCommands
 
         if (generateAndSave)
         {
-            GlueCommands.Self.GluxCommands.SaveProjectAndElements(TaskExecutionPreference.AddOrMoveToEnd);
+            GlueCommands.Self.GluxCommands.SaveGlujFile();
             GlueCommands.Self.GenerateCodeCommands.GenerateGlobalContentCode();
+
+            foreach(var element in elements)
+            {
+                GlueCommands.Self.GluxCommands.SaveElementAsync(element);
+                GlueCommands.Self.GenerateCodeCommands.GenerateElementCode(element);
+            }
         }
 
         if (updateUi)

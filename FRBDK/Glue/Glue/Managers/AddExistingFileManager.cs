@@ -34,12 +34,10 @@ namespace FlatRedBall.Glue.Managers
             if(result == true)
             {
                 string directoryOfTreeNode = GlueState.Self.CurrentTreeNode.GetRelativeFilePath();
-                bool userCancelled = false;
-
                 foreach(var file in viewModel.Files)
                 {
                     // If there is already an RFS for this file, no need to add it again.
-                    TaskManager.Self.AddOrRunIfTasked(() =>
+                    _=TaskManager.Self.AddAsync(async () =>
                     {
                         ReferencedFileSave existingFile = null;
                         if(element != null)
@@ -58,7 +56,7 @@ namespace FlatRedBall.Glue.Managers
 
                         if (existingFile == null)
                         {
-                            AddSingleFile(file, ref userCancelled, elementToAddTo: element, directoryOfTreeNode: directoryOfTreeNode);
+                            await AddSingleFile(file, elementToAddTo: element, directoryOfTreeNode: directoryOfTreeNode);
                         }
                         else
                         {
@@ -97,9 +95,10 @@ namespace FlatRedBall.Glue.Managers
             viewModel.RefreshFilteredList();
         }
 
-        public ReferencedFileSave AddSingleFile(FilePath fileName, ref bool userCancelled, object options = null, GlueElement elementToAddTo = null, string directoryOfTreeNode = null,
+        public async Task<ReferencedFileSave> AddSingleFile(FilePath fileName, object options = null, GlueElement elementToAddTo = null, string directoryOfTreeNode = null,
             AssetTypeInfo forcedAti = null)
         {
+            bool userCancelled = false;
             elementToAddTo = elementToAddTo ?? GlueState.Self.CurrentElement;
 
             ReferencedFileSave toReturn = null;
@@ -135,8 +134,11 @@ namespace FlatRedBall.Glue.Managers
             else if (!userCancelled)
             {
 
-                toReturn = GlueCommands.Self.GluxCommands.AddSingleFileTo(fileName.FullPath, rfsName, extraCommandLineArguments, buildToolAssociation,
-                    isBuiltFile, options, elementToAddTo, directoryOfTreeNode, forcedAssetTypeInfo:forcedAti);
+                //toReturn = GlueCommands.Self.GluxCommands.AddSingleFileTo(fileName.FullPath, rfsName, extraCommandLineArguments, buildToolAssociation,
+                //    isBuiltFile, options, elementToAddTo, directoryOfTreeNode, forcedAssetTypeInfo:forcedAti);
+
+                toReturn = await GlueCommands.Self.GluxCommands.CreateReferencedFileSaveForExistingFileAsync(elementToAddTo, fileName, forcedAti);
+
             }
 
 

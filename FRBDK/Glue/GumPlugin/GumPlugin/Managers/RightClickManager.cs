@@ -13,6 +13,7 @@ using GumPlugin.CodeGeneration;
 using Gum.Managers;
 using FlatRedBall.Glue.ViewModels;
 using GlueFormsCore.FormHelpers;
+using System.Threading.Tasks;
 
 namespace GumPlugin.Managers
 {
@@ -210,12 +211,12 @@ namespace GumPlugin.Managers
 
             if(!string.IsNullOrEmpty(screenName))
             {
-                AddGumScreenScreenByName(screenName, GlueState.Self.CurrentScreenSave);
+                _=AddGumScreenScreenByName(screenName, GlueState.Self.CurrentScreenSave);
             }
 
         }
 
-        public void AddGumScreenScreenByName(string gumScreenName, FlatRedBall.Glue.SaveClasses.ScreenSave glueScreen)
+        public async Task AddGumScreenScreenByName(string gumScreenName, FlatRedBall.Glue.SaveClasses.ScreenSave glueScreen)
         {
             string fullFileName = AppState.Self.GumProjectFolder + "Screens/" +
                 gumScreenName + "." + GumProjectSave.ScreenExtension;
@@ -225,7 +226,7 @@ namespace GumPlugin.Managers
                 bool cancelled = false;
 
                 var newRfs =
-                    AddExistingFileManager.Self.AddSingleFile(fullFileName, ref cancelled, elementToAddTo: glueScreen);
+                    await AddExistingFileManager.Self.AddSingleFile(fullFileName, elementToAddTo: glueScreen);
 
                 // prior to doing any codegen, need to refresh the project specific ATIs:
                 AssetTypeInfoManager.Self.RefreshProjectSpecificAtis();

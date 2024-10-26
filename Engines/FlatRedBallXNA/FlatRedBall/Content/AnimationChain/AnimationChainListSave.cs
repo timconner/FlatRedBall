@@ -143,28 +143,19 @@ namespace FlatRedBall.Content.AnimationChain
 
 			foreach (AnimationChainSave acs in this.AnimationChains)
 			{
-                //if(acs.ParentFile 
-                if (acs.ParentFile != null && acs.ParentFile.EndsWith(".gif"))
-                {
-                    referencedFiles.Add(acs.ParentFile);
 
-                }
-                else
+                foreach (AnimationFrameSave afs in acs.Frames)
                 {
+                    string texture = FileManager.Standardize( afs.TextureName, null, false );
 
-                    foreach (AnimationFrameSave afs in acs.Frames)
+                    if (FileManager.GetExtension(texture).StartsWith("gif"))
                     {
-                        string texture = FileManager.Standardize( afs.TextureName, null, false );
+                        texture = FileManager.RemoveExtension(texture) + ".gif";
+                    }
 
-                        if (FileManager.GetExtension(texture).StartsWith("gif"))
-                        {
-                            texture = FileManager.RemoveExtension(texture) + ".gif";
-                        }
-
-                        if (!string.IsNullOrEmpty(texture) && !referencedFiles.Contains(texture))
-                        {
-                            referencedFiles.Add(texture);
-                        }
+                    if (!string.IsNullOrEmpty(texture) && !referencedFiles.Contains(texture))
+                    {
+                        referencedFiles.Add(texture);
                     }
                 }
 			}

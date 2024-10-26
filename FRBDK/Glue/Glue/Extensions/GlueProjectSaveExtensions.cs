@@ -27,23 +27,23 @@ namespace FlatRedBall.Glue.SaveClasses
             GlueCommands.Self.TryMultipleTimes(() =>
             {
                 whatToSave = glueProjectSave.ConvertToPartial(tag);
-            });
 
-            if(whatToSave != null)
-            {
-                if(glueProjectSave.FileVersion >= (int)GlueProjectSave.GluxVersions.GlueSavedToJson)
+                if(whatToSave != null)
                 {
-                    // The settings really don't matter, but let's simulate the real save here by using the same settings
-                    JsonSerializerSettings settings = new JsonSerializerSettings();
-                    settings.NullValueHandling = NullValueHandling.Ignore;
-                    settings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-                    serializedToString = JsonConvert.SerializeObject(glueProjectSave, Formatting.Indented, settings);
+                    if(glueProjectSave.FileVersion >= (int)GlueProjectSave.GluxVersions.GlueSavedToJson)
+                    {
+                        // The settings really don't matter, but let's simulate the real save here by using the same settings
+                        JsonSerializerSettings settings = new JsonSerializerSettings();
+                        settings.NullValueHandling = NullValueHandling.Ignore;
+                        settings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
+                        serializedToString = JsonConvert.SerializeObject(glueProjectSave, Formatting.Indented, settings);
+                    }
+                    else
+                    {
+                        FileManager.XmlSerialize(whatToSave, out serializedToString);
+                    }
                 }
-                else
-                {
-                    FileManager.XmlSerialize(whatToSave, out serializedToString);
-                }
-            }
+            });
         }
 
         public static List<FilePath> GetAllSerializedFiles(this GlueProjectSave glueProjectSave, FilePath target)

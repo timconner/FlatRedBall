@@ -43,11 +43,6 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
         #endregion
 
         #region Save Glux Methods
-        /// <summary>
-        /// Saves the glue project immediately if in a task, and adds a task if not
-        /// </summary>
-        [Obsolete("Use SaveProjectAndElements since it more clearly indicates what it does. Glux files are not used on new projects anymore.")]
-        void SaveGlux(TaskExecutionPreference taskExecutionPreference = TaskExecutionPreference.Asap);
 
         /// <summary>
         /// Saves the glue project and all screen/entity files immediately if in a task, and adds a task if not

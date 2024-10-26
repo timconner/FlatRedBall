@@ -55,12 +55,6 @@ namespace FlatRedBall.Content.AnimationChain
                 animationChainSave.Frames.Add(save);
             }
 
-            if (!string.IsNullOrEmpty(animationChain.ParentGifFileName))
-            {
-
-                animationChainSave.ParentFile = animationChain.ParentGifFileName;
-            }
-
             return animationChainSave;
         }
 
@@ -73,11 +67,6 @@ namespace FlatRedBall.Content.AnimationChain
                 {
                     afs.TextureName = FileManager.MakeRelative(afs.TextureName);
                 }
-            }
-
-            if (string.IsNullOrEmpty(ParentFile) == false && FileManager.IsRelative(ParentFile) == false)
-            {
-                ParentFile = FileManager.MakeRelative(ParentFile);
             }
         }
 
@@ -96,66 +85,30 @@ namespace FlatRedBall.Content.AnimationChain
 
         public Anim.AnimationChain ToAnimationChain(string contentManagerName, TimeMeasurementUnit timeMeasurementUnit, TextureCoordinateType coordinateType)
         {
-            if (!string.IsNullOrEmpty(ParentFile))
+            Anim.AnimationChain animationChain =
+                new Anim.AnimationChain();
+
+            animationChain.Name = Name;
+
+            float divisor = 1;
+
+            if (timeMeasurementUnit == TimeMeasurementUnit.Millisecond)
+                divisor = 1000;
+
+            foreach (AnimationFrameSave save in Frames)
             {
-                // This code was written long ago to support GIF->AnimationChain.  It's not used anymore
-                // but maybe it could be in the future.  For now, we'll just throw an exception.
+                // process the AnimationFrame and add it to the newly-created AnimationChain
+                AnimationFrame frame = null;
 
-                //FlatRedBall.Graphics.Animation.AnimationChain animationChain =
-                //    FlatRedBall.Graphics.Animation.AnimationChain.FromGif(
-                //        ParentFile, contentManagerName);
+                bool loadTexture = true;
+                frame = save.ToAnimationFrame(contentManagerName, loadTexture, coordinateType);
 
-                //animationChain.Name = Name;
+                frame.FrameLength /= divisor;
+                animationChain.Add(frame);
 
-                //animationChain.ParentGifFileName = ParentFile;
-
-                //if (animationChain.Count == this.Frames.Count)
-                //{
-                //    for (int i = 0; i < animationChain.Count; i++)
-                //    {
-                //        animationChain[i].FlipHorizontal = Frames[i].FlipHorizontal;
-                //        animationChain[i].FlipVertical = Frames[i].FlipVertical;
-                //        animationChain[i].FrameLength = Frames[i].FrameLength;
-                //        animationChain[i].RelativeX = Frames[i].RelativeX;
-                //        animationChain[i].RelativeY = Frames[i].RelativeY;
-
-                //        animationChain[i].TopCoordinate = Frames[i].TopCoordinate;
-                //        animationChain[i].BottomCoordinate = Frames[i].BottomCoordinate;
-                //        animationChain[i].LeftCoordinate = Frames[i].LeftCoordinate;
-                //        animationChain[i].RightCoordinate = Frames[i].RightCoordinate;
-                //    }
-                //}
-
-                //return animationChain;
-                throw new NotImplementedException();
             }
-            else
-            {
-                Anim.AnimationChain animationChain =
-                    new Anim.AnimationChain();
 
-                animationChain.Name = Name;
-
-                float divisor = 1;
-
-                if (timeMeasurementUnit == TimeMeasurementUnit.Millisecond)
-                    divisor = 1000;
-
-                foreach (AnimationFrameSave save in Frames)
-                {
-                    // process the AnimationFrame and add it to the newly-created AnimationChain
-                    AnimationFrame frame = null;
-
-                    bool loadTexture = true;
-                    frame = save.ToAnimationFrame(contentManagerName, loadTexture, coordinateType);
-
-                    frame.FrameLength /= divisor;
-                    animationChain.Add(frame);
-
-                }
-
-                return animationChain;
-            }
+            return animationChain;
         }
 
         //        private Anim.AnimationChain ToAnimationChain(string contentManagerName, TextureAtlas textureAtlas,

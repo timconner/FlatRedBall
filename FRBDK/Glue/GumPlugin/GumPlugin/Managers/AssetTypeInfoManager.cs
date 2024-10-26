@@ -495,8 +495,6 @@ namespace GumPlugin.Managers
                         "FlatRedBall.Gum.GumIdbExtensions.RegisterTypes();  " +
                         $"FlatRedBall.Gui.GuiManager.BringsClickedWindowsToFront = false;";
 
-            var shouldAddFieldAssignment = false;
-
             if(element == null && GlueState.Self.CurrentGlueProject.GlobalContentSettingsSave.LoadAsynchronously)
             {
                 var fieldName = "m" + rfs.GetInstanceName();
