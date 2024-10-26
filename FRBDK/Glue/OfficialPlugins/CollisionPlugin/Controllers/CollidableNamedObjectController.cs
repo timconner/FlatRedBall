@@ -207,7 +207,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
             {
                 throw new ArgumentNullException(nameof(container));
             }
-            NamedObjectSave newNos = null;
+            NamedObjectSave? newNos = null;
             await TaskManager.Self.AddAsync(async () =>
             {
                 var addObjectModel = new AddObjectViewModel();
@@ -259,7 +259,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
                     effectiveSecondNos = secondNos;
                 }
 
-                EntitySave firstEntityType = null;
+                EntitySave? firstEntityType = null;
                 if (effectiveFirstNos.SourceType == SourceType.Entity)
                 {
                     firstEntityType = ObjectFinder.Self.GetEntitySave(effectiveFirstNos.SourceClassType);
@@ -269,7 +269,7 @@ namespace OfficialPlugins.CollisionPlugin.Controllers
                     firstEntityType = ObjectFinder.Self.GetEntitySave(effectiveFirstNos.SourceClassGenericType);
                 }
 
-                EntitySave secondEntityType = null;
+                EntitySave? secondEntityType = null;
                 if(effectiveSecondNos != null)
                 {
                     // This can happen if the user is creating an always-colliding relationship.

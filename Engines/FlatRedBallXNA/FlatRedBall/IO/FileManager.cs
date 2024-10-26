@@ -1409,9 +1409,10 @@ namespace FlatRedBall.IO
         {
             // encoding is currently unused
             fileName = fileName.Replace("/", "\\");
-            
+
             ////////////Early Out///////////////////////
-#if WINDOWS
+            // Glue is Desktop_GL as of October 26, 2024, so we should prob do this:
+#if WINDOW || DESKTOP_GL
             if (!string.IsNullOrEmpty(FileManager.GetDirectory(fileName)) &&
                 !Directory.Exists(FileManager.GetDirectory(fileName)))
             {
@@ -1424,7 +1425,7 @@ namespace FlatRedBall.IO
             // on any file change. This is slow, inconvenient,
             // and can introduce bugs.
             // Therefore, we have to delete the file first to prevent
-            // twi file changes:
+            // two file changes:
 
             if(System.IO.File.Exists(fileName))
             {

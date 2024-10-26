@@ -110,9 +110,9 @@ public static class GlueProjectSaveExtensionMethods
         
     }
 
-    public static ReferencedFileSave AddReferencedFileSave(GlueElement element, string directoryPath, 
+    public static async Task<ReferencedFileSave> AddReferencedFileSave(GlueElement element, string directoryPath, 
         string fileName, 
-        AssetTypeInfo resultAssetTypeInfo, object option, out string errorMessage)
+        AssetTypeInfo resultAssetTypeInfo, object option)
     {
         if(string.IsNullOrEmpty(fileName))
         {
@@ -121,7 +121,7 @@ public static class GlueProjectSaveExtensionMethods
 
         char invalidCharacter;
         ReferencedFileSave rfs = null;
-        errorMessage = null;
+        string errorMessage = null;
 
         #region Get directory
 
@@ -191,7 +191,7 @@ public static class GlueProjectSaveExtensionMethods
             // to the code that adds existing
             // files now that we have a file and
             // that's exactly what we're doing.
-            rfs = AddExistingFileManager.Self.AddSingleFile(createdFile, ref userCancelled, option, elementToAddTo:element, forcedAti:resultAssetTypeInfo);
+            rfs = await AddExistingFileManager.Self.AddSingleFile(createdFile, option, elementToAddTo:element, forcedAti:resultAssetTypeInfo);
 
             if (rfs == null && !userCancelled)
             {

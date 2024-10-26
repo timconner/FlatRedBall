@@ -88,7 +88,8 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
         /// <summary>
         /// Tries an action multiple time, sleeping and repeating if an exception is thrown.
         /// If the number of times is exceeded, the exception is rethrown and needs to be caught
-        /// by the caller.
+        /// by the caller. This is typically used when performing file operations which may fail due
+        /// to access exceptions (file locks) which we want to tolerate.
         /// </summary>
         /// <param name="action">The action to invoke</param>
         /// <param name="numberOfTimesToTry">The number of times to try</param>

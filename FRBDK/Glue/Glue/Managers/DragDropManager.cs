@@ -1669,7 +1669,6 @@ public class DragDropManager : Singleton<DragDropManager>
 
         var directoryPath = directoryNode == null ? null : directoryNode.GetRelativeFilePath();
 
-        bool userCancelled = false;
         if (targetNode == null)
         {
             GlueState.Self.CurrentTreeNode = targetNode;
@@ -1690,7 +1689,7 @@ public class DragDropManager : Singleton<DragDropManager>
                 {
                     TaskManager.Self.AddAsync(() =>
                     {
-                        AddExistingFileManager.Self.AddSingleFile(fileName, ref userCancelled);
+                        AddExistingFileManager.Self.AddSingleFile(fileName);
 
                     }, "Add file " + fileName);
                 }
@@ -1713,9 +1712,9 @@ public class DragDropManager : Singleton<DragDropManager>
 
 
                 var element = GlueState.Self.CurrentElement;
-                FlatRedBall.Glue.Managers.TaskManager.Self.Add(() =>
+                FlatRedBall.Glue.Managers.TaskManager.Self.Add(async () =>
                 {
-                    var newRfs = AddExistingFileManager.Self.AddSingleFile(fileName.FullPath, ref userCancelled, elementToAddTo: element, directoryOfTreeNode: directoryPath);
+                    var newRfs = await AddExistingFileManager.Self.AddSingleFile(fileName.FullPath, elementToAddTo: element, directoryOfTreeNode: directoryPath);
 
                     GlueCommands.Self.DoOnUiThread(() => GlueCommands.Self.SelectCommands.Select(newRfs));
                 },

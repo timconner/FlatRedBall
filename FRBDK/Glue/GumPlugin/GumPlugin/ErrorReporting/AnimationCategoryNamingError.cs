@@ -5,7 +5,6 @@ using Gum.DataTypes;
 using Gum.DataTypes.Variables;
 using Gum.Managers;
 using GumPlugin.Managers;
-using GumPlugin.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;

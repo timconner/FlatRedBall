@@ -67,8 +67,6 @@ namespace FlatRedBall.Glue
         static ReadOnlyCollection<ProjectBase> mSyncedProjectsReadOnly;
         internal static MainGlueWindow mForm;
 
-        static GlueProjectSave mGlueProjectSave;
-
         static PluginSettings mPluginSettings;
 
         private static string mGameClass;
@@ -139,11 +137,10 @@ namespace FlatRedBall.Glue
 
         public static GlueProjectSave GlueProjectSave
         {
-            get { return mGlueProjectSave; }
+            get => ObjectFinder.Self.GlueProject;
             internal set
             {
-                mGlueProjectSave = value;
-                ObjectFinder.Self.GlueProject = mGlueProjectSave;
+                ObjectFinder.Self.GlueProject = value;
             }
         }
 
@@ -511,7 +508,7 @@ namespace FlatRedBall.Glue
         internal static CheckResult CheckForCircularObjectReferences(IElement element)
         {
 
-            if (mGlueProjectSave != null && element != null)
+            if (ObjectFinder.Self.GlueProject != null && element != null)
             {
                 VerificationId++;
                 string resultString = "";
