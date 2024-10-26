@@ -496,9 +496,6 @@ for {1}?</value>
   <data name="GlueCannotCommunicateWithGame" xml:space="preserve">
     <value>Glue is unable to communicate with your game. To enable this communication, click the "Generate GlueControlManager in Game1" checkbox and restart the game</value>
   </data>
-  <data name="None" xml:space="preserve">
-    <value>None</value>
-  </data>
   <data name="TopDown" xml:space="preserve">
     <value>Top-Down</value>
   </data>

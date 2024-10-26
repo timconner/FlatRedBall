@@ -495,9 +495,6 @@
   <data name="GlueCannotCommunicateWithGame" xml:space="preserve">
     <value>Glue kan niet communiceren met je spel. Om deze communicatie mogelijk te maken, klikt u op het selectievakje "Genereer GlueControlManager in Game1" en start u het spel opnieuw</value>
   </data>
-  <data name="None" xml:space="preserve">
-    <value>Geen</value>
-  </data>
   <data name="TopDown" xml:space="preserve">
     <value>Top-Down</value>
   </data>

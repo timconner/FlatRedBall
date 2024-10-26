@@ -495,9 +495,6 @@
   <data name="GlueCannotCommunicateWithGame" xml:space="preserve">
     <value>Glue kann nicht mit Ihrem Spiel kommunizieren. Um diese Kommunikation zu aktivieren, klicken Sie auf das Kontrollkästchen „GlueControlManager in Spiel1 generieren“ und starten Sie das Spiel neu</value>
   </data>
-  <data name="None" xml:space="preserve">
-    <value>Keiner</value>
-  </data>
   <data name="TopDown" xml:space="preserve">
     <value>Top-Down</value>
   </data>
