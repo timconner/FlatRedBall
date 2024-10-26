@@ -740,8 +740,10 @@ public partial class MainTreeViewControl : UserControl
     private void DeleteBookmark_MenuItem_Click(object sender, RoutedEventArgs e)
     {
         var viewModel = Bookmarks.SelectedItem as BookmarkViewModel;
-        DeleteBookmark(viewModel);
-
+        if(viewModel != null)
+        {
+            DeleteBookmark(viewModel);
+        }
     }
 
     private void DeleteBookmark(BookmarkViewModel viewModel)

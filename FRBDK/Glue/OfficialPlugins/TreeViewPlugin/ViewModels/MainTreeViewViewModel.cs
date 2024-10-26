@@ -659,7 +659,7 @@ namespace OfficialPlugins.TreeViewPlugin.ViewModels
         {
             string containingDirectory = FileManager.MakeRelative(FileManager.GetDirectory(entitySave.Name));
 
-            NodeViewModel treeNodeToAddTo;
+            NodeViewModel? treeNodeToAddTo;
             if (containingDirectory == $"Entities/")
             {
                 treeNodeToAddTo = EntityRootNode;

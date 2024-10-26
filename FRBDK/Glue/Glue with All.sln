@@ -91,8 +91,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{60818A85-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{58B4F9F1-EC0A-4DCB-BCAD-EAAABABFE4B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRedBall", "..\..\FlatRedBall\FlatRedBall.csproj", "{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frb", "Frb", "{69D428BA-766B-491B-8256-F0B68425B7DD}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBallShared", "..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.shproj", "{0BB8CBE3-8503-46C1-9272-D98E153A230E}"
@@ -225,10 +223,6 @@ Global
 		{82348794-B260-45E4-AC62-68BD68E76A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82348794-B260-45E4-AC62-68BD68E76A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82348794-B260-45E4-AC62-68BD68E76A10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD810AF-716D-4BCE-A6C6-475E57E2F100}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -275,7 +269,6 @@ Global
 		{48261027-DFD2-4571-948E-129136A6E6BE} = {07985C4C-B3CF-432C-8A27-36FDD006231F}
 		{74CBDCBC-7458-4668-8D11-56867CA62E94} = {07985C4C-B3CF-432C-8A27-36FDD006231F}
 		{82348794-B260-45E4-AC62-68BD68E76A10} = {3DDD0995-4B47-47A2-82A4-F0A6367C9FF2}
-		{70A4BE37-617A-4B58-ACB9-9FBF62CB38A9} = {69D428BA-766B-491B-8256-F0B68425B7DD}
 		{0BB8CBE3-8503-46C1-9272-D98E153A230E} = {69D428BA-766B-491B-8256-F0B68425B7DD}
 		{8AD810AF-716D-4BCE-A6C6-475E57E2F100} = {69D428BA-766B-491B-8256-F0B68425B7DD}
 	EndGlobalSection
@@ -285,7 +278,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{0bb8cbe3-8503-46c1-9272-d98e153a230e}*SharedItemsImports = 13
 		StateInterpolationPlugin\StateInterpolationPlugin\StateInterpolationShared.projitems*{48261027-dfd2-4571-948e-129136a6e6be}*SharedItemsImports = 5
-		..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{70a4be37-617a-4b58-acb9-9fbf62cb38a9}*SharedItemsImports = 5
 		..\..\Engines\Forms\FlatRedBall.Forms\FlatRedBall.Forms.Shared\FlatRedBall.Forms.Shared.projitems*{728151f0-03e0-4253-94fe-46b9c77edea6}*SharedItemsImports = 13
 		..\..\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{8ad810af-716d-4bce-a6c6-475e57e2f100}*SharedItemsImports = 5
 		StateInterpolationPlugin\StateInterpolationPlugin\StateInterpolationShared.projitems*{d00d287d-385b-42fb-bf5f-04401e7d37d0}*SharedItemsImports = 13
