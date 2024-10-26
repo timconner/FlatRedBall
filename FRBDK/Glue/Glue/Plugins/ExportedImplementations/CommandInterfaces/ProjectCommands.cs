@@ -990,6 +990,8 @@ class ProjectCommands : IProjectCommands
 
             PluginManager.ReactToSyncedProjectLoad(syncedProject);
 
+            ProjectSyncer.UpdateSyncedProjectsInGlux();
+
             GluxCommands.Self.SaveGlujFile();
             GlueCommands.Self.ProjectCommands.SaveProjects();
         }

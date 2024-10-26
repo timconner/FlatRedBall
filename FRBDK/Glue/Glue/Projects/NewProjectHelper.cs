@@ -16,13 +16,7 @@ namespace FlatRedBall.Glue.Projects;
 
 public static class NewProjectHelper
 {
-
-    static NewProjectViewModel RunNewProjectCreator()
-    {
-        return RunNewProjectCreator(null, null, false);
-    }
-
-    static NewProjectViewModel RunNewProjectCreator(FilePath directoryForNewProject, string namespaceForNewProject, bool creatingSyncedProject)
+    static async Task<NewProjectViewModel> RunNewProjectCreatorAsync(FilePath directoryForNewProject = null, string namespaceForNewProject = null, bool creatingSyncedProject = false)
     {
         string commandLineArguments = null;
         if (directoryForNewProject != null)
@@ -87,7 +81,7 @@ public static class NewProjectHelper
         // Run the new project creator
         // First see if the NewProjectCreator is in this directory
 
-        var viewModel = RunNewProjectCreator();
+        var viewModel = await RunNewProjectCreatorAsync();
 
         string createdProject = null;
 
@@ -166,7 +160,7 @@ public static class NewProjectHelper
         // Gotta find the .sln of this project so we can put the synced project in there
         var directory = GlueState.Self.CurrentSlnFileName?.GetDirectoryContainingThis();
 
-        var viewModel = NewProjectHelper.RunNewProjectCreator(directory, 
+        var viewModel = await NewProjectHelper.RunNewProjectCreatorAsync(directory, 
             GlueState.Self.ProjectNamespace, creatingSyncedProject:true);
 
         if (viewModel != null)
@@ -194,9 +188,14 @@ public static class NewProjectHelper
 
             // This line is slow. Not sure why..maybe the project is saving after every file is added?
             // I could make it an async call but I want to figure out why it's slow at the core.
-            newProjectBase.SyncTo(GlueState.Self.CurrentMainProject, false);
+            // Update 10/26/2024 - currentl SaveProjects handles syncing, so we can get rid of this
+            // and have it happen automatically when we save:
+            //newProjectBase.SyncTo(GlueState.Self.CurrentMainProject, false);
 
             GlueCommands.Self.ProjectCommands.SaveProjects();
+
+
+
         }
 
         return viewModel;

@@ -401,8 +401,15 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
             return AddCodeBuildItem(fileName, false, "");
         }
 
+        struct ProjectItemWithFile
+        {
+            public ProjectItem ProjectItem;
+            public string FileName;
+        }
+
         protected virtual void AddCodeBuildItems(ProjectBase sourceProjectBase)
         {
+            List<ProjectItemWithFile> projectItemsWithFileNames = new List<ProjectItemWithFile>();
 
             var sourceCodeFiles = ((VisualStudioProject)sourceProjectBase).EvaluatedItems
                 .Where(item => item.UnevaluatedInclude.EndsWith(".cs") && !ShouldIgnoreFile(item.UnevaluatedInclude))
@@ -431,21 +438,23 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
                 if (!IsFilePartOfProject(fileName, BuildItemMembershipType.CompileOrContentPipeline) &&
                     !IsFilePartOfProject(bi.UnevaluatedInclude, BuildItemMembershipType.CompileOrContentPipeline))
                 {
-                    if (SaveAsAbsoluteSyncedProject)
-                    {
-                        AddCodeBuildItem(fileName, true, bi.UnevaluatedInclude);
-                    }
-                    else if (SaveAsRelativeSyncedProject)
-                    {
-                        AddCodeBuildItem(fileName, true, bi.UnevaluatedInclude);
-                    }
-                    else
-                    {
-                        AddCodeBuildItem(bi.UnevaluatedInclude);
-                    }
+                    projectItemsWithFileNames.Add(new ProjectItemWithFile { FileName = fileName, ProjectItem = bi });
                 }
             }
 
+            foreach(var item in projectItemsWithFileNames)
+            {
+                if (SaveAsAbsoluteSyncedProject || SaveAsRelativeSyncedProject)
+                {
+                    AddCodeBuildItem(item.FileName, true, item.ProjectItem.UnevaluatedInclude, reevaluateProjectAfterAdd:false);
+                }
+                else
+                {
+                    AddCodeBuildItem(item.ProjectItem.UnevaluatedInclude);
+                }
+            }
+
+            Project.ReevaluateIfNecessary();
         }
 
         public void AddNugetPackage(string packageName, string versionNumber)
@@ -461,7 +470,7 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
             }
         }
 
-        protected ProjectItem AddCodeBuildItem(string fileName, bool isSyncedProject, string nameRelativeToThisProject)
+        protected ProjectItem AddCodeBuildItem(string fileName, bool isSyncedProject, string nameRelativeToThisProject, bool reevaluateProjectAfterAdd = true)
         {
             lock (this)
             {
@@ -489,7 +498,10 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
                 fileName = fileName.Replace('/', '\\');
                 ProjectItem item;
                 item = this.Project.AddItem("Compile", fileName).First();
-                Project.ReevaluateIfNecessary();
+                if(reevaluateProjectAfterAdd)
+                {
+                    Project.ReevaluateIfNecessary();
+                }
                 item.UnevaluatedInclude = fileName;
                 if (isSyncedProject)
                 {
@@ -1198,7 +1210,12 @@ namespace FlatRedBall.Glue.VSHelpers.Projects
                 if (item != null)
                 {
                     Project.RemoveItem(item);
-                    Project.ReevaluateIfNecessary();
+                    // Not sure why, but the project can be readonly, so let's try, and move on if it fails:
+                    try
+                    {
+                        Project.ReevaluateIfNecessary();
+                    }
+                    catch { }
 
                     mBuildItemDictionaries.Remove(itemName);
 
