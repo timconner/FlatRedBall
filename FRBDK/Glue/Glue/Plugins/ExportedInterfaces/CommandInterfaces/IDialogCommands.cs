@@ -11,6 +11,8 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
     {
         #region File
 
+        Task ShowAddExistingFileDialog();
+
         Task<ReferencedFileSave> ShowAddNewFileDialogAsync(AddNewFileViewModel viewModel = null, GlueElement element = null);
 
         #endregion

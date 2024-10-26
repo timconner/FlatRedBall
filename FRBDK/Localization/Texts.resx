@@ -2452,9 +2452,6 @@ for {1}?</value>
   <data name="ScreenAdd" xml:space="preserve">
     <value>Add screen</value>
   </data>
-  <data name="FileExisting" xml:space="preserve">
-    <value>Existing File(s)</value>
-  </data>
   <data name="CreatedClass" xml:space="preserve">
     <value>Set Created Class</value>
   </data>

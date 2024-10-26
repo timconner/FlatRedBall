@@ -2448,9 +2448,6 @@
   <data name="ScreenAdd" xml:space="preserve">
     <value>Bildschirm hinzufügen</value>
   </data>
-  <data name="FileExisting" xml:space="preserve">
-    <value>Vorhandene Datei(en)</value>
-  </data>
   <data name="CreatedClass" xml:space="preserve">
     <value>Erstellte Klasse festlegen</value>
   </data>

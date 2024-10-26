@@ -941,6 +941,18 @@ public class GluxCommands : IGluxCommands
 
         if (referencedFileSaveToReturn != null)
         {
+            if(containerForFile == null)
+            {
+                GlueCommands.Self.RefreshCommands.RefreshGlobalContent();
+                GlueCommands.Self.GluxCommands.SaveGlujFile();
+                GlueCommands.Self.GenerateCodeCommands.GenerateGlobalContentCode();
+            }
+            else
+            {
+                GlueCommands.Self.RefreshCommands.RefreshTreeNodeFor(containerForFile);
+                GlueCommands.Self.GluxCommands.SaveElementAsync(containerForFile);
+                GlueCommands.Self.GenerateCodeCommands.GenerateElementCode(containerForFile);
+            }
             //ApplyOptions(toReturn, options);
 
             if (selectFileAfterCreation)

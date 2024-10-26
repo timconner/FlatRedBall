@@ -18,85 +18,9 @@ namespace FlatRedBall.Glue.Managers
 {
     public class AddExistingFileManager : Singleton<AddExistingFileManager>
     {
-
-        public void AddExistingFileClick()
-        {
-            var viewModel = new AddExistingFileViewModel();
-            var element = GlueState.Self.CurrentElement;
-            FillWithFiles(viewModel);
-
-
-            var window = new AddExistingFileWindow();
-            window.DataContext = viewModel;
-
-            var result = window.ShowDialog();
-
-            if(result == true)
-            {
-                string directoryOfTreeNode = GlueState.Self.CurrentTreeNode.GetRelativeFilePath();
-                foreach(var file in viewModel.Files)
-                {
-                    // If there is already an RFS for this file, no need to add it again.
-                    _=TaskManager.Self.AddAsync(async () =>
-                    {
-                        ReferencedFileSave existingFile = null;
-                        if(element != null)
-                        {
-                            existingFile = element.GetAllReferencedFileSavesRecursively()
-                                .FirstOrDefault(item =>
-                                    GlueCommands.Self.FileCommands.GetFullFileName(item) == file);
-                        }
-                        else
-                        {
-                            // global content?
-                            existingFile = GlueState.Self.CurrentGlueProject.GlobalFiles
-                                .FirstOrDefault(item =>
-                                    GlueCommands.Self.FileCommands.GetFullFileName(item) == file);
-                        }
-
-                        if (existingFile == null)
-                        {
-                            await AddSingleFile(file, elementToAddTo: element, directoryOfTreeNode: directoryOfTreeNode);
-                        }
-                        else
-                        {
-                            GlueCommands.Self.DoOnUiThread(() =>  GlueState.Self.CurrentReferencedFileSave = existingFile);
-                        }
-                    }, $"Adding file {file}");
-                }
-            }
-        }
-
-        private void FillWithFiles(AddExistingFileViewModel viewModel)
-        {
-            var contentFolder = GlueState.Self.ContentDirectory;
-
-            var files = FileManager.GetAllFilesInDirectory(contentFolder, null, int.MaxValue);
-
-            foreach(var file in files)
-            {
-
-                // make this thing relative:
-                var relativeFile = FileManager.MakeRelative(file, contentFolder);
-
-                // Feb 22, 2019
-                // Initially I thought
-                // I'd only show files that
-                // aren't already added to the
-                // current element, but files can
-                // be added multiple times to an element
-                // using different converters. Even though
-                // it's rare, we want to still support it so
-                // don't filter out files that are already added.
-
-                viewModel.UnfilteredFileList.Add(relativeFile);
-            }
-            viewModel.ContentFolder = contentFolder;
-            viewModel.RefreshFilteredList();
-        }
-
+        // todo - this probably needs to move to some commands object.
         public async Task<ReferencedFileSave> AddSingleFile(FilePath fileName, object options = null, GlueElement elementToAddTo = null, string directoryOfTreeNode = null,
-            AssetTypeInfo forcedAti = null)
+    AssetTypeInfo forcedAti = null)
         {
             bool userCancelled = false;
             elementToAddTo = elementToAddTo ?? GlueState.Self.CurrentElement;

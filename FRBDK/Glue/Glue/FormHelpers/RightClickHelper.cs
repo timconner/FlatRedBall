@@ -787,8 +787,8 @@ public static class RightClickHelper
         addObjectToolStripMenuItem.Click += (not, used) => GlueCommands.Self.DialogCommands.ShowAddNewObjectDialog();
 
         existingFileToolStripMenuItem = new GeneralToolStripMenuItem();
-        existingFileToolStripMenuItem.Text = L.Texts.FileExisting;
-        existingFileToolStripMenuItem.Click += (not, used) => AddExistingFileManager.Self.AddExistingFileClick();
+        existingFileToolStripMenuItem.Text = "Existing File(s)";
+        existingFileToolStripMenuItem.Click += (not, used) => GlueCommands.Self.DialogCommands.ShowAddExistingFileDialog();
 
         setCreatedClassToolStripMenuItem = new GeneralToolStripMenuItem();
         setCreatedClassToolStripMenuItem.Text = L.Texts.CreatedClass;

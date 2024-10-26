@@ -100,7 +100,7 @@ partial class ProjectSpecificFileCollectionEditorForm
         this.btnAddExistingFile.Name = "btnAddExistingFile";
         this.btnAddExistingFile.Size = new System.Drawing.Size(124, 23);
         this.btnAddExistingFile.TabIndex = 6;
-        this.btnAddExistingFile.Text = L.Texts.FileExistingAdd;
+        this.btnAddExistingFile.Text = "Existing File(s)";
         this.btnAddExistingFile.UseVisualStyleBackColor = true;
         this.btnAddExistingFile.Click += new System.EventHandler(this.BtnAddExistingFileClick);
         // 
