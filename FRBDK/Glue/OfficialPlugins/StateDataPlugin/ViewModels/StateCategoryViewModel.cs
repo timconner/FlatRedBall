@@ -390,11 +390,11 @@ namespace OfficialPlugins.StateDataPlugin.ViewModels
         {
             if(e.PropertyName == nameof(StateViewModel.Name))
             {
-                StateViewModel selectedViewModel = sender as StateViewModel;
-                StateSave stateSave = selectedViewModel.BackingData;
+                StateViewModel? selectedViewModel = sender as StateViewModel;
+                StateSave? stateSave = selectedViewModel?.BackingData;
 
-                var needsToCreateNewState = selectedViewModel.BackingData == null && 
-                    !string.IsNullOrEmpty(selectedViewModel.Name) &&
+                var needsToCreateNewState = selectedViewModel?.BackingData == null && 
+                    !string.IsNullOrEmpty(selectedViewModel?.Name) &&
                     selectedViewModel.IsNameInvalid == false;
 
                 var element = GlueState.Self.CurrentElement;

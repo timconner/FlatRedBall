@@ -757,19 +757,19 @@ namespace OfficialPlugins.VariableDisplay
             return categories;
         }
 
-        private static MemberCategory GetOrCreateCategoryToAddTo(List<MemberCategory> categories, AssetTypeInfo ati,
+        private static MemberCategory GetOrCreateCategoryToAddTo(List<MemberCategory> categories, AssetTypeInfo? ati,
             string memberName, VariableDefinition variableDefinition = null)
         {
             // By defaut make the last category get used (this is "Variables")
             var categoryToAddTo = categories.Last();
             // If there is an AssetTypeInfo...
 
-            string categoryName = null;
+            string? categoryName = null;
 
             if (ati != null || variableDefinition != null)
             {
                 // ... see if there is avariable definition for this variable...
-                var foundVariableDefinition = variableDefinition ?? ati.VariableDefinitions.FirstOrDefault(item => item.Name == memberName);
+                var foundVariableDefinition = variableDefinition ?? ati!.VariableDefinitions.FirstOrDefault(item => item.Name == memberName);
                 if (foundVariableDefinition != null)
                 {
                     //... if so, see the category that it's a part of...
@@ -890,12 +890,12 @@ namespace OfficialPlugins.VariableDisplay
             }
 
 
-            EntitySave nosEntity = instance.SourceType == SourceType.Entity
+            EntitySave? nosEntity = instance.SourceType == SourceType.Entity
                 ? ObjectFinder.Self.GetEntitySave(instance.SourceClassType)
                 : null;
 
             var variableInNos = nosEntity?.GetCustomVariableRecursively(name);
-            CustomVariable baseNos = variableInNos != null
+            CustomVariable? baseNos = variableInNos != null
                 ? ObjectFinder.Self.GetBaseCustomVariable(variableInNos)
                 : null;
 
