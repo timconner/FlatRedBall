@@ -121,7 +121,7 @@ public class BuildToolAssociationManager
 
         if(showNoneOption)
         {
-            nfw.AddOption($"<{L.Texts.None}>");
+            nfw.AddOption($"<None>");
         }
 
         foreach (BuildToolAssociation bta in btaList)
@@ -151,7 +151,7 @@ public class BuildToolAssociationManager
             }
             else
             {
-                userPickedNone = nfw.SelectedItem is string && (nfw.SelectedItem as string) == $"<{L.Texts.None}>";
+                userPickedNone = nfw.SelectedItem is string && (nfw.SelectedItem as string) == $"<None>";
             }
         }
         else
