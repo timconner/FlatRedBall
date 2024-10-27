@@ -440,7 +440,7 @@ namespace FlatRedBall.Graphics
 
         #endregion
 
-        #region Debugging information
+        #region Debugging
 
         internal static int NumberOfSpritesDrawn;
         static int mFillVBListCallsThisFrame;
