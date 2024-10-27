@@ -1,62 +1,44 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FlatRedBall.Math;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Performance.Measurement;
-using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FlatRedBall.Graphics
 {
     #region Enums
-    #region XML Docs
+
     /// <summary>
-    /// Rendering modes available in FlatRedBall
+    /// Rendering modes available in FlatRedBall.
     /// </summary>
-    #endregion
     public enum RenderMode
     {
-        #region XML Docs
         /// <summary>
-        /// Default rendering mode (uses embedded effects in models)
+        /// Default rendering mode. Uses embedded effects in models.
         /// </summary>
-        #endregion
         Default,
-        #region XML Docs
         /// <summary>
-        /// Color rendering mode - renders color values for a model
-        /// (does not include lighting information)
-        /// Effect technique: RenderColor
+        /// Color rendering mode. Renders color values for a model
+        /// (does not include lighting information). Effect technique: RenderColor.
         /// </summary>
-        #endregion
         Color,
-        #region XML Docs
         /// <summary>
-        /// Normals rendering mode - renders normals
-        /// Effect technique: RenderNormals
+        /// Normals rendering mode. Renders normals. Effect technique: RenderNormals.
         /// </summary>
-        #endregion
         Normals,
-        #region XML Docs
         /// <summary>
-        /// Depth rendering mode - renders depth
-        /// Effect technique: RenderDepth
+        /// Depth rendering mode. Renders depth. Effect technique: RenderDepth.
         /// </summary>
-        #endregion
         Depth,
-        #region XML Docs
         /// <summary>
-        /// Position rendering mode - renders position
-        /// Effect technique: RenderPosition
+        /// Position rendering mode. Renders position. Effect technique: RenderPosition.
         /// </summary>
-        #endregion
         Position
     }
-    #endregion
 
+    #endregion
 
     static partial class Renderer
     {
@@ -64,21 +46,17 @@ namespace FlatRedBall.Graphics
         static IComparer<Text> mTextComparer;
         static IComparer<IDrawableBatch> mDrawableBatchComparer;
 
-        #region XML Docs
         /// <summary>
         /// Gets the default Camera (SpriteManager.Camera)
         /// </summary>
-        #endregion
         static public Camera Camera
         {
             get { return SpriteManager.Camera; }
         }
 
-        #region XML Docs
         /// <summary>
         /// Gets the list of cameras (SpriteManager.Cameras)
         /// </summary>
-        #endregion
         static public PositionedObjectList<Camera> Cameras
         {
             get { return SpriteManager.Cameras; }
@@ -102,8 +80,6 @@ namespace FlatRedBall.Graphics
             set { mDrawableBatchComparer = value; }
         }
 
-        static bool mUpdateSorting = true;
-
         /// <summary>
         /// Controls whether the renderer will refresh the sorting of its internal lists in the next draw call.
         /// </summary>
@@ -112,8 +88,7 @@ namespace FlatRedBall.Graphics
             get { return mUpdateSorting; }
             set { mUpdateSorting = value; }
         }
-
-        static bool mUpdateDrawableBatches = true;
+        static bool mUpdateSorting = true;
 
         /// <summary>
         /// Controls whether the renderer will update the drawable batches in the next draw call.
@@ -123,52 +98,52 @@ namespace FlatRedBall.Graphics
             get { return mUpdateDrawableBatches; }
             set { mUpdateDrawableBatches = value; }
         }
+        static bool mUpdateDrawableBatches = true;
 
-        private static void DrawIndividualLayer(Camera camera, RenderMode renderMode, Layer layer, Section section, ref RenderTarget2D lastRenderTarget,
-            ref Viewport lastViewport)
+        static void DrawIndividualLayer(Camera camera, RenderMode renderMode, Layer layer, Section section,
+            ref RenderTarget2D lastRenderTarget, ref Viewport lastViewport)
         {
             bool hasLayerModifiedCamera = false;
 
             if (layer.Visible)
             {
-                Renderer.CurrentLayer = layer;
+                CurrentLayer = layer;
 
                 if (section != null)
                 {
                     string layerName = "No Layer";
-                    if(layer != null)
+
+                    if (layer != null)
                     {
                         layerName = layer.Name;
                     }
+
                     Section.GetAndStartContextAndTime("Layer: " + layerName);
                 }
 
                 bool didSetRenderTarget = layer.RenderTarget != lastRenderTarget;
-                if(didSetRenderTarget)
+
+                if (didSetRenderTarget)
                 {
                     lastRenderTarget = layer.RenderTarget;
 
-                    if(layer.RenderTarget != null)
+                    if (layer.RenderTarget != null)
                     {
                         lastViewport = GraphicsDevice.Viewport;
                     }
 
                     GraphicsDevice.SetRenderTarget(layer.RenderTarget);
 
-                    if(layer.RenderTarget == null)
+                    if (layer.RenderTarget == null)
                     {
                         GraphicsDevice.Viewport = lastViewport;
                     }
 
-                    if(layer.RenderTarget != null)
+                    if (layer.RenderTarget != null)
                     {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target,
-                            Color.Transparent,
-                            1, 0);
-
+                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1, 0);
                     }
                 }
-
 
                 // No need to clear depth buffer if it's a render target
                 if (!didSetRenderTarget)
@@ -176,26 +151,24 @@ namespace FlatRedBall.Graphics
                     ClearBackgroundForLayer(camera);
                 }
 
+                #region Set view and projection
 
-                #region Set View and Projection
-                // Store the camera's FieldOfView in the oldFieldOfView and
-                // set the camera's FieldOfView to the layer's OverridingFieldOfView
-                // if necessary.
+                // Store the camera's FieldOfView in the oldFieldOfView and set the
+                // camera's FieldOfView to the layer's OverridingFieldOfView if necessary.
                 mOldCameraLayerSettings.SetFromCamera(camera);
 
-                Vector3 oldPosition = camera.Position;
+                var oldPosition = camera.Position;
                 var oldUpVector = camera.UpVector;
 
                 if (layer.LayerCameraSettings != null)
                 {
-
                     layer.LayerCameraSettings.ApplyValuesToCamera(camera, SetCameraOptions.PerformZRotation, null, layer.RenderTarget);
                     hasLayerModifiedCamera = true;
                 }
 
                 camera.SetDeviceViewAndProjection(mCurrentEffect, layer.RelativeToCamera);
-                #endregion
 
+                #endregion
 
                 if (renderMode == RenderMode.Default)
                 {
@@ -208,8 +181,7 @@ namespace FlatRedBall.Graphics
                     DrawMixed(layer.mSprites, layer.mSortType,
                         layer.mTexts, layer.mBatches, layer.RelativeToCamera, camera, section);
 
-                    #region Draw Shapes
-
+                    // Draw shapes
                     DrawShapes(camera,
                         layer.mSpheres,
                         layer.mCubes,
@@ -219,25 +191,22 @@ namespace FlatRedBall.Graphics
                         layer.mLines,
                         layer.mCapsule2Ds,
                         layer);
-
-                    #endregion
                 }
 
-                // Set the Camera's FieldOfView back
-                // Vic asks:  What if the user wants to have a wacky field of view?
-                // Does that mean that this will regulate it on layers?  This is something
+                // Set the camera's field of view back.
+                // Vic asks: What if the user wants to have a wacky field of view?
+                // Does that mean that this will regulate it on layers? This is something
                 // that may need to be fixed in the future, but it seems rare and will bloat
-                // the visible property list considerably.  Let's leave it like this for now
+                // the visible property list considerably. Let's leave it like this for now
                 // to establish a pattern then if the time comes to change this we'll be comfortable
                 // with the overriding field of view pattern so a better decision can be made.
                 if (hasLayerModifiedCamera)
                 {
-                    // use the render target here, because it may not have been unset yet.
+                    // Use the render target here, because it may not have been unset yet.
                     mOldCameraLayerSettings.ApplyValuesToCamera(camera, SetCameraOptions.ApplyMatrix, layer.LayerCameraSettings, layer.RenderTarget);
                     camera.Position = oldPosition;
                     camera.UpVector = oldUpVector;
                 }
-
 
                 if (section != null)
                 {
@@ -246,11 +215,10 @@ namespace FlatRedBall.Graphics
             }
         }
 
-
         static List<Sprite> mVisibleSprites = new List<Sprite>();
         static List<Text> mVisibleTexts = new List<Text>();
         static List<IDrawableBatch> mVisibleBatches = new List<IDrawableBatch>();
-        
+
         struct SortValues
         {
             public float PrimarySortValue;
@@ -285,7 +253,7 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        private static void DrawMixed(SpriteList spriteListUnfiltered, SortType sortType,
+        static void DrawMixed(SpriteList spriteListUnfiltered, SortType sortType,
             PositionedObjectList<Text> textListUnfiltered, List<IDrawableBatch> batches,
             bool relativeToCamera, Camera camera, Section section)
         {
@@ -293,9 +261,8 @@ namespace FlatRedBall.Graphics
             {
                 Section.GetAndStartContextAndTime("Start of Draw Mixed");
             }
-            DrawMixedStart(camera);
 
-            
+            DrawMixedStart(camera);
 
             int spriteIndex = 0;
             int textIndex = 0;
@@ -307,15 +274,12 @@ namespace FlatRedBall.Graphics
             // can represent distance from the camera (squared).
             // The problem is that a larger Z means closer to the
             // camera, but a larger distance means further from the
-            // camera.  Therefore, to fix this problem if these values
+            // camera. Therefore, to fix this problem if these values
             // represent distance from camera, they will be multiplied by
             // negative 1.
-            SortValues nextSpriteSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
-            SortValues nextTextSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
-            SortValues nextBatchSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
-
-
-
+            var nextSpriteSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
+            var nextTextSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
+            var nextBatchSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
 
             if (section != null)
             {
@@ -335,27 +299,29 @@ namespace FlatRedBall.Graphics
             mVisibleSprites.Clear();
             mVisibleTexts.Clear();
             mVisibleBatches.Clear();
-            if(batches != null)
+
+            if (batches != null)
             {
-                for(int i = 0; i < batches.Count; i++)
+                for (int i = 0; i < batches.Count; i++)
                 {
                     var shouldAdd = true;
                     var batch = batches[i];
-                    if(batch is IVisible asIVisible)
+
+                    if (batch is IVisible asIVisible)
                     {
                         shouldAdd = asIVisible.AbsoluteVisible;
                     }
-                    if(shouldAdd)
+                    if (shouldAdd)
                     {
                         mVisibleBatches.Add(batch);
                     }
                 }
             }
-            
+
             for (int i = 0; i < spriteListUnfiltered.Count; i++)
             {
-                Sprite sprite = spriteListUnfiltered[i];
-                bool isVisible = sprite.AbsoluteVisible && 
+                var sprite = spriteListUnfiltered[i];
+                bool isVisible = sprite.AbsoluteVisible &&
                     (sprite.ColorOperation == ColorOperation.InterpolateColor || sprite.Alpha > .0001) &&
                     camera.IsSpriteInView(sprite, relativeToCamera);
 
@@ -367,21 +333,23 @@ namespace FlatRedBall.Graphics
 
             for (int i = 0; i < textListUnfiltered.Count; i++)
             {
-                Text text = textListUnfiltered[i];
+                var text = textListUnfiltered[i];
                 if (text.AbsoluteVisible && text.Alpha > .0001 && camera.IsTextInView(text, relativeToCamera))
                 {
                     mVisibleTexts.Add(text);
                 }
             }
+
             int indexOfNextSpriteToReposition = 0;
 
-
-            GetNextZValuesByCategory(mVisibleSprites, sortType, mVisibleTexts, mVisibleBatches, camera, ref spriteIndex, ref textIndex, 
+            GetNextZValuesByCategory(mVisibleSprites, sortType, mVisibleTexts, mVisibleBatches, camera, ref spriteIndex, ref textIndex,
                 ref nextSpriteSortValue, ref nextTextSortValue, ref nextBatchSortValue);
 
             int numberToDraw = 0;
+
             // This is used as a temporary variable for Z or distance from camera
-            SortValues sortingValue = new SortValues();
+            var sortingValue = new SortValues();
+
             Section performDrawingSection = null;
             if (section != null)
             {
@@ -392,9 +360,10 @@ namespace FlatRedBall.Graphics
             while (spriteIndex < mVisibleSprites.Count || textIndex < mVisibleTexts.Count ||
                 (batchIndex < mVisibleBatches.Count))
             {
-                #region only 1 array remains to be drawn so finish it off completely
-                
+                #region Only 1 array remains to be drawn so finish it off completely
+
                 #region Draw Texts
+
                 if (spriteIndex >= mVisibleSprites.Count && (batchIndex >= mVisibleBatches.Count) &&
                     textIndex < mVisibleTexts.Count)
                 {
@@ -415,13 +384,16 @@ namespace FlatRedBall.Graphics
                             mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
                         }
                     }
-                    // TEXTS: draw all texts from textIndex to numberOfVisibleTexts - textIndex
+
+                    // Texts: draw all texts from textIndex to numberOfVisibleTexts - textIndex
                     DrawTexts(mVisibleTexts, textIndex, mVisibleTexts.Count - textIndex, camera, section);
                     break;
                 }
+
                 #endregion
 
                 #region Draw Sprites
+
                 else if (textIndex >= mVisibleTexts.Count && (batchIndex >= mVisibleBatches.Count) &&
                     spriteIndex < mVisibleSprites.Count)
                 {
@@ -445,7 +417,6 @@ namespace FlatRedBall.Graphics
                         }
                     }
 
-
                     PrepareSprites(
                         mSpriteVertices, mSpriteRenderBreaks,
                         mVisibleSprites, spriteIndex, numberToDraw
@@ -462,6 +433,7 @@ namespace FlatRedBall.Graphics
                 #endregion
 
                 #region Draw DrawableBatches
+
                 else if (spriteIndex >= mVisibleSprites.Count && textIndex >= mVisibleTexts.Count &&
                     batchIndex < mVisibleBatches.Count)
                 {
@@ -473,16 +445,17 @@ namespace FlatRedBall.Graphics
                         }
                         Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
                     }
-                    // DRAWABLE BATCHES:  Only DrawableBatches remain so draw them all.
+
+                    // Drawable batches: Only DrawableBatches remain so draw them all.
                     while (batchIndex < mVisibleBatches.Count)
                     {
                         var batchAtIndex = mVisibleBatches[batchIndex];
 
-                        if (Renderer.RecordRenderBreaks)
+                        if (RecordRenderBreaks)
                         {
                             // Even though we aren't using a RenderBreak here, we should record a render break
                             // for this batch as it does cause rendering to be interrupted:
-                            RenderBreak renderBreak = new RenderBreak();
+                            var renderBreak = new RenderBreak();
 #if DEBUG
                             renderBreak.ObjectCausingBreak = batchAtIndex;
 #endif
@@ -491,13 +464,13 @@ namespace FlatRedBall.Graphics
                         }
 
                         batchAtIndex.Draw(camera);
-
                         batchIndex++;
                     }
 
                     FixRenderStatesAfterBatchDraw();
                     break;
                 }
+
                 #endregion
 
                 #endregion
@@ -516,17 +489,20 @@ namespace FlatRedBall.Graphics
                         }
                         Section.GetAndStartMergedContextAndTime("Draw Sprites");
                     }
-                    // The next furthest object is a Sprite.  Find how many to draw.
+
+                    // The next furthest object is a sprite. Find how many to draw.
 
                     #region Count how many Sprites to draw and store it in numberToDraw
+
                     numberToDraw = 0;
 
                     sortingValue.SecondarySortValue = 0;
+
                     if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                     {
                         sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
 
-                        if(sortType == SortType.ZSecondaryParentY)
+                        if (sortType == SortType.ZSecondaryParentY)
                         {
                             sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
                         }
@@ -550,7 +526,7 @@ namespace FlatRedBall.Graphics
                         {
                             sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
 
-                            if(sortType == SortType.ZSecondaryParentY)
+                            if (sortType == SortType.ZSecondaryParentY)
                             {
                                 sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
                             }
@@ -560,6 +536,7 @@ namespace FlatRedBall.Graphics
                             sortingValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
                         }
                     }
+
                     #endregion
 
                     if (sortType == SortType.DistanceAlongForwardVector)
@@ -596,7 +573,7 @@ namespace FlatRedBall.Graphics
                         {
                             nextSpriteSortValue.PrimarySortValue = mVisibleSprites[spriteIndex].Position.Z;
 
-                            if(sortType == SortType.ZSecondaryParentY)
+                            if (sortType == SortType.ZSecondaryParentY)
                             {
                                 nextSpriteSortValue.SecondarySortValue = -mVisibleSprites[spriteIndex].TopParent.Y;
                             }
@@ -612,8 +589,7 @@ namespace FlatRedBall.Graphics
 
                 #region Texts
 
-
-                else if (nextTextSortValue <= nextSpriteSortValue && nextTextSortValue <= nextBatchSortValue)// draw texts
+                else if (nextTextSortValue <= nextSpriteSortValue && nextTextSortValue <= nextBatchSortValue) // Draw texts
                 {
                     if (section != null)
                     {
@@ -623,13 +599,13 @@ namespace FlatRedBall.Graphics
                         }
                         Section.GetAndStartMergedContextAndTime("Draw Texts");
                     }
+
                     numberToDraw = 0;
 
                     if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector)
                         sortingValue.PrimarySortValue = mVisibleTexts[textIndex + numberToDraw].Position.Z;
                     else
                         sortingValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex + numberToDraw].Position).LengthSquared();
-
 
                     while (sortingValue <= nextSpriteSortValue &&
                            sortingValue <= nextBatchSortValue)
@@ -660,7 +636,9 @@ namespace FlatRedBall.Graphics
                     textIndex += numberToDraw;
 
                     if (textIndex == mVisibleTexts.Count)
+                    {
                         nextTextSortValue.PrimarySortValue = float.PositiveInfinity;
+                    }
                     else
                     {
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
@@ -668,13 +646,11 @@ namespace FlatRedBall.Graphics
                         else
                             nextTextSortValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex].Position).LengthSquared();
                     }
-
                 }
 
                 #endregion
 
                 #region Batches
-
 
                 else if (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue)
                 {
@@ -684,17 +660,19 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
                     }
+
                     while (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue && batchIndex < mVisibleBatches.Count)
                     {
-                        IDrawableBatch batchAtIndex = mVisibleBatches[batchIndex];
+                        var batchAtIndex = mVisibleBatches[batchIndex];
 
-                        if(Renderer.RecordRenderBreaks)
+                        if (RecordRenderBreaks)
                         {
                             // Even though we aren't using a RenderBreak here, we should record a render break
                             // for this batch as it does cause rendering to be interrupted:
-                            RenderBreak renderBreak = new RenderBreak();
+                            var renderBreak = new RenderBreak();
 #if DEBUG
                             renderBreak.ObjectCausingBreak = batchAtIndex;
 #endif
@@ -703,7 +681,6 @@ namespace FlatRedBall.Graphics
                         }
 
                         batchAtIndex.Draw(camera);
-
                         batchIndex++;
 
                         nextBatchSortValue.SecondarySortValue = 0;
@@ -720,20 +697,20 @@ namespace FlatRedBall.Graphics
                             {
                                 nextBatchSortValue.PrimarySortValue = batchAtIndex.Z;
 
-                                if(sortType == SortType.ZSecondaryParentY)
+                                if (sortType == SortType.ZSecondaryParentY)
                                 {
                                     nextBatchSortValue.SecondarySortValue = -batchAtIndex.Y;
                                 }
                             }
                             else if (sortType == SortType.DistanceAlongForwardVector)
                             {
-                                Vector3 vectorDifference = new Vector3(
+                                var vectorDifference = new Vector3(
                                 batchAtIndex.X - camera.X,
                                 batchAtIndex.Y - camera.Y,
                                 batchAtIndex.Z - camera.Z);
 
                                 float firstDistance;
-                                Vector3 forwardVector = camera.RotationMatrix.Forward;
+                                var forwardVector = camera.RotationMatrix.Forward;
 
                                 Vector3.Dot(ref vectorDifference, ref forwardVector, out firstDistance);
 
@@ -749,7 +726,6 @@ namespace FlatRedBall.Graphics
                     FixRenderStatesAfterBatchDraw();
                 }
 
-
                 #endregion
 
                 #endregion
@@ -762,11 +738,12 @@ namespace FlatRedBall.Graphics
                 {
                     Section.EndContextAndTime();
                 }
+
                 Section.EndContextAndTime();
                 Section.GetAndStartContextAndTime("End of Draw Mixed");
             }
 
-            // return the position of any objects not drawn
+            // Return the position of any objects not drawn
             if (sortType == SortType.DistanceAlongForwardVector)
             {
                 for (int i = indexOfNextSpriteToReposition; i < mVisibleSprites.Count; i++)
@@ -775,8 +752,8 @@ namespace FlatRedBall.Graphics
                 }
             }
 
-            Renderer.Texture = null;
-            Renderer.TextureOnDevice = null;
+            Texture = null;
+            TextureOnDevice = null;
 
             if (section != null)
             {
@@ -784,25 +761,20 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        private static void FixRenderStatesAfterBatchDraw()
+        static void FixRenderStatesAfterBatchDraw()
         {
-
-
-            // do nothing with alpha?
             FlatRedBallServices.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            // reset the texture filter:
             FlatRedBallServices.GraphicsOptions.TextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
             ForceSetBlendOperation();
             mCurrentEffect = mEffect;
         }
 
-        private static void GetNextZValuesByCategory(List<Sprite> spriteList, SortType sortType, List<Text> textList, List<IDrawableBatch> batches, 
+        static void GetNextZValuesByCategory(List<Sprite> spriteList, SortType sortType, List<Text> textList, List<IDrawableBatch> batches,
             Camera camera, ref int spriteIndex, ref int textIndex, ref SortValues nextSpriteSortValue, ref SortValues nextTextSortValue, ref SortValues nextBatchSortValue)
         {
-            #region find out the initial Z values of the 3 categories of objects to know which to render first
+            #region Find out the initial Z values of the 3 categories of objects to know which to render first
 
-
-            if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || 
+            if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY ||
                 // Custom comparers define how objects sort within the category, but outside we just have to rely on Z
                 sortType == SortType.CustomComparer)
             {
@@ -829,29 +801,23 @@ namespace FlatRedBall.Graphics
                 {
                     if (sortType == SortType.Z || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                     {
-                        // The Z value of the current batch is used.  Batches are always visible
-                        // to this code.
+                        // The Z value of the current batch is used. Batches are always visible to this code.
                         nextBatchSortValue.PrimarySortValue = batches[0].Z;
 
-                        // Y value is the sorting value, so use that
-                        nextBatchSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY
-                            ? -batches[0].Y
-                            : 0;
+                        // Y value is the sorting value, so use that.
+                        nextBatchSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY ? -batches[0].Y : 0;
                     }
                     else
                     {
-                        Vector3 vectorDifference = new Vector3(
+                        var vectorDifference = new Vector3(
                             batches[0].X - camera.X,
                             batches[0].Y - camera.Y,
                             batches[0].Z - camera.Z);
 
                         float firstDistance;
-                        Vector3 forwardVector = camera.RotationMatrix.Forward;
-
+                        var forwardVector = camera.RotationMatrix.Forward;
                         Vector3.Dot(ref vectorDifference, ref forwardVector, out firstDistance);
-
                         nextBatchSortValue.PrimarySortValue = -firstDistance;
-
                     }
                 }
             }
@@ -885,11 +851,10 @@ namespace FlatRedBall.Graphics
                     textIndex = textList.Count;
                 }
 
-                // The Z value of the current batch is used.  Batches are always visible
-                // to this code.
+                // The Z value of the current batch is used. Batches are always visible to this code.
                 if (batches != null && batches.Count != 0)
                 {
-                    // workign with squared length, so use that here
+                    // Working with squared length, so use that here.
                     nextBatchSortValue.PrimarySortValue = -(batches[0].Z * batches[0].Z);
                 }
             }
@@ -897,12 +862,12 @@ namespace FlatRedBall.Graphics
             #endregion
         }
 
-        private static void SortAllLists(SpriteList spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, bool relativeToCamera, Camera camera)
+        static void SortAllLists(SpriteList spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, bool relativeToCamera, Camera camera)
         {
             StoreOldPositionsForDistanceAlongForwardVectorSort(spriteList, sortType, textList, batches, camera);
 
+            #region Sort the sprite list and get the number of visible sprites in numberOfVisibleSprites
 
-            #region Sort the SpriteList and get the number of visible Sprites in numberOfVisibleSprites
             if (spriteList != null && spriteList.Count != 0)
             {
                 lock (spriteList)
@@ -914,9 +879,9 @@ namespace FlatRedBall.Graphics
 
                         case SortType.Z:
                         case SortType.DistanceAlongForwardVector:
-                            // Sorting ascending means everything will be drawn back to front.  This
+                            // Sorting ascending means everything will be drawn back to front. This
                             // is slower but necessary for translucent objects.
-                            // Sorting descending means everything will be drawn back to front.  This
+                            // Sorting descending means everything will be drawn back to front. This
                             // is faster but will cause problems for translucency.
                             spriteList.SortZInsertionAscending();
                             break;
@@ -950,9 +915,11 @@ namespace FlatRedBall.Graphics
                     }
                 }
             }
+
             #endregion
 
-            #region Sort the TextList
+            #region Sort the text list
+
             if (textList != null && textList.Count != 0)
             {
                 switch (sortType)
@@ -984,9 +951,11 @@ namespace FlatRedBall.Graphics
                         break;
                 }
             }
+
             #endregion
 
-            #region Sort the Batches
+            #region Sort the batches
+
             if (batches != null && batches.Count != 0)
             {
                 switch (sortType)
@@ -996,19 +965,19 @@ namespace FlatRedBall.Graphics
 
                     case SortType.Z:
                         // Z serves as the radius if using SortType.DistanceFromCamera.
-                        // If Z represents actual Z or radius, the larger the value the further
-                        // away from the camera the object will be.
+                        // If Z represents actual Z or radius, the larger the value the
+                        // further away from the camera the object will be.
                         SortBatchesZInsertionAscending(batches);
                         break;
 
                     case SortType.DistanceAlongForwardVector:
-                        batches.Sort(new FlatRedBall.Graphics.BatchForwardVectorSorter(camera));
+                        batches.Sort(new BatchForwardVectorSorter(camera));
                         break;
 
                     case SortType.ZSecondaryParentY:
                         SortBatchesZInsertionAscending(batches);
-                        // Even though the sort type is by parent, IDB doesn't have a Parent object, so we'll just rely on Y.
-                        // May need to revisit this if it causes problems
+                        // Even though the sort type is by parent, IDB doesn't have a Parent object,
+                        // so we'll just rely on Y. May need to revisit this if it causes problems.
                         SortBatchesYInsertionDescendingOnZBreaks(batches);
                         break;
 
@@ -1024,18 +993,18 @@ namespace FlatRedBall.Graphics
                         break;
                 }
             }
+
             #endregion
         }
 
         static List<int> batchZBreaks = new List<int>(10);
 
-        private static void SortBatchesYInsertionDescendingOnZBreaks(List<IDrawableBatch> batches)
+        static void SortBatchesYInsertionDescendingOnZBreaks(List<IDrawableBatch> batches)
         {
             GetBatchZBreaks(batches, batchZBreaks);
 
             batchZBreaks.Insert(0, 0);
             batchZBreaks.Add(batches.Count);
-
 
             for (int i = 0; i < batchZBreaks.Count - 1; i++)
             {
@@ -1043,7 +1012,7 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        private static void SortBatchInsertionDescending(List<IDrawableBatch> batches, int firstObject, int lastObjectExclusive)
+        static void SortBatchInsertionDescending(List<IDrawableBatch> batches, int firstObject, int lastObjectExclusive)
         {
             int whereObjectBelongs;
 
@@ -1083,7 +1052,7 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        private static void GetBatchZBreaks(List<IDrawableBatch> batches, List<int> zBreaks)
+        static void GetBatchZBreaks(List<IDrawableBatch> batches, List<int> zBreaks)
         {
             zBreaks.Clear();
 
@@ -1098,79 +1067,69 @@ namespace FlatRedBall.Graphics
         }
 
         static LayerCameraSettings mOldCameraLayerSettings = new LayerCameraSettings();
-        private static void DrawLayers(Camera camera, RenderMode renderMode, Section section)
+        static void DrawLayers(Camera camera, RenderMode renderMode, Section section)
         {
-
-            //TimeManager.SumTimeSection("Set device settings");
-
             RenderTarget2D lastRenderTarget = null;
             Viewport lastViewport = GraphicsDevice.Viewport;
 
-            #region Draw World Layers
-            // Draw layers that belong to the World "SpriteEditor"
+            #region Draw world layers
+
             if (camera.DrawsWorld)
             {
-                // These layers are still considered in the "world" because all
-                // Cameras can see them.
+                // These layers are still considered in the "world" because all cameras can see them.
                 for (int i = 0; i < SpriteManager.LayersWriteable.Count; i++)
                 {
-                    Layer layer = SpriteManager.LayersWriteable[i];
-
+                    var layer = SpriteManager.LayersWriteable[i];
                     DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
-
                 }
             }
+
             #endregion
 
-            //TimeManager.SumTimeSection("Draw World Layers");
+            #region Draw camera layers
 
-            #region Draw Camera Layers
             if (camera.DrawsCameraLayer)
             {
                 int layerCount = camera.Layers.Count;
                 for (int i = 0; i < layerCount; i++)
                 {
-                    Layer layer = camera.Layers[i];
+                    var layer = camera.Layers[i];
                     DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
                 }
             }
-            #endregion
 
-            //TimeManager.SumTimeSection("Draw Camera Layers");
+            #endregion
 
             #region Last, draw the top layer
 
             if (camera.DrawsWorld && !SpriteManager.TopLayer.IsEmpty)
             {
-                Layer layer = SpriteManager.TopLayer;
-
+                var layer = SpriteManager.TopLayer;
                 DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
-
             }
+
             #endregion
 
-            if(lastRenderTarget != null)
+            if (lastRenderTarget != null)
             {
                 mGraphics.GraphicsDevice.SetRenderTarget(null);
             }
-
-            //TimeManager.SumTimeSection("Last, draw the top layer");
         }
 
-        private static void DrawUnlayeredObjects(Camera camera, RenderMode renderMode, Section section)
+        static void DrawUnlayeredObjects(Camera camera, RenderMode renderMode, Section section)
         {
             CurrentLayer = null;
+
             if (section != null)
             {
                 Section.GetAndStartContextAndTime("Draw above shapes");
             }
 
-            #region Draw Shapes if UnderEverything
+            #region Draw shapes if UnderEverything
 
             if (camera.DrawsWorld && renderMode == RenderMode.Default && camera.DrawsShapes &&
-                ShapeManager.ShapeDrawingOrder == FlatRedBall.Math.Geometry.ShapeDrawingOrder.UnderEverything)
+                ShapeManager.ShapeDrawingOrder == ShapeDrawingOrder.UnderEverything)
             {
-                // Draw shapes
                 DrawShapes(
                     camera,
                     ShapeManager.mSpheres,
@@ -1185,10 +1144,8 @@ namespace FlatRedBall.Graphics
             }
 
             #endregion
-            
-            //TimeManager.SumTimeSection("Draw models");
 
-            #region Draw ZBuffered Sprites and Mixed
+            #region Draw Z-buffered sprites and mixed
 
             // Only draw the rest if in default rendering mode
             if (renderMode == RenderMode.Default)
@@ -1200,9 +1157,10 @@ namespace FlatRedBall.Graphics
                         Section.EndContextAndTime();
                         Section.GetAndStartContextAndTime("Draw Z Buffered Sprites");
                     }
+
                     if (SpriteManager.ZBufferedSpritesWriteable.Count != 0)
                     {
-                        // Draw the Z Buffered Sprites
+                        // Draw the Z-buffered sprites
                         DrawZBufferedSprites(camera, SpriteManager.ZBufferedSpritesWriteable);
                     }
 
@@ -1216,11 +1174,11 @@ namespace FlatRedBall.Graphics
                         Section.EndContextAndTime();
                         Section.GetAndStartContextAndTime("Draw Ordered objects");
                     }
-                    // Draw the OrderedByDistanceFromCamera Objects (Sprites, Texts, DrawableBatches)
+
+                    // Draw the OrderedByDistanceFromCamera objects (Sprites, Texts, DrawableBatches)
                     DrawOrderedByDistanceFromCamera(camera, section);
                 }
             }
-
 
             #endregion
 
@@ -1230,15 +1188,13 @@ namespace FlatRedBall.Graphics
                 Section.GetAndStartContextAndTime("Draw below shapes");
             }
 
-            #region Draw Shapes if OverEverything
+            #region Draw shapes if OverEverything
 
             if (camera.DrawsWorld &&
                 renderMode == RenderMode.Default &&
                 camera.DrawsShapes &&
                 ShapeManager.ShapeDrawingOrder == ShapeDrawingOrder.OverEverything)
             {
-
-                // Draw shapes
                 DrawShapes(
                     camera,
                     ShapeManager.mSpheres,
@@ -1253,13 +1209,12 @@ namespace FlatRedBall.Graphics
             }
 
             #endregion
-            //TimeManager.SumTimeSection("Draw ZBuffered and Mixed");
+
             if (section != null)
             {
                 Section.EndContextAndTime();
             }
         }
-
 
         public static void DrawCamera(Camera camera, Section section)
         {
@@ -1283,13 +1238,12 @@ namespace FlatRedBall.Graphics
 
             if (camera.DrawsWorld && !SpriteManager.UnderAllDrawnLayer.IsEmpty)
             {
-                Layer layer = SpriteManager.UnderAllDrawnLayer;
-
+                var layer = SpriteManager.UnderAllDrawnLayer;
                 RenderTarget2D lastRenderTarget = null;
                 var lastViewport = GraphicsDevice.Viewport;
                 DrawIndividualLayer(camera, RenderMode.Default, layer, section, ref lastRenderTarget, ref lastViewport);
 
-                if(lastRenderTarget != null)
+                if (lastRenderTarget != null)
                 {
                     GraphicsDevice.SetRenderTarget(null);
                 }
@@ -1303,22 +1257,23 @@ namespace FlatRedBall.Graphics
 
             DrawUnlayeredObjects(camera, renderMode, section);
 
-
-            // Draw layers - this method will check internally for the camera's DrawsWorld and DrawsCameraLayers properties
             if (section != null)
             {
                 Section.EndContextAndTime();
                 Section.GetAndStartContextAndTime("Draw Regular Layers");
             }
+
+            // Draw layers. This method will check internally for
+            // the camera's DrawsWorld and DrawsCameraLayers properties.
             DrawLayers(camera, renderMode, section);
+
             if (section != null)
             {
                 Section.EndContextAndTime();
             }
         }
 
-
-        private static void StoreOldPositionsForDistanceAlongForwardVectorSort(PositionedObjectList<Sprite> spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, Camera camera)
+        static void StoreOldPositionsForDistanceAlongForwardVectorSort(PositionedObjectList<Sprite> spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, Camera camera)
         {
             #region If DistanceAlongForwardVector store old values
 
@@ -1328,7 +1283,7 @@ namespace FlatRedBall.Graphics
             // matrix)
             if (sortType == SortType.DistanceAlongForwardVector)
             {
-                Matrix inverseRotationMatrix = camera.RotationMatrix;
+                var inverseRotationMatrix = camera.RotationMatrix;
                 Matrix.Invert(ref inverseRotationMatrix, out inverseRotationMatrix);
 
                 int temporaryCount = spriteList.Count;
@@ -1354,25 +1309,18 @@ namespace FlatRedBall.Graphics
                 }
 
                 temporaryCount = batches.Count;
-
-                for (int i = 0; i < temporaryCount; i++)
-                {
-
-
-                }
-
             }
+
             #endregion
         }
 
-        private static void DrawOrderedByDistanceFromCamera(Camera camera, Section section)
+        static void DrawOrderedByDistanceFromCamera(Camera camera, Section section)
         {
             if (SpriteManager.OrderedByDistanceFromCameraSprites.Count != 0 ||
                 SpriteManager.WritableDrawableBatchesList.Count != 0 ||
                 TextManager.mDrawnTexts.Count != 0)
             {
-                Renderer.CurrentLayer = null;
-                // Draw
+                CurrentLayer = null;
                 DrawMixed(
                     SpriteManager.OrderedByDistanceFromCameraSprites,
                     SpriteManager.OrderedSortType, TextManager.mDrawnTexts,
@@ -1382,17 +1330,17 @@ namespace FlatRedBall.Graphics
         }
 
         /// <summary>
-        /// Creates a SwapChain instance matching the game's resolution which automatically adjusts when the game window resizes
+        /// Creates a SwapChain instance matching the game's resolution which automatically adjusts when the game window resizes.
         /// </summary>
         public static void CreateDefaultSwapChain()
         {
-            Renderer.SwapChain = new PostProcessing.SwapChain(
+            SwapChain = new PostProcessing.SwapChain(
                 FlatRedBallServices.Game.Window.ClientBounds.Width,
                 FlatRedBallServices.Game.Window.ClientBounds.Height);
 
             FlatRedBallServices.GraphicsOptions.SizeOrOrientationChanged += (not, used) =>
             {
-                Renderer.SwapChain.UpdateRenderTargetSize(
+                SwapChain.UpdateRenderTargetSize(
                     FlatRedBallServices.Game.Window.ClientBounds.Width,
                     FlatRedBallServices.Game.Window.ClientBounds.Height);
             };
