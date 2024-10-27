@@ -111,7 +111,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\BitmapCharacterInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\BitmapFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\CustomEffectManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\DrawableBatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\IDrawableBatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\EffectCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GenericEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicalEmumerations.cs" />
@@ -129,7 +129,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessing\IPostProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessing\SwapChain.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\RenderBreak.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Renderer.Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Renderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\SpriteVertex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text.cs" />

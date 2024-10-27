@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-
 namespace FlatRedBall.Graphics
 {
     public interface IDrawableBatch
@@ -52,13 +46,11 @@ namespace FlatRedBall.Graphics
 
         #region Methods
 
-        #region XML Docs
         /// <summary>
         /// Used to draw assets
         /// Batch is sorted by Z with sprites and text
         /// </summary>
         /// <param name="camera">The currently drawing camera</param>
-        #endregion
         void Draw(Camera camera);
 
         /// <summary>
