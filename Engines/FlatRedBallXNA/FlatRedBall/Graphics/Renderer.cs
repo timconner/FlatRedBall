@@ -12,266 +12,19 @@ using ShapeManager = FlatRedBall.Math.Geometry.ShapeManager;
 
 namespace FlatRedBall.Graphics
 {
-    #region FillVertexLogic class
-
-    class FillVertexLogic
-    {
-        public IList<Sprite> SpriteList;
-        public List<VertexPositionColorTexture[]> VertexLists;
-        public int StartIndex;
-        public int Count;
-        public int FirstSpriteInAllSimultaneousLogics;
-
-        ManualResetEvent _manualResetEvent;
-
-        public FillVertexLogic()
-        {
-            _manualResetEvent = new ManualResetEvent(false);
-        }
-
-        public void Reset()
-        {
-            _manualResetEvent.Reset();
-        }
-
-        public void Wait()
-        {
-            _manualResetEvent.WaitOne();
-        }
-
-        public void FillVertexList()
-        {
-            Reset();
-            ThreadPool.QueueUserWorkItem(FillVertexListSync);
-        }
-
-        internal void FillVertexListSync(object notUsed)
-        {
-            int vertNum = 0;
-            int vertexBufferNum = 0;
-            int lastIndexExclusive = StartIndex + Count;
-            var arrayAtIndex = VertexLists[vertexBufferNum];
-
-            for (int unadjustedI = StartIndex; unadjustedI < lastIndexExclusive; unadjustedI++)
-            {
-                int i = unadjustedI - FirstSpriteInAllSimultaneousLogics;
-
-                vertNum = (i * 6) % 6000;
-                vertexBufferNum = i / 1000;
-                arrayAtIndex = VertexLists[vertexBufferNum];
-
-                var spriteAtIndex = SpriteList[unadjustedI];
-
-                #region The Sprite doesn't have stored vertices (default) so we have to create them now
-
-                if (spriteAtIndex.mAutomaticallyUpdated)
-                {
-                    spriteAtIndex.UpdateVertices();
-
-                    #region Set the color
-#if IOS
-                    // If the Sprite's Texture is null, it will behave as if it's got its ColorOperation set to Color instead of Texture
-                    if (spriteAtIndex.ColorOperation == ColorOperation.Texture && spriteAtIndex.Texture != null)
-                    {
-                        // If we are using the texture color, we want to ignore the Sprite's RGB values.
-                        // The W component is Alpha, so we'll use full values for the others.
-                        var value = (uint)(255 * spriteAtIndex.mVertices[3].Color.W);
-                        arrayAtIndex[vertNum + 0].Color.PackedValue =
-                            value +
-                            (value << 8) +
-                            (value << 16) +
-                            (value << 24);
-                    }
-                    else
-                    {
-                        // If we are using the texture color, we 
-                        arrayAtIndex[vertNum + 0].Color.PackedValue =
-                            ((uint)(255 * spriteAtIndex.mVertices[3].Color.X)) +
-                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.Y)) << 8) +
-                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.Z)) << 16) +
-                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.W)) << 24);
-                    }
-
-                    arrayAtIndex[vertNum + 1].Color.PackedValue =
-                        arrayAtIndex[vertNum + 0].Color.PackedValue;
-
-                    arrayAtIndex[vertNum + 2].Color.PackedValue =
-                        arrayAtIndex[vertNum + 0].Color.PackedValue;
-
-                    arrayAtIndex[vertNum + 5].Color.PackedValue =
-                        arrayAtIndex[vertNum + 0].Color.PackedValue;
-#else
-                    arrayAtIndex[vertNum + 0].Color.PackedValue =
-                        ((uint)(255 * spriteAtIndex.mVertices[3].Color.X)) +
-                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.Y)) << 8) +
-                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.Z)) << 16) +
-                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.W)) << 24);
-
-                    arrayAtIndex[vertNum + 1].Color.PackedValue =
-                        ((uint)(255 * spriteAtIndex.mVertices[0].Color.X)) +
-                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.Y)) << 8) +
-                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.Z)) << 16) +
-                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.W)) << 24);
-
-                    arrayAtIndex[vertNum + 2].Color.PackedValue =
-                        ((uint)(255 * spriteAtIndex.mVertices[1].Color.X)) +
-                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.Y)) << 8) +
-                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.Z)) << 16) +
-                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.W)) << 24);
-
-                    arrayAtIndex[vertNum + 5].Color.PackedValue =
-                        ((uint)(255 * spriteAtIndex.mVertices[2].Color.X)) +
-                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.Y)) << 8) +
-                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.Z)) << 16) +
-                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.W)) << 24);
-#endif
-                    #endregion
-
-                    arrayAtIndex[vertNum + 0].Position = spriteAtIndex.mVertices[3].Position;
-                    arrayAtIndex[vertNum + 0].TextureCoordinate = spriteAtIndex.mVertices[3].TextureCoordinate;
-
-                    arrayAtIndex[vertNum + 1].Position = spriteAtIndex.mVertices[0].Position;
-                    arrayAtIndex[vertNum + 1].TextureCoordinate = spriteAtIndex.mVertices[0].TextureCoordinate;
-
-                    arrayAtIndex[vertNum + 2].Position = spriteAtIndex.mVertices[1].Position;
-                    arrayAtIndex[vertNum + 2].TextureCoordinate = spriteAtIndex.mVertices[1].TextureCoordinate;
-
-                    arrayAtIndex[vertNum + 3] = arrayAtIndex[vertNum + 0];
-                    arrayAtIndex[vertNum + 4] = arrayAtIndex[vertNum + 2];
-
-                    arrayAtIndex[vertNum + 5].Position = spriteAtIndex.mVertices[2].Position;
-                    arrayAtIndex[vertNum + 5].TextureCoordinate = spriteAtIndex.mVertices[2].TextureCoordinate;
-
-                    if (spriteAtIndex.FlipHorizontal)
-                    {
-                        arrayAtIndex[vertNum + 0].TextureCoordinate = arrayAtIndex[vertNum + 5].TextureCoordinate;
-                        arrayAtIndex[vertNum + 5].TextureCoordinate = arrayAtIndex[vertNum + 3].TextureCoordinate;
-                        arrayAtIndex[vertNum + 3].TextureCoordinate = arrayAtIndex[vertNum + 0].TextureCoordinate;
-
-                        arrayAtIndex[vertNum + 2].TextureCoordinate = arrayAtIndex[vertNum + 1].TextureCoordinate;
-                        arrayAtIndex[vertNum + 1].TextureCoordinate = arrayAtIndex[vertNum + 4].TextureCoordinate;
-                        arrayAtIndex[vertNum + 4].TextureCoordinate = arrayAtIndex[vertNum + 2].TextureCoordinate;
-                    }
-
-                    if (spriteAtIndex.FlipVertical)
-                    {
-                        arrayAtIndex[vertNum + 0].TextureCoordinate = arrayAtIndex[vertNum + 1].TextureCoordinate;
-                        arrayAtIndex[vertNum + 1].TextureCoordinate = arrayAtIndex[vertNum + 3].TextureCoordinate;
-                        arrayAtIndex[vertNum + 3].TextureCoordinate = arrayAtIndex[vertNum + 0].TextureCoordinate;
-
-                        arrayAtIndex[vertNum + 2].TextureCoordinate = arrayAtIndex[vertNum + 5].TextureCoordinate;
-                        arrayAtIndex[vertNum + 5].TextureCoordinate = arrayAtIndex[vertNum + 4].TextureCoordinate;
-                        arrayAtIndex[vertNum + 4].TextureCoordinate = arrayAtIndex[vertNum + 2].TextureCoordinate;
-                    }
-                }
-
-                #endregion
-
-                else
-                {
-                    arrayAtIndex[vertNum + 0] = spriteAtIndex.mVerticesForDrawing[3];
-                    arrayAtIndex[vertNum + 1] = spriteAtIndex.mVerticesForDrawing[0];
-                    arrayAtIndex[vertNum + 2] = spriteAtIndex.mVerticesForDrawing[1];
-                    arrayAtIndex[vertNum + 3] = spriteAtIndex.mVerticesForDrawing[3];
-                    arrayAtIndex[vertNum + 4] = spriteAtIndex.mVerticesForDrawing[1];
-                    arrayAtIndex[vertNum + 5] = spriteAtIndex.mVerticesForDrawing[2];
-                }
-            }
-
-            _manualResetEvent.Set();
-        }
-    }
-
-    #endregion
-
     /// <summary>
     /// Static class responsible for drawing/rendering content to the cameras on screen.
     /// </summary> 
     /// <remarks>This class is called by <see cref="FlatRedBallServices.Draw()"/></remarks>
     public static partial class Renderer
     {
-        #region Fields
+        #region Fields / properties
 
+        #region Core
+        static internal IGraphicsDeviceService Graphics { get { return mGraphics; } }
         static IGraphicsDeviceService mGraphics;
-        public static SpriteBatch mSpriteBatch;
-        static List<FillVertexLogic> mFillVertexLogics = new List<FillVertexLogic>();
 
-        #region Render targets and textures
-
-        public static Dictionary<int, SurfaceFormat> RenderModeFormats;
-
-        static RenderMode mCurrentRenderMode = RenderMode.Default;
-
-        #endregion
-
-        #region Vertex fields
-
-        // Vertex buffers
-        static List<DynamicVertexBuffer> mVertexBufferList;
-        static List<DynamicVertexBuffer> mShapesVertexBufferList;
-
-        static List<VertexPositionColorTexture[]> mSpriteVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColorTexture[]> mZBufferedSpriteVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColorTexture[]> mTextVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColor[]> mShapeVertices = new List<VertexPositionColor[]>();
-
-        // Vertex declarations
-        static VertexDeclaration mPositionColorTexture;
-        static VertexDeclaration mPositionColor;
-
-        // Vertex arrays
-        static VertexPositionColorTexture[] mVertexArray;
-        static VertexPositionColor[] mShapeDrawingVertexArray;
-
-        // Render breaks
-        static List<RenderBreak> mRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mSpriteRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mZBufferedSpriteRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mTextRenderBreaks = new List<RenderBreak>();
-
-        // Current vertex buffer
-        static VertexBuffer mVertexBuffer;
-        static IndexBuffer mIndexBuffer;
-
-        // Quad fields
-        static VertexPositionTexture[] mQuadVertices;
-        static short[] mQuadIndices;
-        static VertexDeclaration mQuadVertexDeclaration;
-
-        #endregion
-
-        #region Effects
-
-        static BasicEffect mBasicEffect;
-        static BasicEffect mWireframeEffect;
-        static Effect mEffect;
-        static Effect mExternalEffect;
-        static Effect mCurrentEffect; // This stores the current effect in use
-
-        #endregion
-
-        #region Texture fields
-
-        static Texture2D mTexture;
-        static BlendOperation mBlendOperation;
-        static TextureAddressMode mTextureAddressMode;
-        static internal ColorOperation mLastColorOperationSet = ColorOperation.Texture;
-
-        #endregion
-
-        #region Debugging information
-
-        internal static int NumberOfSpritesDrawn;
-        static int mFillVBListCallsThisFrame;
-        static int mRenderBreaksAllocatedThisFrame;
-
-        #endregion
-
-        #endregion
-
-        #region Properties
-
-        #region Public properties
+        static internal GraphicsDevice GraphicsDevice { get { return mGraphics.GraphicsDevice; } }
 
         public static Texture2D Texture
         {
@@ -283,6 +36,7 @@ namespace FlatRedBall.Graphics
                 }
             }
         }
+        static Texture2D mTexture;
 
         static void ForceSetTexture(Texture2D value)
         {
@@ -298,145 +52,6 @@ namespace FlatRedBall.Graphics
                 {
                     mTexture = value;
                     GraphicsDevice.Textures[0] = mTexture;
-                }
-            }
-        }
-
-        public static VertexBuffer VertexBuffer
-        {
-            set
-            {
-                if (value != mVertexBuffer && value != null)
-                {
-                    mVertexBuffer = value;
-                    GraphicsDevice.SetVertexBuffer(mVertexBuffer);
-                }
-                else
-                {
-                    mVertexBuffer = null;
-                }
-            }
-        }
-
-        public static IndexBuffer IndexBuffer
-        {
-            set
-            {
-                if (value != mIndexBuffer && value != null)
-                {
-                    mIndexBuffer = value;
-                    GraphicsDevice.Indices = mIndexBuffer;
-                }
-                else
-                {
-                    mIndexBuffer = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the layer currently being rendered. Can be used in IDrawableBatches and debug code.
-        /// </summary>
-        public static Layer CurrentLayer { get; private set; }
-
-        internal static string CurrentLayerName
-        {
-            get
-            {
-                if (CurrentLayer != null)
-                {
-                    return CurrentLayer.Name;
-                }
-                else
-                {
-                    return "Unlayered";
-                }
-            }
-        }
-
-        public static VertexDeclaration PositionColorVertexDeclaration { get { return mPositionColor; } }
-        public static VertexDeclaration PositionColorTextureVertexDeclaration { get { return mPositionColorTexture; } }
-
-        public static bool IsInRendering { get; set; }
-        public static RenderMode CurrentRenderMode { get { return mCurrentRenderMode; } }
-        public static SwapChain SwapChain { get; set; }
-
-        /// <summary>
-        /// Tells the renderer to record and keep track of render breaks so they
-        /// can be used when optimizing rendering. This value defaults to false
-        /// </summary>
-        public static bool RecordRenderBreaks
-        {
-            get { return mRecordRenderBreaks; }
-            set
-            {
-                mRecordRenderBreaks = value;
-
-                if (mRecordRenderBreaks && LastFrameRenderBreakList == null)
-                {
-                    LastFrameRenderBreakList = new List<RenderBreak>();
-                }
-
-                if (!mRecordRenderBreaks && LastFrameRenderBreakList != null)
-                {
-                    LastFrameRenderBreakList.Clear();
-                }
-            }
-        }
-        static bool mRecordRenderBreaks;
-
-        /// <summary>
-        /// Contains the list of render breaks from the previous frame.
-        /// This is updated every time FlatRedBall is drawn.
-        /// </summary>
-        public static List<RenderBreak> LastFrameRenderBreakList
-        {
-            get
-            {
-#if DEBUG
-                if (RecordRenderBreaks == false)
-                {
-                    throw new InvalidOperationException($"You must set {nameof(RecordRenderBreaks)} to true before getting LastFrameRenderBreakList");
-                }
-#endif
-                return lastFrameRenderBreakList;
-            }
-            private set { lastFrameRenderBreakList = value; }
-        }
-        static List<RenderBreak> lastFrameRenderBreakList;
-
-        /// <summary>
-        /// When this is enabled texture colors will be translated to linear space before 
-        /// any other shader operations are performed. This is useful for games with 
-        /// lighting and other special shader effects. If the colors are left in gamma 
-        /// space the shader calculations will crush the colors and not look like natural 
-        /// lighting. Delinearization must be done by the developer in the last render 
-        /// step when rendering to the screen. This technique is called gamma correction.
-        /// Disabled by default.
-        /// </summary>
-        public static bool LinearizeTextures { get; set; }
-
-        public static List<IPostProcess> GlobalPostProcesses { get; private set; } = new List<IPostProcess>();
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Sets the color operation on the graphics device if the set value differs from the current value.
-        /// This is public so that IDrawableBatches can set the color operation.
-        /// </summary>
-        public static ColorOperation ColorOperation
-        {
-            get
-            {
-                return mLastColorOperationSet;
-            }
-            set
-            {
-                if (mLastColorOperationSet != value)
-                {
-                    ForceSetColorOperation(value);
                 }
             }
         }
@@ -457,440 +72,7 @@ namespace FlatRedBall.Graphics
                 }
             }
         }
-
-        public static TextureAddressMode TextureAddressMode
-        {
-            get { return mTextureAddressMode; }
-            set
-            {
-                if (value != mTextureAddressMode)
-                {
-                    ForceSetTextureAddressMode(value);
-                }
-            }
-        }
-
-        public static void ForceSetTextureAddressMode(TextureAddressMode value)
-        {
-            mTextureAddressMode = value;
-            FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(0);
-            FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(1);
-        }
-
-        static internal IGraphicsDeviceService Graphics { get { return mGraphics; } }
-        static internal GraphicsDevice GraphicsDevice { get { return mGraphics.GraphicsDevice; } }
-
-        static CustomEffectManager mEffectManager = new CustomEffectManager();
-        public static CustomEffectManager ExternalEffectManager { get; } = new CustomEffectManager();
-
-        public static Effect Effect
-        {
-            get { return mEffect; }
-            set
-            {
-                mEffect = value;
-                mEffectManager.Effect = mEffect;
-            }
-        }
-
-        public static Effect ExternalEffect
-        {
-            get { return mExternalEffect; }
-            set
-            {
-                mExternalEffect = value;
-                ExternalEffectManager.Effect = mExternalEffect;
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
-
-        #region Constructor and initialization
-
-        static Renderer()
-        {
-            // Vertex buffers
-            mVertexBufferList = new List<DynamicVertexBuffer>();
-            mShapesVertexBufferList = new List<DynamicVertexBuffer>();
-
-            // Vertex arrays
-            mVertexArray = new VertexPositionColorTexture[6000];
-            mShapeDrawingVertexArray = new VertexPositionColor[6000];
-
-            SetNumberOfThreadsToUse(1);
-        }
-
-        internal static void Initialize(IGraphicsDeviceService graphics)
-        {
-            // Make sure the device isn't null
-            if (graphics.GraphicsDevice == null)
-            {
-                throw new NullReferenceException("The GraphicsDevice is null. Are you calling FlatRedBallServices.InitializeFlatRedBall from the Game's constructor?  If so, you need to call it in the Initialize or LoadGraphicsContent method.");
-            }
-
-            mGraphics = graphics;
-
-            InitializeEffect();
-
-            ForceSetBlendOperation();
-        }
-
-        static void InitializeEffect()
-        {
-            mPositionColorTexture = VertexPositionColorTexture.VertexDeclaration;
-            mPositionColor = VertexPositionColor.VertexDeclaration;
-
-            // Create render mode formats dictionary
-            RenderModeFormats = new Dictionary<int, SurfaceFormat>(10);
-            RenderModeFormats.Add((int)RenderMode.Color, SurfaceFormat.Color);
-            RenderModeFormats.Add((int)RenderMode.Default, SurfaceFormat.Color);
-
-            // Set the initial viewport
-            var viewport = mGraphics.GraphicsDevice.Viewport;
-            viewport.Width = FlatRedBallServices.ClientWidth;
-            viewport.Height = FlatRedBallServices.ClientHeight;
-            mGraphics.GraphicsDevice.Viewport = viewport;
-
-            // Sprite batch
-            mSpriteBatch = new SpriteBatch(FlatRedBallServices.GraphicsDevice);
-
-            // Basic effect
-            mBasicEffect = new BasicEffect(mGraphics.GraphicsDevice);
-            mBasicEffect.Alpha = 1.0f;
-            mBasicEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-            mBasicEffect.World = Matrix.Identity;
-
-            mWireframeEffect = new BasicEffect(FlatRedBallServices.GraphicsDevice);
-
-            BlendOperation = BlendOperation.Regular;
-
-            var depthStencilState = new DepthStencilState();
-            depthStencilState.DepthBufferEnable = false;
-            depthStencilState.DepthBufferWriteEnable = false;
-
-            mGraphics.GraphicsDevice.DepthStencilState = depthStencilState;
-
-            var rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = CullMode.None;
-        }
-
-        #endregion
-
-        #region Public methods
-
-        #region Main drawing methods
-
-        static void PrepareForDrawScene(Camera camera, RenderMode renderMode)
-        {
-            mCurrentRenderMode = renderMode;
-
-            // Set the viewport for the current camera
-            var viewport = camera.GetViewport();
-
-            mGraphics.GraphicsDevice.Viewport = viewport;
-
-            #region Clear the viewport
-
-            if (renderMode == RenderMode.Default || renderMode == RenderMode.Color)
-            {
-                // Vic says:  This code used to be:
-                // if (!mUseRenderTargets && camera.BackgroundColor.A == 0)
-                // Why prevent color clearing only when we aren't using render targets?  Don't know, 
-                // so I changed this in June 
-
-                // UPDATE:
-                // It seems that removing the !mUseRenderTargets just makes the background purple...no change
-                // happens in tems of things being able to be drawn.  Not sure why, but I'll update the docs to
-                // indicate that you can't use RenderTargets and have stuff drawn before FRB
-
-                if (camera.BackgroundColor.A == 0)
-                {
-                    if (camera.ClearsDepthBuffer)
-                    {
-                        // Clearing to a transparent color, so just clear depth
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
-                    }
-                }
-                else
-                {
-                    if (camera.ClearsDepthBuffer)
-                    {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
-                    }
-                    else
-                    {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, camera.BackgroundColor, 1, 0);
-                    }
-                }
-            }
-            else if (renderMode == RenderMode.Depth)
-            {
-                if (camera.ClearsDepthBuffer)
-                {
-                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1, 0);
-                }
-            }
-            else
-            {
-                if (camera.ClearsDepthBuffer)
-                {
-                    Color colorToClearTo = Color.Transparent;
-
-                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, colorToClearTo, 1, 0);
-                }
-            }
-
-            #endregion
-
-            #region Set device settings for rendering
-
-            // Let's force texture address mode just in case someone screwed
-            // with it outside of the rendering, like when using render states.
-            ForceSetTextureAddressMode(TextureAddressMode.Clamp);
-
-            #endregion
-
-            #region Set camera values on the current effect
-
-            mCurrentEffect = mEffect;
-            camera.SetDeviceViewAndProjection(mCurrentEffect, false);
-
-            #endregion
-        }
-
-        #endregion
-
-        public static new String ToString()
-        {
-            return String.Format(
-                "Number of RenderBreaks allocated: %d\nNumber of Sprites drawn: %d",
-                mRenderBreaksAllocatedThisFrame, NumberOfSpritesDrawn);
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        public static void Update()
-        {
-        }
-
-        internal static void UpdateDependencies()
-        {
-        }
-
-        public static void Draw()
-        {
-            Draw(null);
-        }
-
-        // This is public for those who want to have more control over how FRB renders.
-        public static void Draw(Section section)
-        {
-            bool hasGlobalPostProcessing = false;
-
-            foreach (var item in GlobalPostProcesses)
-            {
-                if (item.IsEnabled)
-                {
-                    hasGlobalPostProcessing = true;
-                    break;
-                }
-            }
-#if DEBUG
-            if (hasGlobalPostProcessing && SwapChain == null)
-            {
-                throw new InvalidOperationException("SwapChain must be set prior to rendering the first frame if using any post processing");
-            }
-#endif
-            if (hasGlobalPostProcessing)
-            {
-                SetRenderTargetForPostProcessing();
-            }
-            else
-            {
-                // Just in case we removed all post processing, but are on "B"
-                SwapChain?.ResetForFrame();
-            }
-
-            DrawInternal(section);
-
-            if (hasGlobalPostProcessing)
-            {
-                ApplyPostProcessing();
-            }
-        }
-
-        static void SetRenderTargetForPostProcessing()
-        {
-            ForceSetBlendOperation();
-            ForceSetColorOperation(ColorOperation);
-
-            SwapChain.ResetForFrame();
-
-            // Set the render target before drawing anything
-            GraphicsDevice.SetRenderTarget(SwapChain.CurrentRenderTarget);
-        }
-
-        static void ApplyPostProcessing()
-        {
-            foreach (var postProcess in GlobalPostProcesses)
-            {
-                if (postProcess.IsEnabled)
-                {
-#if DEBUG
-                    mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = postProcess });
-#endif
-                    SwapChain.Swap();
-                    postProcess.Apply(SwapChain.CurrentTexture);
-                }
-            }
-
-#if DEBUG
-            mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = SwapChain });
-#endif
-            SwapChain.RenderToScreen();
-        }
-
-        static void DrawInternal(Section section)
-        {
-            if (section != null)
-            {
-                Section.GetAndStartContextAndTime("Start of Renderer.Draw");
-            }
-
-            IsInRendering = true;
-
-            // Drawing should only occur if the window actually has pixels.
-            // Using ClientBounds causes memory to be allocated. We can just
-            // use the FlatRedBallService's value which gets updated whenever
-            // the resolution changes.
-            if (FlatRedBallServices.mClientWidth == 0 ||
-                FlatRedBallServices.mClientHeight == 0)
-            {
-                IsInRendering = false;
-                return;
-            }
-
-            #region Reset the debugging and profiling information
-
-            mFillVBListCallsThisFrame = 0;
-            mRenderBreaksAllocatedThisFrame = 0;
-            if (lastFrameRenderBreakList != null)
-            {
-                lastFrameRenderBreakList.Clear();
-            }
-
-            NumberOfSpritesDrawn = 0;
-
-            #endregion
-
-#if DEBUG
-            if (SpriteManager.Cameras.Count <= 0)
-            {
-                NullReferenceException exception = new NullReferenceException(
-                    "There are no cameras to render, did you forget to add a camera to the SpriteManager?");
-                throw exception;
-            }
-            if (mGraphics == null || mGraphics.GraphicsDevice == null)
-            {
-                NullReferenceException exception = new NullReferenceException(
-                    "Renderer's GraphicsDeviceManager is null.  Did you forget to call FlatRedBallServices.Initialize?");
-                throw exception;
-            }
-#endif
-
-            if (section != null)
-            {
-                Section.EndContextAndTime();
-                Section.GetAndStartContextAndTime("Render Cameras");
-            }
-
-            #region Loop through all cameras (viewports)
-
-            // Note: It may be more efficient to do this loop at each point
-            // there is a camera reference to avoid passing geometry multiple times.
-            // Addition: The noted idea may not be faster due to render target swapping.
-
-            for (int i = 0; i < SpriteManager.Cameras.Count; i++)
-            {
-                var camera = SpriteManager.Cameras[i];
-
-                lock (Graphics.GraphicsDevice)
-                {
-                    #region If the Camera either DrawsWorld or DrawsCameraLayer, then perform drawing
-
-                    if (camera.DrawsWorld || camera.DrawsCameraLayer)
-                    {
-                        if (section != null)
-                        {
-                            string cameraName = camera.Name;
-                            if (string.IsNullOrEmpty(cameraName))
-                            {
-                                cameraName = "at index " + i;
-                            }
-                            Section.GetAndStartContextAndTime("Render camera " + cameraName);
-                        }
-
-                        DrawCamera(camera, RenderMode.Default, section);
-
-                        if (section != null)
-                        {
-                            Section.EndContextAndTime();
-                        }
-                    }
-
-                    #endregion
-                }
-            }
-
-            #endregion
-
-            if (section != null)
-            {
-                Section.EndContextAndTime();
-                Section.GetAndStartContextAndTime("End of Render");
-            }
-
-            IsInRendering = false;
-
-            Screens.ScreenManager.Draw();
-
-            if (section != null)
-            {
-                Section.EndContextAndTime();
-            }
-        }
-
-        public static void ForceSetColorOperation(ColorOperation value)
-        {
-            mLastColorOperationSet = value;
-
-            var technique = mEffectManager.GetVertexColorTechniqueFromColorOperation(value);
-
-            if (technique == null)
-            {
-                string errorString =
-                    "Could not find a technique for " + value.ToString() +
-                    ", filter: " + FlatRedBallServices.GraphicsOptions.TextureFilter +
-                    " in the current shader. If using a custom shader verify that" +
-                    " this pixel shader technique exists.";
-                throw new Exception(errorString);
-            }
-            else
-            {
-                if (mCurrentEffect == null)
-                {
-                    mCurrentEffect = mEffect;
-                }
-
-                mCurrentEffect.CurrentTechnique = technique;
-            }
-        }
+        static BlendOperation mBlendOperation;
 
         public static void ForceSetBlendOperation()
         {
@@ -970,60 +152,1463 @@ namespace FlatRedBall.Graphics
             }
         }
 
+        public static TextureAddressMode TextureAddressMode
+        {
+            get { return mTextureAddressMode; }
+            set
+            {
+                if (value != mTextureAddressMode)
+                {
+                    ForceSetTextureAddressMode(value);
+                }
+            }
+        }
+        static TextureAddressMode mTextureAddressMode;
+
+        public static void ForceSetTextureAddressMode(TextureAddressMode value)
+        {
+            mTextureAddressMode = value;
+            FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(0);
+            FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(1);
+        }
+
+        public static bool IsInRendering { get; set; }
+
+        public static RenderMode CurrentRenderMode { get { return mCurrentRenderMode; } }
+        static RenderMode mCurrentRenderMode = RenderMode.Default;
+
         #endregion
 
-        #region Private methods
+        #region Cameras and layers
 
-        #region Drawing methods
+        /// <summary>
+        /// Gets the default camera (SpriteManager.Camera).
+        /// </summary>
+        static public Camera Camera { get { return SpriteManager.Camera; } }
 
-        internal static void DrawZBufferedSprites(Camera camera, SpriteList listToRender)
+        /// <summary>
+        /// Gets the list of cameras (SpriteManager.Cameras).
+        /// </summary>
+        static public PositionedObjectList<Camera> Cameras { get { return SpriteManager.Cameras; } }
+
+        static LayerCameraSettings mOldCameraLayerSettings = new LayerCameraSettings();
+
+        /// <summary>
+        /// Returns the layer currently being rendered. Can be used in IDrawableBatches and debug code.
+        /// </summary>
+        public static Layer CurrentLayer { get; private set; }
+
+        internal static string CurrentLayerName
         {
-            // A note about how Z-buffered rendering works with alpha.
-            // FRB shaders use a clip() function, which prevents a pixel
-            // from being processed. In this case the FRB shader clips
-            // based off of the Alpha in the Sprite. If the alpha is
-            // essentially 0, then the pixel is not rendered and it
-            // does not modify the depth buffer.
-
-            if (SpriteManager.ZBufferedSortType == SortType.Texture)
+            get
             {
-                listToRender.SortTextureInsertion();
-            }
-
-            // Set device settings for drawing Z-buffered sprites
-            mVisibleSprites.Clear();
-
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
-            if (camera.ClearsDepthBuffer)
-            {
-                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            }
-
-            // Currently Z-buffered Sprites are all drawn. Performance improvement possible here by culling.
-
-            lock (listToRender)
-            {
-                for (int i = 0; i < listToRender.Count; i++)
+                if (CurrentLayer != null)
                 {
-                    var sprite = listToRender[i];
+                    return CurrentLayer.Name;
+                }
+                else
+                {
+                    return "Unlayered";
+                }
+            }
+        }
 
-                    if (sprite.AbsoluteVisible && sprite.Alpha > .0001f)
+        #endregion
+
+        #region Geometry
+
+        public static VertexBuffer VertexBuffer
+        {
+            set
+            {
+                if (value != mVertexBuffer && value != null)
+                {
+                    mVertexBuffer = value;
+                    GraphicsDevice.SetVertexBuffer(mVertexBuffer);
+                }
+                else
+                {
+                    mVertexBuffer = null;
+                }
+            }
+        }
+        static VertexBuffer mVertexBuffer;
+
+        public static IndexBuffer IndexBuffer
+        {
+            set
+            {
+                if (value != mIndexBuffer && value != null)
+                {
+                    mIndexBuffer = value;
+                    GraphicsDevice.Indices = mIndexBuffer;
+                }
+                else
+                {
+                    mIndexBuffer = null;
+                }
+            }
+        }
+        static IndexBuffer mIndexBuffer;
+
+        static List<FillVertexLogic> mFillVertexLogics = new List<FillVertexLogic>();
+
+        static List<VertexPositionColorTexture[]> mSpriteVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColorTexture[]> mZBufferedSpriteVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColorTexture[]> mTextVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColor[]> mShapeVertices = new List<VertexPositionColor[]>();
+
+        // Vertex arrays
+        static VertexPositionColorTexture[] mVertexArray;
+
+        static List<int> vertsPerVertexBuffer = new List<int>(4);
+
+        #endregion
+
+        #region Render breaks
+
+        static List<RenderBreak> mRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> mSpriteRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> mZBufferedSpriteRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> mTextRenderBreaks = new List<RenderBreak>();
+
+        /// <summary>
+        /// Tells the renderer to record and keep track of render breaks so they
+        /// can be used when optimizing rendering. This value defaults to false
+        /// </summary>
+        public static bool RecordRenderBreaks
+        {
+            get { return mRecordRenderBreaks; }
+            set
+            {
+                mRecordRenderBreaks = value;
+
+                if (mRecordRenderBreaks && LastFrameRenderBreakList == null)
+                {
+                    LastFrameRenderBreakList = new List<RenderBreak>();
+                }
+
+                if (!mRecordRenderBreaks && LastFrameRenderBreakList != null)
+                {
+                    LastFrameRenderBreakList.Clear();
+                }
+            }
+        }
+        static bool mRecordRenderBreaks;
+
+        /// <summary>
+        /// Contains the list of render breaks from the previous frame.
+        /// This is updated every time FlatRedBall is drawn.
+        /// </summary>
+        public static List<RenderBreak> LastFrameRenderBreakList
+        {
+            get
+            {
+#if DEBUG
+                if (mRecordRenderBreaks == false)
+                {
+                    throw new InvalidOperationException($"You must set {nameof(RecordRenderBreaks)} to true before getting LastFrameRenderBreakList");
+                }
+#endif
+                return lastFrameRenderBreakList;
+            }
+            private set { lastFrameRenderBreakList = value; }
+        }
+        static List<RenderBreak> lastFrameRenderBreakList;
+
+        #endregion
+
+        #region Effects and color operations
+
+        public static Effect Effect
+        {
+            get { return mEffect; }
+            set
+            {
+                mEffect = value;
+                mEffectManager.Effect = mEffect;
+            }
+        }
+        static Effect mEffect;
+        static CustomEffectManager mEffectManager = new CustomEffectManager();
+
+        public static Effect ExternalEffect
+        {
+            get { return mExternalEffect; }
+            set
+            {
+                mExternalEffect = value;
+                ExternalEffectManager.Effect = mExternalEffect;
+            }
+        }
+        static Effect mExternalEffect;
+        public static CustomEffectManager ExternalEffectManager { get; } = new CustomEffectManager();
+
+        static BasicEffect mBasicEffect;
+        static BasicEffect mWireframeEffect;
+        static Effect mCurrentEffect; // This stores the current effect in use
+
+        /// <summary>
+        /// Sets the color operation on the graphics device if the set value differs from the current value.
+        /// This is public so that IDrawableBatches can set the color operation.
+        /// </summary>
+        public static ColorOperation ColorOperation
+        {
+            get
+            {
+                return mColorOperation;
+            }
+            set
+            {
+                if (mColorOperation != value)
+                {
+                    ForceSetColorOperation(value);
+                }
+            }
+        }
+        static internal ColorOperation mColorOperation = ColorOperation.Texture;
+
+        public static void ForceSetColorOperation(ColorOperation value)
+        {
+            mColorOperation = value;
+
+            var technique = mEffectManager.GetVertexColorTechniqueFromColorOperation(value);
+
+            if (technique == null)
+            {
+                string errorString =
+                    "Could not find a technique for " + value.ToString() +
+                    ", filter: " + FlatRedBallServices.GraphicsOptions.TextureFilter +
+                    " in the current shader. If using a custom shader verify that" +
+                    " this pixel shader technique exists.";
+                throw new Exception(errorString);
+            }
+            else
+            {
+                if (mCurrentEffect == null)
+                {
+                    mCurrentEffect = mEffect;
+                }
+
+                mCurrentEffect.CurrentTechnique = technique;
+            }
+        }
+
+        /// <summary>
+        /// When this is enabled texture colors will be translated to linear space before 
+        /// any other shader operations are performed. This is useful for games with 
+        /// lighting and other special shader effects. If the colors are left in gamma 
+        /// space the shader calculations will crush the colors and not look like natural 
+        /// lighting. Delinearization must be done by the developer in the last render 
+        /// step when rendering to the screen. This technique is called gamma correction.
+        /// Disabled by default.
+        /// </summary>
+        public static bool LinearizeTextures { get; set; }
+
+        #endregion
+
+        #region Sorting and culling
+
+        static List<Sprite> mVisibleSprites = new List<Sprite>();
+        static List<Text> mVisibleTexts = new List<Text>();
+        static List<IDrawableBatch> mVisibleBatches = new List<IDrawableBatch>();
+
+        /// <summary>
+        /// Controls whether the renderer will refresh the sorting of its internal lists in the next draw call.
+        /// </summary>
+        public static bool UpdateSorting { get { return mUpdateSorting; } set { mUpdateSorting = value; } }
+        static bool mUpdateSorting = true;
+
+        public static IComparer<Sprite> SpriteComparer { get { return mSpriteComparer; } set { mSpriteComparer = value; } }
+        static IComparer<Sprite> mSpriteComparer;
+
+        public static IComparer<Text> TextComparer { get { return mTextComparer; } set { mTextComparer = value; } }
+        static IComparer<Text> mTextComparer;
+
+        public static IComparer<IDrawableBatch> DrawableBatchComparer { get { return mDrawableBatchComparer; } set { mDrawableBatchComparer = value; } }
+        static IComparer<IDrawableBatch> mDrawableBatchComparer;
+
+        static List<int> batchZBreaks = new List<int>(10);
+
+        #endregion
+
+        #region Render targets and postprocessing
+
+        public static Dictionary<int, SurfaceFormat> RenderModeFormats;
+        public static SwapChain SwapChain { get; set; }
+        public static List<IPostProcess> GlobalPostProcesses { get; private set; } = new List<IPostProcess>();
+
+        #endregion
+
+        #region Debugging information
+
+        internal static int NumberOfSpritesDrawn;
+        static int mFillVBListCallsThisFrame;
+        static int mRenderBreaksAllocatedThisFrame;
+
+        #endregion
+
+        #region Performance
+
+        /// <summary>
+        /// Controls whether the renderer will update the drawable batches in the next draw call.
+        /// </summary>
+        public static bool UpdateDrawableBatches { get { return mUpdateDrawableBatches; } set { mUpdateDrawableBatches = value; } }
+        static bool mUpdateDrawableBatches = true;
+
+        #endregion
+
+        #endregion
+
+        #region Constructor and initialization
+
+        static Renderer()
+        {
+            mVertexArray = new VertexPositionColorTexture[6000];
+            SetNumberOfThreadsToUse(1);
+        }
+
+        internal static void Initialize(IGraphicsDeviceService graphics)
+        {
+            // Make sure the device isn't null
+            if (graphics.GraphicsDevice == null)
+            {
+                throw new NullReferenceException("The GraphicsDevice is null. Are you calling FlatRedBallServices.InitializeFlatRedBall from the Game's constructor?  If so, you need to call it in the Initialize or LoadGraphicsContent method.");
+            }
+
+            mGraphics = graphics;
+            InitializeEffect();
+            ForceSetBlendOperation();
+        }
+
+        static void InitializeEffect()
+        {
+            // Create render mode formats dictionary
+            RenderModeFormats = new Dictionary<int, SurfaceFormat>(10);
+            RenderModeFormats.Add((int)RenderMode.Color, SurfaceFormat.Color);
+            RenderModeFormats.Add((int)RenderMode.Default, SurfaceFormat.Color);
+
+            // Set the initial viewport
+            var viewport = mGraphics.GraphicsDevice.Viewport;
+            viewport.Width = FlatRedBallServices.ClientWidth;
+            viewport.Height = FlatRedBallServices.ClientHeight;
+            mGraphics.GraphicsDevice.Viewport = viewport;
+
+            // Basic effect
+            mBasicEffect = new BasicEffect(mGraphics.GraphicsDevice);
+            mBasicEffect.Alpha = 1.0f;
+            mBasicEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
+            mBasicEffect.World = Matrix.Identity;
+
+            mWireframeEffect = new BasicEffect(FlatRedBallServices.GraphicsDevice);
+
+            BlendOperation = BlendOperation.Regular;
+
+            var depthStencilState = new DepthStencilState();
+            depthStencilState.DepthBufferEnable = false;
+            depthStencilState.DepthBufferWriteEnable = false;
+
+            mGraphics.GraphicsDevice.DepthStencilState = depthStencilState;
+
+            var rasterizerState = new RasterizerState();
+            rasterizerState.CullMode = CullMode.None;
+        }
+
+        #endregion
+
+        #region Main drawing
+
+        public static void Draw()
+        {
+            Draw(null);
+        }
+
+        // This is public for those who want to have more control over how FRB renders.
+        public static void Draw(Section section)
+        {
+            bool hasGlobalPostProcessing = false;
+
+            foreach (var item in GlobalPostProcesses)
+            {
+                if (item.IsEnabled)
+                {
+                    hasGlobalPostProcessing = true;
+                    break;
+                }
+            }
+#if DEBUG
+            if (hasGlobalPostProcessing && SwapChain == null)
+            {
+                throw new InvalidOperationException("SwapChain must be set prior to rendering the first frame if using any post processing");
+            }
+#endif
+            if (hasGlobalPostProcessing)
+            {
+                SetRenderTargetForPostProcessing();
+            }
+            else
+            {
+                // Just in case we removed all post processing, but are on "B"
+                SwapChain?.ResetForFrame();
+            }
+
+            DrawInternal(section);
+
+            if (hasGlobalPostProcessing)
+            {
+                ApplyPostProcessing();
+            }
+        }
+
+        static void DrawInternal(Section section)
+        {
+            if (section != null)
+            {
+                Section.GetAndStartContextAndTime("Start of Renderer.Draw");
+            }
+
+            IsInRendering = true;
+
+            // Drawing should only occur if the window actually has pixels.
+            // Using ClientBounds causes memory to be allocated. We can just
+            // use the FlatRedBallService's value which gets updated whenever
+            // the resolution changes.
+            if (FlatRedBallServices.mClientWidth == 0 ||
+                FlatRedBallServices.mClientHeight == 0)
+            {
+                IsInRendering = false;
+                return;
+            }
+
+            #region Reset the debugging and profiling information
+
+            mFillVBListCallsThisFrame = 0;
+            mRenderBreaksAllocatedThisFrame = 0;
+            if (lastFrameRenderBreakList != null)
+            {
+                lastFrameRenderBreakList.Clear();
+            }
+
+            NumberOfSpritesDrawn = 0;
+
+            #endregion
+
+#if DEBUG
+            if (SpriteManager.Cameras.Count <= 0)
+            {
+                NullReferenceException exception = new NullReferenceException(
+                    "There are no cameras to render, did you forget to add a camera to the SpriteManager?");
+                throw exception;
+            }
+            if (mGraphics == null || mGraphics.GraphicsDevice == null)
+            {
+                NullReferenceException exception = new NullReferenceException(
+                    "Renderer's GraphicsDeviceManager is null.  Did you forget to call FlatRedBallServices.Initialize?");
+                throw exception;
+            }
+#endif
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Render Cameras");
+            }
+
+            #region Loop through all cameras (viewports)
+
+            // Note: It may be more efficient to do this loop at each point
+            // there is a camera reference to avoid passing geometry multiple times.
+            // Addition: The noted idea may not be faster due to render target swapping.
+
+            for (int i = 0; i < SpriteManager.Cameras.Count; i++)
+            {
+                var camera = SpriteManager.Cameras[i];
+
+                lock (mGraphics.GraphicsDevice)
+                {
+                    #region If the camera either DrawsWorld or DrawsCameraLayer, then perform drawing
+
+                    if (camera.DrawsWorld || camera.DrawsCameraLayer)
                     {
-                        mVisibleSprites.Add(sprite);
+                        if (section != null)
+                        {
+                            string cameraName = camera.Name;
+                            if (string.IsNullOrEmpty(cameraName))
+                            {
+                                cameraName = "at index " + i;
+                            }
+                            Section.GetAndStartContextAndTime("Render camera " + cameraName);
+                        }
+
+                        DrawCamera(camera, RenderMode.Default, section);
+
+                        if (section != null)
+                        {
+                            Section.EndContextAndTime();
+                        }
+                    }
+
+                    #endregion
+                }
+            }
+
+            #endregion
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("End of Render");
+            }
+
+            IsInRendering = false;
+
+            Screens.ScreenManager.Draw();
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+            }
+        }
+
+        #endregion
+
+        #region Camera and layers drawing
+
+        public static void DrawCamera(Camera camera, Section section)
+        {
+            DrawCamera(camera, RenderMode.Default, section);
+        }
+
+        static void DrawCamera(Camera camera, RenderMode renderMode, Section section)
+        {
+            if (section != null)
+            {
+                Section.GetAndStartContextAndTime("Start of camera draw");
+            }
+
+            PrepareForDrawScene(camera, renderMode);
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Draw UnderAllLayer");
+            }
+
+            if (camera.DrawsWorld && !SpriteManager.UnderAllDrawnLayer.IsEmpty)
+            {
+                var layer = SpriteManager.UnderAllDrawnLayer;
+                RenderTarget2D lastRenderTarget = null;
+                var lastViewport = GraphicsDevice.Viewport;
+                DrawIndividualLayer(camera, RenderMode.Default, layer, section, ref lastRenderTarget, ref lastViewport);
+
+                if (lastRenderTarget != null)
+                {
+                    GraphicsDevice.SetRenderTarget(null);
+                }
+            }
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Draw Unlayered");
+            }
+
+            DrawUnlayeredObjects(camera, renderMode, section);
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Draw Regular Layers");
+            }
+
+            // Draw layers. This method will check internally for
+            // the camera's DrawsWorld and DrawsCameraLayers properties.
+            DrawLayers(camera, renderMode, section);
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+            }
+        }
+
+        static void PrepareForDrawScene(Camera camera, RenderMode renderMode)
+        {
+            mCurrentRenderMode = renderMode;
+
+            // Set the viewport for the current camera
+            var viewport = camera.GetViewport();
+
+            mGraphics.GraphicsDevice.Viewport = viewport;
+
+            #region Clear the viewport
+
+            if (renderMode == RenderMode.Default || renderMode == RenderMode.Color)
+            {
+                // Vic says:  This code used to be:
+                // if (!mUseRenderTargets && camera.BackgroundColor.A == 0)
+                // Why prevent color clearing only when we aren't using render targets?  Don't know, 
+                // so I changed this in June 
+
+                // UPDATE:
+                // It seems that removing the !mUseRenderTargets just makes the background purple...no change
+                // happens in tems of things being able to be drawn.  Not sure why, but I'll update the docs to
+                // indicate that you can't use RenderTargets and have stuff drawn before FRB
+
+                if (camera.BackgroundColor.A == 0)
+                {
+                    if (camera.ClearsDepthBuffer)
+                    {
+                        // Clearing to a transparent color, so just clear depth
+                        mGraphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
+                    }
+                }
+                else
+                {
+                    if (camera.ClearsDepthBuffer)
+                    {
+                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
+                    }
+                    else
+                    {
+                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, camera.BackgroundColor, 1, 0);
+                    }
+                }
+            }
+            else if (renderMode == RenderMode.Depth)
+            {
+                if (camera.ClearsDepthBuffer)
+                {
+                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1, 0);
+                }
+            }
+            else
+            {
+                if (camera.ClearsDepthBuffer)
+                {
+                    Color colorToClearTo = Color.Transparent;
+
+                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, colorToClearTo, 1, 0);
+                }
+            }
+
+            #endregion
+
+            #region Set device settings for rendering
+
+            // Let's force texture address mode just in case someone screwed
+            // with it outside of the rendering, like when using render states.
+            ForceSetTextureAddressMode(TextureAddressMode.Clamp);
+
+            #endregion
+
+            #region Set camera values on the current effect
+
+            mCurrentEffect = mEffect;
+            camera.SetDeviceViewAndProjection(mCurrentEffect, false);
+
+            #endregion
+        }
+
+        static void DrawIndividualLayer(Camera camera, RenderMode renderMode, Layer layer, Section section,
+            ref RenderTarget2D lastRenderTarget, ref Viewport lastViewport)
+        {
+            bool hasLayerModifiedCamera = false;
+
+            if (layer.Visible)
+            {
+                CurrentLayer = layer;
+
+                if (section != null)
+                {
+                    string layerName = "No Layer";
+
+                    if (layer != null)
+                    {
+                        layerName = layer.Name;
+                    }
+
+                    Section.GetAndStartContextAndTime("Layer: " + layerName);
+                }
+
+                bool didSetRenderTarget = layer.RenderTarget != lastRenderTarget;
+
+                if (didSetRenderTarget)
+                {
+                    lastRenderTarget = layer.RenderTarget;
+
+                    if (layer.RenderTarget != null)
+                    {
+                        lastViewport = GraphicsDevice.Viewport;
+                    }
+
+                    GraphicsDevice.SetRenderTarget(layer.RenderTarget);
+
+                    if (layer.RenderTarget == null)
+                    {
+                        GraphicsDevice.Viewport = lastViewport;
+                    }
+
+                    if (layer.RenderTarget != null)
+                    {
+                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1, 0);
+                    }
+                }
+
+                // No need to clear depth buffer if it's a render target
+                if (!didSetRenderTarget)
+                {
+                    ClearBackgroundForLayer(camera);
+                }
+
+                #region Set view and projection
+
+                // Store the camera's FieldOfView in the oldFieldOfView and set the
+                // camera's FieldOfView to the layer's OverridingFieldOfView if necessary.
+                mOldCameraLayerSettings.SetFromCamera(camera);
+
+                var oldPosition = camera.Position;
+                var oldUpVector = camera.UpVector;
+
+                if (layer.LayerCameraSettings != null)
+                {
+                    layer.LayerCameraSettings.ApplyValuesToCamera(camera, SetCameraOptions.PerformZRotation, null, layer.RenderTarget);
+                    hasLayerModifiedCamera = true;
+                }
+
+                camera.SetDeviceViewAndProjection(mCurrentEffect, layer.RelativeToCamera);
+
+                #endregion
+
+                if (renderMode == RenderMode.Default)
+                {
+                    if (layer.mZBufferedSprites.Count > 0)
+                    {
+                        DrawZBufferedSprites(camera, layer.mZBufferedSprites);
+                    }
+
+                    // Draw the camera's layer
+                    DrawMixed(layer.mSprites, layer.mSortType,
+                        layer.mTexts, layer.mBatches, layer.RelativeToCamera, camera, section);
+
+                    // Draw shapes
+                    DrawShapes(camera,
+                        layer.mSpheres,
+                        layer.mCubes,
+                        layer.mRectangles,
+                        layer.mCircles,
+                        layer.mPolygons,
+                        layer.mLines,
+                        layer.mCapsule2Ds,
+                        layer);
+                }
+
+                // Set the camera's field of view back.
+                // Vic asks: What if the user wants to have a wacky field of view?
+                // Does that mean that this will regulate it on layers? This is something
+                // that may need to be fixed in the future, but it seems rare and will bloat
+                // the visible property list considerably. Let's leave it like this for now
+                // to establish a pattern then if the time comes to change this we'll be comfortable
+                // with the overriding field of view pattern so a better decision can be made.
+                if (hasLayerModifiedCamera)
+                {
+                    // Use the render target here, because it may not have been unset yet.
+                    mOldCameraLayerSettings.ApplyValuesToCamera(camera, SetCameraOptions.ApplyMatrix, layer.LayerCameraSettings, layer.RenderTarget);
+                    camera.Position = oldPosition;
+                    camera.UpVector = oldUpVector;
+                }
+
+                if (section != null)
+                {
+                    Section.EndContextAndTime();
+                }
+            }
+        }
+
+        static void DrawUnlayeredObjects(Camera camera, RenderMode renderMode, Section section)
+        {
+            CurrentLayer = null;
+
+            if (section != null)
+            {
+                Section.GetAndStartContextAndTime("Draw above shapes");
+            }
+
+            #region Draw shapes if UnderEverything
+
+            if (camera.DrawsWorld && renderMode == RenderMode.Default && camera.DrawsShapes &&
+                ShapeManager.ShapeDrawingOrder == ShapeDrawingOrder.UnderEverything)
+            {
+                DrawShapes(
+                    camera,
+                    ShapeManager.mSpheres,
+                    ShapeManager.mCubes,
+                    ShapeManager.mRectangles,
+                    ShapeManager.mCircles,
+                    ShapeManager.mPolygons,
+                    ShapeManager.mLines,
+                    ShapeManager.mCapsule2Ds,
+                    null
+                    );
+            }
+
+            #endregion
+
+            #region Draw Z-buffered sprites and mixed
+
+            // Only draw the rest if in default rendering mode
+            if (renderMode == RenderMode.Default)
+            {
+                if (camera.DrawsWorld)
+                {
+                    if (section != null)
+                    {
+                        Section.EndContextAndTime();
+                        Section.GetAndStartContextAndTime("Draw Z Buffered Sprites");
+                    }
+
+                    if (SpriteManager.ZBufferedSpritesWriteable.Count != 0)
+                    {
+                        // Draw the Z-buffered sprites
+                        DrawZBufferedSprites(camera, SpriteManager.ZBufferedSpritesWriteable);
+                    }
+
+                    foreach (var drawableBatch in SpriteManager.mZBufferedDrawableBatches)
+                    {
+                        drawableBatch.Draw(camera);
+                    }
+
+                    if (section != null)
+                    {
+                        Section.EndContextAndTime();
+                        Section.GetAndStartContextAndTime("Draw Ordered objects");
+                    }
+
+                    // Draw the OrderedByDistanceFromCamera objects (Sprites, Texts, DrawableBatches)
+                    DrawOrderedByDistanceFromCamera(camera, section);
+                }
+            }
+
+            #endregion
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Draw below shapes");
+            }
+
+            #region Draw shapes if OverEverything
+
+            if (camera.DrawsWorld &&
+                renderMode == RenderMode.Default &&
+                camera.DrawsShapes &&
+                ShapeManager.ShapeDrawingOrder == ShapeDrawingOrder.OverEverything)
+            {
+                DrawShapes(
+                    camera,
+                    ShapeManager.mSpheres,
+                    ShapeManager.mCubes,
+                    ShapeManager.mRectangles,
+                    ShapeManager.mCircles,
+                    ShapeManager.mPolygons,
+                    ShapeManager.mLines,
+                    ShapeManager.mCapsule2Ds,
+                    null
+                    );
+            }
+
+            #endregion
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+            }
+        }
+
+        static void DrawLayers(Camera camera, RenderMode renderMode, Section section)
+        {
+            RenderTarget2D lastRenderTarget = null;
+            var lastViewport = GraphicsDevice.Viewport;
+
+            #region Draw world layers
+
+            if (camera.DrawsWorld)
+            {
+                // These layers are still considered in the "world" because all cameras can see them
+                for (int i = 0; i < SpriteManager.LayersWriteable.Count; i++)
+                {
+                    var layer = SpriteManager.LayersWriteable[i];
+                    DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
+                }
+            }
+
+            #endregion
+
+            #region Draw camera layers
+
+            if (camera.DrawsCameraLayer)
+            {
+                int layerCount = camera.Layers.Count;
+
+                for (int i = 0; i < layerCount; i++)
+                {
+                    var layer = camera.Layers[i];
+                    DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
+                }
+            }
+
+            #endregion
+
+            #region Last, draw the top layer
+
+            if (camera.DrawsWorld && !SpriteManager.TopLayer.IsEmpty)
+            {
+                var layer = SpriteManager.TopLayer;
+                DrawIndividualLayer(camera, renderMode, layer, section, ref lastRenderTarget, ref lastViewport);
+            }
+
+            #endregion
+
+            if (lastRenderTarget != null)
+            {
+                mGraphics.GraphicsDevice.SetRenderTarget(null);
+            }
+        }
+
+        static void DrawMixed(SpriteList spriteListUnfiltered, SortType sortType,
+            PositionedObjectList<Text> textListUnfiltered, List<IDrawableBatch> batches,
+            bool relativeToCamera, Camera camera, Section section)
+        {
+            if (section != null)
+            {
+                Section.GetAndStartContextAndTime("Start of Draw Mixed");
+            }
+
+            DrawMixedStart(camera);
+
+            int spriteIndex = 0;
+            int textIndex = 0;
+            int batchIndex = 0;
+
+            // The sort values can represent different
+            // things depending on the sortType argument.
+            // They can either represent pure Z values or they
+            // can represent distance from the camera (squared).
+            // The problem is that a larger Z means closer to the
+            // camera, but a larger distance means further from the
+            // camera. Therefore, to fix this problem if these values
+            // represent distance from camera, they will be multiplied by
+            // negative 1.
+            var nextSpriteSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
+            var nextTextSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
+            var nextBatchSortValue = new SortValues { PrimarySortValue = float.PositiveInfinity };
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("Sort Lists");
+            }
+
+            // Vic asks - why do we sort before identifying visible objects?
+            // The reason is because we want to sort the actual lists that are
+            // passed in so that the next time sorting is called, the lists are 
+            // already sorted (or nearly so), making each subsequent sort faster.
+            if (mUpdateSorting)
+            {
+                SortAllLists(spriteListUnfiltered, sortType, textListUnfiltered, batches, relativeToCamera, camera);
+            }
+
+            mVisibleSprites.Clear();
+            mVisibleTexts.Clear();
+            mVisibleBatches.Clear();
+
+            if (batches != null)
+            {
+                for (int i = 0; i < batches.Count; i++)
+                {
+                    var shouldAdd = true;
+                    var batch = batches[i];
+
+                    if (batch is IVisible asIVisible)
+                    {
+                        shouldAdd = asIVisible.AbsoluteVisible;
+                    }
+                    if (shouldAdd)
+                    {
+                        mVisibleBatches.Add(batch);
                     }
                 }
             }
 
-            // Draw
-            PrepareSprites(
-                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
-                mVisibleSprites, 0, mVisibleSprites.Count);
+            for (int i = 0; i < spriteListUnfiltered.Count; i++)
+            {
+                var sprite = spriteListUnfiltered[i];
 
-            DrawSprites(
-                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
-                mVisibleSprites, 0,
-                mVisibleSprites.Count, camera);
+                bool isVisible = sprite.AbsoluteVisible &&
+                    (sprite.ColorOperation == ColorOperation.InterpolateColor || sprite.Alpha > .0001) &&
+                    camera.IsSpriteInView(sprite, relativeToCamera);
+
+                if (isVisible)
+                {
+                    mVisibleSprites.Add(sprite);
+                }
+            }
+
+            for (int i = 0; i < textListUnfiltered.Count; i++)
+            {
+                var text = textListUnfiltered[i];
+
+                if (text.AbsoluteVisible && text.Alpha > .0001 && camera.IsTextInView(text, relativeToCamera))
+                {
+                    mVisibleTexts.Add(text);
+                }
+            }
+
+            int indexOfNextSpriteToReposition = 0;
+
+            GetNextZValuesByCategory(mVisibleSprites, sortType, mVisibleTexts, mVisibleBatches, camera, ref spriteIndex, ref textIndex,
+                ref nextSpriteSortValue, ref nextTextSortValue, ref nextBatchSortValue);
+
+            int numberToDraw = 0;
+
+            // This is used as a temporary variable for Z or distance from camera
+            var sortingValue = new SortValues();
+
+            Section performDrawingSection = null;
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+                performDrawingSection = Section.GetAndStartContextAndTime("Perform Drawing");
+            }
+
+            while (spriteIndex < mVisibleSprites.Count || textIndex < mVisibleTexts.Count ||
+                (batchIndex < mVisibleBatches.Count))
+            {
+                #region Only 1 array remains to be drawn so finish it off completely
+
+                #region Draw texts
+
+                if (spriteIndex >= mVisibleSprites.Count && (batchIndex >= mVisibleBatches.Count) &&
+                    textIndex < mVisibleTexts.Count)
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw Texts");
+                    }
+
+                    if (sortType == SortType.DistanceAlongForwardVector)
+                    {
+                        int temporaryCount = mVisibleTexts.Count;
+
+                        for (int i = textIndex; i < temporaryCount; i++)
+                        {
+                            mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
+                        }
+                    }
+
+                    // Texts: draw all texts from textIndex to numberOfVisibleTexts - textIndex
+                    DrawTexts(mVisibleTexts, textIndex, mVisibleTexts.Count - textIndex, camera, section);
+                    break;
+                }
+
+                #endregion
+
+                #region Draw Sprites
+
+                else if (textIndex >= mVisibleTexts.Count && (batchIndex >= mVisibleBatches.Count) &&
+                    spriteIndex < mVisibleSprites.Count)
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw Sprites");
+                    }
+
+                    numberToDraw = mVisibleSprites.Count - spriteIndex;
+
+                    if (sortType == SortType.DistanceAlongForwardVector)
+                    {
+                        int temporaryCount = mVisibleSprites.Count;
+
+                        for (int i = indexOfNextSpriteToReposition; i < temporaryCount; i++)
+                        {
+                            mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                            indexOfNextSpriteToReposition++;
+                        }
+                    }
+
+                    PrepareSprites(
+                        mSpriteVertices, mSpriteRenderBreaks,
+                        mVisibleSprites, spriteIndex, numberToDraw
+                        );
+
+                    DrawSprites(
+                        mSpriteVertices, mSpriteRenderBreaks,
+                        mVisibleSprites, spriteIndex,
+                        numberToDraw, camera);
+
+                    break;
+                }
+
+                #endregion
+
+                #region Draw drawable batches
+
+                else if (spriteIndex >= mVisibleSprites.Count && textIndex >= mVisibleTexts.Count &&
+                    batchIndex < mVisibleBatches.Count)
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
+                    }
+
+                    // Only drawable batches remain so draw them all
+                    while (batchIndex < mVisibleBatches.Count)
+                    {
+                        var batchAtIndex = mVisibleBatches[batchIndex];
+
+                        if (mRecordRenderBreaks)
+                        {
+                            // Even though we aren't using a RenderBreak here, we should record a render break
+                            // for this batch as it does cause rendering to be interrupted:
+                            var renderBreak = new RenderBreak();
+#if DEBUG
+                            renderBreak.ObjectCausingBreak = batchAtIndex;
+#endif
+                            renderBreak.LayerName = CurrentLayerName;
+                            LastFrameRenderBreakList.Add(renderBreak);
+                        }
+
+                        batchAtIndex.Draw(camera);
+                        batchIndex++;
+                    }
+
+                    FixRenderStatesAfterBatchDraw();
+                    break;
+                }
+
+                #endregion
+
+                #endregion
+
+                #region More than 1 list remains so find which group of objects to render
+
+                #region Sprites
+
+                else if (nextSpriteSortValue <= nextTextSortValue && nextSpriteSortValue <= nextBatchSortValue && spriteIndex < mVisibleSprites.Count)
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw Sprites");
+                    }
+
+                    // The next furthest object is a sprite. Find how many to draw.
+
+                    #region Count how many sprites to draw and store it in numberToDraw
+
+                    numberToDraw = 0;
+
+                    sortingValue.SecondarySortValue = 0;
+
+                    if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                    {
+                        sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
+
+                        if (sortType == SortType.ZSecondaryParentY)
+                        {
+                            sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
+                        }
+                    }
+                    else
+                    {
+                        sortingValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
+                    }
+
+                    while (sortingValue <= nextTextSortValue &&
+                           sortingValue <= nextBatchSortValue)
+                    {
+                        numberToDraw++;
+
+                        if (spriteIndex + numberToDraw == mVisibleSprites.Count)
+                        {
+                            break;
+                        }
+
+                        sortingValue.SecondarySortValue = 0;
+
+                        if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                        {
+                            sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
+
+                            if (sortType == SortType.ZSecondaryParentY)
+                            {
+                                sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
+                            }
+                        }
+                        else
+                        {
+                            sortingValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
+                        }
+                    }
+
+                    #endregion
+
+                    if (sortType == SortType.DistanceAlongForwardVector)
+                    {
+                        for (int i = indexOfNextSpriteToReposition; i < numberToDraw + spriteIndex; i++)
+                        {
+                            mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                            indexOfNextSpriteToReposition++;
+                        }
+                    }
+
+                    PrepareSprites(
+                        mSpriteVertices, mSpriteRenderBreaks,
+                        mVisibleSprites, spriteIndex,
+                        numberToDraw);
+
+                    DrawSprites(
+                        mSpriteVertices, mSpriteRenderBreaks,
+                        mVisibleSprites, spriteIndex,
+                        numberToDraw, camera);
+
+                    // numberToDraw represents a range so increase spriteIndex by that amount
+                    spriteIndex += numberToDraw;
+
+                    if (spriteIndex >= mVisibleSprites.Count)
+                    {
+                        nextSpriteSortValue.PrimarySortValue = float.PositiveInfinity;
+                    }
+                    else
+                    {
+                        nextSpriteSortValue.SecondarySortValue = 0;
+
+                        if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                        {
+                            nextSpriteSortValue.PrimarySortValue = mVisibleSprites[spriteIndex].Position.Z;
+
+                            if (sortType == SortType.ZSecondaryParentY)
+                            {
+                                nextSpriteSortValue.SecondarySortValue = -mVisibleSprites[spriteIndex].TopParent.Y;
+                            }
+                        }
+                        else
+                        {
+                            nextSpriteSortValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex].Position).LengthSquared();
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region Texts
+
+                else if (nextTextSortValue <= nextSpriteSortValue && nextTextSortValue <= nextBatchSortValue) // Draw texts
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw Texts");
+                    }
+
+                    numberToDraw = 0;
+
+                    if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector)
+                        sortingValue.PrimarySortValue = mVisibleTexts[textIndex + numberToDraw].Position.Z;
+                    else
+                        sortingValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex + numberToDraw].Position).LengthSquared();
+
+                    while (sortingValue <= nextSpriteSortValue &&
+                           sortingValue <= nextBatchSortValue)
+                    {
+                        numberToDraw++;
+
+                        if (textIndex + numberToDraw == mVisibleTexts.Count)
+                        {
+                            break;
+                        }
+
+                        if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector)
+                            sortingValue.PrimarySortValue = mVisibleTexts[textIndex + numberToDraw].Position.Z;
+                        else
+                            sortingValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex + numberToDraw].Position).LengthSquared();
+
+                    }
+
+                    if (sortType == SortType.DistanceAlongForwardVector)
+                    {
+                        for (int i = textIndex; i < textIndex + numberToDraw; i++)
+                        {
+                            mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
+                        }
+                    }
+
+                    DrawTexts(mVisibleTexts, textIndex, numberToDraw, camera, section);
+
+                    textIndex += numberToDraw;
+
+                    if (textIndex == mVisibleTexts.Count)
+                    {
+                        nextTextSortValue.PrimarySortValue = float.PositiveInfinity;
+                    }
+                    else
+                    {
+                        if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                            nextTextSortValue.PrimarySortValue = mVisibleTexts[textIndex].Position.Z;
+                        else
+                            nextTextSortValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex].Position).LengthSquared();
+                    }
+                }
+
+                #endregion
+
+                #region Batches
+
+                else if (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue)
+                {
+                    if (section != null)
+                    {
+                        if (Section.Context != performDrawingSection)
+                        {
+                            Section.EndContextAndTime();
+                        }
+
+                        Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
+                    }
+
+                    while (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue && batchIndex < mVisibleBatches.Count)
+                    {
+                        var batchAtIndex = mVisibleBatches[batchIndex];
+
+                        if (mRecordRenderBreaks)
+                        {
+                            // Even though we aren't using a RenderBreak here, we should record a render break
+                            // for this batch as it does cause rendering to be interrupted:
+                            var renderBreak = new RenderBreak();
+#if DEBUG
+                            renderBreak.ObjectCausingBreak = batchAtIndex;
+#endif
+                            renderBreak.LayerName = CurrentLayerName;
+                            LastFrameRenderBreakList.Add(renderBreak);
+                        }
+
+                        batchAtIndex.Draw(camera);
+                        batchIndex++;
+
+                        nextBatchSortValue.SecondarySortValue = 0;
+
+                        if (batchIndex == mVisibleBatches.Count)
+                        {
+                            nextBatchSortValue.PrimarySortValue = float.PositiveInfinity;
+                        }
+                        else
+                        {
+                            batchAtIndex = mVisibleBatches[batchIndex];
+
+                            if (sortType == SortType.Z || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                            {
+                                nextBatchSortValue.PrimarySortValue = batchAtIndex.Z;
+
+                                if (sortType == SortType.ZSecondaryParentY)
+                                {
+                                    nextBatchSortValue.SecondarySortValue = -batchAtIndex.Y;
+                                }
+                            }
+                            else if (sortType == SortType.DistanceAlongForwardVector)
+                            {
+                                var vectorDifference = new Vector3(
+                                batchAtIndex.X - camera.X,
+                                batchAtIndex.Y - camera.Y,
+                                batchAtIndex.Z - camera.Z);
+
+                                float firstDistance;
+                                var forwardVector = camera.RotationMatrix.Forward;
+
+                                Vector3.Dot(ref vectorDifference, ref forwardVector, out firstDistance);
+
+                                nextBatchSortValue.PrimarySortValue = -firstDistance;
+                            }
+                            else
+                            {
+                                nextBatchSortValue.PrimarySortValue = -(batchAtIndex.Z * batchAtIndex.Z);
+                            }
+                        }
+                    }
+
+                    FixRenderStatesAfterBatchDraw();
+                }
+
+                #endregion
+
+                #endregion
+            }
+
+            if (section != null)
+            {
+                // Hop up a level
+                if (Section.Context != performDrawingSection)
+                {
+                    Section.EndContextAndTime();
+                }
+
+                Section.EndContextAndTime();
+                Section.GetAndStartContextAndTime("End of Draw Mixed");
+            }
+
+            // Return the position of any objects not drawn
+            if (sortType == SortType.DistanceAlongForwardVector)
+            {
+                for (int i = indexOfNextSpriteToReposition; i < mVisibleSprites.Count; i++)
+                {
+                    mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                }
+            }
+
+            Texture = null;
+            TextureOnDevice = null;
+
+            if (section != null)
+            {
+                Section.EndContextAndTime();
+            }
+        }
+
+        static void DrawOrderedByDistanceFromCamera(Camera camera, Section section)
+        {
+            if (SpriteManager.OrderedByDistanceFromCameraSprites.Count != 0 ||
+                SpriteManager.WritableDrawableBatchesList.Count != 0 ||
+                TextManager.mDrawnTexts.Count != 0)
+            {
+                CurrentLayer = null;
+
+                DrawMixed(
+                    SpriteManager.OrderedByDistanceFromCameraSprites,
+                    SpriteManager.OrderedSortType, TextManager.mDrawnTexts,
+                    SpriteManager.WritableDrawableBatchesList,
+                    false, camera, section);
+            }
         }
 
         static void ClearBackgroundForLayer(Camera camera)
@@ -1035,7 +1620,131 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        static List<int> vertsPerVertexBuffer = new List<int>(4);
+        static void FixRenderStatesAfterBatchDraw()
+        {
+            FlatRedBallServices.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            FlatRedBallServices.GraphicsOptions.TextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
+            ForceSetBlendOperation();
+            mCurrentEffect = mEffect;
+        }
+
+        #endregion
+
+        #region  Drawing helpers
+
+        static void DrawMixedStart(Camera camera)
+        {
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+
+            if (camera.ClearsDepthBuffer)
+            {
+                GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+            }
+        }
+
+        static void PrepareSprites(
+            List<VertexPositionColorTexture[]> spriteVertices,
+            List<RenderBreak> renderBreaks,
+            IList<Sprite> spritesToDraw, int startIndex, int numberOfVisible)
+        {
+            // Make sure there are enough vertex arrays
+            int numberOfVertexArrays = 1 + (numberOfVisible / 1000);
+            while (spriteVertices.Count < numberOfVertexArrays)
+            {
+                spriteVertices.Add(new VertexPositionColorTexture[6000]);
+            }
+
+            // Clear the render breaks
+            renderBreaks.Clear();
+
+            FillVertexList(spritesToDraw, spriteVertices,
+                renderBreaks, startIndex, numberOfVisible);
+
+            mRenderBreaksAllocatedThisFrame += renderBreaks.Count;
+
+            if (mRecordRenderBreaks)
+            {
+                LastFrameRenderBreakList.AddRange(renderBreaks);
+            }
+        }
+
+        static int DrawSprites(
+            List<VertexPositionColorTexture[]> spriteVertices,
+            List<RenderBreak> renderBreaks,
+            IList<Sprite> spritesToDraw, int startIndex, int numberOfVisibleSprites, Camera camera)
+        {
+            // Prepare device settings
+
+            // TODO: turn off cull mode
+            var oldTextureAddressMode = TextureAddressMode;
+            if (spritesToDraw.Count > 0)
+                TextureAddressMode = spritesToDraw[0].TextureAddressMode;
+
+            // numberToRender * 2 represents how many triangles. Therefore we only want to use the number of visible Sprites.
+            DrawVertexList<VertexPositionColorTexture>(camera, spriteVertices, renderBreaks,
+                numberOfVisibleSprites * 2, PrimitiveType.TriangleList, 6000);
+
+            TextureAddressMode = oldTextureAddressMode;
+
+            return numberOfVisibleSprites;
+        }
+
+        static void DrawTexts(List<Text> texts, int startIndex, int numToDraw, Camera camera, Section section)
+        {
+            if (TextManager.UseNativeTextRendering)
+            {
+                TextManager.DrawTexts(texts, startIndex, numToDraw, camera);
+            }
+            else
+            {
+                #region Bitmap font rendering
+
+                int totalVertices = 0;
+
+                for (int i = startIndex; i < startIndex + numToDraw; i++)
+                {
+                    if (!texts[i].RenderOnTexture)
+                        totalVertices += texts[i].VertexCount;
+                }
+
+                if (totalVertices == 0)
+                {
+                    return;
+                }
+
+                var oldTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
+
+                if (TextManager.FilterTexts == false)
+                {
+                    FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
+                }
+
+                int numberOfVertexBuffers = 1 + (totalVertices / 6000);
+
+                mTextRenderBreaks.Clear();
+
+                // If there are not enough vertex buffers to hold all of the vertices for drawing the texts, add more.
+                while (mTextVertices.Count < numberOfVertexBuffers)
+                {
+                    mTextVertices.Add(new VertexPositionColorTexture[6000]);
+                }
+
+                int numberToRender = FillVertexList(texts, mTextVertices, camera, mTextRenderBreaks, startIndex, numToDraw, totalVertices);
+                mRenderBreaksAllocatedThisFrame += mTextRenderBreaks.Count;
+
+                if (mRecordRenderBreaks)
+                {
+                    LastFrameRenderBreakList.AddRange(mTextRenderBreaks);
+                }
+
+                DrawVertexList<VertexPositionColorTexture>(camera, mTextVertices, mTextRenderBreaks,
+                    totalVertices / 3, PrimitiveType.TriangleList, 6000);
+
+                FlatRedBallServices.GraphicsOptions.TextureFilter = oldTextureFilter;
+
+                #endregion
+            }
+        }
 
         static void DrawShapes(Camera camera,
             PositionedObjectList<Sphere> spheres,
@@ -1495,122 +2204,54 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        #endregion
-
-        #region Helper drawing methods
-
-        static void DrawMixedStart(Camera camera)
+        static void DrawZBufferedSprites(Camera camera, SpriteList listToRender)
         {
+            // A note about how Z-buffered rendering works with alpha.
+            // FRB shaders use a clip() function, which prevents a pixel
+            // from being processed. In this case the FRB shader clips
+            // based off of the Alpha in the Sprite. If the alpha is
+            // essentially 0, then the pixel is not rendered and it
+            // does not modify the depth buffer.
+
+            if (SpriteManager.ZBufferedSortType == SortType.Texture)
+            {
+                listToRender.SortTextureInsertion();
+            }
+
+            // Set device settings for drawing Z-buffered sprites
+            mVisibleSprites.Clear();
+
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
             if (camera.ClearsDepthBuffer)
             {
-                GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             }
-        }
 
-        static void PrepareSprites(
-            List<VertexPositionColorTexture[]> spriteVertices,
-            List<RenderBreak> renderBreaks,
-            IList<Sprite> spritesToDraw, int startIndex, int numberOfVisible)
-        {
-            // Make sure there are enough vertex arrays
-            int numberOfVertexArrays = 1 + (numberOfVisible / 1000);
-            while (spriteVertices.Count < numberOfVertexArrays)
+            // Currently Z-buffered Sprites are all drawn. Performance improvement possible here by culling.
+
+            lock (listToRender)
             {
-                spriteVertices.Add(new VertexPositionColorTexture[6000]);
+                for (int i = 0; i < listToRender.Count; i++)
+                {
+                    var sprite = listToRender[i];
+
+                    if (sprite.AbsoluteVisible && sprite.Alpha > .0001f)
+                    {
+                        mVisibleSprites.Add(sprite);
+                    }
+                }
             }
 
-            // Clear the render breaks
-            renderBreaks.Clear();
+            // Draw
+            PrepareSprites(
+                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
+                mVisibleSprites, 0, mVisibleSprites.Count);
 
-            FillVertexList(spritesToDraw, spriteVertices,
-                renderBreaks, startIndex, numberOfVisible);
-
-            mRenderBreaksAllocatedThisFrame += renderBreaks.Count;
-
-            if (RecordRenderBreaks)
-            {
-                LastFrameRenderBreakList.AddRange(renderBreaks);
-            }
-        }
-
-        static int DrawSprites(
-            List<VertexPositionColorTexture[]> spriteVertices,
-            List<RenderBreak> renderBreaks,
-            IList<Sprite> spritesToDraw, int startIndex, int numberOfVisibleSprites, Camera camera)
-        {
-            // Prepare device settings
-
-            // TODO: turn off cull mode
-            var oldTextureAddressMode = TextureAddressMode;
-            if (spritesToDraw.Count > 0)
-                TextureAddressMode = spritesToDraw[0].TextureAddressMode;
-
-            // numberToRender * 2 represents how many triangles. Therefore we only want to use the number of visible Sprites.
-            DrawVertexList<VertexPositionColorTexture>(camera, spriteVertices, renderBreaks,
-                numberOfVisibleSprites * 2, PrimitiveType.TriangleList, 6000);
-
-            TextureAddressMode = oldTextureAddressMode;
-
-            return numberOfVisibleSprites;
-        }
-
-        static void DrawTexts(List<Text> texts, int startIndex, int numToDraw, Camera camera, Section section)
-        {
-            if (TextManager.UseNativeTextRendering)
-            {
-                TextManager.DrawTexts(texts, startIndex, numToDraw, camera);
-            }
-            else
-            {
-                #region Bitmap font rendering
-
-                int totalVertices = 0;
-
-                for (int i = startIndex; i < startIndex + numToDraw; i++)
-                {
-                    if (!texts[i].RenderOnTexture)
-                        totalVertices += texts[i].VertexCount;
-                }
-
-                if (totalVertices == 0)
-                {
-                    return;
-                }
-
-                var oldTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
-
-                if (TextManager.FilterTexts == false)
-                {
-                    FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
-                }
-
-                int numberOfVertexBuffers = 1 + (totalVertices / 6000);
-
-                mTextRenderBreaks.Clear();
-
-                // If there are not enough vertex buffers to hold all of the vertices for drawing the texts, add more.
-                while (mTextVertices.Count < numberOfVertexBuffers)
-                {
-                    mTextVertices.Add(new VertexPositionColorTexture[6000]);
-                }
-
-                int numberToRender = FillVertexList(texts, mTextVertices, camera, mTextRenderBreaks, startIndex, numToDraw, totalVertices);
-                mRenderBreaksAllocatedThisFrame += mTextRenderBreaks.Count;
-
-                if (RecordRenderBreaks)
-                {
-                    LastFrameRenderBreakList.AddRange(mTextRenderBreaks);
-                }
-
-                DrawVertexList<VertexPositionColorTexture>(camera, mTextVertices, mTextRenderBreaks,
-                    totalVertices / 3, PrimitiveType.TriangleList, 6000);
-
-                FlatRedBallServices.GraphicsOptions.TextureFilter = oldTextureFilter;
-
-                #endregion
-            }
+            DrawSprites(
+                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
+                mVisibleSprites, 0,
+                mVisibleSprites.Count, camera);
         }
 
         public static void DrawVertexList<T>(Camera camera, List<T[]> vertexList, List<RenderBreak> renderBreaks,
@@ -2188,6 +2829,184 @@ namespace FlatRedBall.Graphics
 
         #endregion
 
+        #region Sorting
+
+        static void SortAllLists(SpriteList spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, bool relativeToCamera, Camera camera)
+        {
+            StoreOldPositionsForDistanceAlongForwardVectorSort(spriteList, sortType, textList, batches, camera);
+
+            #region Sort the sprite list and get the number of visible sprites in numberOfVisibleSprites
+
+            if (spriteList != null && spriteList.Count != 0)
+            {
+                lock (spriteList)
+                {
+                    switch (sortType)
+                    {
+                        case SortType.None:
+                            break;
+
+                        case SortType.Z:
+                        case SortType.DistanceAlongForwardVector:
+                            // Sorting ascending means everything will be drawn back to front. This
+                            // is slower but necessary for translucent objects.
+                            // Sorting descending means everything will be drawn back to front. This
+                            // is faster but will cause problems for translucency.
+                            spriteList.SortZInsertionAscending();
+                            break;
+
+                        case SortType.DistanceFromCamera:
+                            spriteList.SortCameraDistanceInsersionDescending(camera);
+                            break;
+
+                        case SortType.ZSecondaryParentY:
+                            spriteList.SortZInsertionAscending();
+                            spriteList.SortParentYInsertionDescendingOnZBreaks();
+                            break;
+
+                        case SortType.CustomComparer:
+                            if (mSpriteComparer != null)
+                            {
+                                spriteList.Sort(mSpriteComparer);
+                            }
+                            else
+                            {
+                                spriteList.SortZInsertionAscending();
+                            }
+                            break;
+
+                        case SortType.Texture:
+                            spriteList.SortTextureInsertion();
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Sort the text list
+
+            if (textList != null && textList.Count != 0)
+            {
+                switch (sortType)
+                {
+                    case SortType.None:
+                        break;
+
+                    case SortType.Z:
+                    case SortType.DistanceAlongForwardVector:
+                        textList.SortZInsertionAscending();
+                        break;
+
+                    case SortType.DistanceFromCamera:
+                        textList.SortCameraDistanceInsersionDescending(camera);
+                        break;
+
+                    case SortType.CustomComparer:
+                        if (mTextComparer != null)
+                        {
+                            textList.Sort(mTextComparer);
+                        }
+                        else
+                        {
+                            textList.SortZInsertionAscending();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            #endregion
+
+            #region Sort the batches
+
+            if (batches != null && batches.Count != 0)
+            {
+                switch (sortType)
+                {
+                    case SortType.None:
+                        break;
+
+                    case SortType.Z:
+                        // Z serves as the radius if using SortType.DistanceFromCamera.
+                        // If Z represents actual Z or radius, the larger the value the
+                        // further away from the camera the object will be.
+                        SortBatchesZInsertionAscending(batches);
+                        break;
+
+                    case SortType.DistanceAlongForwardVector:
+                        batches.Sort(new BatchForwardVectorSorter(camera));
+                        break;
+
+                    case SortType.ZSecondaryParentY:
+                        SortBatchesZInsertionAscending(batches);
+                        // Even though the sort type is by parent, IDB doesn't have a Parent object,
+                        // so we'll just rely on Y. May need to revisit this if it causes problems.
+                        SortBatchesYInsertionDescendingOnZBreaks(batches);
+                        break;
+
+                    case SortType.CustomComparer:
+                        if (mDrawableBatchComparer != null)
+                        {
+                            batches.Sort(mDrawableBatchComparer);
+                        }
+                        else
+                        {
+                            SortBatchesZInsertionAscending(batches);
+                        }
+                        break;
+                }
+            }
+
+            #endregion
+        }
+
+        static void StoreOldPositionsForDistanceAlongForwardVectorSort(PositionedObjectList<Sprite> spriteList, SortType sortType, PositionedObjectList<Text> textList, List<IDrawableBatch> batches, Camera camera)
+        {
+            #region If DistanceAlongForwardVector store old values
+
+            // If the objects are using SortType.DistanceAlongForwardVector
+            // then store the old positions, then rotate the objects by the matrix that
+            // moves the forward vector to the Z = -1 vector (the camera's inverse rotation
+            // matrix)
+            if (sortType == SortType.DistanceAlongForwardVector)
+            {
+                var inverseRotationMatrix = camera.RotationMatrix;
+                Matrix.Invert(ref inverseRotationMatrix, out inverseRotationMatrix);
+
+                int temporaryCount = spriteList.Count;
+
+                for (int i = 0; i < temporaryCount; i++)
+                {
+                    spriteList[i].mOldPosition = spriteList[i].Position;
+
+                    spriteList[i].Position -= camera.Position;
+                    Vector3.Transform(ref spriteList[i].Position,
+                        ref inverseRotationMatrix, out spriteList[i].Position);
+                }
+
+                temporaryCount = textList.Count;
+
+                for (int i = 0; i < temporaryCount; i++)
+                {
+                    textList[i].mOldPosition = textList[i].Position;
+
+                    textList[i].Position -= camera.Position;
+                    Vector3.Transform(ref textList[i].Position,
+                        ref inverseRotationMatrix, out textList[i].Position);
+                }
+
+                temporaryCount = batches.Count;
+            }
+
+            #endregion
+        }
+
         static void SortBatchesZInsertionAscending(IList<IDrawableBatch> batches)
         {
             if (batches.Count == 1 || batches.Count == 0)
@@ -2225,8 +3044,474 @@ namespace FlatRedBall.Graphics
             }
         }
 
+        static void SortBatchesYInsertionDescendingOnZBreaks(List<IDrawableBatch> batches)
+        {
+            GetBatchZBreaks(batches, batchZBreaks);
+
+            batchZBreaks.Insert(0, 0);
+            batchZBreaks.Add(batches.Count);
+
+            for (int i = 0; i < batchZBreaks.Count - 1; i++)
+            {
+                SortBatchInsertionDescending(batches, batchZBreaks[i], batchZBreaks[i + 1]);
+            }
+        }
+
+        static void GetBatchZBreaks(List<IDrawableBatch> batches, List<int> zBreaks)
+        {
+            zBreaks.Clear();
+
+            if (batches.Count == 0 || batches.Count == 1)
+                return;
+
+            for (int i = 1; i < batches.Count; i++)
+            {
+                if (batches[i].Z != batches[i - 1].Z)
+                    zBreaks.Add(i);
+            }
+        }
+
+        static void SortBatchInsertionDescending(List<IDrawableBatch> batches, int firstObject, int lastObjectExclusive)
+        {
+            int whereObjectBelongs;
+
+            float yAtI;
+            float yAtIMinusOne;
+
+            for (int i = firstObject + 1; i < lastObjectExclusive; i++)
+            {
+                yAtI = batches[i].Y;
+                yAtIMinusOne = batches[i - 1].Y;
+
+                if (yAtI > yAtIMinusOne)
+                {
+                    if (i == firstObject + 1)
+                    {
+                        batches.Insert(firstObject, batches[i]);
+                        batches.RemoveAt(i + 1);
+                        continue;
+                    }
+
+                    for (whereObjectBelongs = i - 2; whereObjectBelongs > firstObject - 1; whereObjectBelongs--)
+                    {
+                        if (yAtI <= (batches[whereObjectBelongs]).Y)
+                        {
+                            batches.Insert(whereObjectBelongs + 1, batches[i]);
+                            batches.RemoveAt(i + 1);
+                            break;
+                        }
+                        else if (whereObjectBelongs == firstObject && yAtI > (batches[firstObject]).Y)
+                        {
+                            batches.Insert(firstObject, batches[i]);
+                            batches.RemoveAt(i + 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        static void GetNextZValuesByCategory(List<Sprite> spriteList, SortType sortType, List<Text> textList, List<IDrawableBatch> batches,
+            Camera camera, ref int spriteIndex, ref int textIndex, ref SortValues nextSpriteSortValue, ref SortValues nextTextSortValue, ref SortValues nextBatchSortValue)
+        {
+            #region Find out the initial Z values of the 3 categories of objects to know which to render first
+
+            if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY ||
+                // Custom comparers define how objects sort within the category, but outside we just have to rely on Z
+                sortType == SortType.CustomComparer)
+            {
+                lock (spriteList)
+                {
+                    int spriteNumber = 0;
+
+                    while (spriteNumber < spriteList.Count)
+                    {
+                        nextSpriteSortValue.PrimarySortValue = spriteList[spriteNumber].Z;
+                        nextSpriteSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY ? -spriteList[spriteNumber].TopParent.Y : 0;
+                        spriteIndex = spriteNumber;
+                        break;
+                    }
+                }
+
+                if (textList != null && textList.Count != 0)
+                    nextTextSortValue.PrimarySortValue = textList[0].Position.Z;
+                else if (textList != null)
+                    textIndex = textList.Count;
+
+                if (batches != null && batches.Count != 0)
+                {
+                    if (sortType == SortType.Z || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
+                    {
+                        // The Z value of the current batch is used. Batches are always visible to this code.
+                        nextBatchSortValue.PrimarySortValue = batches[0].Z;
+
+                        // Y value is the sorting value, so use that.
+                        nextBatchSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY ? -batches[0].Y : 0;
+                    }
+                    else
+                    {
+                        var vectorDifference = new Vector3(
+                            batches[0].X - camera.X,
+                            batches[0].Y - camera.Y,
+                            batches[0].Z - camera.Z);
+
+                        float firstDistance;
+                        var forwardVector = camera.RotationMatrix.Forward;
+                        Vector3.Dot(ref vectorDifference, ref forwardVector, out firstDistance);
+                        nextBatchSortValue.PrimarySortValue = -firstDistance;
+                    }
+                }
+            }
+
+            else if (sortType == SortType.Texture)
+            {
+                throw new Exception("Sorting based on texture is not supported on non z-buffered Sprites");
+            }
+
+            else if (sortType == SortType.DistanceFromCamera)
+            {
+                // Code duplication to prevent tight-loop if statements
+                lock (spriteList)
+                {
+                    int spriteNumber = 0;
+                    while (spriteNumber < spriteList.Count)
+                    {
+                        nextSpriteSortValue.PrimarySortValue =
+                            -(camera.Position - spriteList[spriteNumber].Position).LengthSquared();
+                        spriteIndex = spriteNumber;
+                        break;
+                    }
+                }
+
+                if (textList != null && textList.Count != 0)
+                {
+                    nextTextSortValue.PrimarySortValue = -(camera.Position - textList[0].Position).LengthSquared();
+                }
+                else if (textList != null)
+                {
+                    textIndex = textList.Count;
+                }
+
+                // The Z value of the current batch is used. Batches are always visible to this code.
+                if (batches != null && batches.Count != 0)
+                {
+                    // Working with squared length, so use that here.
+                    nextBatchSortValue.PrimarySortValue = -(batches[0].Z * batches[0].Z);
+                }
+            }
+
+            #endregion
+        }
+
+        struct SortValues
+        {
+            public float PrimarySortValue;
+            public float SecondarySortValue;
+
+            public override string ToString()
+            {
+                return $"{PrimarySortValue} ({SecondarySortValue})";
+            }
+
+            // Overloading the '<' operator
+            public static bool operator <(SortValues left, SortValues right)
+            {
+                return left.PrimarySortValue < right.PrimarySortValue ||
+                    (left.PrimarySortValue == right.PrimarySortValue && left.SecondarySortValue < right.SecondarySortValue);
+            }
+
+            public static bool operator >(SortValues left, SortValues right)
+            {
+                return left.PrimarySortValue > right.PrimarySortValue ||
+                    (left.PrimarySortValue == right.PrimarySortValue && left.SecondarySortValue > right.SecondarySortValue);
+            }
+
+            public static bool operator <=(SortValues left, SortValues right)
+            {
+                return (left.PrimarySortValue == right.PrimarySortValue && left.SecondarySortValue == right.SecondarySortValue) || left < right;
+            }
+
+            public static bool operator >=(SortValues left, SortValues right)
+            {
+                return (left.PrimarySortValue == right.PrimarySortValue && left.SecondarySortValue == right.SecondarySortValue) || left > right;
+            }
+        }
+
         #endregion
+
+        #region Postprocessing
+
+        /// <summary>
+        /// Creates a SwapChain instance matching the game's resolution which automatically adjusts when the game window resizes.
+        /// </summary>
+        public static void CreateDefaultSwapChain()
+        {
+            SwapChain = new PostProcessing.SwapChain(
+                FlatRedBallServices.Game.Window.ClientBounds.Width,
+                FlatRedBallServices.Game.Window.ClientBounds.Height);
+
+            FlatRedBallServices.GraphicsOptions.SizeOrOrientationChanged += (not, used) =>
+            {
+                SwapChain.UpdateRenderTargetSize(
+                    FlatRedBallServices.Game.Window.ClientBounds.Width,
+                    FlatRedBallServices.Game.Window.ClientBounds.Height);
+            };
+        }
+
+        static void SetRenderTargetForPostProcessing()
+        {
+            ForceSetBlendOperation();
+            ForceSetColorOperation(ColorOperation);
+
+            SwapChain.ResetForFrame();
+
+            // Set the render target before drawing anything
+            GraphicsDevice.SetRenderTarget(SwapChain.CurrentRenderTarget);
+        }
+
+        static void ApplyPostProcessing()
+        {
+            foreach (var postProcess in GlobalPostProcesses)
+            {
+                if (postProcess.IsEnabled)
+                {
+#if DEBUG
+                    mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = postProcess });
+#endif
+                    SwapChain.Swap();
+                    postProcess.Apply(SwapChain.CurrentTexture);
+                }
+            }
+
+#if DEBUG
+            mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = SwapChain });
+#endif
+            SwapChain.RenderToScreen();
+        }
+
+        #endregion
+
+        #region Other
+
+        public static void Update()
+        {
+        }
+
+        internal static void UpdateDependencies()
+        {
+        }
+
+        public static new String ToString()
+        {
+            return String.Format(
+                "Number of RenderBreaks allocated: %d\nNumber of Sprites drawn: %d",
+                mRenderBreaksAllocatedThisFrame, NumberOfSpritesDrawn);
+        }
 
         #endregion
     }
+
+    #region Enums
+
+    /// <summary>
+    /// Rendering modes available in FlatRedBall.
+    /// </summary>
+    public enum RenderMode
+    {
+        /// <summary>
+        /// Default rendering mode. Uses embedded effects in models.
+        /// </summary>
+        Default,
+        /// <summary>
+        /// Color rendering mode. Renders color values for a model (does not
+        /// include lighting information). Effect technique: RenderColor.
+        /// </summary>
+        Color,
+        /// <summary>
+        /// Normals rendering mode. Renders normals. Effect technique: RenderNormals.
+        /// </summary>
+        Normals,
+        /// <summary>
+        /// Depth rendering mode. Renders depth. Effect technique: RenderDepth.
+        /// </summary>
+        Depth,
+        /// <summary>
+        /// Position rendering mode. Renders position. Effect technique: RenderPosition.
+        /// </summary>
+        Position
+    }
+
+    #endregion
+
+    #region FillVertexLogic class
+
+    class FillVertexLogic
+    {
+        public IList<Sprite> SpriteList;
+        public List<VertexPositionColorTexture[]> VertexLists;
+        public int StartIndex;
+        public int Count;
+        public int FirstSpriteInAllSimultaneousLogics;
+
+        ManualResetEvent _manualResetEvent;
+
+        public FillVertexLogic()
+        {
+            _manualResetEvent = new ManualResetEvent(false);
+        }
+
+        public void Reset()
+        {
+            _manualResetEvent.Reset();
+        }
+
+        public void Wait()
+        {
+            _manualResetEvent.WaitOne();
+        }
+
+        public void FillVertexList()
+        {
+            Reset();
+            ThreadPool.QueueUserWorkItem(FillVertexListSync);
+        }
+
+        internal void FillVertexListSync(object notUsed)
+        {
+            int vertNum = 0;
+            int vertexBufferNum = 0;
+            int lastIndexExclusive = StartIndex + Count;
+            var arrayAtIndex = VertexLists[vertexBufferNum];
+
+            for (int unadjustedI = StartIndex; unadjustedI < lastIndexExclusive; unadjustedI++)
+            {
+                int i = unadjustedI - FirstSpriteInAllSimultaneousLogics;
+
+                vertNum = (i * 6) % 6000;
+                vertexBufferNum = i / 1000;
+                arrayAtIndex = VertexLists[vertexBufferNum];
+
+                var spriteAtIndex = SpriteList[unadjustedI];
+
+                #region The Sprite doesn't have stored vertices (default) so we have to create them now
+
+                if (spriteAtIndex.mAutomaticallyUpdated)
+                {
+                    spriteAtIndex.UpdateVertices();
+
+                    #region Set the color
+#if IOS
+                    // If the Sprite's Texture is null, it will behave as if it's got its ColorOperation set to Color instead of Texture
+                    if (spriteAtIndex.ColorOperation == ColorOperation.Texture && spriteAtIndex.Texture != null)
+                    {
+                        // If we are using the texture color, we want to ignore the Sprite's RGB values.
+                        // The W component is Alpha, so we'll use full values for the others.
+                        var value = (uint)(255 * spriteAtIndex.mVertices[3].Color.W);
+                        arrayAtIndex[vertNum + 0].Color.PackedValue =
+                            value +
+                            (value << 8) +
+                            (value << 16) +
+                            (value << 24);
+                    }
+                    else
+                    {
+                        // If we are using the texture color, we 
+                        arrayAtIndex[vertNum + 0].Color.PackedValue =
+                            ((uint)(255 * spriteAtIndex.mVertices[3].Color.X)) +
+                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.Y)) << 8) +
+                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.Z)) << 16) +
+                            (((uint)(255 * spriteAtIndex.mVertices[3].Color.W)) << 24);
+                    }
+
+                    arrayAtIndex[vertNum + 1].Color.PackedValue =
+                        arrayAtIndex[vertNum + 0].Color.PackedValue;
+
+                    arrayAtIndex[vertNum + 2].Color.PackedValue =
+                        arrayAtIndex[vertNum + 0].Color.PackedValue;
+
+                    arrayAtIndex[vertNum + 5].Color.PackedValue =
+                        arrayAtIndex[vertNum + 0].Color.PackedValue;
+#else
+                    arrayAtIndex[vertNum + 0].Color.PackedValue =
+                        ((uint)(255 * spriteAtIndex.mVertices[3].Color.X)) +
+                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.Y)) << 8) +
+                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.Z)) << 16) +
+                        (((uint)(255 * spriteAtIndex.mVertices[3].Color.W)) << 24);
+
+                    arrayAtIndex[vertNum + 1].Color.PackedValue =
+                        ((uint)(255 * spriteAtIndex.mVertices[0].Color.X)) +
+                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.Y)) << 8) +
+                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.Z)) << 16) +
+                        (((uint)(255 * spriteAtIndex.mVertices[0].Color.W)) << 24);
+
+                    arrayAtIndex[vertNum + 2].Color.PackedValue =
+                        ((uint)(255 * spriteAtIndex.mVertices[1].Color.X)) +
+                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.Y)) << 8) +
+                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.Z)) << 16) +
+                        (((uint)(255 * spriteAtIndex.mVertices[1].Color.W)) << 24);
+
+                    arrayAtIndex[vertNum + 5].Color.PackedValue =
+                        ((uint)(255 * spriteAtIndex.mVertices[2].Color.X)) +
+                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.Y)) << 8) +
+                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.Z)) << 16) +
+                        (((uint)(255 * spriteAtIndex.mVertices[2].Color.W)) << 24);
+#endif
+                    #endregion
+
+                    arrayAtIndex[vertNum + 0].Position = spriteAtIndex.mVertices[3].Position;
+                    arrayAtIndex[vertNum + 0].TextureCoordinate = spriteAtIndex.mVertices[3].TextureCoordinate;
+
+                    arrayAtIndex[vertNum + 1].Position = spriteAtIndex.mVertices[0].Position;
+                    arrayAtIndex[vertNum + 1].TextureCoordinate = spriteAtIndex.mVertices[0].TextureCoordinate;
+
+                    arrayAtIndex[vertNum + 2].Position = spriteAtIndex.mVertices[1].Position;
+                    arrayAtIndex[vertNum + 2].TextureCoordinate = spriteAtIndex.mVertices[1].TextureCoordinate;
+
+                    arrayAtIndex[vertNum + 3] = arrayAtIndex[vertNum + 0];
+                    arrayAtIndex[vertNum + 4] = arrayAtIndex[vertNum + 2];
+
+                    arrayAtIndex[vertNum + 5].Position = spriteAtIndex.mVertices[2].Position;
+                    arrayAtIndex[vertNum + 5].TextureCoordinate = spriteAtIndex.mVertices[2].TextureCoordinate;
+
+                    if (spriteAtIndex.FlipHorizontal)
+                    {
+                        arrayAtIndex[vertNum + 0].TextureCoordinate = arrayAtIndex[vertNum + 5].TextureCoordinate;
+                        arrayAtIndex[vertNum + 5].TextureCoordinate = arrayAtIndex[vertNum + 3].TextureCoordinate;
+                        arrayAtIndex[vertNum + 3].TextureCoordinate = arrayAtIndex[vertNum + 0].TextureCoordinate;
+
+                        arrayAtIndex[vertNum + 2].TextureCoordinate = arrayAtIndex[vertNum + 1].TextureCoordinate;
+                        arrayAtIndex[vertNum + 1].TextureCoordinate = arrayAtIndex[vertNum + 4].TextureCoordinate;
+                        arrayAtIndex[vertNum + 4].TextureCoordinate = arrayAtIndex[vertNum + 2].TextureCoordinate;
+                    }
+
+                    if (spriteAtIndex.FlipVertical)
+                    {
+                        arrayAtIndex[vertNum + 0].TextureCoordinate = arrayAtIndex[vertNum + 1].TextureCoordinate;
+                        arrayAtIndex[vertNum + 1].TextureCoordinate = arrayAtIndex[vertNum + 3].TextureCoordinate;
+                        arrayAtIndex[vertNum + 3].TextureCoordinate = arrayAtIndex[vertNum + 0].TextureCoordinate;
+
+                        arrayAtIndex[vertNum + 2].TextureCoordinate = arrayAtIndex[vertNum + 5].TextureCoordinate;
+                        arrayAtIndex[vertNum + 5].TextureCoordinate = arrayAtIndex[vertNum + 4].TextureCoordinate;
+                        arrayAtIndex[vertNum + 4].TextureCoordinate = arrayAtIndex[vertNum + 2].TextureCoordinate;
+                    }
+                }
+
+                #endregion
+
+                else
+                {
+                    arrayAtIndex[vertNum + 0] = spriteAtIndex.mVerticesForDrawing[3];
+                    arrayAtIndex[vertNum + 1] = spriteAtIndex.mVerticesForDrawing[0];
+                    arrayAtIndex[vertNum + 2] = spriteAtIndex.mVerticesForDrawing[1];
+                    arrayAtIndex[vertNum + 3] = spriteAtIndex.mVerticesForDrawing[3];
+                    arrayAtIndex[vertNum + 4] = spriteAtIndex.mVerticesForDrawing[1];
+                    arrayAtIndex[vertNum + 5] = spriteAtIndex.mVerticesForDrawing[2];
+                }
+            }
+
+            _manualResetEvent.Set();
+        }
+    }
+
+    #endregion
 }
