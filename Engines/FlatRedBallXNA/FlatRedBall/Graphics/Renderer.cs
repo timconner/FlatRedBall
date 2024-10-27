@@ -358,24 +358,8 @@ namespace FlatRedBall.Graphics
         public static VertexDeclaration PositionColorTextureVertexDeclaration { get { return mPositionColorTexture; } }
 
         public static bool IsInRendering { get; set; }
-
         public static RenderMode CurrentRenderMode { get { return mCurrentRenderMode; } }
-
         public static SwapChain SwapChain { get; set; }
-
-        [Obsolete("Use LastFrameRenderBreakList instead")]
-        public static int RenderBreaksAllocatedThisFrame
-        {
-            get
-            {
-                if (RecordRenderBreaks == false)
-                {
-                    throw new InvalidOperationException($"You must set {nameof(RecordRenderBreaks)} to true before getting RenderBreaksAllocatdThisFrame");
-                }
-
-                return LastFrameRenderBreakList?.Count ?? 0;
-            }
-        }
 
         /// <summary>
         /// Tells the renderer to record and keep track of render breaks so they
@@ -413,7 +397,6 @@ namespace FlatRedBall.Graphics
                 if (RecordRenderBreaks == false)
                 {
                     throw new InvalidOperationException($"You must set {nameof(RecordRenderBreaks)} to true before getting LastFrameRenderBreakList");
-
                 }
 #endif
                 return lastFrameRenderBreakList;
@@ -546,7 +529,7 @@ namespace FlatRedBall.Graphics
             // Make sure the device isn't null
             if (graphics.GraphicsDevice == null)
             {
-                throw new NullReferenceException("The GraphicsDevice is null.  Are you calling FlatRedBallServices.InitializeFlatRedBall from the Game's constructor?  If so, you need to call it in the Initialize or LoadGraphicsContent method.");
+                throw new NullReferenceException("The GraphicsDevice is null. Are you calling FlatRedBallServices.InitializeFlatRedBall from the Game's constructor?  If so, you need to call it in the Initialize or LoadGraphicsContent method.");
             }
 
             mGraphics = graphics;
@@ -556,7 +539,7 @@ namespace FlatRedBall.Graphics
             ForceSetBlendOperation();
         }
 
-        private static void InitializeEffect()
+        static void InitializeEffect()
         {
             mPositionColorTexture = VertexPositionColorTexture.VertexDeclaration;
             mPositionColor = VertexPositionColor.VertexDeclaration;
@@ -744,19 +727,18 @@ namespace FlatRedBall.Graphics
 
         static void SetRenderTargetForPostProcessing()
         {
-            // Post processing 
             ForceSetBlendOperation();
-            ForceSetColorOperation(Renderer.ColorOperation);
+            ForceSetColorOperation(ColorOperation);
 
             SwapChain.ResetForFrame();
 
             // Set the render target before drawing anything
-            GraphicsDevice.SetRenderTarget(Renderer.SwapChain.CurrentRenderTarget);
+            GraphicsDevice.SetRenderTarget(SwapChain.CurrentRenderTarget);
         }
 
         static void ApplyPostProcessing()
         {
-            foreach (var postProcess in Renderer.GlobalPostProcesses)
+            foreach (var postProcess in GlobalPostProcesses)
             {
                 if (postProcess.IsEnabled)
                 {
@@ -764,7 +746,7 @@ namespace FlatRedBall.Graphics
                     mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = postProcess });
 #endif
                     SwapChain.Swap();
-                    postProcess.Apply(Renderer.SwapChain.CurrentTexture);
+                    postProcess.Apply(SwapChain.CurrentTexture);
                 }
             }
 
@@ -910,20 +892,6 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        public static BlendState AddBlendState = new BlendState()
-        {
-            AlphaSourceBlend = Blend.SourceAlpha,
-            AlphaDestinationBlend = Blend.One,
-            AlphaBlendFunction = BlendFunction.Max,
-        };
-
-        public static BlendState RegularBlendState = new BlendState()
-        {
-            AlphaSourceBlend = Blend.SourceAlpha,
-            AlphaDestinationBlend = Blend.InverseSourceAlpha,
-            AlphaBlendFunction = BlendFunction.ReverseSubtract,
-        };
-
         public static void ForceSetBlendOperation()
         {
             switch (mBlendOperation)
@@ -939,7 +907,7 @@ namespace FlatRedBall.Graphics
                     break;
                 case BlendOperation.Modulate:
                     {
-                        BlendState blendState = new BlendState();
+                        var blendState = new BlendState();
                         blendState.AlphaSourceBlend = Blend.DestinationColor;
                         blendState.ColorSourceBlend = Blend.DestinationColor;
 
@@ -1008,40 +976,9 @@ namespace FlatRedBall.Graphics
 
         #region Drawing methods
 
-        /// <summary>
-        /// Draws a quad. The effect must already be started.
-        /// </summary>
-        public static void DrawQuad(Vector3 bottomLeft, Vector3 topRight)
-        {
-            mQuadVertices = new VertexPositionTexture[] {
-                new VertexPositionTexture(new Vector3(1, -1, 1), new Vector2(1, 1)),
-                new VertexPositionTexture(new Vector3(-1, -1, 1), new Vector2(0, 1)),
-                new VertexPositionTexture(new Vector3(-1, 1, 1), new Vector2(0, 0)),
-                new VertexPositionTexture(new Vector3(1, 1, 1), new Vector2(1, 0)) };
-
-            mQuadIndices = new short[] { 0, 1, 2, 2, 3, 0 };
-
-            mQuadVertexDeclaration = VertexPositionTexture.VertexDeclaration;
-
-            mQuadVertices[0].Position = new Vector3(topRight.X, bottomLeft.Y, 1);
-            mQuadVertices[1].Position = new Vector3(bottomLeft.X, bottomLeft.Y, 1);
-            mQuadVertices[2].Position = new Vector3(bottomLeft.X, topRight.Y, 1);
-            mQuadVertices[3].Position = new Vector3(topRight.X, topRight.Y, 1);
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Draws a full-screen quad. The effect must already be started.
-        /// </summary>
-        public static void DrawFullScreenQuad()
-        {
-            DrawQuad(Vector3.One * -1f, Vector3.One);
-        }
-
         internal static void DrawZBufferedSprites(Camera camera, SpriteList listToRender)
         {
-            // A note about how ZBuffered rendering works with alpha.
+            // A note about how Z-buffered rendering works with alpha.
             // FRB shaders use a clip() function, which prevents a pixel
             // from being processed. In this case the FRB shader clips
             // based off of the Alpha in the Sprite. If the alpha is
@@ -1053,7 +990,7 @@ namespace FlatRedBall.Graphics
                 listToRender.SortTextureInsertion();
             }
 
-            // Set device settings for drawing ZBuffered sprites
+            // Set device settings for drawing Z-buffered sprites
             mVisibleSprites.Clear();
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
@@ -1063,17 +1000,17 @@ namespace FlatRedBall.Graphics
                 GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             }
 
-            // Currently ZBuffered Sprites are all drawn. Performance improvement possible here by culling.
+            // Currently Z-buffered Sprites are all drawn. Performance improvement possible here by culling.
 
             lock (listToRender)
             {
                 for (int i = 0; i < listToRender.Count; i++)
                 {
-                    var s = listToRender[i];
+                    var sprite = listToRender[i];
 
-                    if (s.AbsoluteVisible && s.Alpha > .0001f)
+                    if (sprite.AbsoluteVisible && sprite.Alpha > .0001f)
                     {
-                        mVisibleSprites.Add(s);
+                        mVisibleSprites.Add(sprite);
                     }
                 }
             }
@@ -1089,11 +1026,11 @@ namespace FlatRedBall.Graphics
                 mVisibleSprites.Count, camera);
         }
 
-        private static void ClearBackgroundForLayer(Camera camera)
+        static void ClearBackgroundForLayer(Camera camera)
         {
             if (camera.ClearsDepthBuffer)
             {
-                Color clearColor = Color.Transparent;
+                var clearColor = Color.Transparent;
                 mGraphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, clearColor, 1, 0);
             }
         }
@@ -1112,7 +1049,7 @@ namespace FlatRedBall.Graphics
         {
             vertsPerVertexBuffer.Clear();
 
-            var oldFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
+            var oldTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
 
             // August 28, 2023 - Why do we use linear filtering for polygons?
             // This won't make the lines anti-aliased. It just blends the
@@ -1131,10 +1068,9 @@ namespace FlatRedBall.Graphics
                 camera.SetDeviceViewAndProjection(mEffect, layer.RelativeToCamera);
             }
 
-            ColorOperation = ColorOperation.Color;
             ForceSetColorOperation(ColorOperation.Color);
 
-            #region Count the number of Vertices needed to draw the various shapes
+            #region Count the number of vertices needed to draw the various shapes
 
             const int numberOfSphereSlices = 4;
             const int numberOfSphereVertsPerSlice = 17;
@@ -1177,7 +1113,7 @@ namespace FlatRedBall.Graphics
             // If nothing is being drawn, exit the function now
             if (verticesToDraw != 0)
             {
-                #region Make sure that there are enough VertexBuffers created to hold how many vertices are needed
+                #region Make sure that there are enough vertex buffers created to hold how many vertices are needed
 
                 // Each vertex buffer holds 6000 vertices. This is common throughout FRB rendering.
                 int numberOfVertexBuffers = 1 + (verticesToDraw / 6000);
@@ -1194,20 +1130,17 @@ namespace FlatRedBall.Graphics
 
                 mRenderBreaks.Clear();
 
-                var renderBreak = new RenderBreak(
-                    0, null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
+                var renderBreak = new RenderBreak(0, null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
 #if DEBUG
                 renderBreak.ObjectCausingBreak = "ShapeManager";
 #endif
-
                 mRenderBreaks.Add(renderBreak);
 
                 int renderBreakNumber = 0;
 
                 int verticesLeftToDraw = verticesToDraw;
 
-                #region Fill the vertArray with the Rectangle vertices
+                #region Fill the vertex array with the rectangle vertices
 
                 for (int i = 0; i < rectangles.Count; i++)
                 {
@@ -1242,14 +1175,14 @@ namespace FlatRedBall.Graphics
 
                         vertNum += 5;
                         mRenderBreaks.Add(
-                                new RenderBreak((6000) * vertexBufferNum + vertNum,
+                                new RenderBreak(6000 * vertexBufferNum + vertNum,
                                 null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp));
                         renderBreakNumber++;
                     }
                 }
                 #endregion
 
-                #region Fill the vert array with the circle vertices
+                #region Fill the vertex array with the circle vertices
 
                 Circle circle;
 
@@ -1286,18 +1219,16 @@ namespace FlatRedBall.Graphics
                         renderBreak =
                             new RenderBreak(6000 * vertexBufferNum + vertNum,
                             null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Circle";
 #endif
-
                         mRenderBreaks.Add(renderBreak);
                         renderBreakNumber++;
                     }
                 }
                 #endregion
 
-                #region Fill the vert array with the Capsule2D vertices
+                #region Fill the vertex array with the Capsule2D vertices
 
                 Capsule2D capsule2D;
                 int numberOfVerticesPerHalf = ShapeManager.NumberOfVerticesForCapsule2Ds / 2;
@@ -1359,27 +1290,27 @@ namespace FlatRedBall.Graphics
                     vertNum++;
 
                     renderBreak =
-                        new RenderBreak((6000) * vertexBufferNum + vertNum,
+                        new RenderBreak(6000 * vertexBufferNum + vertNum,
                         null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                     renderBreak.ObjectCausingBreak = "Capsule";
 #endif
-
                     mRenderBreaks.Add(renderBreak);
                     renderBreakNumber++;
                 }
 
                 #endregion
 
-                #region Fill the vertArray with the polygon vertices
+                #region Fill the vertex array with the polygon vertices
 
                 for (int i = 0; i < polygons.Count; i++)
                 {
-                    if (polygons[i].Points != null && polygons[i].Points.Count > 1)
+                    var polygon = polygons[i];
+
+                    if (polygon.Points != null && polygon.Points.Count > 1)
                     {
                         // If this polygon knocks us into the next vertex buffer, then set the data for this one, then move on.
-                        if (vertNum + polygons[i].Points.Count > 6000)
+                        if (vertNum + polygon.Points.Count > 6000)
                         {
                             vertexBufferNum++;
                             verticesLeftToDraw -= (vertNum);
@@ -1387,17 +1318,15 @@ namespace FlatRedBall.Graphics
                             vertNum = 0;
                         }
 
-                        polygons[i].Vertices.CopyTo(mShapeVertices[vertexBufferNum], vertNum);
-                        vertNum += polygons[i].Vertices.Length;
+                        polygon.Vertices.CopyTo(mShapeVertices[vertexBufferNum], vertNum);
+                        vertNum += polygon.Vertices.Length;
 
                         renderBreak =
-                            new RenderBreak((6000) * vertexBufferNum + vertNum,
+                            new RenderBreak(6000 * vertexBufferNum + vertNum,
                             null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Polygon";
 #endif
-
                         mRenderBreaks.Add(renderBreak);
                         renderBreakNumber++;
                     }
@@ -1405,10 +1334,12 @@ namespace FlatRedBall.Graphics
 
                 #endregion
 
-                #region Fill the vertArray with the line vertices
+                #region Fill the vertex array with the line vertices
 
                 for (int i = 0; i < lines.Count; i++)
                 {
+                    var line = lines[i];
+
                     // If this line knocks us into the next vertex buffer, then set the data for this one, then move on.
                     if (vertNum + 2 > 6000)
                     {
@@ -1420,24 +1351,24 @@ namespace FlatRedBall.Graphics
 
                     // Add the line points
                     mShapeVertices[vertexBufferNum][vertNum + 0].Position =
-                        lines[i].Position +
+                        line.Position +
                         Vector3.Transform(new Vector3(
-                            (float)lines[i].RelativePoint1.X,
-                            (float)lines[i].RelativePoint1.Y,
-                            (float)lines[i].RelativePoint1.Z),
-                            lines[i].RotationMatrix);
+                            (float)line.RelativePoint1.X,
+                            (float)line.RelativePoint1.Y,
+                            (float)line.RelativePoint1.Z),
+                            line.RotationMatrix);
 
-                    mShapeVertices[vertexBufferNum][vertNum + 0].Color.PackedValue = lines[i].Color.PackedValue;
+                    mShapeVertices[vertexBufferNum][vertNum + 0].Color.PackedValue = line.Color.PackedValue;
 
                     mShapeVertices[vertexBufferNum][vertNum + 1].Position =
-                        lines[i].Position +
+                        line.Position +
                         Vector3.Transform(new Vector3(
-                            (float)lines[i].RelativePoint2.X,
-                            (float)lines[i].RelativePoint2.Y,
-                            (float)lines[i].RelativePoint2.Z),
-                            lines[i].RotationMatrix);
+                            (float)line.RelativePoint2.X,
+                            (float)line.RelativePoint2.Y,
+                            (float)line.RelativePoint2.Z),
+                            line.RotationMatrix);
 
-                    mShapeVertices[vertexBufferNum][vertNum + 1].Color.PackedValue = lines[i].Color.PackedValue;
+                    mShapeVertices[vertexBufferNum][vertNum + 1].Color.PackedValue = line.Color.PackedValue;
 
                     // Increment the vertex number past this line
                     vertNum += 2;
@@ -1446,18 +1377,16 @@ namespace FlatRedBall.Graphics
                     renderBreak =
                         new RenderBreak(6000 * vertexBufferNum + vertNum,
                         null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                     renderBreak.ObjectCausingBreak = "Line";
 #endif
-
                     mRenderBreaks.Add(renderBreak);
                     renderBreakNumber++;
                 }
 
                 #endregion
 
-                #region Fill the vertArray with the AxisAlignedCube pieces
+                #region Fill the vertex array with the AxisAlignedCube pieces
 
                 for (int i = 0; i < cubes.Count; i++)
                 {
@@ -1486,15 +1415,12 @@ namespace FlatRedBall.Graphics
                         if (cubeVertIndex == 9 || cubeVertIndex == 11 || cubeVertIndex == 13 || cubeVertIndex == 15)
                         {
                             renderBreak =
-                                    new RenderBreak((6000) * vertexBufferNum + vertNum + cubeVertIndex + 1,
+                                    new RenderBreak(6000 * vertexBufferNum + vertNum + cubeVertIndex + 1,
                                     null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                             renderBreak.ObjectCausingBreak = "Cube";
 #endif
-
                             mRenderBreaks.Add(renderBreak);
-
                             renderBreakNumber++;
                         }
                     }
@@ -1504,7 +1430,7 @@ namespace FlatRedBall.Graphics
 
                 #endregion
 
-                #region Fill the vertArray with the Sphere pieces
+                #region Fill the vertex array with the Sphere pieces
 
                 for (int sphereIndex = 0; sphereIndex < spheres.Count; sphereIndex++)
                 {
@@ -1542,13 +1468,11 @@ namespace FlatRedBall.Graphics
 
                         vertNum += numberOfSphereVertsPerSlice;
 
-                        renderBreak = new RenderBreak((6000) * vertexBufferNum + vertNum,
+                        renderBreak = new RenderBreak(6000 * vertexBufferNum + vertNum,
                             null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Sphere";
 #endif
-
                         mRenderBreaks.Add(renderBreak);
                     }
                 }
@@ -1618,12 +1542,12 @@ namespace FlatRedBall.Graphics
         {
             // Prepare device settings
 
-            // TODO:  Turn off cull mode
+            // TODO: turn off cull mode
             var oldTextureAddressMode = TextureAddressMode;
             if (spritesToDraw.Count > 0)
                 TextureAddressMode = spritesToDraw[0].TextureAddressMode;
 
-            // numberToRender * 2 represents how many triangles. Therefore we only want to use the number of visible Sprites
+            // numberToRender * 2 represents how many triangles. Therefore we only want to use the number of visible Sprites.
             DrawVertexList<VertexPositionColorTexture>(camera, spriteVertices, renderBreaks,
                 numberOfVisibleSprites * 2, PrimitiveType.TriangleList, 6000);
 
@@ -1710,7 +1634,7 @@ namespace FlatRedBall.Graphics
             int verticesPerPrimitive = 1;
 
             // Some primitive types, like LineStrip, require 1 extra vertex for the initial point.
-            // that is, to draw 3 lines, 4 points are needed.  This variable is used for that
+            // That is, to draw 3 lines, 4 points are needed. This variable is used for that.
             int extraVertices = 0;
 
             switch (primitiveType)
@@ -1851,7 +1775,7 @@ namespace FlatRedBall.Graphics
             }
         }
 
-        static void FillVertexList(IList<Sprite> sa,
+        static void FillVertexList(IList<Sprite> sprites,
             List<VertexPositionColorTexture[]> vertexLists,
             List<RenderBreak> renderBreaks, int firstSprite,
             int numberToDraw)
@@ -1859,7 +1783,7 @@ namespace FlatRedBall.Graphics
             mFillVBListCallsThisFrame++;
 
             // If the array is empty, then we just exit.
-            if (sa.Count == 0) return;
+            if (sprites.Count == 0) return;
 
             // Clear the places where batching breaks occur.
             renderBreaks.Clear();
@@ -1868,7 +1792,7 @@ namespace FlatRedBall.Graphics
             int vertNumForRenderBreaks = 0;
             int vertexBufferNumForRenderBreaks = 0;
             var arrayAtIndex = vertexLists[vertexBufferNum];
-            var renderBreak = new RenderBreak(firstSprite, sa[firstSprite]);
+            var renderBreak = new RenderBreak(firstSprite, sprites[firstSprite]);
 
             renderBreaks.Add(renderBreak);
 
@@ -1877,13 +1801,13 @@ namespace FlatRedBall.Graphics
 
             for (int i = firstSprite; i < firstSprite + numberToDraw; i++)
             {
-                var spriteAtIndex = sa[i];
+                var sprite = sprites[i];
 
-                #region If the Sprite is different from the last RenderBreak, break the batch
+                #region If the sprite is different from the last render break, break the batch
 
-                if (renderBreaks[renderBreakNumber].DiffersFrom(spriteAtIndex) || addedNewVertexBuffer)
+                if (renderBreaks[renderBreakNumber].DiffersFrom(sprite) || addedNewVertexBuffer)
                 {
-                    renderBreak = new RenderBreak(2000 * vertexBufferNumForRenderBreaks + vertNumForRenderBreaks / 3, spriteAtIndex);
+                    renderBreak = new RenderBreak(2000 * vertexBufferNumForRenderBreaks + vertNumForRenderBreaks / 3, sprite);
 
                     // Mark where the break occurred
                     renderBreaks.Add(renderBreak);
@@ -1911,7 +1835,7 @@ namespace FlatRedBall.Graphics
 
             for (int i = 0; i < mFillVertexLogics.Count; i++)
             {
-                mFillVertexLogics[i].SpriteList = sa;
+                mFillVertexLogics[i].SpriteList = sprites;
                 mFillVertexLogics[i].VertexLists = vertexLists;
                 mFillVertexLogics[i].StartIndex = firstSprite + spriteCount * i;
                 mFillVertexLogics[i].FirstSpriteInAllSimultaneousLogics = firstSprite;
@@ -1960,8 +1884,8 @@ namespace FlatRedBall.Graphics
             {
                 for (int i = 0; i < texts.Count; i++)
                 {
-                    Text t = texts[i];
-                    if (t.VertexCount != 0)
+                    var text = texts[i];
+                    if (text.VertexCount != 0)
                     {
                         toExit = false;
                         break;
@@ -1983,11 +1907,9 @@ namespace FlatRedBall.Graphics
 
             var renderBreak = new RenderBreak(firstText, texts[firstText].Font.Texture, texts[firstText].ColorOperation,
                 BlendOperation.Regular, TextureAddressMode.Clamp);
-
 #if DEBUG
             renderBreak.ObjectCausingBreak = texts[firstText];
 #endif
-
             renderBreaks.Add(renderBreak);
 
             int renderBreakNumber = 0;
@@ -1998,8 +1920,10 @@ namespace FlatRedBall.Graphics
 
             for (int i = firstText; i < firstText + numToDraw; i++)
             {
-                if (texts[i].AbsoluteVisible)
-                    verticesLeftToRender += texts[i].VertexCount;
+                var text = texts[i];
+
+                if (text.AbsoluteVisible)
+                    verticesLeftToRender += text.VertexCount;
             }
 
             #endregion
@@ -2008,12 +1932,14 @@ namespace FlatRedBall.Graphics
             {
                 #region If the Text is different from the last RenderBreak, break the batch
 
-                if (renderBreaks[renderBreakNumber].DiffersFrom(texts[i]))
+                var text = texts[i];
+
+                if (renderBreaks[renderBreakNumber].DiffersFrom(text))
                 {
                     renderBreak = new RenderBreak(2000 * vertexBufferNum + vertNum / 3,
-                        texts[i].Font.Texture, texts[i].ColorOperation, texts[i].BlendOperation, TextureAddressMode.Clamp);
+                        text.Font.Texture, text.ColorOperation, text.BlendOperation, TextureAddressMode.Clamp);
 #if DEBUG
-                    renderBreak.ObjectCausingBreak = texts[i];
+                    renderBreak.ObjectCausingBreak = text;
 #endif
                     renderBreaks.Add(renderBreak);
                     renderBreakNumber++;
@@ -2021,19 +1947,19 @@ namespace FlatRedBall.Graphics
 
                 #endregion
 
-                int verticesLeftOnThisText = texts[i].VertexCount;
+                int verticesLeftOnThisText = text.VertexCount;
 
                 #region If this text will fit on the current vertex buffer, copy over the info
 
                 if (vertNum + verticesLeftOnThisText < 6000)
                 {
-                    for (int textVertex = 0; textVertex < texts[i].VertexCount; textVertex++)
+                    for (int textVertex = 0; textVertex < text.VertexCount; textVertex++)
                     {
-                        mVertexArray[vertNum] = texts[i].VertexArray[textVertex];
+                        mVertexArray[vertNum] = text.VertexArray[textVertex];
                         vertNum++;
                     }
 
-                    verticesLeftToRender -= texts[i].VertexCount;
+                    verticesLeftToRender -= text.VertexCount;
 
                     if (vertNum == 6000 &&
                         ((i + 1 < firstText + numToDraw) ||
@@ -2063,7 +1989,7 @@ namespace FlatRedBall.Graphics
 
                         for (int numberCopied = 0; numberCopied < numberToCopy; numberCopied++)
                         {
-                            mVertexArray[vertNum] = texts[i].VertexArray[textVertexIndexOn];
+                            mVertexArray[vertNum] = text.VertexArray[textVertexIndexOn];
                             vertNum++;
                             verticesLeftToRender--;
                             textVertexIndexOn++;
@@ -2117,8 +2043,8 @@ namespace FlatRedBall.Graphics
             {
                 for (int i = 0; i < texts.Count; i++)
                 {
-                    Text t = texts[i];
-                    if (t.AbsoluteVisible && t.VertexCount != 0)
+                    var text = texts[i];
+                    if (text.AbsoluteVisible && text.VertexCount != 0)
                     {
                         toExit = false;
                         break;
@@ -2147,45 +2073,45 @@ namespace FlatRedBall.Graphics
 
             for (int i = firstText; i < firstText + numToDraw; i++)
             {
-                if (texts[i].AbsoluteVisible)
-                    verticesLeftToRender += texts[i].VertexCount;
+                var text = texts[i];
+
+                if (text.AbsoluteVisible)
+                    verticesLeftToRender += text.VertexCount;
             }
 
             #endregion
 
             for (int i = firstText; i < firstText + numToDraw; i++)
             {
-                var textAtIndex = texts[i];
+                var text = texts[i];
 
-                if (textAtIndex.AbsoluteVisible == false || textAtIndex.VertexCount == 0)
+                if (text.AbsoluteVisible == false || text.VertexCount == 0)
                     continue;
 
                 #region If the Text is different from the last RenderBreak, break the batch
 
-                if (renderBreaks[renderBreakNumber].DiffersFrom(textAtIndex))
+                if (renderBreaks[renderBreakNumber].DiffersFrom(text))
                 {
-                    renderBreak = new RenderBreak((2000 * vertexBufferNum + vertNum / 3),
-                        textAtIndex, 0);
-
+                    renderBreak = new RenderBreak(2000 * vertexBufferNum + vertNum / 3, text, 0);
                     renderBreaks.Add(renderBreak);
                     renderBreakNumber++;
                 }
 
                 #endregion
 
-                int verticesLeftOnThisText = textAtIndex.VertexCount;
+                int verticesLeftOnThisText = text.VertexCount;
 
                 #region If this text will fit on the current vertex buffer, copy over the info
 
                 if (vertNum + verticesLeftOnThisText < 6000)
                 {
-                    Array.Copy(textAtIndex.VertexArray, 0, vertexLists[vertexBufferNum], vertNum, textAtIndex.VertexCount);
+                    Array.Copy(text.VertexArray, 0, vertexLists[vertexBufferNum], vertNum, text.VertexCount);
 
-                    AddRenderBreaksForTextureSwitches(textAtIndex, renderBreaks, ref renderBreakNumber, vertNum / 3, 0, int.MaxValue);
+                    AddRenderBreaksForTextureSwitches(text, renderBreaks, ref renderBreakNumber, vertNum / 3, 0, int.MaxValue);
 
-                    vertNum += textAtIndex.VertexCount;
+                    vertNum += text.VertexCount;
 
-                    verticesLeftToRender -= textAtIndex.VertexCount;
+                    verticesLeftToRender -= text.VertexCount;
 
                     if (vertNum == 6000 &&
                         ((i + 1 < firstText + numToDraw) ||
@@ -2208,9 +2134,9 @@ namespace FlatRedBall.Graphics
                     {
                         int numberToCopy = System.Math.Min(verticesLeftOnThisText, 6000 - vertNum);
 
-                        int relativeIndexToStartAt = textAtIndex.VertexCount - verticesLeftOnThisText;
+                        int relativeIndexToStartAt = text.VertexCount - verticesLeftOnThisText;
 
-                        AddRenderBreaksForTextureSwitches(textAtIndex, renderBreaks, ref renderBreakNumber, vertNum / 3,
+                        AddRenderBreaksForTextureSwitches(text, renderBreaks, ref renderBreakNumber, vertNum / 3,
                             relativeIndexToStartAt / 3, numberToCopy / 3 + relativeIndexToStartAt);
 
                         // This can be sped up using Array.Copy. Do this sometime.
@@ -2244,19 +2170,16 @@ namespace FlatRedBall.Graphics
             return vertNum / 3 + vertexBufferNum * 2000;
         }
 
-        static void AddRenderBreaksForTextureSwitches(Text textAtIndex,
-            List<RenderBreak> renderBreaks, ref int renderBreakNumber, int startIndex, int minimumTriangleIndex, int maximumTriangleIndex)
+        static void AddRenderBreaksForTextureSwitches(Text text, List<RenderBreak> renderBreaks, ref int renderBreakNumber,
+            int startIndex, int minimumTriangleIndex, int maximumTriangleIndex)
         {
-            for (int i = 0; i < textAtIndex.mInternalTextureSwitches.Count; i++)
+            for (int i = 0; i < text.mInternalTextureSwitches.Count; i++)
             {
-                Microsoft.Xna.Framework.Point point = textAtIndex.mInternalTextureSwitches[i];
+                Microsoft.Xna.Framework.Point point = text.mInternalTextureSwitches[i];
 
                 if (point.X >= minimumTriangleIndex && point.X < maximumTriangleIndex)
                 {
-                    var renderBreakToAdd = new RenderBreak(
-                        startIndex + point.X,
-                        textAtIndex, point.Y);
-
+                    var renderBreakToAdd = new RenderBreak(startIndex + point.X, text, point.Y);
                     renderBreaks.Add(renderBreakToAdd);
                     renderBreakNumber++;
                 }
