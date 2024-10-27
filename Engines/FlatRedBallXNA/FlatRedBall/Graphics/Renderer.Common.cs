@@ -20,8 +20,8 @@ namespace FlatRedBall.Graphics
         /// </summary>
         Default,
         /// <summary>
-        /// Color rendering mode. Renders color values for a model
-        /// (does not include lighting information). Effect technique: RenderColor.
+        /// Color rendering mode. Renders color values for a model (does not
+        /// include lighting information). Effect technique: RenderColor.
         /// </summary>
         Color,
         /// <summary>
@@ -47,57 +47,31 @@ namespace FlatRedBall.Graphics
         static IComparer<IDrawableBatch> mDrawableBatchComparer;
 
         /// <summary>
-        /// Gets the default Camera (SpriteManager.Camera)
+        /// Gets the default camera (SpriteManager.Camera).
         /// </summary>
-        static public Camera Camera
-        {
-            get { return SpriteManager.Camera; }
-        }
+        static public Camera Camera { get { return SpriteManager.Camera; } }
 
         /// <summary>
-        /// Gets the list of cameras (SpriteManager.Cameras)
+        /// Gets the list of cameras (SpriteManager.Cameras).
         /// </summary>
-        static public PositionedObjectList<Camera> Cameras
-        {
-            get { return SpriteManager.Cameras; }
-        }
+        static public PositionedObjectList<Camera> Cameras { get { return SpriteManager.Cameras; } }
 
-        public static IComparer<Sprite> SpriteComparer
-        {
-            get { return mSpriteComparer; }
-            set { mSpriteComparer = value; }
-        }
+        public static IComparer<Sprite> SpriteComparer { get { return mSpriteComparer; } set { mSpriteComparer = value; } }
 
-        public static IComparer<Text> TextComparer
-        {
-            get { return mTextComparer; }
-            set { mTextComparer = value; }
-        }
+        public static IComparer<Text> TextComparer { get { return mTextComparer; } set { mTextComparer = value; } }
 
-        public static IComparer<IDrawableBatch> DrawableBatchComparer
-        {
-            get { return mDrawableBatchComparer; }
-            set { mDrawableBatchComparer = value; }
-        }
+        public static IComparer<IDrawableBatch> DrawableBatchComparer { get { return mDrawableBatchComparer; } set { mDrawableBatchComparer = value; } }
 
         /// <summary>
         /// Controls whether the renderer will refresh the sorting of its internal lists in the next draw call.
         /// </summary>
-        public static bool UpdateSorting
-        {
-            get { return mUpdateSorting; }
-            set { mUpdateSorting = value; }
-        }
+        public static bool UpdateSorting { get { return mUpdateSorting; } set { mUpdateSorting = value; } }
         static bool mUpdateSorting = true;
 
         /// <summary>
         /// Controls whether the renderer will update the drawable batches in the next draw call.
         /// </summary>
-        public static bool UpdateDrawableBatches
-        {
-            get { return mUpdateDrawableBatches; }
-            set { mUpdateDrawableBatches = value; }
-        }
+        public static bool UpdateDrawableBatches { get { return mUpdateDrawableBatches; } set { mUpdateDrawableBatches = value; } }
         static bool mUpdateDrawableBatches = true;
 
         static void DrawIndividualLayer(Camera camera, RenderMode renderMode, Layer layer, Section section,
@@ -321,6 +295,7 @@ namespace FlatRedBall.Graphics
             for (int i = 0; i < spriteListUnfiltered.Count; i++)
             {
                 var sprite = spriteListUnfiltered[i];
+
                 bool isVisible = sprite.AbsoluteVisible &&
                     (sprite.ColorOperation == ColorOperation.InterpolateColor || sprite.Alpha > .0001) &&
                     camera.IsSpriteInView(sprite, relativeToCamera);
@@ -334,6 +309,7 @@ namespace FlatRedBall.Graphics
             for (int i = 0; i < textListUnfiltered.Count; i++)
             {
                 var text = textListUnfiltered[i];
+
                 if (text.AbsoluteVisible && text.Alpha > .0001 && camera.IsTextInView(text, relativeToCamera))
                 {
                     mVisibleTexts.Add(text);
@@ -362,7 +338,7 @@ namespace FlatRedBall.Graphics
             {
                 #region Only 1 array remains to be drawn so finish it off completely
 
-                #region Draw Texts
+                #region Draw texts
 
                 if (spriteIndex >= mVisibleSprites.Count && (batchIndex >= mVisibleBatches.Count) &&
                     textIndex < mVisibleTexts.Count)
@@ -373,12 +349,14 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw Texts");
                     }
 
                     if (sortType == SortType.DistanceAlongForwardVector)
                     {
                         int temporaryCount = mVisibleTexts.Count;
+
                         for (int i = textIndex; i < temporaryCount; i++)
                         {
                             mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
@@ -403,13 +381,16 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw Sprites");
                     }
 
                     numberToDraw = mVisibleSprites.Count - spriteIndex;
+
                     if (sortType == SortType.DistanceAlongForwardVector)
                     {
                         int temporaryCount = mVisibleSprites.Count;
+
                         for (int i = indexOfNextSpriteToReposition; i < temporaryCount; i++)
                         {
                             mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
@@ -432,7 +413,7 @@ namespace FlatRedBall.Graphics
 
                 #endregion
 
-                #region Draw DrawableBatches
+                #region Draw drawable batches
 
                 else if (spriteIndex >= mVisibleSprites.Count && textIndex >= mVisibleTexts.Count &&
                     batchIndex < mVisibleBatches.Count)
@@ -443,10 +424,11 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
                     }
 
-                    // Drawable batches: Only DrawableBatches remain so draw them all.
+                    // Only drawable batches remain so draw them all
                     while (batchIndex < mVisibleBatches.Count)
                     {
                         var batchAtIndex = mVisibleBatches[batchIndex];
@@ -475,7 +457,7 @@ namespace FlatRedBall.Graphics
 
                 #endregion
 
-                #region more than 1 list remains so find which group of objects to render
+                #region More than 1 list remains so find which group of objects to render
 
                 #region Sprites
 
@@ -487,12 +469,13 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw Sprites");
                     }
 
                     // The next furthest object is a sprite. Find how many to draw.
 
-                    #region Count how many Sprites to draw and store it in numberToDraw
+                    #region Count how many sprites to draw and store it in numberToDraw
 
                     numberToDraw = 0;
 
@@ -516,10 +499,12 @@ namespace FlatRedBall.Graphics
                            sortingValue <= nextBatchSortValue)
                     {
                         numberToDraw++;
+
                         if (spriteIndex + numberToDraw == mVisibleSprites.Count)
                         {
                             break;
                         }
+
                         sortingValue.SecondarySortValue = 0;
 
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
@@ -558,7 +543,7 @@ namespace FlatRedBall.Graphics
                         mVisibleSprites, spriteIndex,
                         numberToDraw, camera);
 
-                    // numberToDraw represents a range so increase spriteIndex by that amount.
+                    // numberToDraw represents a range so increase spriteIndex by that amount
                     spriteIndex += numberToDraw;
 
                     if (spriteIndex >= mVisibleSprites.Count)
@@ -597,6 +582,7 @@ namespace FlatRedBall.Graphics
                         {
                             Section.EndContextAndTime();
                         }
+
                         Section.GetAndStartMergedContextAndTime("Draw Texts");
                     }
 
@@ -611,6 +597,7 @@ namespace FlatRedBall.Graphics
                            sortingValue <= nextBatchSortValue)
                     {
                         numberToDraw++;
+
                         if (textIndex + numberToDraw == mVisibleTexts.Count)
                         {
                             break;
@@ -781,12 +768,11 @@ namespace FlatRedBall.Graphics
                 lock (spriteList)
                 {
                     int spriteNumber = 0;
+
                     while (spriteNumber < spriteList.Count)
                     {
                         nextSpriteSortValue.PrimarySortValue = spriteList[spriteNumber].Z;
-                        nextSpriteSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY
-                            ? -spriteList[spriteNumber].TopParent.Y
-                            : 0;
+                        nextSpriteSortValue.SecondarySortValue = sortType == SortType.ZSecondaryParentY ? -spriteList[spriteNumber].TopParent.Y : 0;
                         spriteIndex = spriteNumber;
                         break;
                     }
@@ -829,7 +815,7 @@ namespace FlatRedBall.Graphics
 
             else if (sortType == SortType.DistanceFromCamera)
             {
-                // code duplication to prevent tight-loop if statements
+                // Code duplication to prevent tight-loop if statements
                 lock (spriteList)
                 {
                     int spriteNumber = 0;
@@ -1070,13 +1056,13 @@ namespace FlatRedBall.Graphics
         static void DrawLayers(Camera camera, RenderMode renderMode, Section section)
         {
             RenderTarget2D lastRenderTarget = null;
-            Viewport lastViewport = GraphicsDevice.Viewport;
+            var lastViewport = GraphicsDevice.Viewport;
 
             #region Draw world layers
 
             if (camera.DrawsWorld)
             {
-                // These layers are still considered in the "world" because all cameras can see them.
+                // These layers are still considered in the "world" because all cameras can see them
                 for (int i = 0; i < SpriteManager.LayersWriteable.Count; i++)
                 {
                     var layer = SpriteManager.LayersWriteable[i];
@@ -1091,6 +1077,7 @@ namespace FlatRedBall.Graphics
             if (camera.DrawsCameraLayer)
             {
                 int layerCount = camera.Layers.Count;
+
                 for (int i = 0; i < layerCount; i++)
                 {
                     var layer = camera.Layers[i];
@@ -1321,6 +1308,7 @@ namespace FlatRedBall.Graphics
                 TextManager.mDrawnTexts.Count != 0)
             {
                 CurrentLayer = null;
+
                 DrawMixed(
                     SpriteManager.OrderedByDistanceFromCameraSprites,
                     SpriteManager.OrderedSortType, TextManager.mDrawnTexts,
