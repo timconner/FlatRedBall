@@ -16,7 +16,7 @@ namespace FlatRedBall.Graphics
     /// Static class responsible for rendering content to the cameras on screen.
     /// </summary> 
     /// <remarks>This class is called by <see cref="FlatRedBallServices.Draw()"/></remarks>
-    public static partial class Renderer
+    public static class Renderer
     {
         #region Fields / properties
 
