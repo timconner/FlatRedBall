@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -1052,10 +1052,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>barontown</Name>
     </None>
-    <None Include="Content\Screens\TmxScreen\emptyMap1.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>emptyMap1</Name>
-    </None>
     <None Include="Content\Screens\TmxScreen\FinalFantasyScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>FinalFantasyScene</Name>
@@ -1146,7 +1142,6 @@
     <Compile Include="DataTypes\CustomClassForDupeTest.Generated.cs" />
     <Compile Include="DataTypes\CustomDataType.Generated.cs" />
     <Compile Include="DataTypes\DataTypeForCsv.cs" />
-    <Compile Include="DataTypes\emptyMap1.Generated.cs" />
     <Compile Include="DataTypes\GlobalCsv.Generated.cs" />
     <Compile Include="DataTypes\HugeCsv.Generated.cs" />
     <Compile Include="DataTypes\ListCsv.Generated.cs" />

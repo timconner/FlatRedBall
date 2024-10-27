@@ -15,14 +15,6 @@
       "ProjectsToExcludeFrom": []
     },
     {
-      "Name": "Screens/TmxScreen/emptyMap1.csv",
-      "IsSharedStatic": true,
-      "SourceFile": "Screens/TmxScreen/emptyMap1.tmx",
-      "BuildTool": "*.tmx -> TmxToCSV.exe -> *.csv",
-      "AdditionalArguments": "type=layer",
-      "ProjectsToExcludeFrom": []
-    },
-    {
       "Name": "Screens/TmxScreen/TilbTest.tmx",
       "IsSharedStatic": true,
       "BuildTool": "<None>",
