@@ -13,7 +13,7 @@ using ShapeManager = FlatRedBall.Math.Geometry.ShapeManager;
 namespace FlatRedBall.Graphics
 {
     /// <summary>
-    /// Static class responsible for drawing/rendering content to the cameras on screen.
+    /// Static class responsible for rendering content to the cameras on screen.
     /// </summary> 
     /// <remarks>This class is called by <see cref="FlatRedBallServices.Draw()"/></remarks>
     public static partial class Renderer
@@ -21,37 +21,37 @@ namespace FlatRedBall.Graphics
         #region Fields / properties
 
         #region Core
-        static internal IGraphicsDeviceService Graphics { get { return mGraphics; } }
-        static IGraphicsDeviceService mGraphics;
+        static internal IGraphicsDeviceService Graphics { get { return _graphics; } }
+        static IGraphicsDeviceService _graphics;
 
-        static internal GraphicsDevice GraphicsDevice { get { return mGraphics.GraphicsDevice; } }
+        static internal GraphicsDevice GraphicsDevice { get { return _graphics.GraphicsDevice; } }
 
         public static Texture2D Texture
         {
             set
             {
-                if (value != mTexture)
+                if (value != _texture)
                 {
                     ForceSetTexture(value);
                 }
             }
         }
-        static Texture2D mTexture;
+        static Texture2D _texture;
 
         static void ForceSetTexture(Texture2D value)
         {
-            mTexture = value;
-            mEffectManager.ParameterCurrentTexture.SetValue(mTexture);
+            _texture = value;
+            _effectManager.ParameterCurrentTexture.SetValue(_texture);
         }
 
         public static Texture2D TextureOnDevice
         {
             set
             {
-                if (value != mTexture)
+                if (value != _texture)
                 {
-                    mTexture = value;
-                    GraphicsDevice.Textures[0] = mTexture;
+                    _texture = value;
+                    GraphicsDevice.Textures[0] = _texture;
                 }
             }
         }
@@ -62,30 +62,30 @@ namespace FlatRedBall.Graphics
         /// </summary>
         public static BlendOperation BlendOperation
         {
-            get { return mBlendOperation; }
+            get { return _blendOperation; }
             set
             {
-                if (value != mBlendOperation)
+                if (value != _blendOperation)
                 {
-                    mBlendOperation = value;
+                    _blendOperation = value;
                     ForceSetBlendOperation();
                 }
             }
         }
-        static BlendOperation mBlendOperation;
+        static BlendOperation _blendOperation;
 
         public static void ForceSetBlendOperation()
         {
-            switch (mBlendOperation)
+            switch (_blendOperation)
             {
                 case BlendOperation.Add:
-                    mGraphics.GraphicsDevice.BlendState = BlendState.Additive;
+                    _graphics.GraphicsDevice.BlendState = BlendState.Additive;
                     break;
                 case BlendOperation.Regular:
-                    mGraphics.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                    _graphics.GraphicsDevice.BlendState = BlendState.AlphaBlend;
                     break;
                 case BlendOperation.NonPremultipliedAlpha:
-                    mGraphics.GraphicsDevice.BlendState = BlendState.NonPremultiplied;
+                    _graphics.GraphicsDevice.BlendState = BlendState.NonPremultiplied;
                     break;
                 case BlendOperation.Modulate:
                     {
@@ -97,7 +97,7 @@ namespace FlatRedBall.Graphics
                         blendState.ColorDestinationBlend = Blend.InverseSourceAlpha;
                         blendState.ColorBlendFunction = BlendFunction.Add;
 
-                        mGraphics.GraphicsDevice.BlendState = blendState;
+                        _graphics.GraphicsDevice.BlendState = blendState;
 
                     }
                     break;
@@ -129,7 +129,7 @@ namespace FlatRedBall.Graphics
                         blendState.AlphaBlendFunction = BlendFunction.ReverseSubtract;
                         blendState.AlphaDestinationBlend = Blend.One;
 
-                        mGraphics.GraphicsDevice.BlendState = blendState;
+                        _graphics.GraphicsDevice.BlendState = blendState;
                     }
                     break;
 
@@ -143,39 +143,39 @@ namespace FlatRedBall.Graphics
                         blendState.AlphaDestinationBlend = Blend.SourceColor;
                         blendState.ColorDestinationBlend = Blend.SourceColor;
 
-                        mGraphics.GraphicsDevice.BlendState = blendState;
+                        _graphics.GraphicsDevice.BlendState = blendState;
                     }
                     break;
 
                 default:
-                    throw new NotImplementedException("Blend operation not implemented: " + mBlendOperation);
+                    throw new NotImplementedException("Blend operation not implemented: " + _blendOperation);
             }
         }
 
         public static TextureAddressMode TextureAddressMode
         {
-            get { return mTextureAddressMode; }
+            get { return _textureAddressMode; }
             set
             {
-                if (value != mTextureAddressMode)
+                if (value != _textureAddressMode)
                 {
                     ForceSetTextureAddressMode(value);
                 }
             }
         }
-        static TextureAddressMode mTextureAddressMode;
+        static TextureAddressMode _textureAddressMode;
 
         public static void ForceSetTextureAddressMode(TextureAddressMode value)
         {
-            mTextureAddressMode = value;
+            _textureAddressMode = value;
             FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(0);
             FlatRedBallServices.GraphicsOptions.ForceRefreshSamplerState(1);
         }
 
         public static bool IsInRendering { get; set; }
 
-        public static RenderMode CurrentRenderMode { get { return mCurrentRenderMode; } }
-        static RenderMode mCurrentRenderMode = RenderMode.Default;
+        public static RenderMode CurrentRenderMode { get { return _currentRenderMode; } }
+        static RenderMode _currentRenderMode = RenderMode.Default;
 
         #endregion
 
@@ -191,7 +191,7 @@ namespace FlatRedBall.Graphics
         /// </summary>
         static public PositionedObjectList<Camera> Cameras { get { return SpriteManager.Cameras; } }
 
-        static LayerCameraSettings mOldCameraLayerSettings = new LayerCameraSettings();
+        static LayerCameraSettings _oldCameraLayerSettings = new LayerCameraSettings();
 
         /// <summary>
         /// Returns the layer currently being rendered. Can be used in IDrawableBatches and debug code.
@@ -221,56 +221,56 @@ namespace FlatRedBall.Graphics
         {
             set
             {
-                if (value != mVertexBuffer && value != null)
+                if (value != _vertexBuffer && value != null)
                 {
-                    mVertexBuffer = value;
-                    GraphicsDevice.SetVertexBuffer(mVertexBuffer);
+                    _vertexBuffer = value;
+                    GraphicsDevice.SetVertexBuffer(_vertexBuffer);
                 }
                 else
                 {
-                    mVertexBuffer = null;
+                    _vertexBuffer = null;
                 }
             }
         }
-        static VertexBuffer mVertexBuffer;
+        static VertexBuffer _vertexBuffer;
 
         public static IndexBuffer IndexBuffer
         {
             set
             {
-                if (value != mIndexBuffer && value != null)
+                if (value != _indexBuffer && value != null)
                 {
-                    mIndexBuffer = value;
-                    GraphicsDevice.Indices = mIndexBuffer;
+                    _indexBuffer = value;
+                    GraphicsDevice.Indices = _indexBuffer;
                 }
                 else
                 {
-                    mIndexBuffer = null;
+                    _indexBuffer = null;
                 }
             }
         }
-        static IndexBuffer mIndexBuffer;
+        static IndexBuffer _indexBuffer;
 
-        static List<FillVertexLogic> mFillVertexLogics = new List<FillVertexLogic>();
+        static List<FillVertexLogic> _fillVertexLogics = new List<FillVertexLogic>();
 
-        static List<VertexPositionColorTexture[]> mSpriteVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColorTexture[]> mZBufferedSpriteVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColorTexture[]> mTextVertices = new List<VertexPositionColorTexture[]>();
-        static List<VertexPositionColor[]> mShapeVertices = new List<VertexPositionColor[]>();
+        static List<VertexPositionColorTexture[]> _spriteVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColorTexture[]> _zBufferedSpriteVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColorTexture[]> _textVertices = new List<VertexPositionColorTexture[]>();
+        static List<VertexPositionColor[]> _shapeVertices = new List<VertexPositionColor[]>();
 
         // Vertex arrays
-        static VertexPositionColorTexture[] mVertexArray;
+        static VertexPositionColorTexture[] _vertexArray;
 
-        static List<int> vertsPerVertexBuffer = new List<int>(4);
+        static List<int> _vertsPerVertexBuffer = new List<int>(4);
 
         #endregion
 
         #region Render breaks
 
-        static List<RenderBreak> mRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mSpriteRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mZBufferedSpriteRenderBreaks = new List<RenderBreak>();
-        static List<RenderBreak> mTextRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> _renderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> _spriteRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> _zBufferedSpriteRenderBreaks = new List<RenderBreak>();
+        static List<RenderBreak> _textRenderBreaks = new List<RenderBreak>();
 
         /// <summary>
         /// Tells the renderer to record and keep track of render breaks so they
@@ -278,23 +278,23 @@ namespace FlatRedBall.Graphics
         /// </summary>
         public static bool RecordRenderBreaks
         {
-            get { return mRecordRenderBreaks; }
+            get { return _recordRenderBreaks; }
             set
             {
-                mRecordRenderBreaks = value;
+                _recordRenderBreaks = value;
 
-                if (mRecordRenderBreaks && LastFrameRenderBreakList == null)
+                if (_recordRenderBreaks && LastFrameRenderBreakList == null)
                 {
                     LastFrameRenderBreakList = new List<RenderBreak>();
                 }
 
-                if (!mRecordRenderBreaks && LastFrameRenderBreakList != null)
+                if (!_recordRenderBreaks && LastFrameRenderBreakList != null)
                 {
                     LastFrameRenderBreakList.Clear();
                 }
             }
         }
-        static bool mRecordRenderBreaks;
+        static bool _recordRenderBreaks;
 
         /// <summary>
         /// Contains the list of render breaks from the previous frame.
@@ -305,16 +305,16 @@ namespace FlatRedBall.Graphics
             get
             {
 #if DEBUG
-                if (mRecordRenderBreaks == false)
+                if (_recordRenderBreaks == false)
                 {
                     throw new InvalidOperationException($"You must set {nameof(RecordRenderBreaks)} to true before getting LastFrameRenderBreakList");
                 }
 #endif
-                return lastFrameRenderBreakList;
+                return _lastFrameRenderBreakList;
             }
-            private set { lastFrameRenderBreakList = value; }
+            private set { _lastFrameRenderBreakList = value; }
         }
-        static List<RenderBreak> lastFrameRenderBreakList;
+        static List<RenderBreak> _lastFrameRenderBreakList;
 
         #endregion
 
@@ -322,31 +322,31 @@ namespace FlatRedBall.Graphics
 
         public static Effect Effect
         {
-            get { return mEffect; }
+            get { return _effect; }
             set
             {
-                mEffect = value;
-                mEffectManager.Effect = mEffect;
+                _effect = value;
+                _effectManager.Effect = _effect;
             }
         }
-        static Effect mEffect;
-        static CustomEffectManager mEffectManager = new CustomEffectManager();
+        static Effect _effect;
+        static CustomEffectManager _effectManager = new CustomEffectManager();
 
         public static Effect ExternalEffect
         {
-            get { return mExternalEffect; }
+            get { return _externalEffect; }
             set
             {
-                mExternalEffect = value;
-                ExternalEffectManager.Effect = mExternalEffect;
+                _externalEffect = value;
+                ExternalEffectManager.Effect = _externalEffect;
             }
         }
-        static Effect mExternalEffect;
+        static Effect _externalEffect;
         public static CustomEffectManager ExternalEffectManager { get; } = new CustomEffectManager();
 
-        static BasicEffect mBasicEffect;
-        static BasicEffect mWireframeEffect;
-        static Effect mCurrentEffect; // This stores the current effect in use
+        static BasicEffect _basicEffect;
+        static BasicEffect _wireframeEffect;
+        static Effect _currentEffect; // This stores the current effect in use
 
         /// <summary>
         /// Sets the color operation on the graphics device if the set value differs from the current value.
@@ -356,23 +356,23 @@ namespace FlatRedBall.Graphics
         {
             get
             {
-                return mColorOperation;
+                return _colorOperation;
             }
             set
             {
-                if (mColorOperation != value)
+                if (_colorOperation != value)
                 {
                     ForceSetColorOperation(value);
                 }
             }
         }
-        static internal ColorOperation mColorOperation = ColorOperation.Texture;
+        static internal ColorOperation _colorOperation = ColorOperation.Texture;
 
         public static void ForceSetColorOperation(ColorOperation value)
         {
-            mColorOperation = value;
+            _colorOperation = value;
 
-            var technique = mEffectManager.GetVertexColorTechniqueFromColorOperation(value);
+            var technique = _effectManager.GetVertexColorTechniqueFromColorOperation(value);
 
             if (technique == null)
             {
@@ -385,12 +385,12 @@ namespace FlatRedBall.Graphics
             }
             else
             {
-                if (mCurrentEffect == null)
+                if (_currentEffect == null)
                 {
-                    mCurrentEffect = mEffect;
+                    _currentEffect = _effect;
                 }
 
-                mCurrentEffect.CurrentTechnique = technique;
+                _currentEffect.CurrentTechnique = technique;
             }
         }
 
@@ -409,26 +409,26 @@ namespace FlatRedBall.Graphics
 
         #region Sorting and culling
 
-        static List<Sprite> mVisibleSprites = new List<Sprite>();
-        static List<Text> mVisibleTexts = new List<Text>();
-        static List<IDrawableBatch> mVisibleBatches = new List<IDrawableBatch>();
+        static List<Sprite> _visibleSprites = new List<Sprite>();
+        static List<Text> _visibleTexts = new List<Text>();
+        static List<IDrawableBatch> _visibleBatches = new List<IDrawableBatch>();
 
         /// <summary>
         /// Controls whether the renderer will refresh the sorting of its internal lists in the next draw call.
         /// </summary>
-        public static bool UpdateSorting { get { return mUpdateSorting; } set { mUpdateSorting = value; } }
-        static bool mUpdateSorting = true;
+        public static bool UpdateSorting { get { return _updateSorting; } set { _updateSorting = value; } }
+        static bool _updateSorting = true;
 
-        public static IComparer<Sprite> SpriteComparer { get { return mSpriteComparer; } set { mSpriteComparer = value; } }
-        static IComparer<Sprite> mSpriteComparer;
+        public static IComparer<Sprite> SpriteComparer { get { return _spriteComparer; } set { _spriteComparer = value; } }
+        static IComparer<Sprite> _spriteComparer;
 
-        public static IComparer<Text> TextComparer { get { return mTextComparer; } set { mTextComparer = value; } }
-        static IComparer<Text> mTextComparer;
+        public static IComparer<Text> TextComparer { get { return _textComparer; } set { _textComparer = value; } }
+        static IComparer<Text> _textComparer;
 
-        public static IComparer<IDrawableBatch> DrawableBatchComparer { get { return mDrawableBatchComparer; } set { mDrawableBatchComparer = value; } }
-        static IComparer<IDrawableBatch> mDrawableBatchComparer;
+        public static IComparer<IDrawableBatch> DrawableBatchComparer { get { return _drawableBatchComparer; } set { _drawableBatchComparer = value; } }
+        static IComparer<IDrawableBatch> _drawableBatchComparer;
 
-        static List<int> batchZBreaks = new List<int>(10);
+        static List<int> _batchZBreaks = new List<int>(10);
 
         #endregion
 
@@ -442,9 +442,9 @@ namespace FlatRedBall.Graphics
 
         #region Debugging
 
-        internal static int NumberOfSpritesDrawn;
-        static int mFillVBListCallsThisFrame;
-        static int mRenderBreaksAllocatedThisFrame;
+        static int _numberOfSpritesDrawn;
+        static int _fillVBListCallsThisFrame;
+        static int _renderBreaksAllocatedThisFrame;
 
         #endregion
 
@@ -453,8 +453,8 @@ namespace FlatRedBall.Graphics
         /// <summary>
         /// Controls whether the renderer will update the drawable batches in the next draw call.
         /// </summary>
-        public static bool UpdateDrawableBatches { get { return mUpdateDrawableBatches; } set { mUpdateDrawableBatches = value; } }
-        static bool mUpdateDrawableBatches = true;
+        public static bool UpdateDrawableBatches { get { return _updateDrawableBatches; } set { _updateDrawableBatches = value; } }
+        static bool _updateDrawableBatches = true;
 
         #endregion
 
@@ -464,7 +464,7 @@ namespace FlatRedBall.Graphics
 
         static Renderer()
         {
-            mVertexArray = new VertexPositionColorTexture[6000];
+            _vertexArray = new VertexPositionColorTexture[6000];
             SetNumberOfThreadsToUse(1);
         }
 
@@ -476,7 +476,7 @@ namespace FlatRedBall.Graphics
                 throw new NullReferenceException("The GraphicsDevice is null. Are you calling FlatRedBallServices.InitializeFlatRedBall from the Game's constructor?  If so, you need to call it in the Initialize or LoadGraphicsContent method.");
             }
 
-            mGraphics = graphics;
+            _graphics = graphics;
             InitializeEffect();
             ForceSetBlendOperation();
         }
@@ -489,18 +489,18 @@ namespace FlatRedBall.Graphics
             RenderModeFormats.Add((int)RenderMode.Default, SurfaceFormat.Color);
 
             // Set the initial viewport
-            var viewport = mGraphics.GraphicsDevice.Viewport;
+            var viewport = _graphics.GraphicsDevice.Viewport;
             viewport.Width = FlatRedBallServices.ClientWidth;
             viewport.Height = FlatRedBallServices.ClientHeight;
-            mGraphics.GraphicsDevice.Viewport = viewport;
+            _graphics.GraphicsDevice.Viewport = viewport;
 
             // Basic effect
-            mBasicEffect = new BasicEffect(mGraphics.GraphicsDevice);
-            mBasicEffect.Alpha = 1.0f;
-            mBasicEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-            mBasicEffect.World = Matrix.Identity;
+            _basicEffect = new BasicEffect(_graphics.GraphicsDevice);
+            _basicEffect.Alpha = 1.0f;
+            _basicEffect.AmbientLightColor = new Vector3(1f, 1f, 1f);
+            _basicEffect.World = Matrix.Identity;
 
-            mWireframeEffect = new BasicEffect(FlatRedBallServices.GraphicsDevice);
+            _wireframeEffect = new BasicEffect(FlatRedBallServices.GraphicsDevice);
 
             BlendOperation = BlendOperation.Regular;
 
@@ -508,7 +508,7 @@ namespace FlatRedBall.Graphics
             depthStencilState.DepthBufferEnable = false;
             depthStencilState.DepthBufferWriteEnable = false;
 
-            mGraphics.GraphicsDevice.DepthStencilState = depthStencilState;
+            _graphics.GraphicsDevice.DepthStencilState = depthStencilState;
 
             var rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.None;
@@ -582,14 +582,14 @@ namespace FlatRedBall.Graphics
 
             #region Reset the debugging and profiling information
 
-            mFillVBListCallsThisFrame = 0;
-            mRenderBreaksAllocatedThisFrame = 0;
-            if (lastFrameRenderBreakList != null)
+            _fillVBListCallsThisFrame = 0;
+            _renderBreaksAllocatedThisFrame = 0;
+            if (_lastFrameRenderBreakList != null)
             {
-                lastFrameRenderBreakList.Clear();
+                _lastFrameRenderBreakList.Clear();
             }
 
-            NumberOfSpritesDrawn = 0;
+            _numberOfSpritesDrawn = 0;
 
             #endregion
 
@@ -600,7 +600,7 @@ namespace FlatRedBall.Graphics
                     "There are no cameras to render, did you forget to add a camera to the SpriteManager?");
                 throw exception;
             }
-            if (mGraphics == null || mGraphics.GraphicsDevice == null)
+            if (_graphics == null || _graphics.GraphicsDevice == null)
             {
                 NullReferenceException exception = new NullReferenceException(
                     "Renderer's GraphicsDeviceManager is null.  Did you forget to call FlatRedBallServices.Initialize?");
@@ -624,7 +624,7 @@ namespace FlatRedBall.Graphics
             {
                 var camera = SpriteManager.Cameras[i];
 
-                lock (mGraphics.GraphicsDevice)
+                lock (_graphics.GraphicsDevice)
                 {
                     #region If the camera either DrawsWorld or DrawsCameraLayer, then perform drawing
 
@@ -733,12 +733,12 @@ namespace FlatRedBall.Graphics
 
         static void PrepareForDrawScene(Camera camera, RenderMode renderMode)
         {
-            mCurrentRenderMode = renderMode;
+            _currentRenderMode = renderMode;
 
             // Set the viewport for the current camera
             var viewport = camera.GetViewport();
 
-            mGraphics.GraphicsDevice.Viewport = viewport;
+            _graphics.GraphicsDevice.Viewport = viewport;
 
             #region Clear the viewport
 
@@ -759,18 +759,18 @@ namespace FlatRedBall.Graphics
                     if (camera.ClearsDepthBuffer)
                     {
                         // Clearing to a transparent color, so just clear depth
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
+                        _graphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
                     }
                 }
                 else
                 {
                     if (camera.ClearsDepthBuffer)
                     {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
+                        _graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, camera.BackgroundColor, 1, 0);
                     }
                     else
                     {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, camera.BackgroundColor, 1, 0);
+                        _graphics.GraphicsDevice.Clear(ClearOptions.Target, camera.BackgroundColor, 1, 0);
                     }
                 }
             }
@@ -778,7 +778,7 @@ namespace FlatRedBall.Graphics
             {
                 if (camera.ClearsDepthBuffer)
                 {
-                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1, 0);
+                    _graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1, 0);
                 }
             }
             else
@@ -787,7 +787,7 @@ namespace FlatRedBall.Graphics
                 {
                     Color colorToClearTo = Color.Transparent;
 
-                    mGraphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, colorToClearTo, 1, 0);
+                    _graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, colorToClearTo, 1, 0);
                 }
             }
 
@@ -803,8 +803,8 @@ namespace FlatRedBall.Graphics
 
             #region Set camera values on the current effect
 
-            mCurrentEffect = mEffect;
-            camera.SetDeviceViewAndProjection(mCurrentEffect, false);
+            _currentEffect = _effect;
+            camera.SetDeviceViewAndProjection(_currentEffect, false);
 
             #endregion
         }
@@ -850,7 +850,7 @@ namespace FlatRedBall.Graphics
 
                     if (layer.RenderTarget != null)
                     {
-                        mGraphics.GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1, 0);
+                        _graphics.GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1, 0);
                     }
                 }
 
@@ -864,7 +864,7 @@ namespace FlatRedBall.Graphics
 
                 // Store the camera's FieldOfView in the oldFieldOfView and set the
                 // camera's FieldOfView to the layer's OverridingFieldOfView if necessary.
-                mOldCameraLayerSettings.SetFromCamera(camera);
+                _oldCameraLayerSettings.SetFromCamera(camera);
 
                 var oldPosition = camera.Position;
                 var oldUpVector = camera.UpVector;
@@ -875,7 +875,7 @@ namespace FlatRedBall.Graphics
                     hasLayerModifiedCamera = true;
                 }
 
-                camera.SetDeviceViewAndProjection(mCurrentEffect, layer.RelativeToCamera);
+                camera.SetDeviceViewAndProjection(_currentEffect, layer.RelativeToCamera);
 
                 #endregion
 
@@ -912,7 +912,7 @@ namespace FlatRedBall.Graphics
                 if (hasLayerModifiedCamera)
                 {
                     // Use the render target here, because it may not have been unset yet.
-                    mOldCameraLayerSettings.ApplyValuesToCamera(camera, SetCameraOptions.ApplyMatrix, layer.LayerCameraSettings, layer.RenderTarget);
+                    _oldCameraLayerSettings.ApplyValuesToCamera(camera, SetCameraOptions.ApplyMatrix, layer.LayerCameraSettings, layer.RenderTarget);
                     camera.Position = oldPosition;
                     camera.UpVector = oldUpVector;
                 }
@@ -1070,7 +1070,7 @@ namespace FlatRedBall.Graphics
 
             if (lastRenderTarget != null)
             {
-                mGraphics.GraphicsDevice.SetRenderTarget(null);
+                _graphics.GraphicsDevice.SetRenderTarget(null);
             }
         }
 
@@ -1112,14 +1112,14 @@ namespace FlatRedBall.Graphics
             // The reason is because we want to sort the actual lists that are
             // passed in so that the next time sorting is called, the lists are 
             // already sorted (or nearly so), making each subsequent sort faster.
-            if (mUpdateSorting)
+            if (_updateSorting)
             {
                 SortAllLists(spriteListUnfiltered, sortType, textListUnfiltered, batches, relativeToCamera, camera);
             }
 
-            mVisibleSprites.Clear();
-            mVisibleTexts.Clear();
-            mVisibleBatches.Clear();
+            _visibleSprites.Clear();
+            _visibleTexts.Clear();
+            _visibleBatches.Clear();
 
             if (batches != null)
             {
@@ -1134,7 +1134,7 @@ namespace FlatRedBall.Graphics
                     }
                     if (shouldAdd)
                     {
-                        mVisibleBatches.Add(batch);
+                        _visibleBatches.Add(batch);
                     }
                 }
             }
@@ -1149,7 +1149,7 @@ namespace FlatRedBall.Graphics
 
                 if (isVisible)
                 {
-                    mVisibleSprites.Add(sprite);
+                    _visibleSprites.Add(sprite);
                 }
             }
 
@@ -1159,13 +1159,13 @@ namespace FlatRedBall.Graphics
 
                 if (text.AbsoluteVisible && text.Alpha > .0001 && camera.IsTextInView(text, relativeToCamera))
                 {
-                    mVisibleTexts.Add(text);
+                    _visibleTexts.Add(text);
                 }
             }
 
             int indexOfNextSpriteToReposition = 0;
 
-            GetNextZValuesByCategory(mVisibleSprites, sortType, mVisibleTexts, mVisibleBatches, camera, ref spriteIndex, ref textIndex,
+            GetNextZValuesByCategory(_visibleSprites, sortType, _visibleTexts, _visibleBatches, camera, ref spriteIndex, ref textIndex,
                 ref nextSpriteSortValue, ref nextTextSortValue, ref nextBatchSortValue);
 
             int numberToDraw = 0;
@@ -1180,15 +1180,15 @@ namespace FlatRedBall.Graphics
                 performDrawingSection = Section.GetAndStartContextAndTime("Perform Drawing");
             }
 
-            while (spriteIndex < mVisibleSprites.Count || textIndex < mVisibleTexts.Count ||
-                (batchIndex < mVisibleBatches.Count))
+            while (spriteIndex < _visibleSprites.Count || textIndex < _visibleTexts.Count ||
+                (batchIndex < _visibleBatches.Count))
             {
                 #region Only 1 array remains to be drawn so finish it off completely
 
                 #region Draw texts
 
-                if (spriteIndex >= mVisibleSprites.Count && (batchIndex >= mVisibleBatches.Count) &&
-                    textIndex < mVisibleTexts.Count)
+                if (spriteIndex >= _visibleSprites.Count && (batchIndex >= _visibleBatches.Count) &&
+                    textIndex < _visibleTexts.Count)
                 {
                     if (section != null)
                     {
@@ -1202,16 +1202,16 @@ namespace FlatRedBall.Graphics
 
                     if (sortType == SortType.DistanceAlongForwardVector)
                     {
-                        int temporaryCount = mVisibleTexts.Count;
+                        int temporaryCount = _visibleTexts.Count;
 
                         for (int i = textIndex; i < temporaryCount; i++)
                         {
-                            mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
+                            _visibleTexts[i].Position = _visibleTexts[i].mOldPosition;
                         }
                     }
 
                     // Texts: draw all texts from textIndex to numberOfVisibleTexts - textIndex
-                    DrawTexts(mVisibleTexts, textIndex, mVisibleTexts.Count - textIndex, camera, section);
+                    DrawTexts(_visibleTexts, textIndex, _visibleTexts.Count - textIndex, camera, section);
                     break;
                 }
 
@@ -1219,8 +1219,8 @@ namespace FlatRedBall.Graphics
 
                 #region Draw Sprites
 
-                else if (textIndex >= mVisibleTexts.Count && (batchIndex >= mVisibleBatches.Count) &&
-                    spriteIndex < mVisibleSprites.Count)
+                else if (textIndex >= _visibleTexts.Count && (batchIndex >= _visibleBatches.Count) &&
+                    spriteIndex < _visibleSprites.Count)
                 {
                     if (section != null)
                     {
@@ -1232,27 +1232,27 @@ namespace FlatRedBall.Graphics
                         Section.GetAndStartMergedContextAndTime("Draw Sprites");
                     }
 
-                    numberToDraw = mVisibleSprites.Count - spriteIndex;
+                    numberToDraw = _visibleSprites.Count - spriteIndex;
 
                     if (sortType == SortType.DistanceAlongForwardVector)
                     {
-                        int temporaryCount = mVisibleSprites.Count;
+                        int temporaryCount = _visibleSprites.Count;
 
                         for (int i = indexOfNextSpriteToReposition; i < temporaryCount; i++)
                         {
-                            mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                            _visibleSprites[i].Position = _visibleSprites[i].mOldPosition;
                             indexOfNextSpriteToReposition++;
                         }
                     }
 
                     PrepareSprites(
-                        mSpriteVertices, mSpriteRenderBreaks,
-                        mVisibleSprites, spriteIndex, numberToDraw
+                        _spriteVertices, _spriteRenderBreaks,
+                        _visibleSprites, spriteIndex, numberToDraw
                         );
 
                     DrawSprites(
-                        mSpriteVertices, mSpriteRenderBreaks,
-                        mVisibleSprites, spriteIndex,
+                        _spriteVertices, _spriteRenderBreaks,
+                        _visibleSprites, spriteIndex,
                         numberToDraw, camera);
 
                     break;
@@ -1262,8 +1262,8 @@ namespace FlatRedBall.Graphics
 
                 #region Draw drawable batches
 
-                else if (spriteIndex >= mVisibleSprites.Count && textIndex >= mVisibleTexts.Count &&
-                    batchIndex < mVisibleBatches.Count)
+                else if (spriteIndex >= _visibleSprites.Count && textIndex >= _visibleTexts.Count &&
+                    batchIndex < _visibleBatches.Count)
                 {
                     if (section != null)
                     {
@@ -1276,11 +1276,11 @@ namespace FlatRedBall.Graphics
                     }
 
                     // Only drawable batches remain so draw them all
-                    while (batchIndex < mVisibleBatches.Count)
+                    while (batchIndex < _visibleBatches.Count)
                     {
-                        var batchAtIndex = mVisibleBatches[batchIndex];
+                        var batchAtIndex = _visibleBatches[batchIndex];
 
-                        if (mRecordRenderBreaks)
+                        if (_recordRenderBreaks)
                         {
                             // Even though we aren't using a RenderBreak here, we should record a render break
                             // for this batch as it does cause rendering to be interrupted:
@@ -1308,7 +1308,7 @@ namespace FlatRedBall.Graphics
 
                 #region Sprites
 
-                else if (nextSpriteSortValue <= nextTextSortValue && nextSpriteSortValue <= nextBatchSortValue && spriteIndex < mVisibleSprites.Count)
+                else if (nextSpriteSortValue <= nextTextSortValue && nextSpriteSortValue <= nextBatchSortValue && spriteIndex < _visibleSprites.Count)
                 {
                     if (section != null)
                     {
@@ -1330,16 +1330,16 @@ namespace FlatRedBall.Graphics
 
                     if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                     {
-                        sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
+                        sortingValue.PrimarySortValue = _visibleSprites[spriteIndex + numberToDraw].Position.Z;
 
                         if (sortType == SortType.ZSecondaryParentY)
                         {
-                            sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
+                            sortingValue.SecondarySortValue = -_visibleSprites[spriteIndex + numberToDraw].TopParent.Y;
                         }
                     }
                     else
                     {
-                        sortingValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
+                        sortingValue.PrimarySortValue = -(camera.Position - _visibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
                     }
 
                     while (sortingValue <= nextTextSortValue &&
@@ -1347,7 +1347,7 @@ namespace FlatRedBall.Graphics
                     {
                         numberToDraw++;
 
-                        if (spriteIndex + numberToDraw == mVisibleSprites.Count)
+                        if (spriteIndex + numberToDraw == _visibleSprites.Count)
                         {
                             break;
                         }
@@ -1356,16 +1356,16 @@ namespace FlatRedBall.Graphics
 
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                         {
-                            sortingValue.PrimarySortValue = mVisibleSprites[spriteIndex + numberToDraw].Position.Z;
+                            sortingValue.PrimarySortValue = _visibleSprites[spriteIndex + numberToDraw].Position.Z;
 
                             if (sortType == SortType.ZSecondaryParentY)
                             {
-                                sortingValue.SecondarySortValue = -mVisibleSprites[spriteIndex + numberToDraw].TopParent.Y;
+                                sortingValue.SecondarySortValue = -_visibleSprites[spriteIndex + numberToDraw].TopParent.Y;
                             }
                         }
                         else
                         {
-                            sortingValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
+                            sortingValue.PrimarySortValue = -(camera.Position - _visibleSprites[spriteIndex + numberToDraw].Position).LengthSquared();
                         }
                     }
 
@@ -1375,25 +1375,25 @@ namespace FlatRedBall.Graphics
                     {
                         for (int i = indexOfNextSpriteToReposition; i < numberToDraw + spriteIndex; i++)
                         {
-                            mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                            _visibleSprites[i].Position = _visibleSprites[i].mOldPosition;
                             indexOfNextSpriteToReposition++;
                         }
                     }
 
                     PrepareSprites(
-                        mSpriteVertices, mSpriteRenderBreaks,
-                        mVisibleSprites, spriteIndex,
+                        _spriteVertices, _spriteRenderBreaks,
+                        _visibleSprites, spriteIndex,
                         numberToDraw);
 
                     DrawSprites(
-                        mSpriteVertices, mSpriteRenderBreaks,
-                        mVisibleSprites, spriteIndex,
+                        _spriteVertices, _spriteRenderBreaks,
+                        _visibleSprites, spriteIndex,
                         numberToDraw, camera);
 
                     // numberToDraw represents a range so increase spriteIndex by that amount
                     spriteIndex += numberToDraw;
 
-                    if (spriteIndex >= mVisibleSprites.Count)
+                    if (spriteIndex >= _visibleSprites.Count)
                     {
                         nextSpriteSortValue.PrimarySortValue = float.PositiveInfinity;
                     }
@@ -1403,16 +1403,16 @@ namespace FlatRedBall.Graphics
 
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                         {
-                            nextSpriteSortValue.PrimarySortValue = mVisibleSprites[spriteIndex].Position.Z;
+                            nextSpriteSortValue.PrimarySortValue = _visibleSprites[spriteIndex].Position.Z;
 
                             if (sortType == SortType.ZSecondaryParentY)
                             {
-                                nextSpriteSortValue.SecondarySortValue = -mVisibleSprites[spriteIndex].TopParent.Y;
+                                nextSpriteSortValue.SecondarySortValue = -_visibleSprites[spriteIndex].TopParent.Y;
                             }
                         }
                         else
                         {
-                            nextSpriteSortValue.PrimarySortValue = -(camera.Position - mVisibleSprites[spriteIndex].Position).LengthSquared();
+                            nextSpriteSortValue.PrimarySortValue = -(camera.Position - _visibleSprites[spriteIndex].Position).LengthSquared();
                         }
                     }
                 }
@@ -1436,24 +1436,24 @@ namespace FlatRedBall.Graphics
                     numberToDraw = 0;
 
                     if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector)
-                        sortingValue.PrimarySortValue = mVisibleTexts[textIndex + numberToDraw].Position.Z;
+                        sortingValue.PrimarySortValue = _visibleTexts[textIndex + numberToDraw].Position.Z;
                     else
-                        sortingValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex + numberToDraw].Position).LengthSquared();
+                        sortingValue.PrimarySortValue = -(camera.Position - _visibleTexts[textIndex + numberToDraw].Position).LengthSquared();
 
                     while (sortingValue <= nextSpriteSortValue &&
                            sortingValue <= nextBatchSortValue)
                     {
                         numberToDraw++;
 
-                        if (textIndex + numberToDraw == mVisibleTexts.Count)
+                        if (textIndex + numberToDraw == _visibleTexts.Count)
                         {
                             break;
                         }
 
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector)
-                            sortingValue.PrimarySortValue = mVisibleTexts[textIndex + numberToDraw].Position.Z;
+                            sortingValue.PrimarySortValue = _visibleTexts[textIndex + numberToDraw].Position.Z;
                         else
-                            sortingValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex + numberToDraw].Position).LengthSquared();
+                            sortingValue.PrimarySortValue = -(camera.Position - _visibleTexts[textIndex + numberToDraw].Position).LengthSquared();
 
                     }
 
@@ -1461,24 +1461,24 @@ namespace FlatRedBall.Graphics
                     {
                         for (int i = textIndex; i < textIndex + numberToDraw; i++)
                         {
-                            mVisibleTexts[i].Position = mVisibleTexts[i].mOldPosition;
+                            _visibleTexts[i].Position = _visibleTexts[i].mOldPosition;
                         }
                     }
 
-                    DrawTexts(mVisibleTexts, textIndex, numberToDraw, camera, section);
+                    DrawTexts(_visibleTexts, textIndex, numberToDraw, camera, section);
 
                     textIndex += numberToDraw;
 
-                    if (textIndex == mVisibleTexts.Count)
+                    if (textIndex == _visibleTexts.Count)
                     {
                         nextTextSortValue.PrimarySortValue = float.PositiveInfinity;
                     }
                     else
                     {
                         if (sortType == SortType.Z || sortType == SortType.DistanceAlongForwardVector || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
-                            nextTextSortValue.PrimarySortValue = mVisibleTexts[textIndex].Position.Z;
+                            nextTextSortValue.PrimarySortValue = _visibleTexts[textIndex].Position.Z;
                         else
-                            nextTextSortValue.PrimarySortValue = -(camera.Position - mVisibleTexts[textIndex].Position).LengthSquared();
+                            nextTextSortValue.PrimarySortValue = -(camera.Position - _visibleTexts[textIndex].Position).LengthSquared();
                     }
                 }
 
@@ -1498,11 +1498,11 @@ namespace FlatRedBall.Graphics
                         Section.GetAndStartMergedContextAndTime("Draw IDrawableBatches");
                     }
 
-                    while (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue && batchIndex < mVisibleBatches.Count)
+                    while (nextBatchSortValue <= nextSpriteSortValue && nextBatchSortValue <= nextTextSortValue && batchIndex < _visibleBatches.Count)
                     {
-                        var batchAtIndex = mVisibleBatches[batchIndex];
+                        var batchAtIndex = _visibleBatches[batchIndex];
 
-                        if (mRecordRenderBreaks)
+                        if (_recordRenderBreaks)
                         {
                             // Even though we aren't using a RenderBreak here, we should record a render break
                             // for this batch as it does cause rendering to be interrupted:
@@ -1519,13 +1519,13 @@ namespace FlatRedBall.Graphics
 
                         nextBatchSortValue.SecondarySortValue = 0;
 
-                        if (batchIndex == mVisibleBatches.Count)
+                        if (batchIndex == _visibleBatches.Count)
                         {
                             nextBatchSortValue.PrimarySortValue = float.PositiveInfinity;
                         }
                         else
                         {
-                            batchAtIndex = mVisibleBatches[batchIndex];
+                            batchAtIndex = _visibleBatches[batchIndex];
 
                             if (sortType == SortType.Z || sortType == SortType.ZSecondaryParentY || sortType == SortType.CustomComparer)
                             {
@@ -1580,9 +1580,9 @@ namespace FlatRedBall.Graphics
             // Return the position of any objects not drawn
             if (sortType == SortType.DistanceAlongForwardVector)
             {
-                for (int i = indexOfNextSpriteToReposition; i < mVisibleSprites.Count; i++)
+                for (int i = indexOfNextSpriteToReposition; i < _visibleSprites.Count; i++)
                 {
-                    mVisibleSprites[i].Position = mVisibleSprites[i].mOldPosition;
+                    _visibleSprites[i].Position = _visibleSprites[i].mOldPosition;
                 }
             }
 
@@ -1616,7 +1616,7 @@ namespace FlatRedBall.Graphics
             if (camera.ClearsDepthBuffer)
             {
                 var clearColor = Color.Transparent;
-                mGraphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, clearColor, 1, 0);
+                _graphics.GraphicsDevice.Clear(ClearOptions.DepthBuffer, clearColor, 1, 0);
             }
         }
 
@@ -1625,7 +1625,7 @@ namespace FlatRedBall.Graphics
             FlatRedBallServices.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             FlatRedBallServices.GraphicsOptions.TextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
             ForceSetBlendOperation();
-            mCurrentEffect = mEffect;
+            _currentEffect = _effect;
         }
 
         #endregion
@@ -1660,9 +1660,9 @@ namespace FlatRedBall.Graphics
             FillVertexList(spritesToDraw, spriteVertices,
                 renderBreaks, startIndex, numberOfVisible);
 
-            mRenderBreaksAllocatedThisFrame += renderBreaks.Count;
+            _renderBreaksAllocatedThisFrame += renderBreaks.Count;
 
-            if (mRecordRenderBreaks)
+            if (_recordRenderBreaks)
             {
                 LastFrameRenderBreakList.AddRange(renderBreaks);
             }
@@ -1721,23 +1721,23 @@ namespace FlatRedBall.Graphics
 
                 int numberOfVertexBuffers = 1 + (totalVertices / 6000);
 
-                mTextRenderBreaks.Clear();
+                _textRenderBreaks.Clear();
 
                 // If there are not enough vertex buffers to hold all of the vertices for drawing the texts, add more.
-                while (mTextVertices.Count < numberOfVertexBuffers)
+                while (_textVertices.Count < numberOfVertexBuffers)
                 {
-                    mTextVertices.Add(new VertexPositionColorTexture[6000]);
+                    _textVertices.Add(new VertexPositionColorTexture[6000]);
                 }
 
-                int numberToRender = FillVertexList(texts, mTextVertices, camera, mTextRenderBreaks, startIndex, numToDraw, totalVertices);
-                mRenderBreaksAllocatedThisFrame += mTextRenderBreaks.Count;
+                int numberToRender = FillVertexList(texts, _textVertices, camera, _textRenderBreaks, startIndex, numToDraw, totalVertices);
+                _renderBreaksAllocatedThisFrame += _textRenderBreaks.Count;
 
-                if (mRecordRenderBreaks)
+                if (_recordRenderBreaks)
                 {
-                    LastFrameRenderBreakList.AddRange(mTextRenderBreaks);
+                    LastFrameRenderBreakList.AddRange(_textRenderBreaks);
                 }
 
-                DrawVertexList<VertexPositionColorTexture>(camera, mTextVertices, mTextRenderBreaks,
+                DrawVertexList<VertexPositionColorTexture>(camera, _textVertices, _textRenderBreaks,
                     totalVertices / 3, PrimitiveType.TriangleList, 6000);
 
                 FlatRedBallServices.GraphicsOptions.TextureFilter = oldTextureFilter;
@@ -1756,7 +1756,7 @@ namespace FlatRedBall.Graphics
             PositionedObjectList<Capsule2D> capsule2Ds,
             Layer layer)
         {
-            vertsPerVertexBuffer.Clear();
+            _vertsPerVertexBuffer.Clear();
 
             var oldTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
 
@@ -1768,13 +1768,13 @@ namespace FlatRedBall.Graphics
             if (layer == null)
             {
                 // Reset the camera as it may have been set differently by layers
-                camera.SetDeviceViewAndProjection(mBasicEffect, false);
-                camera.SetDeviceViewAndProjection(mEffect, false);
+                camera.SetDeviceViewAndProjection(_basicEffect, false);
+                camera.SetDeviceViewAndProjection(_effect, false);
             }
             else
             {
-                camera.SetDeviceViewAndProjection(mBasicEffect, layer.RelativeToCamera);
-                camera.SetDeviceViewAndProjection(mEffect, layer.RelativeToCamera);
+                camera.SetDeviceViewAndProjection(_basicEffect, layer.RelativeToCamera);
+                camera.SetDeviceViewAndProjection(_effect, layer.RelativeToCamera);
             }
 
             ForceSetColorOperation(ColorOperation.Color);
@@ -1827,9 +1827,9 @@ namespace FlatRedBall.Graphics
                 // Each vertex buffer holds 6000 vertices. This is common throughout FRB rendering.
                 int numberOfVertexBuffers = 1 + (verticesToDraw / 6000);
 
-                while (mShapeVertices.Count < numberOfVertexBuffers)
+                while (_shapeVertices.Count < numberOfVertexBuffers)
                 {
-                    mShapeVertices.Add(new VertexPositionColor[6000]);
+                    _shapeVertices.Add(new VertexPositionColor[6000]);
                 }
 
                 #endregion
@@ -1837,13 +1837,13 @@ namespace FlatRedBall.Graphics
                 int vertexBufferNum = 0;
                 int vertNum = 0;
 
-                mRenderBreaks.Clear();
+                _renderBreaks.Clear();
 
                 var renderBreak = new RenderBreak(0, null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp);
 #if DEBUG
                 renderBreak.ObjectCausingBreak = "ShapeManager";
 #endif
-                mRenderBreaks.Add(renderBreak);
+                _renderBreaks.Add(renderBreak);
 
                 int renderBreakNumber = 0;
 
@@ -1862,11 +1862,11 @@ namespace FlatRedBall.Graphics
                         {
                             vertexBufferNum++;
                             verticesLeftToDraw -= (vertNum);
-                            vertsPerVertexBuffer.Add(vertNum);
+                            _vertsPerVertexBuffer.Add(vertNum);
                             vertNum = 0;
                         }
 
-                        var buffer = mShapeVertices[vertexBufferNum];
+                        var buffer = _shapeVertices[vertexBufferNum];
 
                         buffer[vertNum + 0].Position = new Vector3(rectangle.Left, rectangle.Top, rectangle.Z);
                         buffer[vertNum + 0].Color.PackedValue = rectangle.Color.PackedValue;
@@ -1883,7 +1883,7 @@ namespace FlatRedBall.Graphics
                         buffer[vertNum + 4] = buffer[vertNum + 0];
 
                         vertNum += 5;
-                        mRenderBreaks.Add(
+                        _renderBreaks.Add(
                                 new RenderBreak(6000 * vertexBufferNum + vertNum,
                                 null, ColorOperation.Color, BlendOperation.Regular, TextureAddressMode.Clamp));
                         renderBreakNumber++;
@@ -1906,7 +1906,7 @@ namespace FlatRedBall.Graphics
                         {
                             vertexBufferNum++;
                             verticesLeftToDraw -= (vertNum);
-                            vertsPerVertexBuffer.Add(vertNum);
+                            _vertsPerVertexBuffer.Add(vertNum);
                             vertNum = 0;
                         }
 
@@ -1914,13 +1914,13 @@ namespace FlatRedBall.Graphics
                         {
                             float angle = pointNumber * 2 * 3.1415928f / (ShapeManager.NumberOfVerticesForCircles - 1);
 
-                            mShapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
+                            _shapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
                                 new Vector3(
                                     circle.Radius * (float)System.Math.Cos(angle) + circle.X,
                                     circle.Radius * (float)System.Math.Sin(angle) + circle.Y,
                                     circle.Z);
 
-                            mShapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = circle.mPremultipliedColor.PackedValue;
+                            _shapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = circle.mPremultipliedColor.PackedValue;
                         }
 
                         vertNum += ShapeManager.NumberOfVerticesForCircles;
@@ -1931,7 +1931,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Circle";
 #endif
-                        mRenderBreaks.Add(renderBreak);
+                        _renderBreaks.Add(renderBreak);
                         renderBreakNumber++;
                     }
                 }
@@ -1953,7 +1953,7 @@ namespace FlatRedBall.Graphics
                     {
                         vertexBufferNum++;
                         verticesLeftToDraw -= (vertNum);
-                        vertsPerVertexBuffer.Add(vertNum);
+                        _vertsPerVertexBuffer.Add(vertNum);
                         vertNum = 0;
                     }
 
@@ -1967,13 +1967,13 @@ namespace FlatRedBall.Graphics
                     {
                         float angle = capsule2D.RotationZ + -1.5707963f + pointNumber * 3.1415928f / (numberOfVerticesPerHalf - 1);
 
-                        mShapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
+                        _shapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
                             new Vector3(
                                 endPointCenterDistanceX + capsule2D.mEndpointRadius * (float)System.Math.Cos(angle) + capsule2D.X,
                                 endPointCenterDistanceY + capsule2D.mEndpointRadius * (float)System.Math.Sin(angle) + capsule2D.Y,
                                 capsule2D.Z);
 
-                        mShapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = capsule2D.Color.PackedValue;
+                        _shapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = capsule2D.Color.PackedValue;
                     }
 
                     vertNum += numberOfVerticesPerHalf;
@@ -1982,19 +1982,19 @@ namespace FlatRedBall.Graphics
                     {
                         float angle = capsule2D.RotationZ + 1.5707963f + pointNumber * 3.1415928f / (numberOfVerticesPerHalf - 1);
 
-                        mShapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
+                        _shapeVertices[vertexBufferNum][vertNum + pointNumber].Position =
                             new Vector3(
                                 -endPointCenterDistanceX + capsule2D.mEndpointRadius * (float)System.Math.Cos(angle) + capsule2D.X,
                                 -endPointCenterDistanceY + capsule2D.mEndpointRadius * (float)System.Math.Sin(angle) + capsule2D.Y,
                                 capsule2D.Z);
 
-                        mShapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = capsule2D.Color.PackedValue;
+                        _shapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = capsule2D.Color.PackedValue;
                     }
 
                     vertNum += numberOfVerticesPerHalf;
 
-                    mShapeVertices[vertexBufferNum][vertNum] =
-                        mShapeVertices[vertexBufferNum][vertNum - 2 * numberOfVerticesPerHalf];
+                    _shapeVertices[vertexBufferNum][vertNum] =
+                        _shapeVertices[vertexBufferNum][vertNum - 2 * numberOfVerticesPerHalf];
 
                     vertNum++;
 
@@ -2004,7 +2004,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                     renderBreak.ObjectCausingBreak = "Capsule";
 #endif
-                    mRenderBreaks.Add(renderBreak);
+                    _renderBreaks.Add(renderBreak);
                     renderBreakNumber++;
                 }
 
@@ -2023,11 +2023,11 @@ namespace FlatRedBall.Graphics
                         {
                             vertexBufferNum++;
                             verticesLeftToDraw -= (vertNum);
-                            vertsPerVertexBuffer.Add(vertNum);
+                            _vertsPerVertexBuffer.Add(vertNum);
                             vertNum = 0;
                         }
 
-                        polygon.Vertices.CopyTo(mShapeVertices[vertexBufferNum], vertNum);
+                        polygon.Vertices.CopyTo(_shapeVertices[vertexBufferNum], vertNum);
                         vertNum += polygon.Vertices.Length;
 
                         renderBreak =
@@ -2036,7 +2036,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Polygon";
 #endif
-                        mRenderBreaks.Add(renderBreak);
+                        _renderBreaks.Add(renderBreak);
                         renderBreakNumber++;
                     }
                 }
@@ -2054,12 +2054,12 @@ namespace FlatRedBall.Graphics
                     {
                         vertexBufferNum++;
                         verticesLeftToDraw -= vertNum;
-                        vertsPerVertexBuffer.Add(vertNum);
+                        _vertsPerVertexBuffer.Add(vertNum);
                         vertNum = 0;
                     }
 
                     // Add the line points
-                    mShapeVertices[vertexBufferNum][vertNum + 0].Position =
+                    _shapeVertices[vertexBufferNum][vertNum + 0].Position =
                         line.Position +
                         Vector3.Transform(new Vector3(
                             (float)line.RelativePoint1.X,
@@ -2067,9 +2067,9 @@ namespace FlatRedBall.Graphics
                             (float)line.RelativePoint1.Z),
                             line.RotationMatrix);
 
-                    mShapeVertices[vertexBufferNum][vertNum + 0].Color.PackedValue = line.Color.PackedValue;
+                    _shapeVertices[vertexBufferNum][vertNum + 0].Color.PackedValue = line.Color.PackedValue;
 
-                    mShapeVertices[vertexBufferNum][vertNum + 1].Position =
+                    _shapeVertices[vertexBufferNum][vertNum + 1].Position =
                         line.Position +
                         Vector3.Transform(new Vector3(
                             (float)line.RelativePoint2.X,
@@ -2077,7 +2077,7 @@ namespace FlatRedBall.Graphics
                             (float)line.RelativePoint2.Z),
                             line.RotationMatrix);
 
-                    mShapeVertices[vertexBufferNum][vertNum + 1].Color.PackedValue = line.Color.PackedValue;
+                    _shapeVertices[vertexBufferNum][vertNum + 1].Color.PackedValue = line.Color.PackedValue;
 
                     // Increment the vertex number past this line
                     vertNum += 2;
@@ -2089,7 +2089,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                     renderBreak.ObjectCausingBreak = "Line";
 #endif
-                    mRenderBreaks.Add(renderBreak);
+                    _renderBreaks.Add(renderBreak);
                     renderBreakNumber++;
                 }
 
@@ -2107,19 +2107,19 @@ namespace FlatRedBall.Graphics
                     {
                         vertexBufferNum++;
                         verticesLeftToDraw -= vertNum;
-                        vertsPerVertexBuffer.Add(vertNum);
+                        _vertsPerVertexBuffer.Add(vertNum);
                         vertNum = 0;
                     }
 
                     // We can do the top/bottom all in one pass
                     for (int cubeVertIndex = 0; cubeVertIndex < 16; cubeVertIndex++)
                     {
-                        mShapeVertices[vertexBufferNum][vertNum + cubeVertIndex].Position = new Vector3(
+                        _shapeVertices[vertexBufferNum][vertNum + cubeVertIndex].Position = new Vector3(
                             ShapeManager.UnscaledCubePoints[cubeVertIndex].X * cube.mScaleX + cube.Position.X,
                             ShapeManager.UnscaledCubePoints[cubeVertIndex].Y * cube.mScaleY + cube.Position.Y,
                             ShapeManager.UnscaledCubePoints[cubeVertIndex].Z * cube.mScaleZ + cube.Position.Z);
 
-                        mShapeVertices[vertexBufferNum][vertNum + cubeVertIndex].Color = cube.mColor;
+                        _shapeVertices[vertexBufferNum][vertNum + cubeVertIndex].Color = cube.mColor;
 
                         if (cubeVertIndex == 9 || cubeVertIndex == 11 || cubeVertIndex == 13 || cubeVertIndex == 15)
                         {
@@ -2129,7 +2129,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                             renderBreak.ObjectCausingBreak = "Cube";
 #endif
-                            mRenderBreaks.Add(renderBreak);
+                            _renderBreaks.Add(renderBreak);
                             renderBreakNumber++;
                         }
                     }
@@ -2147,7 +2147,7 @@ namespace FlatRedBall.Graphics
                     {
                         vertexBufferNum++;
                         verticesLeftToDraw -= vertNum;
-                        vertsPerVertexBuffer.Add(vertNum);
+                        _vertsPerVertexBuffer.Add(vertNum);
                         vertNum = 0;
                     }
 
@@ -2170,9 +2170,9 @@ namespace FlatRedBall.Graphics
 
                             newPosition += sphere.Position;
 
-                            mShapeVertices[vertexBufferNum][vertNum + pointNumber].Position = newPosition;
+                            _shapeVertices[vertexBufferNum][vertNum + pointNumber].Position = newPosition;
 
-                            mShapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = sphere.Color.PackedValue;
+                            _shapeVertices[vertexBufferNum][vertNum + pointNumber].Color.PackedValue = sphere.Color.PackedValue;
                         }
 
                         vertNum += numberOfSphereVertsPerSlice;
@@ -2182,7 +2182,7 @@ namespace FlatRedBall.Graphics
 #if DEBUG
                         renderBreak.ObjectCausingBreak = "Sphere";
 #endif
-                        mRenderBreaks.Add(renderBreak);
+                        _renderBreaks.Add(renderBreak);
                     }
                 }
 
@@ -2191,14 +2191,14 @@ namespace FlatRedBall.Graphics
                 int vertexBufferIndex = 0;
                 int renderBreakIndexForRendering = 0;
 
-                for (; vertexBufferIndex < vertsPerVertexBuffer.Count; vertexBufferIndex++)
+                for (; vertexBufferIndex < _vertsPerVertexBuffer.Count; vertexBufferIndex++)
                 {
-                    DrawVertexList<VertexPositionColor>(camera, mShapeVertices, mRenderBreaks,
-                        vertsPerVertexBuffer[vertexBufferIndex], PrimitiveType.LineStrip,
+                    DrawVertexList<VertexPositionColor>(camera, _shapeVertices, _renderBreaks,
+                        _vertsPerVertexBuffer[vertexBufferIndex], PrimitiveType.LineStrip,
                         6000, vertexBufferIndex, ref renderBreakIndexForRendering);
                 }
 
-                DrawVertexList<VertexPositionColor>(camera, mShapeVertices, mRenderBreaks,
+                DrawVertexList<VertexPositionColor>(camera, _shapeVertices, _renderBreaks,
                     verticesLeftToDraw, PrimitiveType.LineStrip,
                     6000, vertexBufferIndex, ref renderBreakIndexForRendering);
             }
@@ -2219,7 +2219,7 @@ namespace FlatRedBall.Graphics
             }
 
             // Set device settings for drawing Z-buffered sprites
-            mVisibleSprites.Clear();
+            _visibleSprites.Clear();
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
@@ -2238,20 +2238,20 @@ namespace FlatRedBall.Graphics
 
                     if (sprite.AbsoluteVisible && sprite.Alpha > .0001f)
                     {
-                        mVisibleSprites.Add(sprite);
+                        _visibleSprites.Add(sprite);
                     }
                 }
             }
 
             // Draw
             PrepareSprites(
-                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
-                mVisibleSprites, 0, mVisibleSprites.Count);
+                _zBufferedSpriteVertices, _zBufferedSpriteRenderBreaks,
+                _visibleSprites, 0, _visibleSprites.Count);
 
             DrawSprites(
-                mZBufferedSpriteVertices, mZBufferedSpriteRenderBreaks,
-                mVisibleSprites, 0,
-                mVisibleSprites.Count, camera);
+                _zBufferedSpriteVertices, _zBufferedSpriteRenderBreaks,
+                _visibleSprites, 0,
+                _visibleSprites.Count, camera);
         }
 
         public static void DrawVertexList<T>(Camera camera, List<T[]> vertexList, List<RenderBreak> renderBreaks,
@@ -2297,13 +2297,13 @@ namespace FlatRedBall.Graphics
             int VBOn = vbIndex;
             int numPasses = 0;
             int numberOfPrimitivesPerVertexBuffer = verticesPerVertexBuffer / verticesPerPrimitive;
-            var effectToUse = mCurrentEffect;
+            var effectToUse = _currentEffect;
 
             if (primitiveType == PrimitiveType.LineStrip)
             {
-                mBasicEffect.LightingEnabled = false;
-                mBasicEffect.VertexColorEnabled = true;
-                effectToUse = mBasicEffect;
+                _basicEffect.LightingEnabled = false;
+                _basicEffect.VertexColorEnabled = true;
+                effectToUse = _basicEffect;
             }
 
             if (renderBreaks.Count != 0)
@@ -2343,7 +2343,7 @@ namespace FlatRedBall.Graphics
 
                         if (drawToOnThisVB != drawnOnThisVB)
                         {
-                            mGraphics.GraphicsDevice.DrawUserPrimitives<T>(
+                            _graphics.GraphicsDevice.DrawUserPrimitives<T>(
                                 primitiveType,
                                 vertexList[VBOn],
                                 verticesPerPrimitive * drawnOnThisVB,
@@ -2369,7 +2369,7 @@ namespace FlatRedBall.Graphics
                         {
                             try
                             {
-                                mGraphics.GraphicsDevice.DrawUserPrimitives<T>(
+                                _graphics.GraphicsDevice.DrawUserPrimitives<T>(
                                     primitiveType,
                                     vertexList[VBOn],
                                     verticesPerPrimitive * drawnOnThisVB,
@@ -2407,12 +2407,12 @@ namespace FlatRedBall.Graphics
 
         internal static void SetNumberOfThreadsToUse(int numberOfUpdaters)
         {
-            mFillVertexLogics.Clear();
+            _fillVertexLogics.Clear();
 
             for (int i = 0; i < numberOfUpdaters; i++)
             {
                 var logic = new FillVertexLogic();
-                mFillVertexLogics.Add(logic);
+                _fillVertexLogics.Add(logic);
             }
         }
 
@@ -2421,7 +2421,7 @@ namespace FlatRedBall.Graphics
             List<RenderBreak> renderBreaks, int firstSprite,
             int numberToDraw)
         {
-            mFillVBListCallsThisFrame++;
+            _fillVBListCallsThisFrame++;
 
             // If the array is empty, then we just exit.
             if (sprites.Count == 0) return;
@@ -2471,43 +2471,43 @@ namespace FlatRedBall.Graphics
                 }
             }
 
-            float ratio = 1 / ((float)mFillVertexLogics.Count);
+            float ratio = 1 / ((float)_fillVertexLogics.Count);
             int spriteCount = (int)(ratio * numberToDraw);
 
-            for (int i = 0; i < mFillVertexLogics.Count; i++)
+            for (int i = 0; i < _fillVertexLogics.Count; i++)
             {
-                mFillVertexLogics[i].SpriteList = sprites;
-                mFillVertexLogics[i].VertexLists = vertexLists;
-                mFillVertexLogics[i].StartIndex = firstSprite + spriteCount * i;
-                mFillVertexLogics[i].FirstSpriteInAllSimultaneousLogics = firstSprite;
+                _fillVertexLogics[i].SpriteList = sprites;
+                _fillVertexLogics[i].VertexLists = vertexLists;
+                _fillVertexLogics[i].StartIndex = firstSprite + spriteCount * i;
+                _fillVertexLogics[i].FirstSpriteInAllSimultaneousLogics = firstSprite;
 
-                if (i == mFillVertexLogics.Count - 1)
+                if (i == _fillVertexLogics.Count - 1)
                 {
-                    mFillVertexLogics[i].Count = (firstSprite + numberToDraw) - mFillVertexLogics[i].StartIndex;
+                    _fillVertexLogics[i].Count = (firstSprite + numberToDraw) - _fillVertexLogics[i].StartIndex;
                 }
                 else
                 {
-                    mFillVertexLogics[i].Count = spriteCount;
+                    _fillVertexLogics[i].Count = spriteCount;
                 }
             }
 
-            if (mFillVertexLogics.Count == 1)
+            if (_fillVertexLogics.Count == 1)
             {
                 // If there's only 1 vertex logic, no need to make it async, that causes memory allocations.
                 // Maybe look at multithread fixes for memory allocations too but...at least let's make the default
                 // case not allocate:
-                mFillVertexLogics[0].FillVertexListSync(null);
+                _fillVertexLogics[0].FillVertexListSync(null);
             }
             else
             {
-                for (int i = 0; i < mFillVertexLogics.Count; i++)
+                for (int i = 0; i < _fillVertexLogics.Count; i++)
                 {
-                    mFillVertexLogics[i].FillVertexList();
+                    _fillVertexLogics[i].FillVertexList();
                 }
 
-                for (int i = 0; i < mFillVertexLogics.Count; i++)
+                for (int i = 0; i < _fillVertexLogics.Count; i++)
                 {
-                    mFillVertexLogics[i].Wait();
+                    _fillVertexLogics[i].Wait();
                 }
             }
         }
@@ -2596,7 +2596,7 @@ namespace FlatRedBall.Graphics
                 {
                     for (int textVertex = 0; textVertex < text.VertexCount; textVertex++)
                     {
-                        mVertexArray[vertNum] = text.VertexArray[textVertex];
+                        _vertexArray[vertNum] = text.VertexArray[textVertex];
                         vertNum++;
                     }
 
@@ -2609,7 +2609,7 @@ namespace FlatRedBall.Graphics
 #if MONODROID
                         vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray);
 #else
-                        vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray, 0, vertNum, SetDataOptions.Discard);
+                        vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(_vertexArray, 0, vertNum, SetDataOptions.Discard);
 #endif
                         vertexBufferNum++;
                         vertNum = 0;
@@ -2630,7 +2630,7 @@ namespace FlatRedBall.Graphics
 
                         for (int numberCopied = 0; numberCopied < numberToCopy; numberCopied++)
                         {
-                            mVertexArray[vertNum] = text.VertexArray[textVertexIndexOn];
+                            _vertexArray[vertNum] = text.VertexArray[textVertexIndexOn];
                             vertNum++;
                             verticesLeftToRender--;
                             textVertexIndexOn++;
@@ -2644,7 +2644,7 @@ namespace FlatRedBall.Graphics
 #if MONODROID
                             vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray);
 #else
-                            vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray, 0, vertNum, SetDataOptions.Discard);
+                            vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(_vertexArray, 0, vertNum, SetDataOptions.Discard);
 #endif
                             vertexBufferNum++;
                             vertNum = 0;
@@ -2665,7 +2665,7 @@ namespace FlatRedBall.Graphics
 #if MONODROID
             vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray);
 #else
-            vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(mVertexArray, 0, vertNum, SetDataOptions.Discard);
+            vertexBufferList[vertexBufferNum].SetData<VertexPositionColorTexture>(_vertexArray, 0, vertNum, SetDataOptions.Discard);
 #endif
 
             return vertNum / 3 + vertexBufferNum * 2000;
@@ -2865,9 +2865,9 @@ namespace FlatRedBall.Graphics
                             break;
 
                         case SortType.CustomComparer:
-                            if (mSpriteComparer != null)
+                            if (_spriteComparer != null)
                             {
-                                spriteList.Sort(mSpriteComparer);
+                                spriteList.Sort(_spriteComparer);
                             }
                             else
                             {
@@ -2906,9 +2906,9 @@ namespace FlatRedBall.Graphics
                         break;
 
                     case SortType.CustomComparer:
-                        if (mTextComparer != null)
+                        if (_textComparer != null)
                         {
-                            textList.Sort(mTextComparer);
+                            textList.Sort(_textComparer);
                         }
                         else
                         {
@@ -2951,9 +2951,9 @@ namespace FlatRedBall.Graphics
                         break;
 
                     case SortType.CustomComparer:
-                        if (mDrawableBatchComparer != null)
+                        if (_drawableBatchComparer != null)
                         {
-                            batches.Sort(mDrawableBatchComparer);
+                            batches.Sort(_drawableBatchComparer);
                         }
                         else
                         {
@@ -3046,14 +3046,14 @@ namespace FlatRedBall.Graphics
 
         static void SortBatchesYInsertionDescendingOnZBreaks(List<IDrawableBatch> batches)
         {
-            GetBatchZBreaks(batches, batchZBreaks);
+            GetBatchZBreaks(batches, _batchZBreaks);
 
-            batchZBreaks.Insert(0, 0);
-            batchZBreaks.Add(batches.Count);
+            _batchZBreaks.Insert(0, 0);
+            _batchZBreaks.Add(batches.Count);
 
-            for (int i = 0; i < batchZBreaks.Count - 1; i++)
+            for (int i = 0; i < _batchZBreaks.Count - 1; i++)
             {
-                SortBatchInsertionDescending(batches, batchZBreaks[i], batchZBreaks[i + 1]);
+                SortBatchInsertionDescending(batches, _batchZBreaks[i], _batchZBreaks[i + 1]);
             }
         }
 
@@ -3276,7 +3276,7 @@ namespace FlatRedBall.Graphics
                 if (postProcess.IsEnabled)
                 {
 #if DEBUG
-                    mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = postProcess });
+                    _renderBreaks.Add(new RenderBreak() { ObjectCausingBreak = postProcess });
 #endif
                     SwapChain.Swap();
                     postProcess.Apply(SwapChain.CurrentTexture);
@@ -3284,7 +3284,7 @@ namespace FlatRedBall.Graphics
             }
 
 #if DEBUG
-            mRenderBreaks.Add(new RenderBreak() { ObjectCausingBreak = SwapChain });
+            _renderBreaks.Add(new RenderBreak() { ObjectCausingBreak = SwapChain });
 #endif
             SwapChain.RenderToScreen();
         }
@@ -3305,7 +3305,7 @@ namespace FlatRedBall.Graphics
         {
             return String.Format(
                 "Number of RenderBreaks allocated: %d\nNumber of Sprites drawn: %d",
-                mRenderBreaksAllocatedThisFrame, NumberOfSpritesDrawn);
+                _renderBreaksAllocatedThisFrame, _numberOfSpritesDrawn);
         }
 
         #endregion
