@@ -142,6 +142,23 @@ namespace TileGraphicsPlugin.CodeGeneration
         }
 
 
+        private void TryGenerateShiftZ0Code(NamedObjectSave nos, ICodeBlock codeBlock)
+        {
+            var shouldGenerate = nos.DefinedByBase == false &&
+                nos.GetCustomVariable("ShiftMapToMoveGameplayLayerToZ0")?.Value as bool? == true;
+
+            if (shouldGenerate)
+            {
+                var gameplayLayerVarName = $"{nos.InstanceName}_gameplayLayer";
+                codeBlock.Line($"var {gameplayLayerVarName} = {nos.InstanceName}.MapLayers.FindByName(\"GameplayLayer\");");
+
+                codeBlock = codeBlock.If($"{gameplayLayerVarName} != null");
+                codeBlock = codeBlock.Line($"{gameplayLayerVarName}.ForceUpdateDependencies();");
+                codeBlock = codeBlock.Line($"// What if the map's Z isn't 0? Add its Z to make up for that");
+                codeBlock = codeBlock.Line($"{nos.InstanceName}.Z = {nos.InstanceName}.Z - {gameplayLayerVarName}.Z;");
+            }
+        }
+
         private void GenerateAddToManagers(ICodeBlock codeBlock, ReferencedFileSave file)
         {
             if(file.GetProperty<bool>(EntityCreationManager.CreateEntitiesInGeneratedCodePropertyName))
@@ -154,12 +171,12 @@ namespace TileGraphicsPlugin.CodeGeneration
             }
         }
 
+        bool ShouldCreateEntitiesFromTiles(NamedObjectSave nos) => nos.DefinedByBase == false &&
+                nos.GetCustomVariable("CreateEntitiesFromTiles")?.Value as bool? == true;
+
         private void GenerateCreateEntitiesCode(NamedObjectSave nos, GlueElement nosOwner, ICodeBlock codeBlock)
         {
-            var shouldGenerate = nos.DefinedByBase == false &&
-                nos.GetCustomVariable("CreateEntitiesFromTiles")?.Value as bool?  == true;
-
-            if(shouldGenerate)
+            if(ShouldCreateEntitiesFromTiles(nos))
             {
                 var shouldReplaceFactoryListsTemporarily = nosOwner is EntitySave;
 
@@ -206,6 +223,8 @@ namespace TileGraphicsPlugin.CodeGeneration
                         codeBlock.Line($"((Performance.IEntityFactory){factoryName}.Self).ListsToAddTo.Add({list.InstanceName} as System.Collections.IList);");
                     }
                 }
+
+                codeBlock.Line($"CustomBeforeCreateEntitiesFromTiles({nos.InstanceName});");
 
                 codeBlock.Line(
                     $"FlatRedBall.TileEntities.TileEntityInstantiator.CreateEntitiesFrom({nos.InstanceName});");
@@ -311,24 +330,24 @@ namespace TileGraphicsPlugin.CodeGeneration
 
         #endregion
 
+        #region Additional Methods
+
+        public override ICodeBlock GenerateAdditionalMethods(ICodeBlock codeBlock, IElement element)
+        {
+            var anyObjectsCreateEntitiesFromTiles = element.NamedObjects.Any(item => ShouldCreateEntitiesFromTiles(item));
+
+            if(anyObjectsCreateEntitiesFromTiles)
+            {
+                codeBlock.Line($"partial void CustomBeforeCreateEntitiesFromTiles(FlatRedBall.TileGraphics.LayeredTileMap layeredTileMap);");
+            }
+
+            return codeBlock;
+        }
+
+        #endregion
+
         static bool IsAbstract(IElement element) => element.AllNamedObjects.Any(item => item.SetByDerived);
 
-        private void TryGenerateShiftZ0Code(NamedObjectSave nos, ICodeBlock codeBlock)
-        {
-            var shouldGenerate = nos.DefinedByBase == false &&
-                nos.GetCustomVariable("ShiftMapToMoveGameplayLayerToZ0")?.Value as bool? == true;
-
-            if(shouldGenerate)
-            {
-                var gameplayLayerVarName = $"{nos.InstanceName}_gameplayLayer";
-                codeBlock.Line($"var {gameplayLayerVarName} = {nos.InstanceName}.MapLayers.FindByName(\"GameplayLayer\");");
-
-                codeBlock = codeBlock.If($"{gameplayLayerVarName} != null");
-                codeBlock = codeBlock.Line($"{gameplayLayerVarName}.ForceUpdateDependencies();");
-                codeBlock = codeBlock.Line($"// What if the map's Z isn't 0? Add its Z to make up for that");
-                codeBlock = codeBlock.Line($"{nos.InstanceName}.Z = {nos.InstanceName}.Z - {gameplayLayerVarName}.Z;");
-            }                   
-        }
 
     }
 }
