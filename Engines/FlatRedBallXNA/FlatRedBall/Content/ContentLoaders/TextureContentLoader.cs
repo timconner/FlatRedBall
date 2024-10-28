@@ -265,7 +265,7 @@ namespace FlatRedBall.Content.ContentLoaders
                 }
 
                 Renderer.ForceSetBlendOperation();
-                Renderer.ForceSetColorOperation(Renderer.mLastColorOperationSet);
+                Renderer.ForceSetColorOperation(Renderer._colorOperation);
 
                 return result;
             }
