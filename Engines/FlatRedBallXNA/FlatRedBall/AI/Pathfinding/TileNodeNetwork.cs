@@ -370,6 +370,38 @@ namespace FlatRedBall.AI.Pathfinding
         }
 
         /// <summary>
+        /// Fills an user provided list with positioned nodes found inside a <see cref="Circle"/>.
+        /// </summary>
+        /// <param name="nodeList">A <see cref="List{PositionedNode}"/> to hold the intersecting nodes.
+        /// The user has the responsibility of clearing the list before calling this method.</param>
+        /// <param name="circle"><see cref="Circle"/> used to check which nodes will populate the list.</param>
+        /// <remarks>Using this method is much faster than looping through every node contained in the
+        /// <see cref="TileNodeNetwork"/>, however keep in mind it can still be slow if the size
+        /// of the passed <see cref="Circle"/> is very big and overlaps lots of nodes.</remarks>
+        public void FillListOfNodesInsideCircle(List<PositionedNode> nodeList, Circle circle)
+        {
+            var rectangle = circle.BoundingRectangle;
+
+            // Get the indexes of the closest nodes to the top-left and bottom-right corners of the bounding rectangle
+            GetClosestTileIndex(rectangle.Left, rectangle.Top, out int leftIndex, out int topIndex);
+            GetClosestTileIndex(rectangle.Right, rectangle.Bottom, out int rightIndex, out int bottomIndex);
+
+            // Loop through the indexes, find the nodes and check more accurately if they are inside the polygon
+            for (int x = leftIndex; x <= rightIndex; x++)
+            {
+                for (int y = bottomIndex; y <= topIndex; y++)
+                {
+                    var node = TiledNodeAt(x, y);
+
+                    if (node != null && circle.IsPointInside(node.X, node.Y))
+                    {
+                        nodeList.Add(node);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Fills an user provided list with positioned nodes found inside a <see cref="Polygon"/>.
         /// </summary>
         /// <param name="nodeList">A <see cref="List{PositionedNode}"/> to hold the intersecting nodes.

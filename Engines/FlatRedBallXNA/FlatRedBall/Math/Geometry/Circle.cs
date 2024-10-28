@@ -8,10 +8,11 @@ using FlatRedBall.Input;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Color = Microsoft.Xna.Framework.Color;
+using static FlatRedBall.Input.Xbox360GamePad;
 
 namespace FlatRedBall.Math.Geometry
 {
-    public class Circle : PositionedObject, IEquatable<Circle> , IVisible, IMouseOver
+    public class Circle : PositionedObject, IEquatable<Circle>, IVisible, IMouseOver
     {
         #region Fields
 
@@ -34,11 +35,22 @@ namespace FlatRedBall.Math.Geometry
 
         #region Properties
 
-		// Used by ShapeCollection
-		internal float BoundingRadius
-		{
-			get { return Radius; }
-		}
+        // Used by ShapeCollection
+        internal float BoundingRadius
+        {
+            get { return Radius; }
+        }
+
+        /// <summary>
+        /// Axis aligned rectangle which bounds the circle. Contains absolute positions.
+        /// </summary>
+        public FloatRectangle BoundingRectangle
+        {
+            get
+            {
+                return new FloatRectangle(Y + Radius, Y - Radius, X - Radius, X + Radius);
+            }
+        }
 
         #region XML Docs
         /// <summary>
@@ -63,7 +75,7 @@ namespace FlatRedBall.Math.Geometry
             set
             {
                 mColor = value;
-                if(value.A != 255)
+                if (value.A != 255)
                 {
                     mPremultipliedColor.A = mColor.A;
                     mPremultipliedColor.R = (byte)(mColor.R * mColor.A / 255);
@@ -110,16 +122,16 @@ namespace FlatRedBall.Math.Geometry
 
         #region Public Methods
 
-		public Circle Clone()
-		{
-			Circle newCircle = this.Clone<Circle>();
+        public Circle Clone()
+        {
+            Circle newCircle = this.Clone<Circle>();
 
-			newCircle.mVisible = false;
-			newCircle.mLayerBelongingTo = null;
+            newCircle.mVisible = false;
+            newCircle.mLayerBelongingTo = null;
 
 
-			return newCircle;
-		}
+            return newCircle;
+        }
 
         #region CollideAgainst
         public bool CollideAgainst(Circle circle)
@@ -131,7 +143,7 @@ namespace FlatRedBall.Math.Geometry
             float differenceY = Y - circle.Y;
 
             double differenceSquared = differenceX * differenceX + differenceY * differenceY;
-            
+
             return (System.Math.Pow(differenceSquared, .5) - Radius - circle.Radius < 0);
         }
 
@@ -173,7 +185,7 @@ namespace FlatRedBall.Math.Geometry
             // if we got this far, the bounding box of the circle touches the rectangle
             // and the center of the circle is not inside of the rectangle.  Perform
             // the most expensive checks now.
-            
+
             Point centerPoint = new Point(Position.X, Position.Y);
             Segment connectingSegment = new Segment();
 
@@ -236,7 +248,7 @@ namespace FlatRedBall.Math.Geometry
                 else
                 {
                     mLastCollisionTangent.X = 0;
-                    mLastCollisionTangent.Y = 1; 
+                    mLastCollisionTangent.Y = 1;
                     return true;
                 }
 
@@ -279,8 +291,8 @@ namespace FlatRedBall.Math.Geometry
             return line.CollideAgainst(this);
         }
 
-		public bool CollideAgainst(Capsule2D capsule)
-		{
+        public bool CollideAgainst(Capsule2D capsule)
+        {
             UpdateDependencies(TimeManager.CurrentTime);
             capsule.UpdateDependencies(TimeManager.CurrentTime);
 
@@ -432,7 +444,7 @@ namespace FlatRedBall.Math.Geometry
 
             if (differenceSquared < (Radius + circle.Radius) * (Radius + circle.Radius))
             {
-                
+
                 double angle =
                     System.Math.Atan2(Position.Y - circle.Position.Y, Position.X - circle.Position.X);
 
@@ -467,9 +479,9 @@ namespace FlatRedBall.Math.Geometry
                     circle.Position.X += circle.LastMoveCollisionReposition.X;
                     circle.Position.Y += circle.LastMoveCollisionReposition.Y;
                 }
-                
+
                 return true;
-                  
+
             }
             else
                 return false;
@@ -493,10 +505,10 @@ namespace FlatRedBall.Math.Geometry
             return line.CollideAgainstMove(this, otherMass, thisMass);
         }
 
-		public bool CollideAgainstMove(Capsule2D capsule2D, float thisMass, float otherMass)
-		{
+        public bool CollideAgainstMove(Capsule2D capsule2D, float thisMass, float otherMass)
+        {
             throw new NotImplementedException("This method is not implemented. Capsules are intended only for CollideAgainst - use Polygons for CollideAgainstMove and CollideAgainstBounce");
-		}
+        }
 
         public bool CollideAgainstMove(ShapeCollection shapeCollection, float thisMass, float otherMass)
         {
@@ -505,7 +517,7 @@ namespace FlatRedBall.Math.Geometry
         }
 
 
-		public bool CollideAgainstBounce(Circle circle, float thisMass, float otherMass, float elasticity)
+        public bool CollideAgainstBounce(Circle circle, float thisMass, float otherMass, float elasticity)
         {
 #if DEBUG
             if (thisMass == 0 && otherMass == 0)
@@ -634,15 +646,15 @@ namespace FlatRedBall.Math.Geometry
             return didCollide;
         }
 
-		public bool CollideAgainstBounce(Line line, float thisMass, float otherMass, float elasticity)
-		{
-			throw new NotImplementedException();
-		}
+        public bool CollideAgainstBounce(Line line, float thisMass, float otherMass, float elasticity)
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool CollideAgainstBounce(Capsule2D capsule2D, float thisMass, float otherMass, float elasticity)
-		{
-			throw new NotImplementedException("This method is not implemented. Capsules are intended only for CollideAgainst - use Polygons for CollideAgainstMove and CollideAgainstBounce");
-		}
+        public bool CollideAgainstBounce(Capsule2D capsule2D, float thisMass, float otherMass, float elasticity)
+        {
+            throw new NotImplementedException("This method is not implemented. Capsules are intended only for CollideAgainst - use Polygons for CollideAgainstMove and CollideAgainstBounce");
+        }
 
         #endregion
 
@@ -738,7 +750,7 @@ namespace FlatRedBall.Math.Geometry
         {
             UpdateDependencies(TimeManager.CurrentTime);
             polygon.UpdateDependencies(TimeManager.CurrentTime);
-            
+
             Point3D fromCircleToThis = polygon.VectorFrom(Position.X, Position.Y);
 
             // The fromCircleToThis will be less than circle.Radius units in length.
@@ -813,7 +825,7 @@ namespace FlatRedBall.Math.Geometry
 
                 float length = Vector2.Dot(
                     new Vector2(TopParent.Velocity.X, TopParent.Velocity.Y), collisionAdjustmentNormalized);
-                TopParent.Velocity.X = collisionAdjustmentNormalized.X* length;
+                TopParent.Velocity.X = collisionAdjustmentNormalized.X * length;
                 TopParent.Velocity.Y = collisionAdjustmentNormalized.Y * length;
             }
         }
