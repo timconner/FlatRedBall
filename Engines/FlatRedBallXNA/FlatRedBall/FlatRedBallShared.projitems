@@ -112,7 +112,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\BitmapFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\CustomEffectManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\IDrawableBatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\EffectCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GenericEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicalEmumerations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicsOptions.cs" />
