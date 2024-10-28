@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using FlatRedBall.Graphics;
-
 using FlatRedBall.Gui;
 using FlatRedBall.Input;
+using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
-using Color = Microsoft.Xna.Framework.Color;
-using static FlatRedBall.Input.Xbox360GamePad;
 
 namespace FlatRedBall.Math.Geometry
 {
@@ -16,7 +12,7 @@ namespace FlatRedBall.Math.Geometry
     {
         #region Fields
 
-        // made public for performance.
+        // Made public for performance.
         public float Radius;
         float mRadiusVelocity;
         bool mVisible;
@@ -52,11 +48,9 @@ namespace FlatRedBall.Math.Geometry
             }
         }
 
-        #region XML Docs
         /// <summary>
         /// Returns the tangent (in other words the vector parallel with the surface) where the last collision occurred.
         /// </summary>
-        #endregion
         public Point LastCollisionTangent
         {
             get
@@ -68,7 +62,6 @@ namespace FlatRedBall.Math.Geometry
         /// <summary>
         /// The (premultiplied alpha) color used to draw this circle.
         /// </summary>
-        /// 
         public Color Color
         {
             get { return mColor; }
@@ -134,6 +127,7 @@ namespace FlatRedBall.Math.Geometry
         }
 
         #region CollideAgainst
+
         public bool CollideAgainst(Circle circle)
         {
             UpdateDependencies(TimeManager.CurrentTime);
@@ -516,7 +510,6 @@ namespace FlatRedBall.Math.Geometry
 
         }
 
-
         public bool CollideAgainstBounce(Circle circle, float thisMass, float otherMass, float elasticity)
         {
 #if DEBUG
@@ -658,7 +651,6 @@ namespace FlatRedBall.Math.Geometry
 
         #endregion
 
-        #region XML Docs
         /// <summary>
         /// Returns the distance from this to the argument Line.  If this and the Line
         /// are colliding, then the value will be 0 or negative.  The smallest the 
@@ -667,7 +659,6 @@ namespace FlatRedBall.Math.Geometry
         /// <param name="line">The line to test distance from.</param>
         /// <returns>The distance from the circle to the argument line.  Will be 0 or
         /// negative if the two are colliding.</returns>
-        #endregion
         public float DistanceTo(Line line)
         {
             Segment segment = line.AsSegment();
@@ -842,12 +833,9 @@ namespace FlatRedBall.Math.Geometry
 
         #region Protected Methods
 
-
-
         #endregion
 
         #endregion
-
 
         #region IEquatable<Circle> Members
 
@@ -873,6 +861,7 @@ namespace FlatRedBall.Math.Geometry
         #endregion
 
         #region IVisible implementation
+
         IVisible IVisible.Parent
         {
             get
@@ -895,6 +884,7 @@ namespace FlatRedBall.Math.Geometry
             get;
             set;
         }
+
         #endregion
     }
 }
