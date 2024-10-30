@@ -22,7 +22,7 @@ FlatRedBall is mature and continually improving. Reported issues are resolved or
 
 ## Downloading FlatRedBall
 
-For instructions on how to download FlatRedBall (both prebuilt and how to build from source), see https://flatredball.com/download/
+For instructions on how to download FlatRedBall (both prebuilt and how to build from source), see [https://flatredball.com/download/](https://docs.flatredball.com/flatredball)
 
 Direct link to FlatRedBall Editor: https://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/FRBDK.zip
 
