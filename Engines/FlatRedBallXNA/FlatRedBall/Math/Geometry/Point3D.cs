@@ -6,15 +6,30 @@ using Microsoft.Xna.Framework;
 
 namespace FlatRedBall.Math.Geometry
 {
+    /// <summary>
+    /// A 3-dimensional point using doubles as its components.
+    /// </summary>
     public struct Point3D
     {
-        #region Fields
+        /// <summary>
+        /// A point at the origin (0,0,0).
+        /// </summary>
+        public static readonly Point3D Zero = new Point3D(0, 0, 0);
 
+        /// <summary>
+        /// The point's X coordinate.
+        /// </summary>
         public double X;
-        public double Y;
-        public double Z;
 
-        #endregion
+        /// <summary>
+        /// The point's Y coordinate.
+        /// </summary>
+        public double Y;
+
+        /// <summary>
+        /// The point's Z coordinate.
+        /// </summary>
+        public double Z;
 
         #region Properties and Overloaded Operators
         public static Point3D operator -(Point3D p1, Vector3 p2)
@@ -38,6 +53,13 @@ namespace FlatRedBall.Math.Geometry
         #region Methods
 
         #region Constructors
+
+        public Point3D()
+        {
+            X = 0;
+            Y = 0;
+            Z = 0;
+        }
 
         public Point3D(Vector2 vector)
         {

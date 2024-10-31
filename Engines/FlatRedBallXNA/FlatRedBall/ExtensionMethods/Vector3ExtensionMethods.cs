@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Microsoft.Xna.Framework
 {
+    /// <summary>
+    /// Contains a variety of useful extensions for the Vector3 type.
+    /// </summary>
     public static class Vector3ExtensionMethods
     {
         /// <summary>
@@ -100,7 +103,7 @@ namespace Microsoft.Xna.Framework
         }
 
         /// <summary>
-        /// Returns a new Vector3 of Length 0, or throws an InvalidOperationException if this Vector3 has a Length of 0.
+        /// Returns a new Vector3 of Length 1, or throws an InvalidOperationException if this Vector3 has a Length of 0.
         /// </summary>
         /// <param name="vector3">The Vector3 to normalize</param>
         /// <returns>The normalized vector.</returns>
@@ -118,6 +121,11 @@ namespace Microsoft.Xna.Framework
             }
         }
 
+        /// <summary>
+        /// Returns a new Vector3 of Length 1 unless the vector has a length of 0. If the vector has a length of 0, then a vector with length 0 is returned.
+        /// </summary>
+        /// <param name="vector3">The vector to normalize</param>
+        /// <returns>A vector of length 1 pointing in the direction of the argument vector, or a vector of length 0 if the argument has a length of 0.</returns>
         public static Vector3 NormalizedOrZero(this Vector3 vector3)
         {
             if (vector3.X != 0 || vector3.Y != 0 || vector3.Z != 0)
@@ -203,6 +211,13 @@ namespace Microsoft.Xna.Framework
             return vector3.NormalizedOrRight() * length;
         }
 
+        /// <summary>
+        /// Returns a vector in the same direction as the argument vector, but of the length specified by the length argument.
+        /// This can safely be called on vectors with length 0, as the right direction will be used.
+        /// </summary>
+        /// <param name="vector3">The vector specifying the direction.</param>
+        /// <param name="length">The desired length.</param>
+        /// <returns>The resulting vector in the same direction as the argument of the desired length, or a vector pointing to the right if the argument has 0 length.</returns>
         public static Vector3 AtLength(this Vector3 vector3, double length)
         {
             return vector3.NormalizedOrRight() * (float)length;
