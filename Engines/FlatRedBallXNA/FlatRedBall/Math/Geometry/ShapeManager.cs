@@ -30,12 +30,10 @@ namespace FlatRedBall.Math.Geometry
 
     #endregion
 
-    #region XML Docs
     /// <summary>
     /// Responsible for creating, destroying, and managing shapes (Circle, AxisAlignedRectangle,
     /// Polygon, Line).
     /// </summary>
-    #endregion
     public static class ShapeManager
     {
         #region Fields
@@ -318,7 +316,6 @@ namespace FlatRedBall.Math.Geometry
         }
 #endif
 
-        #region XML Docs
         /// <summary>
         /// Creates and returns a new visible, managed AxisAlignedRectangle.
         /// </summary>
@@ -326,7 +323,6 @@ namespace FlatRedBall.Math.Geometry
         /// The new AxisAlignedRectangle will be visible, white, and have a ScaleX and ScaleY of 1.
         /// </remarks>
         /// <returns>The new AxisAlignedRectangle.</returns>
-        #endregion
         static public AxisAlignedRectangle AddAxisAlignedRectangle()
         {
 #if DEBUG
@@ -341,14 +337,12 @@ namespace FlatRedBall.Math.Geometry
             return AddAxisAlignedRectangle(aar);
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created AxisAlignedRectangle to the ShapeManager.
         /// The newly-added AxisAlignedRectangle will be made visible by this method.
         /// </summary>
         /// <param name="axisAlignedRectangle">The AxisAlignedRectangle to add.</param>
         /// <returns>The same AxisAlignedRectangle as was passed to the method.</returns>
-        #endregion
         static public AxisAlignedRectangle AddAxisAlignedRectangle(AxisAlignedRectangle axisAlignedRectangle)
         {
 #if DEBUG
@@ -375,12 +369,10 @@ namespace FlatRedBall.Math.Geometry
             return axisAlignedRectangle;
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds all AxisAlignedRectangles contained in the argument axisAlignedRectangleList to the ShapeManager.
         /// </summary>
         /// <param name="axisAlignedRectangleList">The list containing the AxisAlignedRectangles.</param>
-        #endregion
         static public void AddAxisAlignedRectangleList(PositionedObjectList<AxisAlignedRectangle> axisAlignedRectangleList)
         {
             foreach (AxisAlignedRectangle aaRect in axisAlignedRectangleList)
@@ -389,7 +381,6 @@ namespace FlatRedBall.Math.Geometry
             }
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds and returns a new visible, managed Capsule2D.
         /// </summary>
@@ -397,20 +388,17 @@ namespace FlatRedBall.Math.Geometry
         /// The new Capsule2D will be visible, white, and have an EndpointRadius of 1.
         /// </remarks>
         /// <returns>The new Capsule2D.</returns>
-        #endregion
         static public Capsule2D AddCapsule2D()
         {
             return AddCapsule2D(new Capsule2D());
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created Capsule2D to the ShapeManager.
         /// The newly-added Capsule2D will be made visible by this method.
         /// </summary>
         /// <param name="capsule2D">The Capsule2D to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         static public Capsule2D AddCapsule2D(Capsule2D capsule2D)
         {
 #if DEBUG
@@ -435,7 +423,6 @@ namespace FlatRedBall.Math.Geometry
             return capsule2D;
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds and returns a new visible, managed Circle.
         /// </summary>
@@ -443,21 +430,18 @@ namespace FlatRedBall.Math.Geometry
         /// The new Circle will be visible, white, and have a Radius of 1.
         /// </remarks>
         /// <returns>The new Circle.</returns>
-        #endregion
         static public Circle AddCircle()
         {
             return AddCircle(new Circle());
 
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created Circle to the ShapeManager.
         /// The newly-added Circle will be made visible by this method.
         /// </summary>
         /// <param name="circle">The Circle to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         static public Circle AddCircle(Circle circle)
         {
 #if DEBUG
@@ -482,12 +466,10 @@ namespace FlatRedBall.Math.Geometry
             return circle;
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds all Circles contained in the argument circleList to the ShapeManager.
         /// </summary>
         /// <param name="circleList">The list containing the Circles.</param>
-        #endregion
         static public void AddCircleList(PositionedObjectList<Circle> circleList)
         {
             foreach (Circle circle in circleList)
@@ -496,7 +478,6 @@ namespace FlatRedBall.Math.Geometry
             }
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds and returns a new visible, managed Sphere.
         /// </summary>
@@ -504,21 +485,18 @@ namespace FlatRedBall.Math.Geometry
         /// The new Sphere will be visible, white, and have a Radius of 1.
         /// </remarks>
         /// <returns>The new Sphere.</returns>
-        #endregion
         static public Sphere AddSphere()
         {
             return AddSphere(new Sphere());
 
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created Sphere to the ShapeManager.
         /// The newly-added Sphere will be made visible by this method.
         /// </summary>
         /// <param name="sphere">The Sphere to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         static public Sphere AddSphere(Sphere sphere)
         {
 #if DEBUG
@@ -542,25 +520,21 @@ namespace FlatRedBall.Math.Geometry
             return sphere;
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds a new visible, managed AxisAlignedCube.
         /// </summary>
         /// <returns>The new AxisAlignedCube</returns>
-        #endregion
         static public AxisAlignedCube AddAxisAlignedCube()
         {
             return AddAxisAlignedCube(new AxisAlignedCube());
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created AxisAlignedCube to the ShapeManager.
         /// The newly-added AxisAlignedCube will be made visible by this method.
         /// </summary>
         /// <param name="axisAlignedCube">The AxisAlignedCube to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         public static AxisAlignedCube AddAxisAlignedCube(AxisAlignedCube axisAlignedCube)
         {
 #if DEBUG
@@ -585,20 +559,17 @@ namespace FlatRedBall.Math.Geometry
 
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds a new 0-point Polygon to the ShapeManager.
         /// The newly-added Polygon must have its Points property
         /// set to be visible and functional.
         /// </summary>
         /// <returns>The new Polygon.</returns>
-        #endregion
         static public Polygon AddPolygon()
         {
             return AddPolygon(new Polygon());
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created Polygon to the ShapeManager.
         /// The newly-added Polygon will be made visible by this method 
@@ -606,7 +577,6 @@ namespace FlatRedBall.Math.Geometry
         /// </summary>
         /// <param name="polygon">The Polygon to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         static public Polygon AddPolygon(Polygon polygon)
         {
 #if DEBUG
@@ -633,12 +603,10 @@ namespace FlatRedBall.Math.Geometry
             return polygon;
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds all Polygons contained in the argument polygonList to the ShapeManager.
         /// </summary>
         /// <param name="polygonList">The list containing the Polygons.</param>
-        #endregion
         static public void AddPolygonList<T>(IList<T> polygonList) where T : Polygon
         {
             foreach (Polygon polygon in polygonList)
@@ -648,7 +616,6 @@ namespace FlatRedBall.Math.Geometry
         }
 
 
-        #region XML Docs
         /// <summary>
         /// Adds and returns a new visible, managed Line.
         /// </summary>
@@ -657,20 +624,17 @@ namespace FlatRedBall.Math.Geometry
         /// and have a length of 2 units.
         /// </remarks>
         /// <returns>The new Line.</returns>
-        #endregion
         static public Line AddLine()
         {
             return AddLine(new Line());
         }
 
-        #region XML Docs
         /// <summary>
         /// Adds an already-created Line to the ShapeManager.
         /// The newly-added Line will be made visible by this method.
         /// </summary>
         /// <param name="line">The Line to add.</param>
         /// <returns>The instance that was just added.</returns>
-        #endregion
         static public Line AddLine(Line line)
         {
 #if DEBUG
@@ -1644,12 +1608,10 @@ namespace FlatRedBall.Math.Geometry
 
         #endregion
 
-        #region XML Docs
         /// <summary>
         /// Returns information about the ShapeManager.
         /// </summary>
         /// <returns>A string containing information about the ShapeManager.</returns>
-        #endregion
         static public new string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
