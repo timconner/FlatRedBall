@@ -370,7 +370,7 @@ namespace FlatRedBall
                 }
                 else
                 {
-                    throw new NotImplementedException("Setting the AbsoluteRightXEdge is not supported for perspective cameras.");
+                    throw new InvalidOperationException("Setting the AbsoluteRightXEdge is not supported for perspective cameras.");
                 }
             }
         }
@@ -401,7 +401,7 @@ namespace FlatRedBall
                 }
                 else
                 {
-                    throw new NotImplementedException("Setting the AbsoluteLeftXEdge is not supported for perspective cameras.");
+                    throw new InvalidOperationException("Setting the AbsoluteLeftXEdge is not supported for perspective cameras.");
                 }
             }
         }
@@ -431,7 +431,7 @@ namespace FlatRedBall
                 }
                 else
                 {
-                    throw new NotImplementedException("Setting the AbsoluteTopYEdge is not supported for perspective cameras.");
+                    throw new InvalidOperationException("Setting the AbsoluteTopYEdge is not supported for perspective cameras.");
                 }
             }
         }
@@ -461,7 +461,7 @@ namespace FlatRedBall
                 }
                 else
                 {
-                    throw new NotImplementedException("Setting the AbsoluteBottomYEdge is not supported for perspective cameras.");
+                    throw new InvalidOperationException("Setting the AbsoluteBottomYEdge is not supported for perspective cameras.");
                 }
             }
         }
