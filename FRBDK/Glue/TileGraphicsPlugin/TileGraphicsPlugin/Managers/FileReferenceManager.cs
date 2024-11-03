@@ -218,7 +218,7 @@ namespace TileGraphicsPlugin.Managers
             }
         }
 
-        public IEnumerable<ReferencedFileSave> GetReferencedFileSavesReferencingTsx(string tsxFileName)
+        public IEnumerable<ReferencedFileSave> GetReferencedFileSavesReferencingTsx(FilePath filepath)
         {
             foreach (var pair in GetAllTiledMapSaves())
             {
@@ -230,7 +230,7 @@ namespace TileGraphicsPlugin.Managers
 
                     absoluteSource = FileManager.RemoveDotDotSlash(absoluteSource);
 
-                    if(absoluteSource == tsxFileName)
+                    if(absoluteSource == filepath)
                     {
                         foundAny = true;
                         break;
@@ -243,7 +243,7 @@ namespace TileGraphicsPlugin.Managers
             }
         }
 
-        public IEnumerable<ReferencedFileSave> GetReferencedFileSavesReferencingPng(string pngFileName)
+        public IEnumerable<ReferencedFileSave> GetReferencedFileSavesReferencingPng(FilePath pngFilePath)
         {
             foreach (var pair in GetAllTiledMapSaves())
             {
@@ -262,10 +262,9 @@ namespace TileGraphicsPlugin.Managers
 
                     foreach(var image in tileset.Images)
                     {
-                        string absoluteImage = relativeDirectoryForImage + image.Source;
-                        absoluteImage = FileManager.Standardize(FileManager.RemoveDotDotSlash(absoluteImage)).ToLowerInvariant();
+                        FilePath absoluteImage = relativeDirectoryForImage + image.Source;
 
-                        if(pngFileName.ToLowerInvariant() == absoluteImage)
+                        if(pngFilePath == absoluteImage)
                         {
                             foundAny = true;
                             break;

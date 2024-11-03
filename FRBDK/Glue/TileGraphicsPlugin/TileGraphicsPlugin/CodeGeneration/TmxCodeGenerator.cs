@@ -32,7 +32,7 @@ namespace TileGraphicsPlugin.CodeGeneration
             return codeBlock;
         }
 
-        bool ShouldGenerateFieldsForNamedObjects(NamedObjectSave nos)
+        public static bool ShouldGenerateFieldsForNamedObjects(NamedObjectSave nos)
         {
             return
                 nos.GetAssetTypeInfo()?.Extension == "tmx" &&

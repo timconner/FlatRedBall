@@ -288,7 +288,7 @@ public class MainTiledPluginClass : PluginBase
         this.AdjustDisplayedReferencedFile += HandleAdjustDisplayedReferencedFile;
 
         this.ReactToItemSelectHandler += HandleItemSelect;
-        this.ReactToFileChangeHandler += HandleFileChange;
+        this.ReactToFileChange += HandleFileChange;
 
         this.FillWithReferencedFiles += FileReferenceManager.Self.HandleGetFilesReferencedBy;
         this.CanFileReferenceContent += HandleCanFileReferenceContent;
@@ -360,6 +360,7 @@ public class MainTiledPluginClass : PluginBase
 
         //this.CreateNewFileHandler += TmxCreationManager.Self.HandleNewTmxCreation;
     }
+
 
     private void HandleGluxUnload()
     {
@@ -632,20 +633,29 @@ public class MainTiledPluginClass : PluginBase
         EntityCreationManager.Self.ReactToRfsSelected(rfs);
     }
 
-    private void HandleFileChange(string fileName)
+    private void HandleFileChange(FilePath path, FileChangeType type)
     {
-        string extension = FileManager.GetExtension(fileName);
+        if(type != FileChangeType.Deleted)
+        {
+            HandleFileChangeOld(path);
+        }
+    }
+
+    private void HandleFileChangeOld(FilePath filePath)
+    {
+        string extension = filePath.Extension;
 
         var shouldRefreshErrors = false;
         if(extension == "tmx")
         {
+            HandleTmxFileChange(filePath);
             shouldRefreshErrors = true;
         }
 
         if(extension == "tsx")
         {
             // oh boy, the user changed a shared tile set.  Time to rebuild everything that uses this tileset
-            var allReferencedFileSaves = FileReferenceManager.Self.GetReferencedFileSavesReferencingTsx(fileName).ToArray();
+            var allReferencedFileSaves = FileReferenceManager.Self.GetReferencedFileSavesReferencingTsx(filePath).ToArray();
 
             // build em!
             foreach(var file in allReferencedFileSaves)
@@ -678,7 +688,7 @@ public class MainTiledPluginClass : PluginBase
         // no external tileset is used, so we want to rebuild the .tmx's.
         if (extension == "png")
         {
-            var allReferencedFileSaves = FileReferenceManager.Self.GetReferencedFileSavesReferencingPng(fileName);
+            var allReferencedFileSaves = FileReferenceManager.Self.GetReferencedFileSavesReferencingPng(filePath);
 
             var toListForDebug = allReferencedFileSaves.ToList();
 
@@ -692,6 +702,39 @@ public class MainTiledPluginClass : PluginBase
         if(shouldRefreshErrors)
         {
             GlueCommands.Self.RefreshCommands.RefreshErrors();
+        }
+    }
+
+    private void HandleTmxFileChange(FilePath filePath)
+    {
+        var rfsesForFile = ObjectFinder.Self.
+            GetAllReferencedFiles()
+            .Where(item => item.FilePath == filePath);
+
+        foreach(var rfs in rfsesForFile)
+        {
+            var container = ObjectFinder.Self.GetElementContaining(rfs);
+
+            if(container != null)
+            {
+                var matchingNoses = container
+                    .AllNamedObjects
+                    .Where(item =>
+                    {
+                        var shouldRegen =
+                            item.SourceType == SourceType.File &&
+                            item.SourceFile == rfs.Name &&
+                            TmxCodeGenerator.ShouldGenerateFieldsForNamedObjects(item);
+
+                        return shouldRegen;
+                    });
+
+                if(matchingNoses.Count() > 0)
+                {
+                    GlueCommands.Self.GenerateCodeCommands.GenerateElementCode(container);
+                }
+            }
+            rfs.PerformExternalBuild(runAsync: true);
         }
     }
 
