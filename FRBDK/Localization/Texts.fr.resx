@@ -390,9 +390,6 @@
   <data name="GumProperties" xml:space="preserve">
     <value>Propriétés de la Gum</value>
   </data>
-  <data name="RefreshingFontCache" xml:space="preserve">
-    <value>Actualiser le cache des polices</value>
-  </data>
   <data name="GumPluginGluxLoad" xml:space="preserve">
     <value>Plugin Gum réagissant à la charge Glux</value>
   </data>

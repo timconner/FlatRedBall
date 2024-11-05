@@ -391,9 +391,6 @@ for {1}?</value>
   <data name="GumProperties" xml:space="preserve">
     <value>Gum Properties</value>
   </data>
-  <data name="RefreshingFontCache" xml:space="preserve">
-    <value>Refreshing Font Cache</value>
-  </data>
   <data name="GumPluginGluxLoad" xml:space="preserve">
     <value>Gum plugin reacting to glux load</value>
   </data>

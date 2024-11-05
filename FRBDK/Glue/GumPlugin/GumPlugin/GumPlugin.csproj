@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Platforms>AnyCPU</Platforms>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -390,6 +390,7 @@
     <Folder Include="Embedded\LibraryFiles\RenderingLibrary\" />
     <Folder Include="Embedded\StateInterpolation\" />
     <Folder Include="FileAssociations\" />
+    <Folder Include="Tools\GumProjectFontGenerator\" />
   </ItemGroup>
 
 
@@ -439,8 +440,15 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <None Update="Tools\GumProjectFontGenerator\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo PostBuild to $(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&#xD;&#xA;echo 1&#xD;&#xA;IF NOT EXIST  &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot;&#xD;&#xA;echo 2&#xD;&#xA;copy &quot;$(TargetDir)&quot;\GumPlugin.dll &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)&quot;\GumPlugin.pdb &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.pdb&quot;" />
+    <Exec Command="echo PostBuild to $(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&#xD;&#xA;echo 1&#xD;&#xA;IF NOT EXIST  &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot;&#xD;&#xA;echo 2&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.pdb&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.pdb&quot;&#xD;&#xA;&#xD;&#xA;IF NOT EXIST &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;&#xD;&#xA;xcopy /E /I /U /Y &quot;$(TargetDir)Tools\&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;" />
   </Target>
 
 </Project>

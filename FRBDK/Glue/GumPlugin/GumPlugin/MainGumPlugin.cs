@@ -807,38 +807,79 @@ public class MainGumPlugin : PluginBase
         }
         else
         {
-            await TaskManager.Self.AddAsync(() =>
+            await TaskManager.Self.AddAsync(async () =>
             {
-                var startInfo = new System.Diagnostics.ProcessStartInfo();
-
-                // Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
-                startInfo.Arguments = $@"--rebuildfonts ""{gumFileName}""";
-                startInfo.FileName = executable;
-                startInfo.UseShellExecute = false;
-
-                GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
-
-                var process = System.Diagnostics.Process.Start(startInfo);
-
-                process.WaitForExit();
-
-                var exitCode = process.ExitCode;
-
-                if(exitCode != 0)
                 {
-                    if(exitCode == 2)
-                    {
-                        GlueCommands.Self.PrintError("Gum has exited unexpected. Do you have the XNA runtime installed?");
-                    }
-                    else 
+                    //var startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                    //// Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
+                    //startInfo.Arguments = $@"--rebuildfonts ""{gumFileName}""";
+                    //startInfo.FileName = executable;
+                    //startInfo.UseShellExecute = false;
+
+                    //GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
+
+                    //var gumStart = DateTime.Now;
+                    //var process = System.Diagnostics.Process.Start(startInfo);
+                    //await process.WaitForExitAsync();
+                    //var gumEnd = DateTime.Now;
+
+                    //var exitCode = process.ExitCode;
+
+                    //if(exitCode != 0)
+                    //{
+                    //    if(exitCode == 2)
+                    //    {
+                    //        GlueCommands.Self.PrintError("Gum has exited unexpected. Do you have the XNA runtime installed?");
+                    //    }
+                    //    else 
+                    //    {
+                    //        // Unknown error:
+                    //        GlueCommands.Self.PrintError("Gum has exited with an unknown error so fonts were not generated.");
+                    //    }
+                    //}
+                    //GlueCommands.Self.PrintOutput("Old font building: " + (gumEnd - gumStart).TotalSeconds + " seconds");
+
+                }
+
+
+
+                {
+                    var startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                    // Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
+                    startInfo.Arguments = $@"""{gumFileName}""";
+                    startInfo.FileName =
+                        "Plugins/GumPlugin/Tools/GumProjectFontGenerator/GumProjectFontGenerator.exe";
+                        //"C:\\Users\\Owner\\Documents\\GitHub\\Gum\\GumProjectFontGenerator\\bin\\Debug\\net8.0\\GumProjectFontGenerator.exe";
+                    startInfo.UseShellExecute = false;
+
+                    // use the new font building tool:
+                    var newToolStart = DateTime.Now;
+                    var process = new Process();
+                    process.StartInfo = startInfo;
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.CreateNoWindow = true;
+
+                    process.Start();
+
+                    await process.WaitForExitAsync();
+
+                    var newToolExit = DateTime.Now;
+                    var exitCode = process.ExitCode;
+
+                    if (exitCode != 0)
                     {
                         // Unknown error:
-                        GlueCommands.Self.PrintError("Gum has exited with an unknown error so fonts were not generated.");
+                        GlueCommands.Self.PrintError("GumProjectFontGenerator has exited with an unknown error so fonts were not generated.");
                     }
                 }
 
+
             },
-            Localization.Texts.RefreshingFontCache);
+            "Rebuilding Fonts");
 
             var gumRfs = GumProjectManager.Self.GetRfsForGumProject();
             if(gumRfs != null)
