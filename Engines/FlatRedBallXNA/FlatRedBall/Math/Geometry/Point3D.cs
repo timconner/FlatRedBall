@@ -54,12 +54,14 @@ namespace FlatRedBall.Math.Geometry
 
         #region Constructors
 
+#if NET6_0_OR_GREATER
         public Point3D()
         {
             X = 0;
             Y = 0;
             Z = 0;
         }
+#endif
 
         public Point3D(Vector2 vector)
         {
