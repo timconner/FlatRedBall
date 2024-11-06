@@ -3,3 +3,5 @@ generating fonts, but this has some benefits:
 * It is faster (roughly 0.5 - 1 second) due to fewer .dlls loaded, and possibly due to using a modern .net version
 * It doesn't rely on XNA so it will not fail on machines that do not have XNA installed
 * It will run on all platforms, making it easier to run FRB on Mac/Linux
+
+This must be manually copied over from the release folder of the tool when it is built.
