@@ -94,7 +94,7 @@ namespace FlatRedBall.Content
         /// </example>
         public static Dictionary<FilePath, FilePath> FileAliases { get; private set; } = new Dictionary<FilePath, FilePath>();
 		
-#if !MONOGAME
+#if !MONOGAME && !FNA
 		internal Effect mFirstEffect = null;
 		internal EffectCache mFirstEffectCache = null;
 #endif
