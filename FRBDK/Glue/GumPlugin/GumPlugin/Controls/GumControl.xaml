@@ -6,64 +6,64 @@
              xmlns:localization="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="310">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
-            <TextBlock HorizontalAlignment="Center" FontSize="16" Text="{x:Static localization:Texts.ProjectGumProperties}"></TextBlock>
-            <CheckBox x:Name="ShowDottedOutlines" VerticalContentAlignment="Center" 
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel>
+      <TextBlock HorizontalAlignment="Center" FontSize="16" Text="{x:Static localization:Texts.ProjectGumProperties}"></TextBlock>
+      <CheckBox x:Name="ShowDottedOutlines" VerticalContentAlignment="Center" 
                   Content="{x:Static localization:Texts.ShowDottedOutlines}" IsChecked="{Binding ShowDottedOutlines}"></CheckBox>
-            <CheckBox VerticalContentAlignment="Center" 
+      <CheckBox VerticalContentAlignment="Center" 
                       Content="{x:Static localization:Texts.ShowMouse}" IsChecked="{Binding ShowMouse}" ></CheckBox>
 
-            <CheckBox x:Name="UseAtlasesCheckBox" VerticalContentAlignment="Center" Content="{x:Static localization:Texts.UseAtlases}" IsChecked="{Binding UseAtlases}"></CheckBox>
-            <CheckBox x:Name="MakeInstancesPublicCheckBox" VerticalAlignment="Center" Content="{x:Static localization:Texts.GenerateCodeMakePublic}" IsChecked="{Binding MakeGumInstancesPublic}"></CheckBox>
-            <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RegenerateFontsClicked" Content="{x:Static localization:Texts.FontsRegenerate}" />
-            <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RemoveOrphanCustomCodeClicked" Content="{x:Static localization:Texts.CustomRuntimeFilesRemoveOrphaned}" />
+      <CheckBox x:Name="UseAtlasesCheckBox" VerticalContentAlignment="Center" Content="{x:Static localization:Texts.UseAtlases}" IsChecked="{Binding UseAtlases}"></CheckBox>
+      <CheckBox x:Name="MakeInstancesPublicCheckBox" VerticalAlignment="Center" Content="{x:Static localization:Texts.GenerateCodeMakePublic}" IsChecked="{Binding MakeGumInstancesPublic}"></CheckBox>
+      <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RegenerateFontsClicked" Content="Re-generate Fonts" />
+      <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RemoveOrphanCustomCodeClicked" Content="Remove Orphaned Custom Runtime Files" />
 
-            <GroupBox Header="{x:Static localization:Texts.ProjectGumManagement}" Margin="0,4">
-                <StackPanel>
-                    <CheckBox x:Name="AutoCreateGumScreens" VerticalContentAlignment="Center" 
+      <GroupBox Header="{x:Static localization:Texts.ProjectGumManagement}" Margin="0,4">
+        <StackPanel>
+          <CheckBox x:Name="AutoCreateGumScreens" VerticalContentAlignment="Center" 
                           Content="{x:Static localization:Texts.GumAutoCreateForGlue}" 
                               IsChecked="{Binding AutoCreateGumScreens}"></CheckBox>
-                    <CheckBox Content="{x:Static localization:Texts.GumMatchGameResolution}" 
+          <CheckBox Content="{x:Static localization:Texts.GumMatchGameResolution}" 
                               IsChecked="{Binding IsMatchGameResolutionInGumChecked}"/>
-                </StackPanel>
-            </GroupBox>
+        </StackPanel>
+      </GroupBox>
 
-            <GroupBox Header="{x:Static localization:Texts.GumCoreAddition}" Visibility="{Binding GumCoreFileUiVisibility}" Margin="0,0,0,4">
-                <StackPanel >
-                    <RadioButton GroupName="AdditionType" x:Name="IncludeNoFilesRadio" 
+      <GroupBox Header="{x:Static localization:Texts.GumCoreAddition}" Visibility="{Binding GumCoreFileUiVisibility}" Margin="0,0,0,4">
+        <StackPanel >
+          <RadioButton GroupName="AdditionType" x:Name="IncludeNoFilesRadio" 
                              VerticalContentAlignment="Center" Content="{x:Static localization:Texts.FilesIncludeNoneUseDllsOrSource}" IsChecked="{Binding IncludeNoFiles, FallbackValue=true, Mode=TwoWay}"/>
-                    <RadioButton GroupName="AdditionType" x:Name="EmbedCodeFilesRadio" 
+          <RadioButton GroupName="AdditionType" x:Name="EmbedCodeFilesRadio" 
                              VerticalContentAlignment="Center" Content="{x:Static localization:Texts.EmbedCodeFilesLegacy}" 
                              IsEnabled="{Binding IsEmbedCodeFilesEnabled}"
                              IsChecked="{Binding EmbedCodeFiles, Mode=TwoWay}" />
-                </StackPanel>
+        </StackPanel>
 
-            </GroupBox>
+      </GroupBox>
 
-            <GroupBox Header="FlatRedBall.Forms" Padding="0">
-                <TabControl BorderThickness="0,1,0,0">
-                    <TabItem Header="Basic">
-                        <StackPanel x:Name="Basic" Margin="4">
-                            <Button HorizontalAlignment="Left" Width="Auto" Click="HandleAddAllForms" Content="{x:Static localization:Texts.ProjectFormsAddUpdate}" />
-                            <TextBlock FontSize="9" Text="{x:Static localization:Texts.FormClickAgainReAdd}" Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </TabItem>
-                    <TabItem Header="Advanced">
-                        <StackPanel x:Name="Advanced" Margin="4">
+      <GroupBox Header="FlatRedBall.Forms" Padding="0">
+        <TabControl BorderThickness="0,1,0,0">
+          <TabItem Header="Basic">
+            <StackPanel x:Name="Basic" Margin="4">
+              <Button HorizontalAlignment="Left" Width="Auto" Click="HandleAddAllForms" Content="{x:Static localization:Texts.ProjectFormsAddUpdate}" />
+              <TextBlock FontSize="9" Text="{x:Static localization:Texts.FormClickAgainReAdd}" Margin="0,4,0,0"/>
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="Advanced">
+            <StackPanel x:Name="Advanced" Margin="4">
 
-                            <CheckBox VerticalContentAlignment="Center"
+              <CheckBox VerticalContentAlignment="Center"
                                       Content="{x:Static localization:Texts.FormsIncludeComponents}" IsChecked="{Binding IncludeFormsInComponents, Mode=TwoWay}"></CheckBox>
 
-                            <CheckBox VerticalContentAlignment="Center"
+              <CheckBox VerticalContentAlignment="Center"
                                       Content="{x:Static localization:Texts.FormsAddDefaultToGum}" IsChecked="{Binding IncludeComponentToFormsAssociation, Mode=TwoWay}"></CheckBox>
-                            <Button HorizontalAlignment="Left" Margin="0,10,0,0" Width="220" Click="HandleGenerateBehaviors" Content="{x:Static localization:Texts.FrbGenerateBehaviors}" />
-                            <Button HorizontalAlignment="Left" Margin="0,5,0,0" Width="220" 
+              <Button HorizontalAlignment="Left" Margin="0,10,0,0" Width="220" Click="HandleGenerateBehaviors" Content="{x:Static localization:Texts.FrbGenerateBehaviors}" />
+              <Button HorizontalAlignment="Left" Margin="0,5,0,0" Width="220" 
                                     Click="HandleAddFormsComponentsClick" Content="{x:Static localization:Texts.GumFormComponentsAddRefresh}" />
-                        </StackPanel>
-                    </TabItem>
-                </TabControl>
-            </GroupBox>
-        </StackPanel>
-    </ScrollViewer>
+            </StackPanel>
+          </TabItem>
+        </TabControl>
+      </GroupBox>
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>

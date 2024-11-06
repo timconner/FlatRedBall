@@ -24,15 +24,15 @@
                 <StackPanel>
                     <RadioButton IsChecked="{Binding IsNoneRadioChecked}" >
                         <RadioButton.ToolTip><Label Content="{x:Static localization:Texts.HintMovementNoneSelected}" /></RadioButton.ToolTip>
-                        <Label Content="{x:Static localization:Texts.None}" />
+                        <Label Content="None" />
                     </RadioButton>
                     <RadioButton IsChecked="{Binding IsTopDownRadioChecked}">
                         <RadioButton.ToolTip><Label Content="{x:Static localization:Texts.HintTopdownMovementGeneration}" /></RadioButton.ToolTip>
-                        <Label Content="{x:Static localization:Texts.TopDown}" />
+                        <Label Content="Top-Down" />
                     </RadioButton>
                     <RadioButton IsChecked="{Binding IsPlatformerRadioChecked}">
                         <RadioButton.ToolTip><Label Content="{x:Static localization:Texts.HintPlatformerMovementGeneration}" /></RadioButton.ToolTip>
-                        <Label Content="{x:Static localization:Texts.Platformer}" />
+                        <Label Content="Platformer" />
                     </RadioButton>
                     <!--eventually...
                     <RadioButton>Racing</RadioButton>-->

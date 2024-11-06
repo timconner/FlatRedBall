@@ -390,9 +390,6 @@
   <data name="GumProperties" xml:space="preserve">
     <value>Gum-eigenschaften</value>
   </data>
-  <data name="RefreshingFontCache" xml:space="preserve">
-    <value>Erfrischender Schriftarten-Cache</value>
-  </data>
   <data name="GumPluginGluxLoad" xml:space="preserve">
     <value>Gum-Plugin reagiert auf Glux-Last</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Definierendes Basisobjekt für {0} konnte nicht gefunden werden</value>
-  </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Schriftarten neu generieren</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Entfernen Sie verwaiste benutzerdefinierte Laufzeitdateien</value>
   </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gum-Projektmanagement</value>

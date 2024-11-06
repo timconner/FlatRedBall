@@ -390,9 +390,6 @@
   <data name="GumProperties" xml:space="preserve">
     <value>Gum eigenschappen</value>
   </data>
-  <data name="RefreshingFontCache" xml:space="preserve">
-    <value>Lettertypecache vernieuwen</value>
-  </data>
   <data name="GumPluginGluxLoad" xml:space="preserve">
     <value>Gum-plug-in reageert op glux-lasten</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Kon het definiërende basisobject voor {0} niet vinden</value>
-  </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Lettertypen opnieuw genereren</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Verwijder verweesde maatwerk runtimebestanden</value>
   </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gum Projectmanagement</value>

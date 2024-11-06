@@ -391,9 +391,6 @@ for {1}?</value>
   <data name="GumProperties" xml:space="preserve">
     <value>Gum Properties</value>
   </data>
-  <data name="RefreshingFontCache" xml:space="preserve">
-    <value>Refreshing Font Cache</value>
-  </data>
   <data name="GumPluginGluxLoad" xml:space="preserve">
     <value>Gum plugin reacting to glux load</value>
   </data>
@@ -1269,12 +1266,6 @@ for {1}?</value>
   </data>
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Could not find defining base object for {0}</value>
-  </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Re-generate Fonts</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Remove Orphaned Custom Runtime Files</value>
   </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gum Project Management</value>
