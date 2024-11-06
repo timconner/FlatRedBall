@@ -8,9 +8,9 @@
              d:DesignWidth="300">
     <GroupBox Header="{x:Static localization:Texts.InputMovementType}" Visibility="{Binding AllUiVisibility}">
         <StackPanel>
-            <RadioButton IsChecked="{Binding IsNoneRadioChecked}" Content="{x:Static localization:Texts.None}" />
-            <RadioButton IsChecked="{Binding IsTopDownRadioChecked}" Content="{x:Static localization:Texts.TopDown}" />
-            <RadioButton IsChecked="{Binding IsPlatformerRadioChecked}" Content="{x:Static localization:Texts.Platformer}" />
+            <RadioButton IsChecked="{Binding IsNoneRadioChecked}" Content="None" />
+            <RadioButton IsChecked="{Binding IsTopDownRadioChecked}" Content="Top-Down" />
+            <RadioButton IsChecked="{Binding IsPlatformerRadioChecked}" Content="Platformer" />
             <!--eventually...
                     <RadioButton>Racing</RadioButton>-->
         </StackPanel> 

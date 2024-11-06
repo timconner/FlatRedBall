@@ -1266,12 +1266,6 @@
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Definierendes Basisobjekt für {0} konnte nicht gefunden werden</value>
   </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Schriftarten neu generieren</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Entfernen Sie verwaiste benutzerdefinierte Laufzeitdateien</value>
-  </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gum-Projektmanagement</value>
   </data>

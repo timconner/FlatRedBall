@@ -1267,12 +1267,6 @@ for {1}?</value>
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Could not find defining base object for {0}</value>
   </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Re-generate Fonts</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Remove Orphaned Custom Runtime Files</value>
-  </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gum Project Management</value>
   </data>

@@ -872,8 +872,10 @@ public class MainGumPlugin : PluginBase
 
                     if (exitCode != 0)
                     {
+                        GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
+                        var error = process.StandardError.ReadToEnd();
                         // Unknown error:
-                        GlueCommands.Self.PrintError("GumProjectFontGenerator has exited with an unknown error so fonts were not generated.");
+                        GlueCommands.Self.PrintError($"GumProjectFontGenerator has exited with an unknown error {exitCode} so fonts were not generated.\n{error}");
                     }
                 }
 

@@ -1266,12 +1266,6 @@
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Impossible de trouver l'objet de base définissant pour {0}</value>
   </data>
-  <data name="FontsRegenerate" xml:space="preserve">
-    <value>Régénérer les polices</value>
-  </data>
-  <data name="CustomRuntimeFilesRemoveOrphaned" xml:space="preserve">
-    <value>Supprimer les fichiers d'exécution personnalisés orphelins</value>
-  </data>
   <data name="ProjectGumManagement" xml:space="preserve">
     <value>Gestion de projet de Gum</value>
   </data>

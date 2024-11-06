@@ -61,15 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to About.
-        /// </summary>
-        public static string About {
-            get {
-                return ResourceManager.GetString("About", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
         public static string Activate {
@@ -547,29 +538,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Builds the current game project.
-        /// </summary>
-        public static string BuildCurrentGame {
-            get {
-                return ResourceManager.GetString("BuildCurrentGame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Which builder would you like to use for this file?.
         /// </summary>
         public static string BuilderWhichForFile {
             get {
                 return ResourceManager.GetString("BuilderWhichForFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Build Game.
-        /// </summary>
-        public static string BuildGame {
-            get {
-                return ResourceManager.GetString("BuildGame", resourceCulture);
             }
         }
         
@@ -1132,15 +1105,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creates a .zip file for distributing your game..
-        /// </summary>
-        public static string CreateZipGameDistribution {
-            get {
-                return ResourceManager.GetString("CreateZipGameDistribution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Creation.
         /// </summary>
         public static string Creation {
@@ -1227,15 +1191,6 @@ namespace Localization {
         public static string CustomNamespace {
             get {
                 return ResourceManager.GetString("CustomNamespace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove Orphaned Custom Runtime Files.
-        /// </summary>
-        public static string CustomRuntimeFilesRemoveOrphaned {
-            get {
-                return ResourceManager.GetString("CustomRuntimeFilesRemoveOrphaned", resourceCulture);
             }
         }
         
@@ -2356,15 +2311,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Existing File(s).
-        /// </summary>
-        public static string FileExisting {
-            get {
-                return ResourceManager.GetString("FileExisting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add Existing File.
         /// </summary>
         public static string FileExistingAdd {
@@ -2667,15 +2613,6 @@ namespace Localization {
         public static string FolderSelectExportedFile {
             get {
                 return ResourceManager.GetString("FolderSelectExportedFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Re-generate Fonts.
-        /// </summary>
-        public static string FontsRegenerate {
-            get {
-                return ResourceManager.GetString("FontsRegenerate", resourceCulture);
             }
         }
         
@@ -5057,15 +4994,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to None.
-        /// </summary>
-        public static string None {
-            get {
-                return ResourceManager.GetString("None", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to None (Must Assign in Code).
         /// </summary>
         public static string NoneMustAssignInCode {
@@ -5323,15 +5251,6 @@ namespace Localization {
         public static string OverwriteValues {
             get {
                 return ResourceManager.GetString("OverwriteValues", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Package Game.
-        /// </summary>
-        public static string PackageGame {
-            get {
-                return ResourceManager.GetString("PackageGame", resourceCulture);
             }
         }
         
@@ -5674,15 +5593,6 @@ namespace Localization {
         public static string Preview {
             get {
                 return ResourceManager.GetString("Preview", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Print MSBuild Command.
-        /// </summary>
-        public static string PrintMsBuildCommand {
-            get {
-                return ResourceManager.GetString("PrintMsBuildCommand", resourceCulture);
             }
         }
         
@@ -6187,15 +6097,6 @@ namespace Localization {
         public static string Refresh {
             get {
                 return ResourceManager.GetString("Refresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Refreshing Font Cache.
-        /// </summary>
-        public static string RefreshingFontCache {
-            get {
-                return ResourceManager.GetString("RefreshingFontCache", resourceCulture);
             }
         }
         
