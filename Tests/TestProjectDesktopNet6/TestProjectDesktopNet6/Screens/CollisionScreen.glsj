@@ -677,6 +677,78 @@
       "SourceFile": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.CollisionEntity, Entities.CollisionEntity>",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "FillCompletelyWithDefaultValues",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 1,
+          "Type": "int"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "CollidableListVsFillCompletelyWithDefaultValues",
+      "SourceClassType": "FlatRedBall.Math.Collision.CollidableListVsTileShapeCollectionRelationship<Entities.CollidableEntity>",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        },
+        {
+          "Name": "IsAutoNameEnabled",
+          "Value": true,
+          "Type": "bool"
+        },
+        {
+          "Name": "FirstCollisionName",
+          "Value": "CollidableList",
+          "Type": "String"
+        },
+        {
+          "Name": "SecondCollisionName",
+          "Value": "FillCompletelyWithDefaultValues",
+          "Type": "String"
+        },
+        {
+          "Name": "CollisionType",
+          "Value": 2,
+          "Type": "int"
+        },
+        {
+          "Name": "IsDealDamageChecked",
+          "Value": true,
+          "Type": "Object"
+        },
+        {
+          "Name": "FirstCollisionMass",
+          "Value": 0.0,
+          "Type": "float"
+        },
+        {
+          "Name": "SecondCollisionMass",
+          "Value": 1.0,
+          "Type": "float"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "FlatRedBall.Math.Collision.CollidableListVsTileShapeCollectionRelationship<Entities.CollidableEntity>",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
     }
   ],
   "Name": "Screens\\CollisionScreen",

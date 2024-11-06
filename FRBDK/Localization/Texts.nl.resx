@@ -1116,9 +1116,6 @@
   <data name="To" xml:space="preserve">
     <value>Tot:</value>
   </data>
-  <data name="Activate" xml:space="preserve">
-    <value>Activeren</value>
-  </data>
   <data name="Execute" xml:space="preserve">
     <value>Uitvoeren</value>
   </data>
@@ -1506,9 +1503,6 @@
   <data name="Height" xml:space="preserve">
     <value>Hoogte:</value>
   </data>
-  <data name="Add" xml:space="preserve">
-    <value>Toevoegen</value>
-  </data>
   <data name="Remove" xml:space="preserve">
     <value>Verwijderen</value>
   </data>
@@ -1779,32 +1773,20 @@
   <data name="ViewTiledObjectsXml" xml:space="preserve">
     <value>Bekijk betegelde objecten XML</value>
   </data>
-  <data name="LinksPerNode" xml:space="preserve">
-    <value>Links per knooppunt</value>
-  </data>
   <data name="Four" xml:space="preserve">
     <value>Vier</value>
   </data>
   <data name="Eight" xml:space="preserve">
     <value>Acht</value>
   </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Leeg</value>
-  </data>
   <data name="CreationOptions" xml:space="preserve">
     <value>Creatie opties</value>
-  </data>
-  <data name="FillCompletely" xml:space="preserve">
-    <value>Vul volledig</value>
   </data>
   <data name="EliminateCutCorners" xml:space="preserve">
     <value>Elimineer snijhoeken</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Links:</value>
-  </data>
-  <data name="TileSize" xml:space="preserve">
-    <value>Tegelgrootte:</value>
   </data>
   <data name="Top" xml:space="preserve">
     <value>Boven:</value>
@@ -1827,17 +1809,11 @@
   <data name="Property" xml:space="preserve">
     <value>Eigenschap:</value>
   </data>
-  <data name="LayerFrom" xml:space="preserve">
-    <value>Van laag:</value>
-  </data>
   <data name="Layer" xml:space="preserve">
     <value>Laag:</value>
   </data>
   <data name="EmptyAll" xml:space="preserve">
     <value>Allemaal leeg</value>
-  </data>
-  <data name="HintTileShapeCollection" xml:space="preserve">
-    <value>Deze TileShapeCollection wordt gedefinieerd in een basisscherm. Wijzigingen moeten in het basisscherm worden aangebracht.</value>
   </data>
   <data name="BorderOutline" xml:space="preserve">
     <value>Randlijn</value>

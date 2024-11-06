@@ -1,12 +1,15 @@
 ﻿using FlatRedBall.Glue.CodeGeneration;
 using FlatRedBall.Glue.CodeGeneration.CodeBuilder;
+using FlatRedBall.Glue.GuiDisplay;
 using FlatRedBall.Glue.Plugins.ICollidablePlugins;
 using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.Math;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TileGraphicsPlugin.ViewModels;
@@ -79,12 +82,7 @@ namespace TileGraphicsPlugin.CodeGeneration
 
             foreach (var shapeCollection in tileShapeCollections)
             {
-                T Get<T>(string name)
-                {
-                    return shapeCollection.Properties.GetValue<T>(name);
-                }
-
-                var creationOptions = Get<CollisionCreationOptions>(
+                var creationOptions = Get<CollisionCreationOptions>(shapeCollection,
                     nameof(TileShapeCollectionPropertiesViewModel.CollisionCreationOptions));
 
                 var variable = shapeCollection.GetCustomVariable("Visible");
@@ -107,12 +105,7 @@ namespace TileGraphicsPlugin.CodeGeneration
 
         public static string GenerateConstructorFor(NamedObjectSave namedObjectSave)
         {
-            T Get<T>(string name)
-            {
-                return namedObjectSave.Properties.GetValue<T>(name);
-            }
-
-            var creationOptions = Get<CollisionCreationOptions>(
+            var creationOptions = Get<CollisionCreationOptions>(namedObjectSave,
                 nameof(TileShapeCollectionPropertiesViewModel.CollisionCreationOptions));
 
             bool comesFromLayer = creationOptions == CollisionCreationOptions.FromLayer;
@@ -120,9 +113,9 @@ namespace TileGraphicsPlugin.CodeGeneration
             if(comesFromLayer)
             {
                 var instanceName = namedObjectSave.FieldName;
-                var mapName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
-                var layerName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionLayerName));
-                var typeNameInLayer = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionLayerTileType));
+                var mapName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
+                var layerName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionLayerName));
+                var typeNameInLayer = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionLayerTileType));
 
                 var effectiveName = layerName;
                 if (!string.IsNullOrEmpty(typeNameInLayer))
@@ -159,11 +152,7 @@ namespace TileGraphicsPlugin.CodeGeneration
         private void GenerateInitializeCodeFor(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
         {
 
-            T Get<T>(string name)
-            {
-                return namedObjectSave.Properties.GetValue<T>(name);
-            }
-            var creationOptions = Get<CollisionCreationOptions>(
+            var creationOptions = Get<CollisionCreationOptions>(namedObjectSave,
                 nameof(TileShapeCollectionPropertiesViewModel.CollisionCreationOptions));
 
             // Victor Chelaru Sept 6 2021
@@ -248,8 +237,8 @@ namespace TileGraphicsPlugin.CodeGeneration
 
             void GenerateFromMapCollision(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
             {
-                var mapName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
-                var tmxCollisionName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.TmxCollisionName));
+                var mapName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
+                var tmxCollisionName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.TmxCollisionName));
 
                 var instanceName = namedObjectSave.FieldName;
                 // If we do FirstOrDefault this doesn't fail, but codegen will fail later on. This gives a more informative error
@@ -276,25 +265,44 @@ namespace TileGraphicsPlugin.CodeGeneration
         }
 
 
-        private void GenerateBorderOutline(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
+        static T Get<T>(NamedObjectSave namedObjectSave, string name)
         {
-
-            T Get<T>(string name)
+            var property = namedObjectSave.Properties.Find(item => item.Name == name);
+            if(property == null)
+            {
+                // go to the view model, get the default value:
+                var viewModelType = typeof(TileShapeCollectionPropertiesViewModel);
+                var propertyInfo = viewModelType.GetProperty(name);
+                var attribute = propertyInfo.GetCustomAttribute<DefaultValueAttribute>();
+                if(attribute != null)
+                {
+                    return (T)attribute.Value;
+                }
+                else
+                {
+                    return default;
+                }
+            }
+            else
             {
                 return namedObjectSave.Properties.GetValue<T>(name);
             }
+        }
+        private void GenerateBorderOutline(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
+        {
+
             string FloatString(float value) => value.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var tileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
+            var tileSize = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
             var tileSizeString = FloatString(tileSize);
 
-            var leftFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
+            var leftFill = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
             var leftFillString = FloatString(leftFill);
 
-            var topFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
+            var topFill = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
             var topFillString = FloatString(topFill);
 
-            var borderOutlineType = (BorderOutlineType)Get<int>(
+            var borderOutlineType = (BorderOutlineType)Get<int>(namedObjectSave,
                 nameof(TileShapeCollectionPropertiesViewModel.BorderOutlineType));
 
             var remainderX = leftFill % tileSize;
@@ -313,15 +321,15 @@ namespace TileGraphicsPlugin.CodeGeneration
             codeBlock.Line($"{instanceName}.SortAxis = FlatRedBall.Math.Axis.X;");
             //TileShapeCollectionInstance.SortAxis = FlatRedBall.Math.Axis.X;
 
-            var widthFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
-            var heightFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
+            var widthFill = Get<int>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
+            var heightFill = Get<int>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
 
             if(borderOutlineType == BorderOutlineType.InnerSize)
             {
-                var innerWidth = Get<float>(
+                var innerWidth = Get<float>(namedObjectSave,
                     nameof(TileShapeCollectionPropertiesViewModel.InnerSizeWidth));
 
-                var innerHeight = Get<float>(
+                var innerHeight = Get<float>(namedObjectSave,
                     nameof(TileShapeCollectionPropertiesViewModel.InnerSizeHeight));
 
                 var additionalWidth = 2 * tileSize;
@@ -365,22 +373,18 @@ namespace TileGraphicsPlugin.CodeGeneration
 
         private void GenerateFillCompletely(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
         {
-            T Get<T>(string name)
-            {
-                return namedObjectSave.Properties.GetValue<T>(name);
-            }
 
-            var tileSize = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
+            var tileSize = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionTileSize));
             var tileSizeString = tileSize.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var leftFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
+            var leftFill = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillLeft));
             var leftFillString = leftFill.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var topFill = Get<float>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
+            var topFill = Get<float>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillTop));
             var topFillString = topFill.ToString(CultureInfo.InvariantCulture) + "f";
 
-            var widthFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
-            var heightFill = Get<int>(nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
+            var widthFill = Get<int>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillWidth));
+            var heightFill = Get<int>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionFillHeight));
 
             var remainderX = leftFill % tileSize;
             var remainderY = topFill % tileSize;
@@ -417,13 +421,9 @@ namespace TileGraphicsPlugin.CodeGeneration
 
         private void GenerateFromProperties(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
         {
-            T Get<T>(string name)
-            {
-                return namedObjectSave.Properties.GetValue<T>(name);
-            }
 
-            var mapName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
-            var propertyName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionPropertyName));
+            var mapName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
+            var propertyName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionPropertyName));
 
             if(!string.IsNullOrEmpty(mapName) && !string.IsNullOrEmpty(propertyName))
             {
@@ -441,15 +441,11 @@ namespace TileGraphicsPlugin.CodeGeneration
 
         private void GenerateFromTileType(NamedObjectSave namedObjectSave, ICodeBlock codeBlock)
         {
-            T Get<T>(string name)
-            {
-                return namedObjectSave.Properties.GetValue<T>(name);
-            }
 
-            var mapName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
-            var typeName = Get<string>(nameof(TileShapeCollectionPropertiesViewModel.CollisionTileTypeName));
-            var removeTiles = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.RemoveTilesAfterCreatingCollision));
-            var isMerged = Get<bool>(nameof(TileShapeCollectionPropertiesViewModel.IsCollisionMerged));
+            var mapName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.SourceTmxName));
+            var typeName = Get<string>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.CollisionTileTypeName));
+            var removeTiles = Get<bool>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.RemoveTilesAfterCreatingCollision));
+            var isMerged = Get<bool>(namedObjectSave, nameof(TileShapeCollectionPropertiesViewModel.IsCollisionMerged));
             if (!string.IsNullOrEmpty(mapName) && !string.IsNullOrEmpty(typeName))
             {
                 string method = "AddCollisionFromTilesWithType";
@@ -478,11 +474,7 @@ namespace TileGraphicsPlugin.CodeGeneration
                 else
                 {
                     // override it if it's an outline:
-                    T Get<T>(string name)
-                    {
-                        return tileShapeCollection.Properties.GetValue<T>(name);
-                    }
-                    var creationOptions = Get<CollisionCreationOptions>(
+                    var creationOptions = Get<CollisionCreationOptions>(tileShapeCollection,
                         nameof(TileShapeCollectionPropertiesViewModel.CollisionCreationOptions));
 
                     if(creationOptions == CollisionCreationOptions.BorderOutline)

@@ -61,24 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Activate.
-        /// </summary>
-        public static string Activate {
-            get {
-                return ResourceManager.GetString("Activate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string Add {
-            get {
-                return ResourceManager.GetString("Add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add FRB Source.
         /// </summary>
         public static string AddFrbSource {
@@ -1492,15 +1474,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty.
-        /// </summary>
-        public static string Empty {
-            get {
-                return ResourceManager.GetString("Empty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All empty.
         /// </summary>
         public static string EmptyAll {
@@ -2451,15 +2424,6 @@ namespace Localization {
         public static string FileXNotRelativeToContentFolder {
             get {
                 return ResourceManager.GetString("FileXNotRelativeToContentFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fill Completely.
-        /// </summary>
-        public static string FillCompletely {
-            get {
-                return ResourceManager.GetString("FillCompletely", resourceCulture);
             }
         }
         
@@ -3869,15 +3833,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This TileShapeCollection is defined in a base Screen. Changes must be made in the base screen..
-        /// </summary>
-        public static string HintTileShapeCollection {
-            get {
-                return ResourceManager.GetString("HintTileShapeCollection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The amount of time that the player can hold the jump button to jump higher. While the button is held, gravity is disabled..
         /// </summary>
         public static string HintTimeAmountJumpHigher {
@@ -4301,15 +4256,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From layer:.
-        /// </summary>
-        public static string LayerFrom {
-            get {
-                return ResourceManager.GetString("LayerFrom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Layer name:.
         /// </summary>
         public static string LayerName {
@@ -4378,15 +4324,6 @@ namespace Localization {
         public static string LinkGameToFrbSource {
             get {
                 return ResourceManager.GetString("LinkGameToFrbSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Links Per Node.
-        /// </summary>
-        public static string LinksPerNode {
-            get {
-                return ResourceManager.GetString("LinksPerNode", resourceCulture);
             }
         }
         
@@ -7087,15 +7024,6 @@ namespace Localization {
         public static string TilesHigh {
             get {
                 return ResourceManager.GetString("TilesHigh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tile Size:.
-        /// </summary>
-        public static string TileSize {
-            get {
-                return ResourceManager.GetString("TileSize", resourceCulture);
             }
         }
         

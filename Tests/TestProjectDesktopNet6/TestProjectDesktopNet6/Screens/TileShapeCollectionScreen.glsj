@@ -235,6 +235,62 @@
       "AttachToContainer": true,
       "GenerateTimedEmit": true,
       "IndependentOfCamera": true
+    },
+    {
+      "InstanceName": "DefaultEmpty",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "DefaultFillCompletely",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 1,
+          "Type": "int"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "DefaultBorderOutline",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 2,
+          "Type": "int"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "GenerateTimedEmit": true
     }
   ],
   "Name": "Screens\\TileShapeCollectionScreen",

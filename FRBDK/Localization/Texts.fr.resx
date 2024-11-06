@@ -1116,9 +1116,6 @@
   <data name="To" xml:space="preserve">
     <value>Vers:</value>
   </data>
-  <data name="Activate" xml:space="preserve">
-    <value>Activer</value>
-  </data>
   <data name="Execute" xml:space="preserve">
     <value>Exécuter</value>
   </data>
@@ -1506,9 +1503,6 @@
   <data name="Height" xml:space="preserve">
     <value>Hauteur:</value>
   </data>
-  <data name="Add" xml:space="preserve">
-    <value>Ajouter</value>
-  </data>
   <data name="Remove" xml:space="preserve">
     <value>Supprimer</value>
   </data>
@@ -1779,32 +1773,20 @@
   <data name="ViewTiledObjectsXml" xml:space="preserve">
     <value>Afficher les objets en mosaïque XML</value>
   </data>
-  <data name="LinksPerNode" xml:space="preserve">
-    <value>Liens par nœud</value>
-  </data>
   <data name="Four" xml:space="preserve">
     <value>Quatre</value>
   </data>
   <data name="Eight" xml:space="preserve">
     <value>Huit</value>
   </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Vide</value>
-  </data>
   <data name="CreationOptions" xml:space="preserve">
     <value>Options de création</value>
-  </data>
-  <data name="FillCompletely" xml:space="preserve">
-    <value>Remplissez complètement</value>
   </data>
   <data name="EliminateCutCorners" xml:space="preserve">
     <value>Éliminez les coins coupés</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Gauche:</value>
-  </data>
-  <data name="TileSize" xml:space="preserve">
-    <value>Taille des carreaux :</value>
   </data>
   <data name="Top" xml:space="preserve">
     <value>Haut:</value>
@@ -1827,17 +1809,11 @@
   <data name="Property" xml:space="preserve">
     <value>Propriété:</value>
   </data>
-  <data name="LayerFrom" xml:space="preserve">
-    <value>À partir du calque :</value>
-  </data>
   <data name="Layer" xml:space="preserve">
     <value>Couche:</value>
   </data>
   <data name="EmptyAll" xml:space="preserve">
     <value>Tout vide</value>
-  </data>
-  <data name="HintTileShapeCollection" xml:space="preserve">
-    <value>Cette TileShapeCollection est définie dans un écran de base. Les modifications doivent être apportées dans l'écran de base.</value>
   </data>
   <data name="BorderOutline" xml:space="preserve">
     <value>Contour de la frontière</value>

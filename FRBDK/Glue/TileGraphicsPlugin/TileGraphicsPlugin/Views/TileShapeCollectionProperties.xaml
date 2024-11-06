@@ -16,19 +16,19 @@
             </Grid.RowDefinitions>
             <GroupBox Header="{x:Static localization:Texts.CreationOptions}" Grid.Row="1">
                 <StackPanel>
-                    <TextBlock TextWrapping="Wrap" Visibility="{Binding MessageAboutInheritanceVisibility}" Text="{x:Static localization:Texts.HintTileShapeCollection}" />
+          <TextBlock TextWrapping="Wrap" Visibility="{Binding MessageAboutInheritanceVisibility}" Text="This TileShapeCollection is defined in a base Screen. Changes must be made in the base screen." />
                     <RadioButton VerticalContentAlignment="Center"
                                  HorizontalAlignment="Left"
                                  IsEnabled="{Binding IsEntireViewEnabled}"
-                                 IsChecked="{Binding IsEmptyChecked}" Content="{x:Static localization:Texts.Empty}" />
+                                 IsChecked="{Binding IsEmptyChecked}" Content="Empty" />
                     <RadioButton VerticalContentAlignment="Center" Margin="0,5,0,0"
                                  HorizontalAlignment="Left"
                                  IsEnabled="{Binding IsEntireViewEnabled}"
-                                 IsChecked="{Binding IsFillCompletelyChecked}" Content="{x:Static localization:Texts.FillCompletely}" />
+                                 IsChecked="{Binding IsFillCompletelyChecked}" Content="Fill Completely" />
                     <StackPanel Margin="10, 0, 0, 0" Visibility="{Binding FillDimensionsVisibility}" IsEnabled="{Binding IsEntireViewEnabled}">
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="60" Text="{x:Static localization:Texts.TileSize}" />
+                            <TextBlock Width="60" Text="Tile Size:" />
                             <TextBox Width="100" Text="{Binding CollisionTileSize}"
                                      KeyUp="TextBox_KeyEnterUpdate"></TextBox>
                         </StackPanel>
@@ -61,7 +61,7 @@
                     <StackPanel Margin="10, 0, 0, 0" Visibility="{Binding BorderOutlineVisibility}">
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="90" Text="{x:Static localization:Texts.TileSize}" />
+                            <TextBlock Width="90" Text="Tile Size:" />
                             <TextBox Width="100" Text="{Binding CollisionTileSize}"
                                      KeyUp="TextBox_KeyEnterUpdate"></TextBox>
                         </StackPanel>
@@ -190,7 +190,7 @@
                     <RadioButton VerticalContentAlignment="Center" Margin="0,5,0,0"
                                  HorizontalAlignment="Left"
                                  IsEnabled="{Binding IsEntireViewEnabled}"
-                                 IsChecked="{Binding IsFromLayerChecked}" Content="{x:Static localization:Texts.LayerFrom}" />
+                                 IsChecked="{Binding IsFromLayerChecked}" Content="From Layer:" />
                     <StackPanel Margin="10,0,0,0" Visibility="{Binding FromLayerVisibility}" IsEnabled="{Binding IsEntireViewEnabled}">
                         <TextBlock Text="{x:Static localization:Texts.SourceTmxFileObject}" />
                         <ComboBox Width="200" HorizontalAlignment="Left"
