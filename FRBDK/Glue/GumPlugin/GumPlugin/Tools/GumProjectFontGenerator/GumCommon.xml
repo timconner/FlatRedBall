@@ -383,13 +383,15 @@
             <param name="instance">The instance, which should match the instance in the variable name.</param>
             <returns>The root VariableSave</returns>
         </member>
-        <member name="M:Gum.DataTypes.GumProjectSaveExtensionMethods.Initialize(Gum.DataTypes.GumProjectSave)">
+        <member name="M:Gum.DataTypes.GumProjectSaveExtensionMethods.Initialize(Gum.DataTypes.GumProjectSave,System.Boolean)">
             <summary>
             Initializes the GumProjectSave for editing in Gum.  This means
             adding any variables that are necessary, fixing enumerations, and
             checking for other errors.
             </summary>
             <param name="gumProjectSave">The GumProjectSave</param>
+            <param name="tolerateMissingDefaultStates">Whether to tolerate missing default states. If false, 
+            exceptions are thrown if there is a missing standard state. If true, missing states will not throw an exception.</param>
         </member>
         <member name="M:Gum.DataTypes.GumProjectSaveExtensionMethods.AddNewStandardElementTypes(Gum.DataTypes.GumProjectSave)">
             <summary>
