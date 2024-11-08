@@ -573,7 +573,9 @@ namespace FlatRedBall.Glue.ViewModels
 
                     var firstBaseType = baseListTypes.First(item => item.CallActivity);
 
-                    toReturn.Reason = String.Format(Texts.AddObject_ActivityCalledByBaseList, firstBaseType.FieldName);
+                    toReturn.Reason = String.Format(
+                        "Items in this list will already have their Activity called if added to {0}. This will result in Activity being called twice causing errors.",
+                        firstBaseType.FieldName);
                 }
                 else if(thisType != null)
                 {

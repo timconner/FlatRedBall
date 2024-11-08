@@ -173,7 +173,7 @@ public static class RightClickHelper
             }
             else
             {
-                Add(L.Texts.SetAsStartupScreen, SetStartupScreen, image: StartupScreenImage);
+                Add("Set as StartUp Screen (first screen when running)", SetStartupScreen, image: StartupScreenImage);
                 AddEvent(screen.IsRequiredAtStartup
                     ? L.Texts.ScreenRemoveRequirement
                     : L.Texts.MakeRequiredAtStartup, ToggleRequiredAtStartupClick);
@@ -776,7 +776,7 @@ public static class RightClickHelper
     {
         CreateImages();
 
-        setAsStartUpScreenToolStripMenuItem = new GeneralToolStripMenuItem(L.Texts.SetAsStartupScreen);
+        setAsStartUpScreenToolStripMenuItem = new GeneralToolStripMenuItem("Set as StartUp Screen (first screen when running)");
         setAsStartUpScreenToolStripMenuItem.Click += (not, used) =>
         {
             SetStartupScreen();

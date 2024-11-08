@@ -828,9 +828,6 @@
   <data name="LinkGameToFrbSource" xml:space="preserve">
     <value>Koppel het spel aan de FRB-bron</value>
   </data>
-  <data name="AddFrbSource" xml:space="preserve">
-    <value>FRB-bron toevoegen</value>
-  </data>
   <data name="AddUpdateGitignore" xml:space="preserve">
     <value>.gitignore toevoegen/bijwerken</value>
   </data>
@@ -1029,20 +1026,11 @@
   <data name="LevelScreen" xml:space="preserve">
     <value>Level scherm</value>
   </data>
-  <data name="SetAsStartupScreen" xml:space="preserve">
-    <value>Instellen als opstartscherm (eerste scherm tijdens het opstarten)</value>
-  </data>
   <data name="EntitiesCopyAnotherLevel" xml:space="preserve">
     <value>Kopieer entiteiten van een ander level</value>
   </data>
   <data name="TmxAddStandard" xml:space="preserve">
     <value>Standaard TMX-bestand toevoegen</value>
-  </data>
-  <data name="TmxCopyOtherLevel" xml:space="preserve">
-    <value>Kopieer TMX van een ander level</value>
-  </data>
-  <data name="TmxNoFile" xml:space="preserve">
-    <value>Geen TMX-bestand (kan later worden toegevoegd)</value>
   </data>
   <data name="GameScreenBaseLevelScreen" xml:space="preserve">
     <value>Spelscherm (basisniveauscherm)</value>
@@ -1539,9 +1527,6 @@
   <data name="AddXXXToList" xml:space="preserve">
     <value>Voeg XXXX toe aan XXXXLijst</value>
   </data>
-  <data name="AddInstanceToSelectedList" xml:space="preserve">
-    <value>Voegt een nieuw exemplaar toe aan de geselecteerde lijst.</value>
-  </data>
   <data name="AddXXXToGameScreen" xml:space="preserve">
     <value>Voeg XXXX-lijst toe aan GameScreen</value>
   </data>
@@ -2010,9 +1995,6 @@
   <data name="HintCommonEntityTypesRelationships" xml:space="preserve">
     <value>Veel voorkomende schermobjecttypen zijn onder meer entiteitslijsten, lagen en botsingsrelaties.</value>
   </data>
-  <data name="AddNewXToY" xml:space="preserve">
-    <value>Voeg een nieuwe {0} toe aan {1}</value>
-  </data>
   <data name="ListAddXToGameScreen" xml:space="preserve">
     <value>Voeg {0} lijst toe aan GameScreen</value>
   </data>
@@ -2465,9 +2447,6 @@
   </data>
   <data name="FileOpenCs" xml:space="preserve">
     <value>Open het .cs-bestand</value>
-  </data>
-  <data name="ScreenLevelCreate" xml:space="preserve">
-    <value>Niveauscherm maken</value>
   </data>
   <data name="ScreenSaveForceJson" xml:space="preserve">
     <value>Forceer scherm-JSON voor opslaan</value>

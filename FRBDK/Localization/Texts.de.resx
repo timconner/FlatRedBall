@@ -828,9 +828,6 @@
   <data name="LinkGameToFrbSource" xml:space="preserve">
     <value>Spiel mit FRB-Quelle verknüpfen</value>
   </data>
-  <data name="AddFrbSource" xml:space="preserve">
-    <value>FRB-Quelle hinzufügen</value>
-  </data>
   <data name="AddUpdateGitignore" xml:space="preserve">
     <value>.gitignore hinzufügen/aktualisieren</value>
   </data>
@@ -1029,20 +1026,11 @@
   <data name="LevelScreen" xml:space="preserve">
     <value>Level-Bildschirm</value>
   </data>
-  <data name="SetAsStartupScreen" xml:space="preserve">
-    <value>Als Startbildschirm festlegen (erster Bildschirm beim Ausführen)</value>
-  </data>
   <data name="EntitiesCopyAnotherLevel" xml:space="preserve">
     <value>Elemente von einer anderen Level kopieren</value>
   </data>
   <data name="TmxAddStandard" xml:space="preserve">
     <value>Standard-TMX-Datei hinzufügen</value>
-  </data>
-  <data name="TmxCopyOtherLevel" xml:space="preserve">
-    <value>Kopieren Sie TMX von einer anderen Level</value>
-  </data>
-  <data name="TmxNoFile" xml:space="preserve">
-    <value>Keine TMX-Datei (Kann später hinzugefügt werden)</value>
   </data>
   <data name="GameScreenBaseLevelScreen" xml:space="preserve">
     <value>Spielbildschirm (Basisebene-Bildschirm)</value>
@@ -1539,9 +1527,6 @@
   <data name="AddXXXToList" xml:space="preserve">
     <value>XXXX zur XXXXList hinzufügen</value>
   </data>
-  <data name="AddInstanceToSelectedList" xml:space="preserve">
-    <value>Fügt der ausgewählten Liste eine neue Instanz hinzu.</value>
-  </data>
   <data name="AddXXXToGameScreen" xml:space="preserve">
     <value>XXXX-Liste zu GameScreen hinzufügen</value>
   </data>
@@ -2010,9 +1995,6 @@
   <data name="HintCommonEntityTypesRelationships" xml:space="preserve">
     <value>Zu den gängigen Bildschirmobjekttypen gehören Entitätslisten, Ebenen und Kollisionsbeziehungen.</value>
   </data>
-  <data name="AddNewXToY" xml:space="preserve">
-    <value>Fügen Sie ein neues {0} zu {1} hinzu</value>
-  </data>
   <data name="ListAddXToGameScreen" xml:space="preserve">
     <value>Fügen Sie die {0}-Liste zu GameScreen hinzu</value>
   </data>
@@ -2462,9 +2444,6 @@
   </data>
   <data name="FileOpenCs" xml:space="preserve">
     <value>Öffnen Sie die .cs-Datei</value>
-  </data>
-  <data name="ScreenLevelCreate" xml:space="preserve">
-    <value>Levelbildschirm erstellen</value>
   </data>
   <data name="ScreenSaveForceJson" xml:space="preserve">
     <value>Speichern des Bildschirm-JSON erzwingen</value>

@@ -32,7 +32,7 @@
                     <local:TitleImageButton
                         x:Name="AddObjectToListInScreenButton"
                         Title="{x:Static localization:Texts.AddXXXToList}"
-                        Details="{x:Static localization:Texts.AddInstanceToSelectedList}"
+                        Details="Adds a new instance to the selected list"
                         Clicked="AddObjectToListButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Object.png">
                     </local:TitleImageButton>
 
@@ -51,7 +51,7 @@
                     <local:TitleImageButton
                         x:Name="AddObjectToListInEntityButton"
                         Title="{x:Static localization:Texts.AddXXXToList}"
-                        Details="{x:Static localization:Texts.AddInstanceToSelectedList}"
+                        Details="Adds a new instance to the selected list"
                         Clicked="AddObjectToListButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Object.png">
                     </local:TitleImageButton>
 

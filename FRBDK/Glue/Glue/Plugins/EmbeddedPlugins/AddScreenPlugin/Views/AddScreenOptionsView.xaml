@@ -22,7 +22,7 @@
             <ComboBox Margin="20,0,0,6" Visibility="{Binding CopyEntitiesVisibility}" ItemsSource="{Binding AvailableLevels, Mode=OneWay}" SelectedItem="{Binding SelectedCopyEntitiesFromLevel}" />
           </StackPanel>
         </GroupBox>
-        <GroupBox Header="Filed">
+        <GroupBox Header="Files">
           <StackPanel>
             <RadioButton IsChecked="{Binding IsAddStandardTmxChecked }" Content="Add Standard TMX File" />
             <RadioButton IsChecked="{Binding IsCopyTmxFromOtherLevelChecked}" Visibility="{Binding CopyTmxFromOtherLevelVisibility}" Content="Copy TMX From Other Level" />

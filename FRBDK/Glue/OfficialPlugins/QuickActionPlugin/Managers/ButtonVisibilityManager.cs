@@ -149,11 +149,11 @@ namespace OfficialPlugins.QuickActionPlugin.Managers
 
             mainView.AddObjectToListInScreenButton.Visibility = 
                 ToVisibility(nosList != null && !isListReferencingAbstractEntity && GlueState.Self.CurrentScreenSave != null);
-            mainView.AddObjectToListInScreenButton.Title = String.Format(Localization.Texts.AddNewXToY, listType, nosList?.InstanceName);
+            mainView.AddObjectToListInScreenButton.Title = String.Format("Add a new {0} to {1}", listType, nosList?.InstanceName);
 
             mainView.AddObjectToListInEntityButton.Visibility = 
                 ToVisibility(nosList != null && !isListReferencingAbstractEntity && GlueState.Self.CurrentElement != null);
-            mainView.AddObjectToListInEntityButton.Title = String.Format(Localization.Texts.AddNewXToY, listType, nosList?.InstanceName);
+            mainView.AddObjectToListInEntityButton.Title = String.Format("Add a new {0} to {1}", listType, nosList?.InstanceName);
 
 
             #endregion

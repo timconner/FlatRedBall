@@ -147,7 +147,7 @@ namespace PluginTestbed.GlobalContentManagerPlugins
                 GlueCommands.Self.DialogCommands.HideToast();
 
             };
-            Tab = CreateTab(control, Localization.Texts.AddFrbSource);
+            Tab = CreateTab(control, "Add FRB Source");
         }
 
         public bool HasFrbAndGumReposInDefaultLocation() => 

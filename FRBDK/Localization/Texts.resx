@@ -829,9 +829,6 @@ for {1}?</value>
   <data name="LinkGameToFrbSource" xml:space="preserve">
     <value>Link Game to FRB Source</value>
   </data>
-  <data name="AddFrbSource" xml:space="preserve">
-    <value>Add FRB Source</value>
-  </data>
   <data name="AddUpdateGitignore" xml:space="preserve">
     <value>Add/Update .gitignore</value>
   </data>
@@ -1030,20 +1027,11 @@ for {1}?</value>
   <data name="LevelScreen" xml:space="preserve">
     <value>Level Screen</value>
   </data>
-  <data name="SetAsStartupScreen" xml:space="preserve">
-    <value>Set as StartUp Screen (first screen when running)</value>
-  </data>
   <data name="EntitiesCopyAnotherLevel" xml:space="preserve">
     <value>Copy Entities From Other Level</value>
   </data>
   <data name="TmxAddStandard" xml:space="preserve">
     <value>Add Standard TMX File</value>
-  </data>
-  <data name="TmxCopyOtherLevel" xml:space="preserve">
-    <value>Copy TMX From Other Level</value>
-  </data>
-  <data name="TmxNoFile" xml:space="preserve">
-    <value>No TMX File (Can be added later)</value>
   </data>
   <data name="GameScreenBaseLevelScreen" xml:space="preserve">
     <value>Game Screen (Base Level Screen)</value>
@@ -1540,9 +1528,6 @@ for {1}?</value>
   <data name="AddXXXToList" xml:space="preserve">
     <value>Add XXXX to XXXXList</value>
   </data>
-  <data name="AddInstanceToSelectedList" xml:space="preserve">
-    <value>Adds a new instance to the selected list</value>
-  </data>
   <data name="AddXXXToGameScreen" xml:space="preserve">
     <value>Add XXXX List to GameScreen</value>
   </data>
@@ -2011,9 +1996,6 @@ for {1}?</value>
   <data name="HintCommonEntityTypesRelationships" xml:space="preserve">
     <value>Common screen object types include entity lists, layers, and collision relationships.</value>
   </data>
-  <data name="AddNewXToY" xml:space="preserve">
-    <value>Add a new {0} to {1}</value>
-  </data>
   <data name="ListAddXToGameScreen" xml:space="preserve">
     <value>Add {0} List to GameScreen</value>
   </data>
@@ -2467,9 +2449,6 @@ for {1}?</value>
   <data name="FileOpenCs" xml:space="preserve">
     <value>Open .cs file</value>
   </data>
-  <data name="ScreenLevelCreate" xml:space="preserve">
-    <value>Create Level Screen</value>
-  </data>
   <data name="ScreenSaveForceJson" xml:space="preserve">
     <value>Force save screen JSON</value>
   </data>
@@ -2571,9 +2550,6 @@ for {1}?</value>
   </data>
   <data name="ReferenceFoundAmount" xml:space="preserve">
     <value>{0} references found</value>
-  </data>
-  <data name="AddObject_ActivityCalledByBaseList" xml:space="preserve">
-    <value>Items in this list will already have their Activity called if added to {0}. This will result in Activity being called twice causing errors.</value>
   </data>
   <data name="AddObject_ActivityCalledBySameList" xml:space="preserve">
     <value>Items in this list will already have their activity called by {0}.</value>
