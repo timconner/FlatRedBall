@@ -182,7 +182,7 @@ public static class RightClickHelper
 
                 if(targetNode.Tag is ScreenSave { Name: "Screens\\GameScreen" })
                 {
-                    AddEvent(L.Texts.ScreenLevelCreate, (not, used) => GlueCommands.Self.DialogCommands.ShowAddNewScreenDialog());
+                    AddEvent("Create Level Screen", (not, used) => GlueCommands.Self.DialogCommands.ShowAddNewScreenDialog());
                 }
 
                 AddRemoveFromProjectItems();

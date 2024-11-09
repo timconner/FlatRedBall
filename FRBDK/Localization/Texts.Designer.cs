@@ -61,42 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add FRB Source.
-        /// </summary>
-        public static string AddFrbSource {
-            get {
-                return ResourceManager.GetString("AddFrbSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds a new instance to the selected list.
-        /// </summary>
-        public static string AddInstanceToSelectedList {
-            get {
-                return ResourceManager.GetString("AddInstanceToSelectedList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add a new {0} to {1}.
-        /// </summary>
-        public static string AddNewXToY {
-            get {
-                return ResourceManager.GetString("AddNewXToY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Items in this list will already have their Activity called if added to {0}. This will result in Activity being called twice causing errors..
-        /// </summary>
-        public static string AddObject_ActivityCalledByBaseList {
-            get {
-                return ResourceManager.GetString("AddObject_ActivityCalledByBaseList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Items in this list will already have their activity called by {0}..
         /// </summary>
         public static string AddObject_ActivityCalledBySameList {
@@ -5723,15 +5687,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load Project....
-        /// </summary>
-        public static string ProjectLoad {
-            get {
-                return ResourceManager.GetString("ProjectLoad", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Project Name: .
         /// </summary>
         public static string ProjectName {
@@ -6308,15 +6263,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Level Screen.
-        /// </summary>
-        public static string ScreenLevelCreate {
-            get {
-                return ResourceManager.GetString("ScreenLevelCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to There is already an Screen named {0}.
         /// </summary>
         public static string ScreenNamedXExists {
@@ -6520,15 +6466,6 @@ namespace Localization {
         public static string SeparationCoefficient {
             get {
                 return ResourceManager.GetString("SeparationCoefficient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Set as StartUp Screen (first screen when running).
-        /// </summary>
-        public static string SetAsStartupScreen {
-            get {
-                return ResourceManager.GetString("SetAsStartupScreen", resourceCulture);
             }
         }
         
@@ -7073,29 +7010,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy TMX From Other Level.
-        /// </summary>
-        public static string TmxCopyOtherLevel {
-            get {
-                return ResourceManager.GetString("TmxCopyOtherLevel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to TMX Creation Options.
         /// </summary>
         public static string TmxCreationOptions {
             get {
                 return ResourceManager.GetString("TmxCreationOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No TMX File (Can be added later).
-        /// </summary>
-        public static string TmxNoFile {
-            get {
-                return ResourceManager.GetString("TmxNoFile", resourceCulture);
             }
         }
         

@@ -198,9 +198,6 @@
   <data name="ProjectNew" xml:space="preserve">
     <value>Nouveau projet</value>
   </data>
-  <data name="ProjectLoad" xml:space="preserve">
-    <value>Charger le projet...</value>
-  </data>
   <data name="ProjectClose" xml:space="preserve">
     <value>Fermer le projet</value>
   </data>

@@ -38,16 +38,19 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
         {
             if (ProjectManager.StatusCheck() == ProjectManager.CheckResult.Passed)
             {
-                OpenFileDialog openFileDialog1 = new OpenFileDialog();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                openFileDialog1.InitialDirectory = "c:\\";
-                openFileDialog1.Filter = "Project/Solution files (*.vcproj;*.csproj;*.sln;*.glux;*.gluj)|*.vcproj;*.csproj;*.sln;*.glux;*.gluj";
-                openFileDialog1.FilterIndex = 1;
-                openFileDialog1.RestoreDirectory = true;
+                // Why do we default C drive?
+                // by removing this, we can fix
+                // this bug: https://github.com/vchelaru/FlatRedBall/issues/1620
+                //openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "Project/Solution files (*.vcproj;*.csproj;*.sln;*.glux;*.gluj)|*.vcproj;*.csproj;*.sln;*.glux;*.gluj";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
 
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string projectFileName = openFileDialog1.FileName;
+                    string projectFileName = openFileDialog.FileName;
 
                     var extension = FileManager.GetExtension(projectFileName);
                     if (extension == "sln")
