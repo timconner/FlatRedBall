@@ -517,7 +517,7 @@ class ProjectCommands : IProjectCommands
             {
                 ((VisualStudioProject)mainProject.CodeProject).AddCodeBuildItem(codeFilePath.FullPath);
 
-                SaveProjectsImmediately();
+                SaveProjects();
             }
         }, $"Adding {codeFilePath} to project");
     }

@@ -957,6 +957,8 @@ public class GluxCommands : IGluxCommands
 
         if (referencedFileSaveToReturn != null)
         {
+            GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(referencedFileSaveToReturn);
+            GlueCommands.Self.ProjectCommands.SaveProjects();
             if(containerForFile == null)
             {
                 GlueCommands.Self.RefreshCommands.RefreshGlobalContent();

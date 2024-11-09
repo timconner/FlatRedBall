@@ -17,9 +17,6 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
         /// </summary>
         void SaveProjects();
 
-        void SaveProjectsImmediately();
-
-
         void AddNugetIfNotAdded(string packageName, string versionNumber);
         Task<string> AddNugetIfNotAddedWithReturn(string packageName, string versionNumber);
 
