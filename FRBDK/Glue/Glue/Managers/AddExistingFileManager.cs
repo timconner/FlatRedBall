@@ -61,7 +61,19 @@ namespace FlatRedBall.Glue.Managers
                 //toReturn = GlueCommands.Self.GluxCommands.AddSingleFileTo(fileName.FullPath, rfsName, extraCommandLineArguments, buildToolAssociation,
                 //    isBuiltFile, options, elementToAddTo, directoryOfTreeNode, forcedAssetTypeInfo:forcedAti);
 
-                toReturn = await GlueCommands.Self.GluxCommands.CreateReferencedFileSaveForExistingFileAsync(elementToAddTo, fileName, forcedAti);
+                var response =
+                    await GlueCommands.Self.GluxCommands.CreateReferencedFileSaveForExistingFileAsync(elementToAddTo, fileName, forcedAti);
+
+                if(response.Succeeded == false)
+                {
+                    GlueCommands.Self.PrintError(response.Message);
+                    toReturn = null;
+                }
+                else
+                {
+                    toReturn = response.Data;
+
+                }
 
             }
 

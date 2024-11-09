@@ -310,7 +310,7 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.AddScreenPlugin
 
                     if (destinationFile.Exists())
                     {
-                        var newRfs = await GlueCommands.Self.GluxCommands.CreateReferencedFileSaveForExistingFileAsync(newScreen, destinationFile);
+                        var newRfs = (await GlueCommands.Self.GluxCommands.CreateReferencedFileSaveForExistingFileAsync(newScreen, destinationFile)).Data;
 
                         if (newRfs != null)
                         {

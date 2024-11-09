@@ -804,16 +804,32 @@ public class GluxCommands : IGluxCommands
             );
     }
 
-    public Task<ReferencedFileSave> CreateReferencedFileSaveForExistingFileAsync(GlueElement containerForFile, FilePath filePath, AssetTypeInfo ati = null)
+    public Task< ToolsUtilities.GeneralResponse<ReferencedFileSave>> CreateReferencedFileSaveForExistingFileAsync(GlueElement containerForFile, FilePath filePath, AssetTypeInfo ati = null)
     {
-        return TaskManager.Self.AddAsync(() => CreateReferencedFileSaveForExistingFile(containerForFile,
-            null,
-            filePath.FullPath,
-            PromptHandleEnum.Prompt,
-            ati ?? AvailableAssetTypes.Self.GetAssetTypeFromExtension(filePath.Extension),
-            out string creationReport,
-            out string errorMessage
-            ), "CreateReferencedFileSaveForExistingFileAsync");
+        return TaskManager.Self.AddAsync(() =>
+        {
+            var generalResponse = new ToolsUtilities.GeneralResponse<ReferencedFileSave>();
+
+
+            generalResponse.Data = CreateReferencedFileSaveForExistingFile(containerForFile,
+                null,
+                filePath.FullPath,
+                PromptHandleEnum.Prompt,
+                ati ?? AvailableAssetTypes.Self.GetAssetTypeFromExtension(filePath.Extension),
+                out string creationReport,
+                out string errorMessage
+                );
+            if(!string.IsNullOrEmpty(errorMessage))
+            {
+                if(generalResponse.Data == null)
+                {
+                    generalResponse.Succeeded = false;
+                }
+                generalResponse.Message = errorMessage;
+            }
+
+            return generalResponse;
+        }, "CreateReferencedFileSaveForExistingFileAsync");
     }
 
 
