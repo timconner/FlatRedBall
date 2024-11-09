@@ -118,8 +118,8 @@
 
                     <local:TitleImageButton 
                         x:Name="AddScreenButton"
-                        Title="{x:Static localization:Texts.AddScreenLevel}"
-                        Details="{x:Static localization:Texts.AddScreenLevelDescription}"
+                        Title="Add Screen/Level"
+                        Details="Every game needs at least one screen. Usually the game logic is in a screen called GameScreen. Typically each level requires a new screen."
                         Clicked="AddScreenButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Level Screen.png">
 
                     </local:TitleImageButton>

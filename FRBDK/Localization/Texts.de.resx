@@ -828,9 +828,6 @@
   <data name="AddUpdateGitignore" xml:space="preserve">
     <value>.gitignore hinzufügen/aktualisieren</value>
   </data>
-  <data name="AddProfileManager" xml:space="preserve">
-    <value>ProfileManager hinzufügen</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Speichern des Projekts erzwingen</value>
   </data>
@@ -1568,12 +1565,6 @@
   </data>
   <data name="ProjectGumAddDescription" xml:space="preserve">
     <value>Gum wird zum Erstellen der Benutzeroberfläche und des HUD verwendet.</value>
-  </data>
-  <data name="AddScreenLevel" xml:space="preserve">
-    <value>Bildschirm/Ebene hinzufügen</value>
-  </data>
-  <data name="AddScreenLevelDescription" xml:space="preserve">
-    <value>Jedes Spiel benötigt mindestens einen Bildschirm. Normalerweise befindet sich die Spiellogik in einem Bildschirm namens GameScreen. Normalerweise erfordert jedes Level einen neuen Bildschirm.</value>
   </data>
   <data name="EntityAddDescription" xml:space="preserve">
     <value>Entitäten repräsentieren Spielobjekte wie den Spieler, Feinde, Kugeln und Pick-ups.</value>

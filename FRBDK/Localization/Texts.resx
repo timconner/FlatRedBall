@@ -829,9 +829,6 @@ for {1}?</value>
   <data name="AddUpdateGitignore" xml:space="preserve">
     <value>Add/Update .gitignore</value>
   </data>
-  <data name="AddProfileManager" xml:space="preserve">
-    <value>Add ProfileManager</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Force Save Project</value>
   </data>
@@ -1569,12 +1566,6 @@ for {1}?</value>
   </data>
   <data name="ProjectGumAddDescription" xml:space="preserve">
     <value>Gum is used to create UI and HUD.</value>
-  </data>
-  <data name="AddScreenLevel" xml:space="preserve">
-    <value>Add Screen/Level</value>
-  </data>
-  <data name="AddScreenLevelDescription" xml:space="preserve">
-    <value>Every game needs at least one screen. Usually the game logic is in a screen called GameScreen. Typically each level requires a new screen.</value>
   </data>
   <data name="EntityAddDescription" xml:space="preserve">
     <value>Entities represent game objects like the player, enemies, bullets, and pick-ups.</value>
@@ -2547,12 +2538,6 @@ for {1}?</value>
   </data>
   <data name="ReferenceFoundAmount" xml:space="preserve">
     <value>{0} references found</value>
-  </data>
-  <data name="AddObject_ActivityCalledBySameList" xml:space="preserve">
-    <value>Items in this list will already have their activity called by {0}.</value>
-  </data>
-  <data name="AddObject_ActivityListRecommended" xml:space="preserve">
-    <value>Activity is recommended for this list</value>
   </data>
   <data name="FrbEditor" xml:space="preserve">
     <value>FlatRedBall Editor</value>

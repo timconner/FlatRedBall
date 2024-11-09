@@ -61,51 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Items in this list will already have their activity called by {0}..
-        /// </summary>
-        public static string AddObject_ActivityCalledBySameList {
-            get {
-                return ResourceManager.GetString("AddObject_ActivityCalledBySameList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Activity is recommended for this list.
-        /// </summary>
-        public static string AddObject_ActivityListRecommended {
-            get {
-                return ResourceManager.GetString("AddObject_ActivityListRecommended", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add ProfileManager.
-        /// </summary>
-        public static string AddProfileManager {
-            get {
-                return ResourceManager.GetString("AddProfileManager", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add Screen/Level.
-        /// </summary>
-        public static string AddScreenLevel {
-            get {
-                return ResourceManager.GetString("AddScreenLevel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Every game needs at least one screen. Usually the game logic is in a screen called GameScreen. Typically each level requires a new screen..
-        /// </summary>
-        public static string AddScreenLevelDescription {
-            get {
-                return ResourceManager.GetString("AddScreenLevelDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add state interpolation classes.
         /// </summary>
         public static string AddStateInterpolationClasses {

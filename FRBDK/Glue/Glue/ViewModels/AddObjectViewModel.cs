@@ -543,7 +543,7 @@ namespace FlatRedBall.Glue.ViewModels
         {
             var toReturn = new ActivityRecommendation();
             toReturn.ShouldCallActivity = true;
-            toReturn.Reason = Texts.AddObject_ActivityListRecommended;
+            toReturn.Reason = "Activity is recommended for this list";
             var isList = IsSourceClassTypeList;
             var listEntityType = ObjectFinder.Self.GetEntitySave(SourceClassGenericType);
             var isDerived = listEntityType?.BaseEntity != null;
@@ -580,7 +580,7 @@ namespace FlatRedBall.Glue.ViewModels
                 else if(thisType != null)
                 {
                     toReturn.ShouldCallActivity = false;
-                    toReturn.Reason = String.Format(Texts.AddObject_ActivityCalledBySameList, thisType.FieldName);
+                    toReturn.Reason = String.Format("Items in this list will already have their activity called by {0}.", thisType.FieldName);
                 }
 
             }
