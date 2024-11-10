@@ -11,28 +11,22 @@ namespace OfficialPlugins.SoundEffectPlugin.Errors
 {
     class SoundEffectErrorReporter : ErrorReporterBase
     {
-        public override ErrorViewModel[] GetAllErrors()
+        public override ErrorViewModel[]? GetAllErrors()
         {
-            foreach(var namedObject in ObjectFinder.Self.GetAllNamedObjects())
+            List<ErrorViewModel> errors = new List<ErrorViewModel>();
+            foreach (var element in ObjectFinder.Self.GetAllElements())
             {
-                if (namedObject.SourceType == FlatRedBall.Glue.SaveClasses.SourceType.FlatRedBallType && namedObject.Instantiate && namedObject.IsDisabled == false)
+                foreach (var namedObject in element.AllNamedObjects)
                 {
-                    var ati = namedObject.GetAssetTypeInfo();
-                    if(ati == )
-                    var extension = FileManager.GetExtension(namedObject.SourceFile);
-                    if (extension == "wav" || extension == "mp3")
+                    if (SoundEffectInstantiationErrorViewModel.GetIfHasError(element, namedObject))
                     {
-                        return new ErrorViewModel[]
-                        {
-                            new ErrorViewModel
-                            {
-                                Message = "SoundEffect files should not be used directly. Instead, use the SoundEffect plugin to create SoundEffect objects.",
-                                ErrorType = ErrorType.Error,
-                                RelatedObject = namedObject
-                            }
-                        };
+                        errors = errors ?? new List<ErrorViewModel>();
+                        errors.Add(new SoundEffectInstantiationErrorViewModel(element, namedObject));
                     }
                 }
             }
+
+            return errors?.ToArray();
         }
+    }
 }

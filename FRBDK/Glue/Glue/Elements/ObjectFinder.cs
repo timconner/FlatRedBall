@@ -135,15 +135,29 @@ public class ObjectFinder : IObjectFinder
 
     #region Get Element
 
+    public GlueElement[] GetAllElements()
+    {
+        List<GlueElement> toReturn = new List<GlueElement>();
+
+        if (GlueProject != null)
+        {
+            toReturn.AddRange(GlueProject.Entities);
+            toReturn.AddRange(GlueProject.Screens);
+        }
+
+        return toReturn.ToArray();
+    }
+
     public EntitySave GetEntitySave(NamedObjectSave nos)
     {
-        if(nos?.SourceType == SourceType.Entity && !string.IsNullOrEmpty(nos?.SourceClassType))
+        if (nos?.SourceType == SourceType.Entity && !string.IsNullOrEmpty(nos?.SourceClassType))
         {
             return GetEntitySave(nos.SourceClassType);
         }
 
         return null;
     }
+
     public EntitySave GetEntitySave(string entityName)
     {
         // This method is called by NamedObjectSave whenever its
@@ -322,7 +336,7 @@ public class ObjectFinder : IObjectFinder
     /// <returns>The matching GlueElement or null if one isn't found.</returns>
     public GlueElement GetElement(NamedObjectSave nos)
     {
-        if(nos?.SourceType == SourceType.Entity)
+        if (nos?.SourceType == SourceType.Entity)
         {
             return GetEntitySave(nos.SourceClassType);
         }
@@ -431,11 +445,11 @@ public class ObjectFinder : IObjectFinder
         {
             bool isListOrShapeCollection()
             {
-                if(nos.IsList)
+                if (nos.IsList)
                 {
                     return true;
                 }
-                else if(nos.SourceType == SourceType.FlatRedBallType)
+                else if (nos.SourceType == SourceType.FlatRedBallType)
                 {
                     var sourceClassType = nos.SourceClassType;
 
@@ -452,7 +466,7 @@ public class ObjectFinder : IObjectFinder
             {
                 return true;
             }
-            else if(isListOrShapeCollection() && IsContainedInListOrAsChild(nos.ContainedObjects, objectToFind))
+            else if (isListOrShapeCollection() && IsContainedInListOrAsChild(nos.ContainedObjects, objectToFind))
             {
                 return true;
             }
@@ -497,12 +511,12 @@ public class ObjectFinder : IObjectFinder
 
     public GlueElement GetElementContaining(StateSaveCategory category)
     {
-        if(GlueProject != null)
+        if (GlueProject != null)
         {
             IEnumerable<GlueElement> screens = GlueProject.Screens;
             IEnumerable<GlueElement> entities = GlueProject.Entities;
             return screens.Concat(entities)
-                .FirstOrDefault(item => 
+                .FirstOrDefault(item =>
                     item.StateCategoryList.Contains(category));
         }
         else
@@ -513,10 +527,10 @@ public class ObjectFinder : IObjectFinder
 
     public GlueElement GetElementDefiningStateCategory(string qualifiedTypeName)
     {
-        if(qualifiedTypeName.Contains('.'))
+        if (qualifiedTypeName.Contains('.'))
         {
             var splitTypeName = qualifiedTypeName.Split('.');
-            if(splitTypeName.Length > 1)
+            if (splitTypeName.Length > 1)
             {
                 var elementName = string.Join('\\', splitTypeName.Take(splitTypeName.Length - 1));
                 var elementDefiningCategory = ObjectFinder.Self.GetElement(elementName);
@@ -626,9 +640,9 @@ public class ObjectFinder : IObjectFinder
 
     public CustomClassSave GetCustomClassFor(ReferencedFileSave rfs)
     {
-        foreach(var customClass in GlueProject.CustomClasses)
+        foreach (var customClass in GlueProject.CustomClasses)
         {
-            if(customClass.CsvFilesUsingThis.Contains(rfs.Name))
+            if (customClass.CsvFilesUsingThis.Contains(rfs.Name))
             {
                 return customClass;
             }
@@ -748,7 +762,7 @@ public class ObjectFinder : IObjectFinder
             derived = GetElement(element.BaseElement);
         }
 
-        if(derived == null)
+        if (derived == null)
         {
             return element;
         }
@@ -777,8 +791,8 @@ public class ObjectFinder : IObjectFinder
         {
             baseElement = GetElement(derivedElement.BaseElement);
         }
-        
-        if(baseElement == null)
+
+        if (baseElement == null)
         {
             return derivedElement;
         }
@@ -820,10 +834,10 @@ public class ObjectFinder : IObjectFinder
     }
 
     private void AddAllDerivedElementsRecursive(GlueElement baseElement, HashSet<GlueElement> derivedElements)
-    { 
+    {
         var directDerived = GetAllElementsThatInheritFrom(baseElement);
 
-        foreach(var derived in directDerived)
+        foreach (var derived in directDerived)
         {
             derivedElements.Add(derived);
 
@@ -919,18 +933,18 @@ public class ObjectFinder : IObjectFinder
 
         void FillFrom(GlueElement element)
         {
-            foreach(var nos in element.AllNamedObjects)
+            foreach (var nos in element.AllNamedObjects)
             {
-                foreach(var variable in nos.InstructionSaves)
+                foreach (var variable in nos.InstructionSaves)
                 {
                     // We can't look at the type, because to do that we would have
                     // to find the entity or screen with the matching type. That could
                     // have been renamed, so we just have to trust that the value matches...
                     var startsWithScreensOrEntities =
                         variable.Type.StartsWith("Screens.") || variable.Type.StartsWith("Entities.");
-                    var endsWithType = 
+                    var endsWithType =
                         // old style:
-                        variable.Type.EndsWith("Type") || 
+                        variable.Type.EndsWith("Type") ||
                         // new style:
                         variable.Type.EndsWith("Variant");
                     if (startsWithScreensOrEntities && endsWithType && (variable.Value as string) == entityType)
@@ -949,7 +963,7 @@ public class ObjectFinder : IObjectFinder
     {
         bool DoesNosMatchType(NamedObjectSave nos)
         {
-            if(nos == null)
+            if (nos == null)
             {
                 return false;
             }
@@ -969,7 +983,7 @@ public class ObjectFinder : IObjectFinder
             {
                 listToAddTo.Add(nos);
             }
-            else if(nos.IsCollisionRelationship())
+            else if (nos.IsCollisionRelationship())
             {
                 var firstItem = nos.Properties.GetValue<string>("FirstCollisionName");
                 var secondItem = nos.Properties.GetValue<string>("SecondCollisionName");
@@ -977,16 +991,16 @@ public class ObjectFinder : IObjectFinder
                 var firstNos = parentGlueElement.GetNamedObjectRecursively(firstItem);
                 var secondNos = parentGlueElement.GetNamedObjectRecursively(secondItem);
 
-                if(DoesNosMatchType(firstNos) || DoesNosMatchType(secondNos))
+                if (DoesNosMatchType(firstNos) || DoesNosMatchType(secondNos))
                 {
                     listToAddTo.Add(nos);
                 }
             }
             else
             {
-                foreach(var variable in nos.InstructionSaves)
+                foreach (var variable in nos.InstructionSaves)
                 {
-                    if(variable.Type?.StartsWith("Entities.") == true && variable.Value is string asString && asString == name)
+                    if (variable.Type?.StartsWith("Entities.") == true && variable.Value is string asString && asString == name)
                     {
                         listToAddTo.Add(nos);
                         break;
@@ -1063,7 +1077,7 @@ public class ObjectFinder : IObjectFinder
     }
 
     public List<NamedObjectSave> GetPossibleListsToContain(EntitySave nosEntity, GlueElement containerElement)
-    { 
+    {
         var toReturn = new List<NamedObjectSave>();
 
         var baseEntityTypes = GetAllBaseElementsRecursively(nosEntity);
@@ -1089,7 +1103,7 @@ public class ObjectFinder : IObjectFinder
 
     public NamedObjectSave GetRootDefiningObject(NamedObjectSave derivedNos)
     {
-        if(derivedNos.DefinedByBase == false)
+        if (derivedNos.DefinedByBase == false)
         {
             return derivedNos;
         }
@@ -1101,7 +1115,7 @@ public class ObjectFinder : IObjectFinder
 
             var nosInBase = baseContainer?.AllNamedObjects.FirstOrDefault(item => item.InstanceName == derivedNos.InstanceName);
 
-            if(nosInBase == null)
+            if (nosInBase == null)
             {
                 return null;
             }
@@ -1114,7 +1128,7 @@ public class ObjectFinder : IObjectFinder
 
     public NamedObjectSave GetNamedObjectFor(CustomVariable customVariable)
     {
-        if(!string.IsNullOrEmpty(customVariable?.SourceObject))
+        if (!string.IsNullOrEmpty(customVariable?.SourceObject))
         {
             var container = GetElementContaining(customVariable);
             return container?.GetAllNamedObjectsRecurisvely()
@@ -1133,14 +1147,14 @@ public class ObjectFinder : IObjectFinder
     {
         var propertyOnNos = nos.Properties.FirstOrDefault(item => item.Name == propertyName);
 
-        if(propertyOnNos != null)
+        if (propertyOnNos != null)
         {
-            if( typeof(T).IsEnum && propertyOnNos.Value is long asLong )
+            if (typeof(T).IsEnum && propertyOnNos.Value is long asLong)
             {
                 return (T)((object)(int)asLong);
             }
             // There seem to be some type leaks...Maybe from old projects.
-            else if(typeof(T) == typeof(int) && propertyOnNos.Value is long asLong2)
+            else if (typeof(T) == typeof(int) && propertyOnNos.Value is long asLong2)
             {
                 return (T)((object)(int)asLong2);
             }
@@ -1149,17 +1163,17 @@ public class ObjectFinder : IObjectFinder
                 return (T)((object)propertyOnNos.Value);
             }
         }
-        else if(nos.DefinedByBase)
+        else if (nos.DefinedByBase)
         {
 
             // this NOS doesn't have it, but maybe it's defined in a base:
             var elementContaining = GetElementContaining(nos);
 
-            if(!string.IsNullOrEmpty(elementContaining?.BaseElement))
+            if (!string.IsNullOrEmpty(elementContaining?.BaseElement))
             {
                 var baseElement = GetBaseElement(elementContaining);
                 var nosInBase = baseElement.GetNamedObject(nos.InstanceName);
-                if(nosInBase != null)
+                if (nosInBase != null)
                 {
                     return GetPropertyValueRecursively<T>(nosInBase, propertyName);
                 }
@@ -1180,7 +1194,7 @@ public class ObjectFinder : IObjectFinder
     public StateSaveCategory GetStateSaveCategory(StateSave stateSave)
     {
         var container = ObjectFinder.Self.GetElementContaining(stateSave);
-        return container?.StateCategoryList.FirstOrDefault(item => item.States.Contains(stateSave)); 
+        return container?.StateCategoryList.FirstOrDefault(item => item.States.Contains(stateSave));
     }
 
     public (bool IsState, StateSaveCategory Category) GetStateSaveCategory(CustomVariable customVariable, GlueElement containingElement)
@@ -1238,7 +1252,7 @@ public class ObjectFinder : IObjectFinder
 
 
 
-            if (isTunneled && 
+            if (isTunneled &&
                 // This could be the case on an unload of the project:
                 containingElement != null)
             {
@@ -1248,11 +1262,11 @@ public class ObjectFinder : IObjectFinder
                 var nosElement = GetElement(nos);
                 var variableInNosElement = nosElement?.GetCustomVariableRecursively(customVariable.SourceObjectProperty);
 
-                if(nosElement != null && variableInNosElement != null)
+                if (nosElement != null && variableInNosElement != null)
                 {
                     (isState, category) = GetStateSaveCategory(variableInNosElement, nosElement);
                 }
-                else if(nosElement != null && customVariable.Type == "VariableState")
+                else if (nosElement != null && customVariable.Type == "VariableState")
                 {
                     // This is a special case where an object's VariableState is exposed directly.
                     // While this is not recommended because all states should be categorized, we still
@@ -1265,7 +1279,7 @@ public class ObjectFinder : IObjectFinder
             {
                 if (containingElement != null)
                 {
-                    if(customVariable.Type == "VariableState")
+                    if (customVariable.Type == "VariableState")
                     {
                         isState = true;
                         category = null;
@@ -1275,7 +1289,7 @@ public class ObjectFinder : IObjectFinder
                         var typeToSearchFor = customVariable.Type;
                         // this could be nullable since that's the type used in Variant codegen
 
-                        if(typeToSearchFor?.EndsWith("?") == true)
+                        if (typeToSearchFor?.EndsWith("?") == true)
                         {
                             typeToSearchFor = typeToSearchFor.Substring(0, typeToSearchFor.Length - 1);
                         }
@@ -1309,15 +1323,15 @@ public class ObjectFinder : IObjectFinder
 
     public CustomVariable GetBaseCustomVariable(CustomVariable customVariable, GlueElement owner = null)
     {
-        if(customVariable?.DefinedByBase == true)
+        if (customVariable?.DefinedByBase == true)
         {
             owner = owner ?? GetElementContaining(customVariable);
 
-            if(owner != null)
+            if (owner != null)
             {
                 var baseOfOwner = GetBaseElement(owner);
 
-                if(baseOfOwner != null)
+                if (baseOfOwner != null)
                 {
                     var variableInBase = baseOfOwner.GetCustomVariable(customVariable.Name);
 
@@ -1336,16 +1350,16 @@ public class ObjectFinder : IObjectFinder
 
         var baseVariable = GetBaseCustomVariable(customVariable, element);
 
-        if(!string.IsNullOrEmpty(baseVariable?.SourceObject))
+        if (!string.IsNullOrEmpty(baseVariable?.SourceObject))
         {
             var sourceObject = element.GetNamedObjectRecursively(baseVariable.SourceObject);
-            if(sourceObject != null)
+            if (sourceObject != null)
             {
                 var sourceElement = GetElement(sourceObject);
-                if(sourceElement != null)
+                if (sourceElement != null)
                 {
                     var sourceVariable = sourceElement.GetCustomVariableRecursively(baseVariable.SourceObjectProperty);
-                    if(sourceVariable != null)
+                    if (sourceVariable != null)
                     {
                         return GetRootCustomVariable(sourceVariable);
                     }
@@ -1383,22 +1397,22 @@ public class ObjectFinder : IObjectFinder
     {
         var instruction = instance.GetCustomVariable(memberName);
 
-        if(instruction == null)
+        if (instruction == null)
         {
             GlueElement baseElement = null;
-            if(instance.DefinedByBase)
+            if (instance.DefinedByBase)
             {
                 baseElement = ObjectFinder.Self.GetBaseElement(container);
 
             }
-            if(baseElement != null)
+            if (baseElement != null)
             {
                 var nosInBase = baseElement.GetNamedObject(instance.InstanceName);
-                if(nosInBase != null)
+                if (nosInBase != null)
                 {
                     var toReturn = GetValueRecursively(nosInBase, baseElement, memberName, memberType, variableDefinition);
 
-                    if(toReturn != null)
+                    if (toReturn != null)
                     {
                         return toReturn; ////////////////////////Early Out/////////////////////////////////
                     }
@@ -1557,11 +1571,11 @@ public class ObjectFinder : IObjectFinder
 
                 if (startsWithScreensOrEntities && endsWithType)
                 {
-                    if((customVariable.DefaultValue as string) == elementType)
+                    if ((customVariable.DefaultValue as string) == elementType)
                     {
                         customVariables.Add(customVariable);
                     }
-                    else if(customVariable.Type == elementTypeWithVariant) 
+                    else if (customVariable.Type == elementTypeWithVariant)
                     {
                         customVariables.Add(customVariable);
                     }
@@ -1579,7 +1593,7 @@ public class ObjectFinder : IObjectFinder
     {
         var baseElement = GetBaseElement(element);
 
-        if(baseElement == null)
+        if (baseElement == null)
         {
             return 0;
         }
@@ -1602,11 +1616,11 @@ public class ObjectFinder : IObjectFinder
         toReturn.Add(derivedElement);
 
         var currentElement = derivedElement;
-        while(currentElement != null)
+        while (currentElement != null)
         {
             var baseElement = GetBaseElement(currentElement);
 
-            if(baseElement != null)
+            if (baseElement != null)
             {
                 toReturn.Insert(0, baseElement);
             }

@@ -120,10 +120,7 @@ namespace OfficialPlugins.AnimationChainPlugin.Errors
                     achSave = AnimationChainListSave.FromFile(achxFilePath.FullPath);
                 }
 
-                if (achSave.AnimationChains.Any(item => item.Name == animationName))
-                {
-                    return true;
-                }
+                return achSave.AnimationChains.Any(item => item.Name == animationName) == false;
             }
             catch
             {

@@ -13,7 +13,7 @@ namespace OfficialPlugins.SoundEffectPlugin
     {
         public override void StartUp()
         {
-
+            this.AddErrorReporter(new Errors.SoundEffectErrorReporter());
         }
     }
 }

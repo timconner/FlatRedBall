@@ -38,7 +38,7 @@ namespace FlatRedBall.Glue.Errors
     // Migrating to a base class from interface so error reporters can keep track of their own errors
     public abstract class ErrorReporterBase : IErrorReporter
     {
-        public abstract ErrorViewModel[] GetAllErrors();
+        public abstract ErrorViewModel[]? GetAllErrors();
 
         public List<ErrorViewModel> ErrorsBelongingToThisReporter { get; private set; } = new List<ErrorViewModel>();
     }
