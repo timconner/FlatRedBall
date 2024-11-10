@@ -100,6 +100,7 @@ namespace FlatRedBall.Glue.SaveClasses
             // For example 
             AssetTypeInfo returnAti = null;
 
+
             if (instance.IsEntireFile)
             {
                 var container = instance.GetContainer();

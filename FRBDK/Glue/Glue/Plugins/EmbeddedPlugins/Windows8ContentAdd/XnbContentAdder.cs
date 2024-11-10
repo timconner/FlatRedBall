@@ -42,7 +42,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.Windows8ContentAdd
         void HandleInitializeMenuHandler(MenuStrip menuStrip)
         {
             ToolStripMenuItem item = ToolStripHelper.Self.GetItem(menuStrip, L.MenuIds.ContentId);
-            item.DropDownItems.Add(L.Texts.AddXnbToMonogame, null, HandleAddXnbsClick);
+            item.DropDownItems.Add("Add XNBs to Monogame Project(s)", null, HandleAddXnbsClick);
         }
 
         bool NeedsXnbs(ProjectBase project)

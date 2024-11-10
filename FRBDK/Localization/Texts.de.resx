@@ -807,9 +807,6 @@
   <data name="EmbedNAudioClasses" xml:space="preserve">
     <value>NAudio-Klassen einbetten</value>
   </data>
-  <data name="AddStateInterpolationClasses" xml:space="preserve">
-    <value>Fügen Sie Zustandsinterpolationsklassen hinzu</value>
-  </data>
   <data name="ViewBuiltProjectSizes" xml:space="preserve">
     <value>Anzeigen der gebauten Projektgrößen</value>
   </data>
@@ -824,9 +821,6 @@
   </data>
   <data name="LinkGameToFrbSource" xml:space="preserve">
     <value>Spiel mit FRB-Quelle verknüpfen</value>
-  </data>
-  <data name="AddUpdateGitignore" xml:space="preserve">
-    <value>.gitignore hinzufügen/aktualisieren</value>
   </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Speichern des Projekts erzwingen</value>
@@ -851,9 +845,6 @@
   </data>
   <data name="ProjectShowCopyEntireTab" xml:space="preserve">
     <value>Registerkarte „Gesamtes Projekt kopieren“ anzeigen</value>
-  </data>
-  <data name="AddXnbToMonogame" xml:space="preserve">
-    <value>XNBs zu Monogame-Projekt(en) hinzufügen</value>
   </data>
   <data name="Sprite" xml:space="preserve">
     <value>Sprite</value>
@@ -911,9 +902,6 @@
   </data>
   <data name="Variable" xml:space="preserve">
     <value>Variable:</value>
-  </data>
-  <data name="AdvancedOptions" xml:space="preserve">
-    <value>Erweiterte Optionen</value>
   </data>
   <data name="AlternativeName" xml:space="preserve">
     <value>Alternativer Name:</value>
@@ -1284,9 +1272,6 @@
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Durch erneutes Klicken werden alle Formularinhalte erneut hinzugefügt.)</value>
   </data>
-  <data name="Advanced" xml:space="preserve">
-    <value>Erweitert</value>
-  </data>
   <data name="FormsIncludeComponents" xml:space="preserve">
     <value>Fügen Sie Formulare in Komponenten mit Verhalten ein</value>
   </data>
@@ -1476,9 +1461,6 @@
   <data name="Angle" xml:space="preserve">
     <value>Winkel:</value>
   </data>
-  <data name="AddToPath" xml:space="preserve">
-    <value>Zum Pfad hinzufügen</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Breite:</value>
   </data>
@@ -1518,26 +1500,8 @@
   <data name="ObjectAddDescription" xml:space="preserve">
     <value>Legen Sie hier die AddObject-Details fest, je nachdem, ob es sich um einen Bildschirm oder eine Entität handelt.</value>
   </data>
-  <data name="AddXXXToList" xml:space="preserve">
-    <value>XXXX zur XXXXList hinzufügen</value>
-  </data>
-  <data name="AddXXXToGameScreen" xml:space="preserve">
-    <value>XXXX-Liste zu GameScreen hinzufügen</value>
-  </data>
-  <data name="AddXXXInstanceToGameScreen" xml:space="preserve">
-    <value>XXXX-Instanz zu GameScreen hinzufügen</value>
-  </data>
-  <data name="AddXXXInstanceToGameScreenDescription" xml:space="preserve">
-    <value>Fügt dem GameScreen eine einzelne XXXX-Instanz hinzu</value>
-  </data>
   <data name="CurrentScreen" xml:space="preserve">
     <value>Aktueller Bildschirm</value>
-  </data>
-  <data name="AddXXXFactory" xml:space="preserve">
-    <value>XXXX Factory hinzufügen</value>
-  </data>
-  <data name="AddXXXFactoryDescription" xml:space="preserve">
-    <value>Fabriken vereinfachen das Erstellen und Hinzufügen von Entitäten zu Bildschirmlisten. Fabriken sind erforderlich, um Entitäten über TMX-Dateien zu erstellen.</value>
   </data>
   <data name="ProjectCommands" xml:space="preserve">
     <value>Projektbefehle</value>

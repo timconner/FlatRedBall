@@ -50,15 +50,15 @@
 
                     <local:TitleImageButton
                         x:Name="AddObjectToListInEntityButton"
-                        Title="{x:Static localization:Texts.AddXXXToList}"
+                        Title="Add XXXX to XXXXList"
                         Details="Adds a new instance to the selected list"
                         Clicked="AddObjectToListButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Object.png">
                     </local:TitleImageButton>
 
                     <local:TitleImageButton
                         x:Name="AddListOfEntityButton"
-                        Title="{x:Static localization:Texts.AddXXXToGameScreen}"
-                        Details="{x:Static localization:Texts.AddXXXToGameScreen}"
+                        Title="Add XXXX List to GameScreen"
+                        Details="Add XXXX List to GameScreen"
                         Clicked="AddListOfEntityButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Entity List to GameScreen.png">
 
                     </local:TitleImageButton>
@@ -66,15 +66,15 @@
 
                     <local:TitleImageButton
                         x:Name="AddInstanceOfEntityButton"
-                        Title="{x:Static localization:Texts.AddXXXInstanceToGameScreen}"
-                        Details="{x:Static localization:Texts.AddXXXInstanceToGameScreenDescription}"
+                        Title="Add XXXX Instance to GameScreen"
+                        Details="Adds a single XXXX instance to the GameScreen"
                         Clicked="AddInstanceOfEntityButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Entity instance to GameScreen.png">
                     </local:TitleImageButton>
 
                     <local:TitleImageButton
                         x:Name="AddEntityFactory"
-                        Title="{x:Static localization:Texts.AddXXXFactory}"
-                        Details="{x:Static localization:Texts.AddXXXFactoryDescription}"
+                        Title="Add XXXX Factory"
+                        Details="Factories simplify the creation and addition of entities to screen lists. Factories are required to create entities through TMX files."
                         Clicked="AddEntityFactory_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Create Factory for Entity.png">
                     </local:TitleImageButton>
                 </WrapPanel>

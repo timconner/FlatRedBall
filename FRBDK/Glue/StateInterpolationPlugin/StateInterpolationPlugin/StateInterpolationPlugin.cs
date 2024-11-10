@@ -72,7 +72,7 @@ namespace OfficialPlugins.StateInterpolation
 
         private void CreateMenuItems()
         {
-            this.AddMenuItemTo(Localization.Texts.AddStateInterpolationClasses, Localization.MenuIds.AddStateInterpolationClassesId, HandleAddStateInterpolationClasses, Localization.MenuIds.PluginId);
+            this.AddMenuItemTo("Add state interpolation classes", Localization.MenuIds.AddStateInterpolationClassesId, HandleAddStateInterpolationClasses, Localization.MenuIds.PluginId);
         }
 
         private void HandleAddStateInterpolationClasses(object sender, EventArgs e)

@@ -30,15 +30,9 @@ namespace OfficialPlugins.SongPlugin
         MainSongControl control;
         PluginTab pluginTab;
 
-
         public override string FriendlyName
         {
             get { return "Song Plugin"; }
-        }
-
-        public override Version Version
-        {
-            get { return new Version(1, 0); }
         }
 
         #endregion

@@ -807,9 +807,6 @@
   <data name="EmbedNAudioClasses" xml:space="preserve">
     <value>NAudio-klassen insluiten</value>
   </data>
-  <data name="AddStateInterpolationClasses" xml:space="preserve">
-    <value>Voeg statusinterpolatieklassen toe</value>
-  </data>
   <data name="ViewBuiltProjectSizes" xml:space="preserve">
     <value>Bekijk gebouwde projectgroottes</value>
   </data>
@@ -824,9 +821,6 @@
   </data>
   <data name="LinkGameToFrbSource" xml:space="preserve">
     <value>Koppel het spel aan de FRB-bron</value>
-  </data>
-  <data name="AddUpdateGitignore" xml:space="preserve">
-    <value>.gitignore toevoegen/bijwerken</value>
   </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Project geforceerd opslaan</value>
@@ -851,9 +845,6 @@
   </data>
   <data name="ProjectShowCopyEntireTab" xml:space="preserve">
     <value>Toon het tabblad Volledig project kopiëren</value>
-  </data>
-  <data name="AddXnbToMonogame" xml:space="preserve">
-    <value>XNB's toevoegen aan Monogame-project(en)</value>
   </data>
   <data name="Sprite" xml:space="preserve">
     <value>Sprite</value>
@@ -911,9 +902,6 @@
   </data>
   <data name="Variable" xml:space="preserve">
     <value>Variabel:</value>
-  </data>
-  <data name="AdvancedOptions" xml:space="preserve">
-    <value>Geavanceerde opties</value>
   </data>
   <data name="AlternativeName" xml:space="preserve">
     <value>Alternatieve naam:</value>
@@ -1284,9 +1272,6 @@
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Als u nogmaals klikt, wordt alle formulierinhoud opnieuw toegevoegd)</value>
   </data>
-  <data name="Advanced" xml:space="preserve">
-    <value>Geavanceerd</value>
-  </data>
   <data name="FormsIncludeComponents" xml:space="preserve">
     <value>Formulieren opnemen in componenten met gedrag</value>
   </data>
@@ -1476,9 +1461,6 @@
   <data name="Angle" xml:space="preserve">
     <value>Hoek:</value>
   </data>
-  <data name="AddToPath" xml:space="preserve">
-    <value>Toevoegen aan pad</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Breedte:</value>
   </data>
@@ -1518,26 +1500,8 @@
   <data name="ObjectAddDescription" xml:space="preserve">
     <value>Stel hier de AddObject-details in, afhankelijk van of het een scherm of entiteit is.</value>
   </data>
-  <data name="AddXXXToList" xml:space="preserve">
-    <value>Voeg XXXX toe aan XXXXLijst</value>
-  </data>
-  <data name="AddXXXToGameScreen" xml:space="preserve">
-    <value>Voeg XXXX-lijst toe aan GameScreen</value>
-  </data>
-  <data name="AddXXXInstanceToGameScreen" xml:space="preserve">
-    <value>Voeg XXXX-instantie toe aan GameScreen</value>
-  </data>
-  <data name="AddXXXInstanceToGameScreenDescription" xml:space="preserve">
-    <value>Voegt een enkele XXXX-instantie toe aan GameScreen</value>
-  </data>
   <data name="CurrentScreen" xml:space="preserve">
     <value>Huidig scherm</value>
-  </data>
-  <data name="AddXXXFactory" xml:space="preserve">
-    <value>Voeg XXXX-fabriek toe</value>
-  </data>
-  <data name="AddXXXFactoryDescription" xml:space="preserve">
-    <value>Fabrieken vereenvoudigen het maken en toevoegen van entiteiten aan schermlijsten. Fabrieken zijn verplicht om entiteiten te creëren via TMX-bestanden.</value>
   </data>
   <data name="ProjectCommands" xml:space="preserve">
     <value>Projectopdrachten</value>

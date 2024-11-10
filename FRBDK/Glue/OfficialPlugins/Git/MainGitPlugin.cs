@@ -28,7 +28,7 @@ namespace OfficialPlugins.Git
 
         void HandleGluxLoaded()
         {
-            this.AddMenuItemTo(Localization.Texts.AddUpdateGitignore, Localization.MenuIds.AddUpdateGitignoreId, AddGitIgnore, Localization.MenuIds.UpdateId);
+            this.AddMenuItemTo("Add/Update .gitignore", Localization.MenuIds.AddUpdateGitignoreId, AddGitIgnore, Localization.MenuIds.UpdateId);
         }
 
         private void HandleUnloadedGlux()
