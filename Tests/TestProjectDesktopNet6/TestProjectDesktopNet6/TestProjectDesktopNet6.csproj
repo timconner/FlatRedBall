@@ -1690,6 +1690,10 @@
     <Compile Include="Entities\PositionedEntity.Generated.cs">
       <DependentUpon>PositionedEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\PositionedEntityWithFactory.cs" />
+    <Compile Include="Entities\PositionedEntityWithFactory.Generated.cs">
+      <DependentUpon>PositionedEntityWithFactory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\PositioningEntity.cs" />
     <Compile Include="Entities\PositioningEntity.Generated.cs">
       <DependentUpon>PositioningEntity.cs</DependentUpon>
@@ -1862,6 +1866,7 @@
     <Compile Include="Factories\PooledEntityContainingEntityFactory.Generated.cs" />
     <Compile Include="Factories\PooledEntityInheritFromSpriteFactory.Generated.cs" />
     <Compile Include="Factories\PooledWithInternalListFactory.Generated.cs" />
+    <Compile Include="Factories\PositionedEntityWithFactoryFactory.Generated.cs" />
     <Compile Include="Factories\PositioningEntityFactory.Generated.cs" />
     <Compile Include="Factories\RecyclableEntityFactory.Generated.cs" />
     <Compile Include="Factories\ShapeEntityCreatedByOtherEntitiesFactory.Generated.cs" />
