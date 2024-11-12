@@ -34,7 +34,7 @@ namespace OfficialPlugins.SoundEffectPlugin.Errors
             if (namedObject.SourceType == FlatRedBall.Glue.SaveClasses.SourceType.FlatRedBallType && namedObject.Instantiate && namedObject.IsDisabled == false)
             {
                 var ati = namedObject.GetAssetTypeInfo();
-                if (ati.QualifiedRuntimeTypeName.QualifiedType == "Microsoft.Xna.Framework.Audio.SoundEffectInstance")
+                if (ati != null && ati.QualifiedRuntimeTypeName.QualifiedType == "Microsoft.Xna.Framework.Audio.SoundEffectInstance")
                 {
                     return true;
                 }
