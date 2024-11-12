@@ -231,7 +231,14 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.FactoryPlugin
 
             // no tabs needed on first line
             codeBlock
-                .Function(StringHelper.SpaceStrings("public", "static", className), "CreateNew", "float x = 0, float y = 0, float z = 0")
+                .Line("/// <summary>")
+                .Line($"/// Creates a new {className} using either the explicit positon values, or the default position of the entity.")
+                .Line("/// </summary>")
+                .Line("/// <param name=\"x\">The optional X position</param>")
+                .Line("/// <param name=\"y\">The optional Y position</param>")
+                .Line("/// <param name=\"z\">The optional Z position</param>")
+                .Line("/// <returns>The newly-created instance</returns>")
+                .Function(StringHelper.SpaceStrings("public", "static", className), "CreateNew", "float? x = null, float? y = null, float? z = null")
                     .Line("return CreateNew(DefaultLayer, x, y, z);")
                 .End();
 
@@ -259,7 +266,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.FactoryPlugin
                 .End();
 
             codeBlock = codeBlock
-                .Function(StringHelper.SpaceStrings("public", "static", className), "CreateNew", "Layer layer, float x = 0, float y = 0, float z = 0");
+                .Function(StringHelper.SpaceStrings("public", "static", className), "CreateNew", "Layer layer, float? x = null, float? y = null, float? z = null");
 
             codeBlock.Line(className + " instance = null;");
 
@@ -305,9 +312,9 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.FactoryPlugin
 
             }
 
-            codeBlock.Line("instance.X = x;");
-            codeBlock.Line("instance.Y = y;");
-            codeBlock.Line("instance.Z = z;");
+            codeBlock.Line("if (x != null) instance.X = x.Value;");
+            codeBlock.Line("if (y != null) instance.Y = y.Value;");
+            codeBlock.Line("if (z != null) instance.Z = z.Value;");
 
             CreateAddToListCode(codeBlock, className);
 
@@ -327,10 +334,10 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.FactoryPlugin
             codeBlock
                 .ForEach("var list in ListsToAddTo")
                     .If($"SortAxis == FlatRedBall.Math.Axis.X && list is PositionedObjectList<{className}>")
-                        .Line($"var index = (list as PositionedObjectList<{className}>).GetFirstAfter(x, Axis.X, 0, list.Count);")
+                        .Line($"var index = (list as PositionedObjectList<{className}>).GetFirstAfter(instance.Position.X, Axis.X, 0, list.Count);")
                         .Line($"list.Insert(index, instance);")
                     .End().ElseIf($"SortAxis == FlatRedBall.Math.Axis.Y && list is PositionedObjectList<{className}>")
-                        .Line($"var index = (list as PositionedObjectList<{className}>).GetFirstAfter(y, Axis.Y, 0, list.Count);")
+                        .Line($"var index = (list as PositionedObjectList<{className}>).GetFirstAfter(instance.Position.Y, Axis.Y, 0, list.Count);")
                         .Line($"list.Insert(index, instance);")
                     .End().Else()
                         .Line("// Sort Z not supported")

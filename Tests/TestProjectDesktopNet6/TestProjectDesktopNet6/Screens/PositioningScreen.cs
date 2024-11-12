@@ -14,6 +14,8 @@ using FlatRedBall.Instructions;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using FlatRedBall.Localization;
+using GlueTestProject.TestFramework;
+
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -32,12 +34,10 @@ namespace GlueTestProject.Screens
         int mNumberOfDestroys = 0;
 
 		void CustomInitialize()
-		{
-            PositionedEntityInstance.ForceUpdateDependencies();
-            if (PositionedEntityInstance.X == 0)
-            {
-                throw new Exception("Entities that set their own position through variables are not positioned properly in Screens when they are used as instances");
-            }
+        {
+            TestPositionedEntitySettingPositionCorrectly();
+
+            TestPositionedEntityFromFactoryKeepingEntitySetPosition();
 
             AttachedToCameraInstance.ForceUpdateDependencies();
             if (AttachedToCameraInstance.Z != 0)
@@ -75,9 +75,24 @@ namespace GlueTestProject.Screens
 
             this.Set("IsActivityFinished").To(true).After(1.0f);
 
-		}
+        }
 
-		void CustomActivity(bool firstTimeCalled)
+        private void TestPositionedEntityFromFactoryKeepingEntitySetPosition()
+        {
+            var entity = PositionedEntityWithFactoryFactory.CreateNew();
+            entity.X.ShouldBe(20, "Because PositionedEntityWithFactory sets its X to 20, and the CreateNew method was not given any values, so the X value should persist");
+        }
+
+        private void TestPositionedEntitySettingPositionCorrectly()
+        {
+            PositionedEntityInstance.ForceUpdateDependencies();
+            if (PositionedEntityInstance.X == 0)
+            {
+                throw new Exception("Entities that set their own position through variables are not positioned properly in Screens when they are used as instances");
+            }
+        }
+
+        void CustomActivity(bool firstTimeCalled)
 		{
 
 		}

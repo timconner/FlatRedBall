@@ -877,6 +877,9 @@
       "Name": "Entities\\PositionedEntity"
     },
     {
+      "Name": "Entities\\PositionedEntityWithFactory"
+    },
+    {
       "Name": "Entities\\PositioningEntity"
     },
     {
