@@ -834,7 +834,12 @@ namespace FlatRedBallAddOns.Entities
         // let's make a generated file
         string fileName = saveObject.Name + ".Generated.cs";
         ProjectManager.CodeProjectHelper.CreateAndAddPartialGeneratedCodeFile(fileName, true);
-        PluginManager.ReceiveOutput("Glue has created the generated file " + FileManager.RelativeDirectory + saveObject.Name + ".cs");
+
+        FilePath filePath = GlueState.Self.CurrentGlueProjectDirectory + fileName;
+
+        var message =
+            "FRB has created and added the file " + filePath + " to your project";
+        GlueCommands.Self.PrintOutput(message);
     }
 
     /// <summary>
