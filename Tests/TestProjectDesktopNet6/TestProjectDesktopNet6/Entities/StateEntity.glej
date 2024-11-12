@@ -176,6 +176,26 @@
       ],
       "Name": "VariableOnlySetInOneUncategorizedState",
       "DefaultValue": 10.0
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Value": "Size",
+          "Type": "String"
+        }
+      ],
+      "Name": "SpriteInstanceTextureScale",
+      "DefaultValue": 1.0,
+      "SetByDerived": true,
+      "SourceObject": "SpriteInstance",
+      "SourceObjectProperty": "TextureScale",
+      "Category": "Size"
     }
   ],
   "States": [
@@ -290,6 +310,29 @@
       "AttachToContainer": true,
       "GenerateTimedEmit": true,
       "IndependentOfCamera": true
+    },
+    {
+      "InstanceName": "SpriteInstance",
+      "SourceClassType": "FlatRedBall.Sprite",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "bool"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "TextureScale",
+          "Value": 1.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "Sprite",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
     }
   ],
   "StateCategoryList": [
@@ -329,7 +372,8 @@
         "VariableToGetChangedByState",
         "LongVariableWithVelocity",
         "IntVariableWithVelocity",
-        "CurrentColorCategoryState"
+        "CurrentColorCategoryState",
+        "SpriteInstanceTextureScale"
       ]
     },
     {
@@ -360,7 +404,8 @@
       ],
       "ExcludedVariables": [
         "VariableToGetChangedByState",
-        "CurrentAdvancedInterpolationCategoryState"
+        "CurrentAdvancedInterpolationCategoryState",
+        "SpriteInstanceTextureScale"
       ]
     },
     {
@@ -391,7 +436,8 @@
       ],
       "ExcludedVariables": [
         "VariableToGetChangedByState",
-        "CurrentAdvancedInterpolationCategoryState"
+        "CurrentAdvancedInterpolationCategoryState",
+        "SpriteInstanceTextureScale"
       ]
     },
     {
@@ -408,7 +454,8 @@
       ],
       "ExcludedVariables": [
         "VariableToGetChangedByState",
-        "CurrentAdvancedInterpolationCategoryState"
+        "CurrentAdvancedInterpolationCategoryState",
+        "SpriteInstanceTextureScale"
       ]
     },
     {
@@ -425,7 +472,8 @@
       ],
       "ExcludedVariables": [
         "VariableToGetChangedByState",
-        "CurrentAdvancedInterpolationCategoryState"
+        "CurrentAdvancedInterpolationCategoryState",
+        "SpriteInstanceTextureScale"
       ]
     },
     {
@@ -444,7 +492,45 @@
         "VariableToGetChangedByState",
         "CurrentState",
         "IntVariableWithVelocity",
-        "CurrentAdvancedInterpolationCategoryState"
+        "CurrentAdvancedInterpolationCategoryState",
+        "SpriteInstanceTextureScale"
+      ]
+    },
+    {
+      "Name": "TextureScaleCategory",
+      "States": [
+        {
+          "Name": "Small",
+          "InstructionSaves": []
+        },
+        {
+          "Name": "Big",
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "SpriteInstanceTextureScale",
+              "Value": 3.0,
+              "Time": 0.0
+            }
+          ]
+        }
+      ],
+      "ExcludedVariables": [
+        "SpriteFromScnxCurrentChainName",
+        "CurrentTopOrBottomState",
+        "CurrentState",
+        "CircleObjectColor",
+        "X",
+        "Y",
+        "CurrentColorCategoryState",
+        "CircleObjectVisible",
+        "CurrentCircleVisibilityState",
+        "IntVariableWithVelocity",
+        "LongVariableWithVelocity",
+        "VariableToGetChangedByState",
+        "CurrentAdvancedInterpolationCategoryState",
+        "CurrentTypeState",
+        "VariableOnlySetInOneUncategorizedState"
       ]
     }
   ],

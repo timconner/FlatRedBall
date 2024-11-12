@@ -5,6 +5,27 @@
   "Source": "GLUE",
   "BaseEntity": "Entities\\StateEntity",
   "Is2D": true,
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Value": "Size",
+          "Type": "String"
+        }
+      ],
+      "Name": "SpriteInstanceTextureScale",
+      "DefaultValue": 1.0,
+      "SetByDerived": true,
+      "DefinedByBase": true,
+      "Category": "Size"
+    }
+  ],
   "States": [
     {
       "Name": "Third",

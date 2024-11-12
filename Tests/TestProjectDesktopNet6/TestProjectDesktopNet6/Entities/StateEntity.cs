@@ -78,6 +78,14 @@ namespace GlueTestProject.Entities
                 FlatRedBall.Glue.StateInterpolation.InterpolationType.Exponential, 
                 FlatRedBall.Glue.StateInterpolation.Easing.Out);
 
+            TestInterpolateToDefaultValue();
+
+        }
+
+        private void TestInterpolateToDefaultValue()
+        {
+            this.InterpolateBetween(TextureScaleCategory.Big, TextureScaleCategory.Small, 0.5f);
+            this.SpriteInstance.TextureScale.ShouldBe(2f, "because the texture scale should be interpolated");
         }
 
         private void RunInterpolateBetweenTests()

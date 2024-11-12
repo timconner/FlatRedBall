@@ -295,7 +295,7 @@ namespace FlatRedBall.Glue.StateInterpolation
 
         }
 
-        public Tweener(float from, float to, float duration, TweeningFunction tweeningFunction)
+        public Tweener(float from, float to, double duration, TweeningFunction tweeningFunction)
         {
             Start(from, to, duration, tweeningFunction);
             // Start sets Running to true, so let's set it to false
@@ -309,7 +309,7 @@ namespace FlatRedBall.Glue.StateInterpolation
         }
 
 
-        public Tweener(float from, float to, float duration, InterpolationType type, Easing easing)
+        public Tweener(float from, float to, double duration, InterpolationType type, Easing easing)
         {
             Start(from, to, duration, GetInterpolationFunction(type, easing));
             // Start sets Running to true, so let's set it to false
@@ -358,13 +358,13 @@ namespace FlatRedBall.Glue.StateInterpolation
             Running = true;
         }
 
-        public void Start(float from, float to, float duration, TweeningFunction tweeningFunction)
+        public void Start(float from, float to, double duration, TweeningFunction tweeningFunction)
         {
             _from = from;
             _position = from;
             _change = to - from;
             _tweeningFunction = tweeningFunction;
-            Duration = duration;
+            Duration = (float)duration;
             _elapsed = 0;
 
             Running = true;

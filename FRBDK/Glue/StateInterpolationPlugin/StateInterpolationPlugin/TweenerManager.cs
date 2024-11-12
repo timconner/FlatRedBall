@@ -63,7 +63,7 @@ namespace StateInterpolationPlugin
         }
 
         public async Task TweenAsync(object owner, Action<float> assignmentAction, float from, float to,
-            float during, InterpolationType interpolation = InterpolationType.Quadratic, Easing easing = Easing.Out)
+            double during, InterpolationType interpolation = InterpolationType.Quadratic, Easing easing = Easing.Out)
         {
             Tweener tweener = new Tweener(from, to, during, interpolation, easing);
 
