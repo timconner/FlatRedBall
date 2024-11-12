@@ -27,8 +27,13 @@ namespace FlatRedBall.Glue.CodeGeneration
 
             foreach (StateSaveCategory category in element.StateCategoryList)
             {
+                var variablesToInclude = element.CustomVariables.Where(item => category.ExcludedVariables.Contains(item.Name) == false).Select(item => item.Name).ToArray();
+
+                // no need to pass variablesToInclude because GenerateInterpolateToStateMethod already checks all variables internally
+                //StateCodeGenerator.GenerateInterpolateToStateMethod(element, codeBlock, category.Name, category.States, variablesToInclude);
                 StateCodeGenerator.GenerateInterpolateToStateMethod(element, codeBlock, category.Name, category.States);
-                StateCodeGenerator.GenerateInterpolateBetweenMethod(element, codeBlock, category.Name, category.States);
+
+                StateCodeGenerator.GenerateInterpolateBetweenMethod(element, codeBlock, category.Name, category.States, variablesToInclude);
             }
         }
         
@@ -153,7 +158,11 @@ namespace FlatRedBall.Glue.CodeGeneration
                     velocityComesFromTunnel = true;
                 }
 
-                if (!string.IsNullOrEmpty(velocityMember))
+                if(string.IsNullOrEmpty(velocityMember))
+                {
+                    codeBlock.Line($"// Not generating interpolation for {customVariable.Name} because the engine does not have a built-in velocity member for this, nor is there one set up in the FRB Editor");
+                }
+                else // !string.IsNullOrEmpty(velocityMember)
                 {
                     string sourceDot = customVariable.SourceObject + ".";
 
@@ -322,20 +331,13 @@ namespace FlatRedBall.Glue.CodeGeneration
             }
         }
 
-        static bool ContainsKey(Dictionary<InstructionSave, InterpolationCharacteristic> dictionary, string member)
+        static bool ContainsKey(Dictionary<string, InterpolationCharacteristic> dictionary, string member)
         {
-            foreach (KeyValuePair<InstructionSave, InterpolationCharacteristic> kvp in dictionary)
-            {
-                if (kvp.Key.Member == member)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return dictionary.ContainsKey(member);
         }
 
 
-        private static ICodeBlock GenerateInterpolateBetweenMethod(GlueElement element, ICodeBlock codeBlock, string enumType, List<StateSave> states)
+        private static ICodeBlock GenerateInterpolateBetweenMethod(GlueElement element, ICodeBlock codeBlock, string enumType, List<StateSave> states, string[] categoryVariables = null)
         {
             var curBlock = codeBlock;
 
@@ -374,12 +376,12 @@ namespace FlatRedBall.Glue.CodeGeneration
                 // Create the bools
                 StateSave firstState = states[0];
 
-                Dictionary<InstructionSave, InterpolationCharacteristic> interpolationCharacteristics =
-                    new Dictionary<InstructionSave, InterpolationCharacteristic>();
+                Dictionary<string, InterpolationCharacteristic> interpolationCharacteristics =
+                    new Dictionary<string, InterpolationCharacteristic>();
 
                 // states only include instructions for things they set.  Otherwise they'll be null
 
-                CreateStartingValueVariables(element, states, curBlock, interpolationCharacteristics);
+                CreateStartingValueVariables(element, states, curBlock, interpolationCharacteristics, categoryVariables);
 
                 curBlock = SetInterpolateBetweenValuesForStates(element, enumType, states, curBlock, interpolationCharacteristics, FirstValue, "firstState");
 
@@ -411,15 +413,15 @@ namespace FlatRedBall.Glue.CodeGeneration
             return curBlock;
         }
 
-        private static ICodeBlock AssignValuesUsingStartingValues(GlueElement element, ICodeBlock curBlock, Dictionary<InstructionSave, InterpolationCharacteristic> mInterpolationCharacteristics)
+        private static ICodeBlock AssignValuesUsingStartingValues(GlueElement element, ICodeBlock curBlock, Dictionary<string, InterpolationCharacteristic> mInterpolationCharacteristics)
         {
-            foreach (KeyValuePair<InstructionSave, InterpolationCharacteristic> kvp in mInterpolationCharacteristics)
+            foreach (var kvp in mInterpolationCharacteristics)
             {
                 if (kvp.Value != InterpolationCharacteristic.CantInterpolate)
                 {
-                    curBlock = curBlock.If("set" + kvp.Key.Member);
+                    curBlock = curBlock.If("set" + kvp.Key);
 
-                    CustomVariable variable = element.GetCustomVariable(kvp.Key.Member);
+                    CustomVariable variable = element.GetCustomVariable(kvp.Key);
                     var nos = element.GetNamedObjectRecursively(variable.SourceObject);
 
                     if(nos != null)
@@ -427,14 +429,14 @@ namespace FlatRedBall.Glue.CodeGeneration
                         NamedObjectSaveCodeGenerator.AddIfConditionalSymbolIfNecesssary(curBlock, nos);
                     }
 
-                    string relativeValue = InstructionManager.GetRelativeForAbsolute(kvp.Key.Member);
+                    string relativeValue = InstructionManager.GetRelativeForAbsolute(kvp.Key);
 
-                    string variableToAssign = kvp.Key.Member;
+                    string variableToAssign = kvp.Key;
 
 
-                    string leftSideOfEqualsWithRelative = GetLeftSideOfEquals(element, variable, kvp.Key.Member, true);
+                    string leftSideOfEqualsWithRelative = GetLeftSideOfEquals(element, variable, kvp.Key, true);
 
-                    if (!string.IsNullOrEmpty(leftSideOfEqualsWithRelative) && leftSideOfEqualsWithRelative != kvp.Key.Member)
+                    if (!string.IsNullOrEmpty(leftSideOfEqualsWithRelative) && leftSideOfEqualsWithRelative != kvp.Key)
                     {
                         string beforeDotParent = variable.SourceObject;
 
@@ -468,14 +470,20 @@ namespace FlatRedBall.Glue.CodeGeneration
             return curBlock;
         }
 
-        private static void CreateStartingValueVariables(GlueElement element, List<StateSave> states, ICodeBlock curBlock, Dictionary<InstructionSave, InterpolationCharacteristic> interpolationCharacteristics)
+        private static void CreateStartingValueVariables(GlueElement element, List<StateSave> states, ICodeBlock curBlock,
+            Dictionary<string, InterpolationCharacteristic> interpolationCharacteristics, string[]? categoryVariables)
         {
+
             foreach (StateSave state in states)
             {
-                foreach (InstructionSave instructionSave in state.InstructionSaves)
+                string[] variableNames = categoryVariables;
+                if(variableNames == null)
                 {
-                    string member = instructionSave.Member;
+                    variableNames = state.InstructionSaves.Select(item => item.Member).ToArray();
+                }
 
+                foreach (var member in variableNames)
+                {
                     if (!ContainsKey(interpolationCharacteristics, member))
                     {
                         CustomVariable customVariable = element.GetCustomVariable(member);
@@ -493,11 +501,11 @@ namespace FlatRedBall.Glue.CodeGeneration
                             InterpolationCharacteristic interpolationCharacteristic =
                                                             CustomVariableHelper.GetInterpolationCharacteristic(customVariable, element);
 
-                            interpolationCharacteristics.Add(instructionSave, interpolationCharacteristic);
+                            interpolationCharacteristics.Add(member, interpolationCharacteristic);
 
                             if (interpolationCharacteristic != InterpolationCharacteristic.CantInterpolate)
                             {
-                                curBlock.Line("bool set" + instructionSave.Member + " = true;");
+                                curBlock.Line("bool set" + member + " = true;");
 
                                 string defaultStartingValue = "";
 
@@ -545,8 +553,12 @@ namespace FlatRedBall.Glue.CodeGeneration
                                     }
                                     else
                                     {
-
-                                        defaultStartingValue = TypeManager.GetDefaultForType(instructionSave.Type);
+                                        defaultStartingValue = CustomVariableCodeGenerator.GetRightSideOfEquals(customVariable, element);
+                                        if(string.IsNullOrEmpty(defaultStartingValue))
+                                        {
+                                            var type = customVariable.Type;
+                                            defaultStartingValue = TypeManager.GetDefaultForType(type);
+                                        }
                                     }
                                 }
                                 catch
@@ -614,16 +626,13 @@ namespace FlatRedBall.Glue.CodeGeneration
         }
 
 
-        static InterpolationCharacteristic GetValue(Dictionary<InstructionSave, InterpolationCharacteristic> dictionary, string value)
+        static InterpolationCharacteristic GetValue(Dictionary<string, InterpolationCharacteristic> dictionary, string value)
         {
-            foreach (var kvp in dictionary)
+            if(dictionary.ContainsKey(value))
             {
-                if (kvp.Key.Member == value)
-                {
-                    return kvp.Value;
-                }
+                return dictionary[value];
             }
-
+            
             // This could be a variable tunneling in to 
             // a disabled NOS.  Let's just say we can't interpolate
             // it:
@@ -633,7 +642,7 @@ namespace FlatRedBall.Glue.CodeGeneration
         }
 
         private static ICodeBlock SetInterpolateBetweenValuesForStates(GlueElement element, string enumType, List<StateSave> states, 
-            ICodeBlock curBlock, Dictionary<InstructionSave, InterpolationCharacteristic> mInterpolationCharacteristics, string firstOrSecondValue, string localStateName)
+            ICodeBlock curBlock, Dictionary<string, InterpolationCharacteristic> mInterpolationCharacteristics, string firstOrSecondValue, string localStateName)
         {
             bool isElse = false;
             foreach (StateSave state in states)
@@ -719,6 +728,7 @@ namespace FlatRedBall.Glue.CodeGeneration
                 var otherBlock = codeBlock;
                 var elementNameWithoutPath = FileManager.RemovePath(element.Name);
 
+                curBlock.Line("[Obsolete(\"Use TweenerManager.Self.TweenAsync. This method may be removed in future versions of FRB\")]");
                 curBlock = curBlock
                     .Function("public FlatRedBall.Instructions.Instruction", "InterpolateToState", enumType + " stateToInterpolateTo, double secondsToTake");
                         //.Switch("stateToInterpolateTo");
