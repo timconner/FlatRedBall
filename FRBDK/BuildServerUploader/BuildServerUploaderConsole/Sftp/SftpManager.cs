@@ -63,6 +63,10 @@ namespace BuildServerUploaderConsole.Sftp
 
         private static void CreateDirectoriesRecursively(string directory, SftpClient sftp)
         {
+            if(string.IsNullOrEmpty(directory))
+            {
+                throw new ArgumentException("Directory is null or empty. Valid directory is required.");
+            }
             if (sftp.Exists(directory) == false)
             {
                 // try creating one above, in case we need it:

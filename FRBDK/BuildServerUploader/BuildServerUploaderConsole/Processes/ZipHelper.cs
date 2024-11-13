@@ -47,6 +47,18 @@ namespace BuildServerUploaderConsole.Processes
 
                 }
                 results.WriteMessage($" Finished adding {containedObjects.Count} files to zip");
+                results.WriteMessage($" Saving {fullZipFileName}...");
+
+                string currentEntry = null;
+                zip.SaveProgress += (sender, args) =>
+                {
+                    if(args.CurrentEntry != null && currentEntry != args.CurrentEntry.FileName)
+                    {
+                        results.WriteMessage($" Zipping {args.CurrentEntry.FileName}");
+                        
+                        currentEntry = args.CurrentEntry.FileName;
+                    }
+                };
 
                 zip.Save(fullZipFileName);
 
@@ -64,5 +76,7 @@ namespace BuildServerUploaderConsole.Processes
 
             results.WriteMessage("Zipped directory " + sourceDirectory + " into " + zipFileNameNoExtension);
         }
+
+        private static void Zip_SaveProgress(object sender, SaveProgressEventArgs e) => throw new System.NotImplementedException();
     }
 }
