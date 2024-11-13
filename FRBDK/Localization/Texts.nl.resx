@@ -1233,56 +1233,14 @@
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Kon het definiërende basisobject voor {0} niet vinden</value>
   </data>
-  <data name="ProjectGumManagement" xml:space="preserve">
-    <value>Gum Projectmanagement</value>
-  </data>
-  <data name="GumAutoCreateForGlue" xml:space="preserve">
-    <value>Maak automatisch Gum schermen voor Glue schermen</value>
-  </data>
-  <data name="GumMatchGameResolution" xml:space="preserve">
-    <value>Match de spelresolutie in Gum</value>
-  </data>
-  <data name="ProjectGumProperties" xml:space="preserve">
-    <value>Eigenschappen van Gumprojecten</value>
-  </data>
-  <data name="ShowMouse" xml:space="preserve">
-    <value>Muis tonen</value>
-  </data>
-  <data name="UseAtlases" xml:space="preserve">
-    <value>Gebruik atlassen</value>
-  </data>
-  <data name="ShowDottedOutlines" xml:space="preserve">
-    <value>Gestippelde contouren tonen</value>
-  </data>
-  <data name="GenerateCodeMakePublic" xml:space="preserve">
-    <value>Maak gegenereerde code-instanties openbaar</value>
-  </data>
-  <data name="GumCoreAddition" xml:space="preserve">
-    <value>Kern-Gum toevoeging</value>
-  </data>
-  <data name="FilesIncludeNoneUseDllsOrSource" xml:space="preserve">
-    <value>Geen bestanden opnemen (gebruik gekoppelde .dll's of broncode)</value>
-  </data>
-  <data name="EmbedCodeFilesLegacy" xml:space="preserve">
-    <value>Codebestanden insluiten (verouderd)</value>
-  </data>
   <data name="ProjectFormsAddUpdate" xml:space="preserve">
     <value>Formulieren toevoegen/bijwerken aan project</value>
   </data>
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Als u nogmaals klikt, wordt alle formulierinhoud opnieuw toegevoegd)</value>
   </data>
-  <data name="FormsIncludeComponents" xml:space="preserve">
-    <value>Formulieren opnemen in componenten met gedrag</value>
-  </data>
   <data name="FormsAddDefaultToGum" xml:space="preserve">
     <value>Voeg standaardformulieren toe aan associaties van tandvleescomponenten</value>
-  </data>
-  <data name="FrbGenerateBehaviors" xml:space="preserve">
-    <value>Genereer FlatRedBall-gedrag</value>
-  </data>
-  <data name="GumFormComponentsAddRefresh" xml:space="preserve">
-    <value>Voeg/vernieuw Gum componenten toe</value>
   </data>
   <data name="EntityMain" xml:space="preserve">
     <value>Hoofdentiteit</value>

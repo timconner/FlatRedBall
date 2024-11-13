@@ -1234,56 +1234,14 @@ for {1}?</value>
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Could not find defining base object for {0}</value>
   </data>
-  <data name="ProjectGumManagement" xml:space="preserve">
-    <value>Gum Project Management</value>
-  </data>
-  <data name="GumAutoCreateForGlue" xml:space="preserve">
-    <value>Automatically Create Gum Screens for Glue Screens</value>
-  </data>
-  <data name="GumMatchGameResolution" xml:space="preserve">
-    <value>Match Game Resolution in Gum</value>
-  </data>
-  <data name="ProjectGumProperties" xml:space="preserve">
-    <value>Gum Project Properties</value>
-  </data>
-  <data name="ShowMouse" xml:space="preserve">
-    <value>Show Mouse</value>
-  </data>
-  <data name="UseAtlases" xml:space="preserve">
-    <value>Use Atlases</value>
-  </data>
-  <data name="ShowDottedOutlines" xml:space="preserve">
-    <value>Show Dotted Outlines</value>
-  </data>
-  <data name="GenerateCodeMakePublic" xml:space="preserve">
-    <value>Make Generated Code Instances Public</value>
-  </data>
-  <data name="GumCoreAddition" xml:space="preserve">
-    <value>Core Gum Addition</value>
-  </data>
-  <data name="FilesIncludeNoneUseDllsOrSource" xml:space="preserve">
-    <value>Include No Files (use linked .dlls or source)</value>
-  </data>
-  <data name="EmbedCodeFilesLegacy" xml:space="preserve">
-    <value>Embed Code Files (legacy)</value>
-  </data>
   <data name="ProjectFormsAddUpdate" xml:space="preserve">
     <value>Add/Update Forms to Project</value>
   </data>
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Clicking again will re-add all Forms content)</value>
   </data>
-  <data name="FormsIncludeComponents" xml:space="preserve">
-    <value>Include Forms in Components With Behaviors</value>
-  </data>
   <data name="FormsAddDefaultToGum" xml:space="preserve">
     <value>Add Default Forms to Gum Component Associations</value>
-  </data>
-  <data name="FrbGenerateBehaviors" xml:space="preserve">
-    <value>Generate FlatRedBall Behaviors</value>
-  </data>
-  <data name="GumFormComponentsAddRefresh" xml:space="preserve">
-    <value>Add/Refresh Gum Form Components</value>
   </data>
   <data name="EntityMain" xml:space="preserve">
     <value>Main Entity</value>

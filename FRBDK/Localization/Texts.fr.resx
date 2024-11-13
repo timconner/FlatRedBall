@@ -1233,56 +1233,14 @@
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Impossible de trouver l'objet de base définissant pour {0}</value>
   </data>
-  <data name="ProjectGumManagement" xml:space="preserve">
-    <value>Gestion de projet de Gum</value>
-  </data>
-  <data name="GumAutoCreateForGlue" xml:space="preserve">
-    <value>Créer automatiquement des écrans de Gum pour les écrans de Glue</value>
-  </data>
-  <data name="GumMatchGameResolution" xml:space="preserve">
-    <value>Résolution du jeu de correspondance dans Gum</value>
-  </data>
-  <data name="ProjectGumProperties" xml:space="preserve">
-    <value>Propriétés de projet de Gum</value>
-  </data>
-  <data name="ShowMouse" xml:space="preserve">
-    <value>Afficher la souris</value>
-  </data>
-  <data name="UseAtlases" xml:space="preserve">
-    <value>Utiliser des atlas</value>
-  </data>
-  <data name="ShowDottedOutlines" xml:space="preserve">
-    <value>Afficher les contours en pointillés</value>
-  </data>
-  <data name="GenerateCodeMakePublic" xml:space="preserve">
-    <value>Rendre publiques les instances de code générées</value>
-  </data>
-  <data name="GumCoreAddition" xml:space="preserve">
-    <value>Ajout de Gum de base</value>
-  </data>
-  <data name="FilesIncludeNoneUseDllsOrSource" xml:space="preserve">
-    <value>N'inclure aucun fichier (utilisez des fichiers .dll ou une source liés)</value>
-  </data>
-  <data name="EmbedCodeFilesLegacy" xml:space="preserve">
-    <value>Intégrer des fichiers de code (anciens)</value>
-  </data>
   <data name="ProjectFormsAddUpdate" xml:space="preserve">
     <value>Ajouter/mettre à jour des formulaires au projet</value>
   </data>
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Cliquer à nouveau ajoutera à nouveau tout le contenu des formulaires)</value>
   </data>
-  <data name="FormsIncludeComponents" xml:space="preserve">
-    <value>Inclure des formulaires dans des composants avec des comportements</value>
-  </data>
   <data name="FormsAddDefaultToGum" xml:space="preserve">
     <value>Ajouter des formulaires par défaut aux associations de composants Gum</value>
-  </data>
-  <data name="FrbGenerateBehaviors" xml:space="preserve">
-    <value>Générer des comportements FlatRedBall</value>
-  </data>
-  <data name="GumFormComponentsAddRefresh" xml:space="preserve">
-    <value>Ajouter/Actualiser les composants du formulaire Gum</value>
   </data>
   <data name="EntityMain" xml:space="preserve">
     <value>Entité principale</value>

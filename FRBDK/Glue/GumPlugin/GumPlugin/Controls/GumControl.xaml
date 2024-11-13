@@ -8,33 +8,33 @@
              d:DesignHeight="500" d:DesignWidth="310">
   <ScrollViewer VerticalScrollBarVisibility="Auto">
     <StackPanel>
-      <TextBlock HorizontalAlignment="Center" FontSize="16" Text="{x:Static localization:Texts.ProjectGumProperties}"></TextBlock>
+      <TextBlock HorizontalAlignment="Center" FontSize="16" Text="Gum Project Properties"></TextBlock>
       <CheckBox x:Name="ShowDottedOutlines" VerticalContentAlignment="Center" 
-                  Content="{x:Static localization:Texts.ShowDottedOutlines}" IsChecked="{Binding ShowDottedOutlines}"></CheckBox>
+                  Content="Show Dotted Outlines" IsChecked="{Binding ShowDottedOutlines}"></CheckBox>
       <CheckBox VerticalContentAlignment="Center" 
-                      Content="{x:Static localization:Texts.ShowMouse}" IsChecked="{Binding ShowMouse}" ></CheckBox>
+                      Content="Show Mouse" IsChecked="{Binding ShowMouse}" ></CheckBox>
 
-      <CheckBox x:Name="UseAtlasesCheckBox" VerticalContentAlignment="Center" Content="{x:Static localization:Texts.UseAtlases}" IsChecked="{Binding UseAtlases}"></CheckBox>
-      <CheckBox x:Name="MakeInstancesPublicCheckBox" VerticalAlignment="Center" Content="{x:Static localization:Texts.GenerateCodeMakePublic}" IsChecked="{Binding MakeGumInstancesPublic}"></CheckBox>
+      <CheckBox x:Name="UseAtlasesCheckBox" VerticalContentAlignment="Center" Content="Use Atlases" IsChecked="{Binding UseAtlases}"></CheckBox>
+      <CheckBox x:Name="MakeInstancesPublicCheckBox" VerticalAlignment="Center" Content="Make Generated Code Instances Public" IsChecked="{Binding MakeGumInstancesPublic}"></CheckBox>
       <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RegenerateFontsClicked" Content="Re-generate Fonts" />
       <Button Margin="7,5,0,0" Width="220" HorizontalAlignment="Left" Click="RemoveOrphanCustomCodeClicked" Content="Remove Orphaned Custom Runtime Files" />
 
-      <GroupBox Header="{x:Static localization:Texts.ProjectGumManagement}" Margin="0,4">
+      <GroupBox Header="Gum Project Management" Margin="0,4">
         <StackPanel>
           <CheckBox x:Name="AutoCreateGumScreens" VerticalContentAlignment="Center" 
-                          Content="{x:Static localization:Texts.GumAutoCreateForGlue}" 
+                          Content="Automatically Create Gum Screens for Glue Screens" 
                               IsChecked="{Binding AutoCreateGumScreens}"></CheckBox>
-          <CheckBox Content="{x:Static localization:Texts.GumMatchGameResolution}" 
+          <CheckBox Content="Match Game Resolution in Gum" 
                               IsChecked="{Binding IsMatchGameResolutionInGumChecked}"/>
         </StackPanel>
       </GroupBox>
 
-      <GroupBox Header="{x:Static localization:Texts.GumCoreAddition}" Visibility="{Binding GumCoreFileUiVisibility}" Margin="0,0,0,4">
+      <GroupBox Header="Core Gum Addition" Visibility="{Binding GumCoreFileUiVisibility}" Margin="0,0,0,4">
         <StackPanel >
           <RadioButton GroupName="AdditionType" x:Name="IncludeNoFilesRadio" 
-                             VerticalContentAlignment="Center" Content="{x:Static localization:Texts.FilesIncludeNoneUseDllsOrSource}" IsChecked="{Binding IncludeNoFiles, FallbackValue=true, Mode=TwoWay}"/>
+                             VerticalContentAlignment="Center" Content="Include No Files (use linked .dlls or source)" IsChecked="{Binding IncludeNoFiles, FallbackValue=true, Mode=TwoWay}"/>
           <RadioButton GroupName="AdditionType" x:Name="EmbedCodeFilesRadio" 
-                             VerticalContentAlignment="Center" Content="{x:Static localization:Texts.EmbedCodeFilesLegacy}" 
+                             VerticalContentAlignment="Center" Content="Embed Code Files (legacy)" 
                              IsEnabled="{Binding IsEmbedCodeFilesEnabled}"
                              IsChecked="{Binding EmbedCodeFiles, Mode=TwoWay}" />
         </StackPanel>
@@ -45,21 +45,21 @@
         <TabControl BorderThickness="0,1,0,0">
           <TabItem Header="Basic">
             <StackPanel x:Name="Basic" Margin="4">
-              <Button HorizontalAlignment="Left" Width="Auto" Click="HandleAddAllForms" Content="{x:Static localization:Texts.ProjectFormsAddUpdate}" />
-              <TextBlock FontSize="9" Text="{x:Static localization:Texts.FormClickAgainReAdd}" Margin="0,4,0,0"/>
+              <Button HorizontalAlignment="Left" Width="Auto" Click="HandleAddAllForms" Content="Add/Update Forms to Project" />
+              <TextBlock FontSize="9" Text="(Clicking again will re-add all Forms content)" Margin="0,4,0,0"/>
             </StackPanel>
           </TabItem>
           <TabItem Header="Advanced">
             <StackPanel x:Name="Advanced" Margin="4">
 
               <CheckBox VerticalContentAlignment="Center"
-                                      Content="{x:Static localization:Texts.FormsIncludeComponents}" IsChecked="{Binding IncludeFormsInComponents, Mode=TwoWay}"></CheckBox>
+                                      Content="Include Forms in Components With Behaviors" IsChecked="{Binding IncludeFormsInComponents, Mode=TwoWay}"></CheckBox>
 
               <CheckBox VerticalContentAlignment="Center"
-                                      Content="{x:Static localization:Texts.FormsAddDefaultToGum}" IsChecked="{Binding IncludeComponentToFormsAssociation, Mode=TwoWay}"></CheckBox>
-              <Button HorizontalAlignment="Left" Margin="0,10,0,0" Width="220" Click="HandleGenerateBehaviors" Content="{x:Static localization:Texts.FrbGenerateBehaviors}" />
+                                      Content="Add Default Forms to Gum Component Associations" IsChecked="{Binding IncludeComponentToFormsAssociation, Mode=TwoWay}"></CheckBox>
+              <Button HorizontalAlignment="Left" Margin="0,10,0,0" Width="220" Click="HandleGenerateBehaviors" Content="Generate FlatRedBall Behaviors" />
               <Button HorizontalAlignment="Left" Margin="0,5,0,0" Width="220" 
-                                    Click="HandleAddFormsComponentsClick" Content="{x:Static localization:Texts.GumFormComponentsAddRefresh}" />
+                                    Click="HandleAddFormsComponentsClick" Content="Add/Refresh Gum Form Components" />
             </StackPanel>
           </TabItem>
         </TabControl>

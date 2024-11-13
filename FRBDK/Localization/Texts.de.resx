@@ -1233,56 +1233,14 @@
   <data name="ObjectCouldNotDefineFor" xml:space="preserve">
     <value>Definierendes Basisobjekt für {0} konnte nicht gefunden werden</value>
   </data>
-  <data name="ProjectGumManagement" xml:space="preserve">
-    <value>Gum-Projektmanagement</value>
-  </data>
-  <data name="GumAutoCreateForGlue" xml:space="preserve">
-    <value>Erstellen Sie automatisch Gum für Glue</value>
-  </data>
-  <data name="GumMatchGameResolution" xml:space="preserve">
-    <value>Passen Sie die Spielauflösung in Gum an</value>
-  </data>
-  <data name="ProjectGumProperties" xml:space="preserve">
-    <value>Eigenschaften des Gum-Projekts</value>
-  </data>
-  <data name="ShowMouse" xml:space="preserve">
-    <value>Maus anzeigen</value>
-  </data>
-  <data name="UseAtlases" xml:space="preserve">
-    <value>Verwenden Sie Atlanten</value>
-  </data>
-  <data name="ShowDottedOutlines" xml:space="preserve">
-    <value>Gepunktete Umrisse anzeigen</value>
-  </data>
-  <data name="GenerateCodeMakePublic" xml:space="preserve">
-    <value>Machen Sie generierte Codeinstanzen öffentlich</value>
-  </data>
-  <data name="GumCoreAddition" xml:space="preserve">
-    <value>Kern Gum-Zugabe</value>
-  </data>
-  <data name="FilesIncludeNoneUseDllsOrSource" xml:space="preserve">
-    <value>Keine Dateien einschließen (verknüpfte DLLs oder Quelle verwenden)</value>
-  </data>
-  <data name="EmbedCodeFilesLegacy" xml:space="preserve">
-    <value>Codedateien einbetten (alt)</value>
-  </data>
   <data name="ProjectFormsAddUpdate" xml:space="preserve">
     <value>Formulare zum Projekt hinzufügen/aktualisieren</value>
   </data>
   <data name="FormClickAgainReAdd" xml:space="preserve">
     <value>(Durch erneutes Klicken werden alle Formularinhalte erneut hinzugefügt.)</value>
   </data>
-  <data name="FormsIncludeComponents" xml:space="preserve">
-    <value>Fügen Sie Formulare in Komponenten mit Verhalten ein</value>
-  </data>
   <data name="FormsAddDefaultToGum" xml:space="preserve">
     <value>Fügen Sie Standardformen zu Gum-Komponentenzuordnungen hinzu</value>
-  </data>
-  <data name="FrbGenerateBehaviors" xml:space="preserve">
-    <value>Generieren Sie FlatRedBall-Verhalten</value>
-  </data>
-  <data name="GumFormComponentsAddRefresh" xml:space="preserve">
-    <value>Gum-Form-Komponenten hinzufügen/aktualisieren</value>
   </data>
   <data name="EntityMain" xml:space="preserve">
     <value>Hauptentität</value>

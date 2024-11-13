@@ -667,7 +667,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
         if(gumProject?.Behaviors != null)
         {
-            foreach (var behavior in  gumProject.Behaviors)
+            foreach (var behavior in gumProject.Behaviors)
             {
                 GenerateCodeFor(behavior, saveProjects:false);
             }

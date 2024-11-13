@@ -1222,15 +1222,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Embed Code Files (legacy).
-        /// </summary>
-        public static string EmbedCodeFilesLegacy {
-            get {
-                return ResourceManager.GetString("EmbedCodeFilesLegacy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Embed game in game tab.
         /// </summary>
         public static string EmbedGameInGameTab {
@@ -2140,15 +2131,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include No Files (use linked .dlls or source).
-        /// </summary>
-        public static string FilesIncludeNoneUseDllsOrSource {
-            get {
-                return ResourceManager.GetString("FilesIncludeNoneUseDllsOrSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Nothing - leave them as part of the game project.
         /// </summary>
         public static string FilesLeaveAsPartOfProject {
@@ -2383,15 +2365,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include Forms in Components With Behaviors.
-        /// </summary>
-        public static string FormsIncludeComponents {
-            get {
-                return ResourceManager.GetString("FormsIncludeComponents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Forward.
         /// </summary>
         public static string Forward {
@@ -2451,15 +2424,6 @@ namespace Localization {
         public static string FrbEditorBinaries {
             get {
                 return ResourceManager.GetString("FrbEditorBinaries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Generate FlatRedBall Behaviors.
-        /// </summary>
-        public static string FrbGenerateBehaviors {
-            get {
-                return ResourceManager.GetString("FrbGenerateBehaviors", resourceCulture);
             }
         }
         
@@ -2649,15 +2613,6 @@ namespace Localization {
         public static string GameSendNoResponseBack {
             get {
                 return ResourceManager.GetString("GameSendNoResponseBack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Make Generated Code Instances Public.
-        /// </summary>
-        public static string GenerateCodeMakePublic {
-            get {
-                return ResourceManager.GetString("GenerateCodeMakePublic", resourceCulture);
             }
         }
         
@@ -2878,30 +2833,12 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically Create Gum Screens for Glue Screens.
-        /// </summary>
-        public static string GumAutoCreateForGlue {
-            get {
-                return ResourceManager.GetString("GumAutoCreateForGlue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delete the Gum Screen {0}
         ///for {1}?.
         /// </summary>
         public static string GumConfirmDeleteScreen {
             get {
                 return ResourceManager.GetString("GumConfirmDeleteScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Core Gum Addition.
-        /// </summary>
-        public static string GumCoreAddition {
-            get {
-                return ResourceManager.GetString("GumCoreAddition", resourceCulture);
             }
         }
         
@@ -2915,29 +2852,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add/Refresh Gum Form Components.
-        /// </summary>
-        public static string GumFormComponentsAddRefresh {
-            get {
-                return ResourceManager.GetString("GumFormComponentsAddRefresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Include Forms Controls (Recommended).
         /// </summary>
         public static string GumIncludeRecommendedFormsControls {
             get {
                 return ResourceManager.GetString("GumIncludeRecommendedFormsControls", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Match Game Resolution in Gum.
-        /// </summary>
-        public static string GumMatchGameResolution {
-            get {
-                return ResourceManager.GetString("GumMatchGameResolution", resourceCulture);
             }
         }
         
@@ -5444,24 +5363,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gum Project Management.
-        /// </summary>
-        public static string ProjectGumManagement {
-            get {
-                return ResourceManager.GetString("ProjectGumManagement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gum Project Properties.
-        /// </summary>
-        public static string ProjectGumProperties {
-            get {
-                return ResourceManager.GetString("ProjectGumProperties", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The selected project is already a synced project..
         /// </summary>
         public static string ProjectIsAlreadySynced {
@@ -6272,15 +6173,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Dotted Outlines.
-        /// </summary>
-        public static string ShowDottedOutlines {
-            get {
-                return ResourceManager.GetString("ShowDottedOutlines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show Game Rerun Command List.
         /// </summary>
         public static string ShowGameRerun {
@@ -6304,15 +6196,6 @@ namespace Localization {
         public static string ShowHiddenNodes {
             get {
                 return ResourceManager.GetString("ShowHiddenNodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show Mouse.
-        /// </summary>
-        public static string ShowMouse {
-            get {
-                return ResourceManager.GetString("ShowMouse", resourceCulture);
             }
         }
         
@@ -6979,15 +6862,6 @@ namespace Localization {
         public static string UpdateToVelocity {
             get {
                 return ResourceManager.GetString("UpdateToVelocity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use Atlases.
-        /// </summary>
-        public static string UseAtlases {
-            get {
-                return ResourceManager.GetString("UseAtlases", resourceCulture);
             }
         }
         
