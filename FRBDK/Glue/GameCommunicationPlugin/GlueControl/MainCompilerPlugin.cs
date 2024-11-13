@@ -97,6 +97,8 @@ namespace GameCommunicationPlugin.GlueControl
 
         System.Threading.SemaphoreSlim getCommandsSemaphore = new System.Threading.SemaphoreSlim(1, 1);
 
+        ModalReportingService _modalReportingService;
+
         #endregion
 
         #region Startup
@@ -112,6 +114,9 @@ namespace GameCommunicationPlugin.GlueControl
             _dragDropManagerGameWindow = new DragDropManagerGameWindow(_refreshManager);
             _variableSendingManager = new VariableSendingManager(_refreshManager);
             _commandReceiver = new CommandReceiver(_refreshManager, _variableSendingManager);
+
+            _modalReportingService = new ModalReportingService(MainGlueWindow.Self, GlueCommands.Self.DialogCommands, CommandSender.Self);
+            _modalReportingService.Initialize();
 
             CreateBuildControl();
 

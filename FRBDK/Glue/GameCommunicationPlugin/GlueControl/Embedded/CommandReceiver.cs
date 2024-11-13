@@ -727,6 +727,15 @@ namespace GlueControl
 
         #endregion
 
+        #region GlueModalWindowStatusDto
+
+        private static void HandleDto(GlueModalWindowStatusDto dto)
+        {
+            EmbeddedWindowLogic.IsGlueShowingModalWindow = dto.IsModalWindowOpen;
+        }
+
+        #endregion
+
         #region ObjectReorderedDto
 
         private static void HandleDto(NamedObjectReorderedDto dto)

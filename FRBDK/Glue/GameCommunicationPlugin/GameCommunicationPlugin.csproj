@@ -122,6 +122,7 @@
     <Compile Include="GlueControl\CommandSending\CommandSender.cs" />
     <Compile Include="GlueControl\Dtos\Dtos.cs" />
     <Compile Include="GlueControl\Dtos\GeneratePreviewDto.cs" />
+    <Compile Include="GlueControl\Managers\ModalReportingService.cs" />
     <EmbeddedResource Include="GlueControl\Embedded\CommandReplayLogic.cs" />
     <Compile Include="GlueControl\MainCompilerPlugin.cs" />
     <Compile Include="GlueControl\Managers\DragDropManagerGameWindow.cs" />

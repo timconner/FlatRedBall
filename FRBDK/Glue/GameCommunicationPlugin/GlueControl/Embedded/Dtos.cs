@@ -30,15 +30,6 @@ namespace GlueControl.Dtos
     }
     #endregion
 
-    /// <summary>
-    /// Represents a command which is performed in a specific element. The ElementNameGlue is used to determine
-    /// if a command should be execited when a specific element is created;
-    /// </summary>
-    public interface IInElementCommand
-    {
-        public string ElementNameGlue { get; set; }
-    }
-
     #region RemoveObjectDto
     public class RemoveObjectDto : UpdateCurrentElementDto
     {
@@ -129,6 +120,16 @@ namespace GlueControl.Dtos
 
     #endregion
 
+
+    #region GlueModalWindowStatusDto
+
+    public class GlueModalWindowStatusDto
+    {
+        public bool IsModalWindowOpen { get; set; }
+    }
+
+    #endregion
+
     #region ObjectReorderedDto
 
     // could eventually add variables and states if we care, but 
@@ -189,7 +190,6 @@ namespace GlueControl.Dtos
     }
 
     #endregion
-
 
     #region CurrentDisplayInfoDto
 
@@ -741,6 +741,16 @@ namespace GlueControl.Dtos
 
 
     #region Base DTOs/Utilities
+
+
+    /// <summary>
+    /// Represents a command which is performed in a specific element. The ElementNameGlue is used to determine
+    /// if a command should be execited when a specific element is created;
+    /// </summary>
+    public interface IInElementCommand
+    {
+        public string ElementNameGlue { get; set; }
+    }
 
     public class ResponseWithContentDto : RespondableDto
     {

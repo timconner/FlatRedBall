@@ -106,6 +106,9 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
         void FocusOnTreeView();
         void MoveToCursor(System.Windows.Window window);
 
+        bool IsModalWindowOpen();
+
+
         void GoToDefinitionOfSelection();
     }
 }
