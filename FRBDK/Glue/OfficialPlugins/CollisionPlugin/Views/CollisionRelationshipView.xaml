@@ -30,8 +30,8 @@
                     <ComboBox  FontSize="26"
                               SelectedItem="{Binding FirstCollisionName}"
                               ItemsSource="{Binding FirstCollisionItemSource}"></ComboBox>
-                    <Image ToolTip="{x:Static localization:Texts.HintObjectAutoPartition}" Grid.Column="1" Visibility="{Binding FirstPartitionEnabledVisibility}" Source="/OfficialPlugins;component/CollisionPlugin/Icons/PartitionEnabled.png"/>
-                    <Button ToolTip="{x:Static localization:Texts.HintObjectNotPartitioned}" Grid.Column="1" Visibility="{Binding FirstNoPartitioningVisibility}" 
+                    <Image ToolTip="This object is automatically partitioned, or it does not need partitioning" Grid.Column="1" Visibility="{Binding FirstPartitionEnabledVisibility}" Source="/OfficialPlugins;component/CollisionPlugin/Icons/PartitionEnabled.png"/>
+                    <Button ToolTip="This object is not partitioned, so the collision relationship may run slowly" Grid.Column="1" Visibility="{Binding FirstNoPartitioningVisibility}" 
                             Click="FirstObjectCollisionPartitioningButtonClicked">
                         <Image Source="/OfficialPlugins;component/CollisionPlugin/Icons/NoPartitioning.png"></Image>
                     </Button>
@@ -45,14 +45,14 @@
                     <ComboBox FontSize="26"
                               SelectedItem="{Binding SecondCollisionName}"
                               ItemsSource="{Binding SecondCollisionItemSource}"></ComboBox>
-                    <Image ToolTip="{x:Static localization:Texts.HintObjectAutoPartition}" Grid.Column="1" Visibility="{Binding SecondPartitionEnabledVisibility}" Source="/OfficialPlugins;component/CollisionPlugin/Icons/PartitionEnabled.png"></Image>
-                    <Button ToolTip="{x:Static localization:Texts.HintObjectNotPartitioned}" Grid.Column="1" Visibility="{Binding SecondNoPartitioningVisibility}"
+                    <Image ToolTip="This object is automatically partitioned, or it does not need partitioning" Grid.Column="1" Visibility="{Binding SecondPartitionEnabledVisibility}" Source="/OfficialPlugins;component/CollisionPlugin/Icons/PartitionEnabled.png"></Image>
+                    <Button ToolTip="This object is not partitioned, so the collision relationship may run slowly" Grid.Column="1" Visibility="{Binding SecondNoPartitioningVisibility}"
                             Click="SecondObjectCollisionPartitioningButtonClicked">
                         <Image Source="/OfficialPlugins;component/CollisionPlugin/Icons/NoPartitioning.png"></Image>
                     </Button>
                 </Grid>
 
-                <TextBlock Margin="0,5,0,0" Grid.Row="1" Grid.ColumnSpan="3" Text="{x:Static localization:Texts.Subcollision}" />
+                <TextBlock Margin="0,5,0,0" Grid.Row="1" Grid.ColumnSpan="3" Text="Subcollision:" />
 
                 <ComboBox Grid.Row="2"
                           IsEnabled="{Binding FirstSubCollisionEnabled}"
@@ -96,7 +96,7 @@
 
             <GroupBox Header="{x:Static localization:Texts.CollisionLimit}" Visibility="{Binding CollisionLimitUiVisibility}">
                 <StackPanel>
-                    <RadioButton IsChecked="{Binding IsAllCollisionLimitChecked}" Content="{x:Static localization:Texts.All}" />
+                    <RadioButton IsChecked="{Binding IsAllCollisionLimitChecked}" Content="All" />
                     <RadioButton IsChecked="{Binding IsFirstCollisionLimitChecked}"  Content="{x:Static localization:Texts.StopAfterFirst}" />
                     <RadioButton IsChecked="{Binding IsClosestCollisionLimitChecked}" Content="{x:Static localization:Texts.Closest}" />
                     <TextBlock Text="{Binding CollisionLimitExplanationText}" />
@@ -106,7 +106,7 @@
             <GroupBox Header="{x:Static localization:Texts.CollisionListVsList}" Visibility="{Binding ListVsListDuplicateVisibility}"  Margin="0,8,0,0">
                 <StackPanel>
                     <RadioButton IsChecked="{Binding IsPreventDoubleChecksChecked}" Content="{x:Static localization:Texts.PreventDoubleChecksFrame}" />
-                    <RadioButton IsChecked="{Binding IsAllowDoubleChecksChecked}" Content="{x:Static localization:Texts.AllowDoubleChecksFrame}" />
+                    <RadioButton IsChecked="{Binding IsAllowDoubleChecksChecked}" Content="Allow Double Checks per Frame" />
                     <TextBlock TextWrapping="Wrap"  Text="{x:Static localization:Texts.HintDoubleCollisionChecks}" />
                 </StackPanel>
             </GroupBox>
@@ -231,17 +231,17 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock VerticalAlignment="Center" Text="{x:Static localization:Texts.GroundMovement}" />
+                    <TextBlock VerticalAlignment="Center" Text="Ground Movement:" />
                     <ComboBox IsEditable="True" Grid.Column="1" Margin="2" 
                               ItemsSource="{Binding AvailablePlatformerVariableNames}"
                               SelectedItem="{Binding GroundPlatformerVariableName}"></ComboBox>
 
-                    <TextBlock VerticalAlignment="Center" Grid.Row="1" Text="{x:Static localization:Texts.AirMovement}" />
+                    <TextBlock VerticalAlignment="Center" Grid.Row="1" Text="Air Movement:" />
                     <ComboBox IsEditable="True" Grid.Row="1" Grid.Column="1" Margin="2"  
                               ItemsSource="{Binding AvailablePlatformerVariableNames}"
                               SelectedItem="{Binding AirPlatformerVariableName}"></ComboBox>
 
-                    <TextBlock VerticalAlignment="Center" Grid.Row="2" Text="{x:Static localization:Texts.AfterDoubleJump}" />
+                    <TextBlock VerticalAlignment="Center" Grid.Row="2" Text="After double jump:" />
                     <ComboBox IsEditable="True" Grid.Row="2" Grid.Column="1" Margin="2"  
                               ItemsSource="{Binding AvailablePlatformerVariableNames}"
                               SelectedItem="{Binding AfterDoubleJumpPlatformerVariableName}"></ComboBox>

@@ -1326,17 +1326,8 @@
   <data name="ListSortEveryFrame" xml:space="preserve">
     <value>Sorteer Lijst tijdens elke frame</value>
   </data>
-  <data name="HintObjectAutoPartition" xml:space="preserve">
-    <value>Dit object wordt automatisch gepartitioneerd, of hoeft niet te worden gepartitioneerd</value>
-  </data>
-  <data name="HintObjectNotPartitioned" xml:space="preserve">
-    <value>Dit object is niet gepartitioneerd, dus de botsingsrelaties opbouwen kan langzaam verlopen</value>
-  </data>
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>Subbotsing kan niet worden ingesteld op Botsing van deelnemers: de deelnemer kan intern selecteren welke objecten moeten botsen.</value>
-  </data>
-  <data name="Subcollision" xml:space="preserve">
-    <value>Subbotsing:</value>
   </data>
   <data name="AutoNameRelationship" xml:space="preserve">
     <value>Relatie automatisch benoemen</value>
@@ -1350,9 +1341,6 @@
   <data name="CollisionLimit" xml:space="preserve">
     <value>Botsingslimiet</value>
   </data>
-  <data name="All" xml:space="preserve">
-    <value>Alle</value>
-  </data>
   <data name="Closest" xml:space="preserve">
     <value>Dichtstbijzijnde</value>
   </data>
@@ -1364,9 +1352,6 @@
   </data>
   <data name="PreventDoubleChecksFrame" xml:space="preserve">
     <value>Voorkom dubbele controles per frame</value>
-  </data>
-  <data name="AllowDoubleChecksFrame" xml:space="preserve">
-    <value>Dubbele controles per frame toestaan</value>
   </data>
   <data name="HintDoubleCollisionChecks" xml:space="preserve">
     <value>Er moeten dubbele controles worden uitgevoerd als er sprake is van een zelfbotsing op een entiteitenlijst, waarbij elk item een andere subbotsing gebruikt</value>
@@ -1415,15 +1400,6 @@
   </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>Als er schade is aangericht</value>
-  </data>
-  <data name="GroundMovement" xml:space="preserve">
-    <value>Grondbeweging:</value>
-  </data>
-  <data name="AirMovement" xml:space="preserve">
-    <value>Luchtbeweging:</value>
-  </data>
-  <data name="AfterDoubleJump" xml:space="preserve">
-    <value>Na dubbele sprong:</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>Meer...</value>
@@ -2486,15 +2462,6 @@
   </data>
   <data name="PluginDownloadFailed" xml:space="preserve">
     <value>Kan de plug-in niet downloaden</value>
-  </data>
-  <data name="ReferenceFoundNone" xml:space="preserve">
-    <value>Geen referenties gevonden</value>
-  </data>
-  <data name="ReferenceFoundOne" xml:space="preserve">
-    <value>1 referentie gevonden</value>
-  </data>
-  <data name="ReferenceFoundAmount" xml:space="preserve">
-    <value>{0} referenties gevonden</value>
   </data>
   <data name="FrbEditor" xml:space="preserve">
     <value>FlatRedBall-Editor</value>

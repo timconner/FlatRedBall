@@ -128,13 +128,13 @@ public partial class ElementReferenceListWindow
         switch (ItemListView.Items.Count)
         {
             case 0:
-                this.Text.Content = L.Texts.ReferenceFoundNone;
+                this.Text.Content = "No references found";
                 return;
             case 1:
-                this.Text.Content = L.Texts.ReferenceFoundOne;
+                this.Text.Content = "1 reference found";
                 return;
             default:
-                this.Text.Content = String.Format(L.Texts.ReferenceFoundAmount, ItemListView.Items.Count);
+                this.Text.Content = String.Format("{0} references found", ItemListView.Items.Count);
                 break;
         }
     }

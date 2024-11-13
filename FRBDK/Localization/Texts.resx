@@ -1327,17 +1327,8 @@ for {1}?</value>
   <data name="ListSortEveryFrame" xml:space="preserve">
     <value>Sort List every frame</value>
   </data>
-  <data name="HintObjectAutoPartition" xml:space="preserve">
-    <value>This object is automatically partitioned, or it does not need partitioning</value>
-  </data>
-  <data name="HintObjectNotPartitioned" xml:space="preserve">
-    <value>This object is not partitioned, so the collision relationship may run slowly</value>
-  </data>
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>Subcollision cannot be set on Delegate Collision - the delegate can internally select which objects to collide.</value>
-  </data>
-  <data name="Subcollision" xml:space="preserve">
-    <value>Subcollision:</value>
   </data>
   <data name="AutoNameRelationship" xml:space="preserve">
     <value>Auto-name Relationship</value>
@@ -1351,9 +1342,6 @@ for {1}?</value>
   <data name="CollisionLimit" xml:space="preserve">
     <value>Collision Limit</value>
   </data>
-  <data name="All" xml:space="preserve">
-    <value>All</value>
-  </data>
   <data name="Closest" xml:space="preserve">
     <value>Closest</value>
   </data>
@@ -1365,9 +1353,6 @@ for {1}?</value>
   </data>
   <data name="PreventDoubleChecksFrame" xml:space="preserve">
     <value>Prevent Double Checks per Frame</value>
-  </data>
-  <data name="AllowDoubleChecksFrame" xml:space="preserve">
-    <value>Allow Double Checks per Frame</value>
   </data>
   <data name="HintDoubleCollisionChecks" xml:space="preserve">
     <value>Double checks should be performed if doing self-collision on an entity list with each item using a different subcollision</value>
@@ -1416,15 +1401,6 @@ for {1}?</value>
   </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>If Damage Dealt</value>
-  </data>
-  <data name="GroundMovement" xml:space="preserve">
-    <value>Ground Movement:</value>
-  </data>
-  <data name="AirMovement" xml:space="preserve">
-    <value>Air Movement:</value>
-  </data>
-  <data name="AfterDoubleJump" xml:space="preserve">
-    <value>After double jump:</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>More...</value>
@@ -2493,15 +2469,6 @@ for {1}?</value>
   </data>
   <data name="PluginDownloadFailed" xml:space="preserve">
     <value>Failed to download plugin</value>
-  </data>
-  <data name="ReferenceFoundNone" xml:space="preserve">
-    <value>No references found</value>
-  </data>
-  <data name="ReferenceFoundOne" xml:space="preserve">
-    <value>1 reference found</value>
-  </data>
-  <data name="ReferenceFoundAmount" xml:space="preserve">
-    <value>{0} references found</value>
   </data>
   <data name="FrbEditor" xml:space="preserve">
     <value>FlatRedBall Editor</value>

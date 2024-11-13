@@ -61,150 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add state interpolation classes.
-        /// </summary>
-        public static string AddStateInterpolationClasses {
-            get {
-                return ResourceManager.GetString("AddStateInterpolationClasses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add to path.
-        /// </summary>
-        public static string AddToPath {
-            get {
-                return ResourceManager.GetString("AddToPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add/Update .gitignore.
-        /// </summary>
-        public static string AddUpdateGitignore {
-            get {
-                return ResourceManager.GetString("AddUpdateGitignore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add XNBs to Monogame Project(s).
-        /// </summary>
-        public static string AddXnbToMonogame {
-            get {
-                return ResourceManager.GetString("AddXnbToMonogame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add XXXX Factory.
-        /// </summary>
-        public static string AddXXXFactory {
-            get {
-                return ResourceManager.GetString("AddXXXFactory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Factories simplify the creation and addition of entities to screen lists. Factories are required to create entities through TMX files..
-        /// </summary>
-        public static string AddXXXFactoryDescription {
-            get {
-                return ResourceManager.GetString("AddXXXFactoryDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add XXXX Instance to GameScreen.
-        /// </summary>
-        public static string AddXXXInstanceToGameScreen {
-            get {
-                return ResourceManager.GetString("AddXXXInstanceToGameScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds a single XXXX instance to the GameScreen.
-        /// </summary>
-        public static string AddXXXInstanceToGameScreenDescription {
-            get {
-                return ResourceManager.GetString("AddXXXInstanceToGameScreenDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add XXXX List to GameScreen.
-        /// </summary>
-        public static string AddXXXToGameScreen {
-            get {
-                return ResourceManager.GetString("AddXXXToGameScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add XXXX to XXXXList.
-        /// </summary>
-        public static string AddXXXToList {
-            get {
-                return ResourceManager.GetString("AddXXXToList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Advanced.
-        /// </summary>
-        public static string Advanced {
-            get {
-                return ResourceManager.GetString("Advanced", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Advanced Options.
-        /// </summary>
-        public static string AdvancedOptions {
-            get {
-                return ResourceManager.GetString("AdvancedOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to After double jump:.
-        /// </summary>
-        public static string AfterDoubleJump {
-            get {
-                return ResourceManager.GetString("AfterDoubleJump", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Air Movement:.
-        /// </summary>
-        public static string AirMovement {
-            get {
-                return ResourceManager.GetString("AirMovement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All.
-        /// </summary>
-        public static string All {
-            get {
-                return ResourceManager.GetString("All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Allow Double Checks per Frame.
-        /// </summary>
-        public static string AllowDoubleChecksFrame {
-            get {
-                return ResourceManager.GetString("AllowDoubleChecksFrame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Alternative:.
         /// </summary>
         public static string Alternative {
@@ -2995,15 +2851,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ground Movement:.
-        /// </summary>
-        public static string GroundMovement {
-            get {
-                return ResourceManager.GetString("GroundMovement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Export Group....
         /// </summary>
         public static string GroupExport {
@@ -3581,29 +3428,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This object is automatically partitioned, or it does not need partitioning.
-        /// </summary>
-        public static string HintObjectAutoPartition {
-            get {
-                return ResourceManager.GetString("HintObjectAutoPartition", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         public static string HintObjectIsContainerNotApply {
             get {
                 return ResourceManager.GetString("HintObjectIsContainerNotApply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This object is not partitioned, so the collision relationship may run slowly.
-        /// </summary>
-        public static string HintObjectNotPartitioned {
-            get {
-                return ResourceManager.GetString("HintObjectNotPartitioned", resourceCulture);
             }
         }
         
@@ -5903,33 +5732,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} references found.
-        /// </summary>
-        public static string ReferenceFoundAmount {
-            get {
-                return ResourceManager.GetString("ReferenceFoundAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No references found.
-        /// </summary>
-        public static string ReferenceFoundNone {
-            get {
-                return ResourceManager.GetString("ReferenceFoundNone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1 reference found.
-        /// </summary>
-        public static string ReferenceFoundOne {
-            get {
-                return ResourceManager.GetString("ReferenceFoundOne", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Reference Sharing.
         /// </summary>
         public static string ReferenceSharing {
@@ -6790,15 +6592,6 @@ namespace Localization {
         public static string StopAfterFirst {
             get {
                 return ResourceManager.GetString("StopAfterFirst", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Subcollision:.
-        /// </summary>
-        public static string Subcollision {
-            get {
-                return ResourceManager.GetString("Subcollision", resourceCulture);
             }
         }
         

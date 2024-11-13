@@ -1326,17 +1326,8 @@
   <data name="ListSortEveryFrame" xml:space="preserve">
     <value>Trier la liste de chaque image</value>
   </data>
-  <data name="HintObjectAutoPartition" xml:space="preserve">
-    <value>Cet objet est automatiquement partitionné, ou il n'a pas besoin de partitionnement</value>
-  </data>
-  <data name="HintObjectNotPartitioned" xml:space="preserve">
-    <value>Cet objet n'est pas partitionné, la relation de collision peut donc s'exécuter lentement</value>
-  </data>
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>La sous-collision ne peut pas être définie sur la collision du délégué - le délégué peut sélectionner en interne les objets à entrer en collision.</value>
-  </data>
-  <data name="Subcollision" xml:space="preserve">
-    <value>Sous-collision :</value>
   </data>
   <data name="AutoNameRelationship" xml:space="preserve">
     <value>Relation de nom automatique</value>
@@ -1350,9 +1341,6 @@
   <data name="CollisionLimit" xml:space="preserve">
     <value>Limite de collision</value>
   </data>
-  <data name="All" xml:space="preserve">
-    <value>Tout</value>
-  </data>
   <data name="Closest" xml:space="preserve">
     <value>Le plus près</value>
   </data>
@@ -1364,9 +1352,6 @@
   </data>
   <data name="PreventDoubleChecksFrame" xml:space="preserve">
     <value>Empêcher les doubles vérifications par image</value>
-  </data>
-  <data name="AllowDoubleChecksFrame" xml:space="preserve">
-    <value>Autoriser les doubles vérifications par image</value>
   </data>
   <data name="HintDoubleCollisionChecks" xml:space="preserve">
     <value>Des doubles vérifications doivent être effectuées en cas d'auto-collision sur une liste d'entités avec chaque élément utilisant une sous-collision différente</value>
@@ -1415,15 +1400,6 @@
   </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>Si des dégâts sont infligés</value>
-  </data>
-  <data name="GroundMovement" xml:space="preserve">
-    <value>Mouvement au sol :</value>
-  </data>
-  <data name="AirMovement" xml:space="preserve">
-    <value>Mouvement aérien :</value>
-  </data>
-  <data name="AfterDoubleJump" xml:space="preserve">
-    <value>Après le double saut :</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>Plus...</value>
@@ -2483,15 +2459,6 @@
   </data>
   <data name="PluginDownloadFailed" xml:space="preserve">
     <value>Échec du téléchargement du plugin</value>
-  </data>
-  <data name="ReferenceFoundNone" xml:space="preserve">
-    <value>Aucune référence trouvée</value>
-  </data>
-  <data name="ReferenceFoundOne" xml:space="preserve">
-    <value>1 référence trouvée</value>
-  </data>
-  <data name="ReferenceFoundAmount" xml:space="preserve">
-    <value>{0} références trouvées</value>
   </data>
   <data name="FrbEditor" xml:space="preserve">
     <value>Éditeur de FlatRedBall</value>
