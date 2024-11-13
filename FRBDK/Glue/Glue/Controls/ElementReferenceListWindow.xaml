@@ -6,23 +6,33 @@
         xmlns:localization="clr-namespace:Localization;assembly=Localization"
         mc:Ignorable="d"
         Height="300" Width="300">
-    <Grid>
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/GlueFormsCore;component/Themes/Frb.Styles.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+
+  </Window.Resources>
+  <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
-            <Label Name="Text" Width="270" Content="{x:Static localization:Texts.ReferenceFoundNone}"/>
+            <Label Name="Text" Width="270" Content="No references found"/>
         </DockPanel>
-        <ListView  Name="ItemListView" Grid.Row="1"
+        <ListView
+                   Style="{DynamicResource StandardListBox}"
+                   Name="ItemListView" Grid.Row="1"
                    Margin="10,10,10,10"
                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                    ScrollViewer.VerticalScrollBarVisibility="Auto"
                    MouseDoubleClick="ListView_MouseDoubleClick">
         </ListView>
         <DockPanel Height="28" VerticalAlignment="Bottom" Width="260" Margin="0, 0, 0, 10" Grid.Row="2">
-            <Button Content="{x:Static localization:Texts.Ok}" Margin="10,0,0,0" Padding="10, 0" Width="38" Click="CloseScreen" />
+            <Button Content="OK" Margin="10,0,0,0" Padding="10, 0" Width="44" Click="CloseScreen" />
         </DockPanel>
     </Grid>
 </Window>

@@ -68,6 +68,7 @@ public partial class ElementReferenceListWindow
                 ItemListView.Items.Add(customVariable);
             }
         }
+        UpdateTextToReferenceCount();
 
     }
 

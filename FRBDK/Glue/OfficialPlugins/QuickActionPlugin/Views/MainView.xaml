@@ -31,7 +31,7 @@
 
                     <local:TitleImageButton
                         x:Name="AddObjectToListInScreenButton"
-                        Title="{x:Static localization:Texts.AddXXXToList}"
+                        Title="Add XXXX to XXXXList"
                         Details="Adds a new instance to the selected list"
                         Clicked="AddObjectToListButton_Clicked" Image="/OfficialPlugins;component/QuickActionPlugin/Icons/Add Object.png">
                     </local:TitleImageButton>
