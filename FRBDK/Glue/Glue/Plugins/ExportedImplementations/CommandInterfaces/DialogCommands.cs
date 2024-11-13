@@ -26,6 +26,10 @@ using ShimSkiaSharp;
 using System.Threading;
 using System.Windows.Controls;
 using EditorObjects.SaveClasses;
+using System.Runtime.InteropServices;
+using System.Reflection.Metadata;
+using System.Windows.Interop;
+using System.Reflection;
 
 
 namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
@@ -1392,6 +1396,89 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
 
             #endregion
         }
+
+        #endregion
+
+        #region Is Modal Window Open
+
+        [Flags]
+        private enum UINT : uint
+        {
+            TOPMOST = 0x0000,
+            TOP = 0x0000,
+            BOTTOM = 0x0001,
+            RIGHT = 0x0002,
+            LEFT = 0x0004,
+            FLOAT = 0x0008,
+            OWNER = 0x0010,
+            SCREEN = 0x0020,
+            CENTER = 0x0040,
+            CHILD = 0x0080,
+            NOREDRAW = 0x0100,
+            TRANSPARENT = 0x0200,
+            OWNERZORDER = 0x0400,
+            HREDRAW = 0x0800,
+            VREDRAW = 0x1000,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WINDOWPOS
+        {
+            public IntPtr hwnd;
+            public int x;
+            public int y;
+            public int cx;
+            public int cy;
+            public UINT flags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public WINDOWPOS wpSnap;
+            public int showCmd;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetTopLevelWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpPlacement);
+
+        public bool IsModalWindowOpen()
+        {
+            foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
+            {
+                if (window.IsVisible)
+                {
+                    // Phind suggested using interop but I couldn't get it to work
+                    //WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+                    //placement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+                    //var handle = new WindowInteropHelper(window).Handle;
+                    //GetWindowPlacement(handle, ref placement);
+
+                    //if (
+                    //    placement.showCmd == 4
+
+                    //    ) // SW_SHOWMODAL
+                    //{
+                    //    return true;
+                    //}
+                    if(IsModal(window))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        static bool IsModal(System.Windows.Window window)
+        {
+            return (bool)typeof(System.Windows.Window).GetField("_showingAsDialog", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(window);
+        }
+
 
         #endregion
 

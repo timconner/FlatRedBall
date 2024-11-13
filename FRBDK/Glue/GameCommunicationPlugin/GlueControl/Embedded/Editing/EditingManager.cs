@@ -1368,6 +1368,7 @@ namespace GlueControl.Editing
         public static bool IsEmbedded { get; set; }
 
         static System.Diagnostics.Process glueProcess;
+        public static bool IsGlueShowingModalWindow { get; set; }
 
         public static bool IsParentGlueFocused
         {
@@ -1378,9 +1379,19 @@ namespace GlueControl.Editing
                     lastUpdate = DateTime.Now;
                     RefreshGlueProcess();
                 }
-                return IsEmbedded 
-                    && glueProcess?.MainWindowHandle == GetForegroundWindow()
-                    ;
+
+                if (glueProcess == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return IsEmbedded
+                        && glueProcess?.MainWindowHandle == GetForegroundWindow()
+                        && !IsGlueShowingModalWindow
+                        ;
+                }
+
             }
         }
 

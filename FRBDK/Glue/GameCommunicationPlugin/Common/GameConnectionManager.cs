@@ -30,14 +30,14 @@ namespace GameJsonCommunicationPlugin.Common
         private bool _isListening = false;
 
         private bool _isConnected = false;
-        private bool IsConnected
+        public bool IsConnected
         {
             get
             {
                 return _isConnected;
             }
 
-            set
+            private set
             {
                 _isConnected = value;
 

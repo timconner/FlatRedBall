@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CompilerLibrary.ViewModels;
 using ToolsUtilities;
+using Newtonsoft.Json.Linq;
 
 namespace GameCommunicationPlugin.GlueControl.CommandSending
 {
@@ -28,7 +29,6 @@ namespace GameCommunicationPlugin.GlueControl.CommandSending
         #region Fields/Properties
 
         public Action<string> PrintOutput { get; set; }
-        public Func<string, bool, Task<GeneralResponse<string>>> SendPacket { get; set; }
         SemaphoreSlim sendCommandSemaphore = new SemaphoreSlim(1, 1);
 
         public GlueViewSettingsViewModel GlueViewSettingsViewModel { get; set; }
@@ -59,6 +59,7 @@ namespace GameCommunicationPlugin.GlueControl.CommandSending
             Self = new CommandSender();
         }
         private CommandSender() { }
+
         #region General Send
 
 
@@ -182,7 +183,7 @@ namespace GameCommunicationPlugin.GlueControl.CommandSending
 
         private async Task<ToolsUtilities.GeneralResponse<string>> SendCommandNoSemaphore(string text, bool isImportant, bool shouldPrint, bool waitForResponse )
         {
-            var returnValue = await SendPacket(text, waitForResponse);
+            var returnValue = await SendPacketInternal(text, waitForResponse);
 
             if (returnValue == null)
             {
@@ -198,14 +199,49 @@ namespace GameCommunicationPlugin.GlueControl.CommandSending
             return returnValue;
         }
 
+        public async Task<GeneralResponse<string>> SendPacketInternal(string value, bool waitForResponse)
+        {
+            var whatToSend = new GameJsonCommunicationPlugin.Common.GameConnectionManager.Packet
+            {
+                PacketType = "OldDTO",
+                Payload = value
+            };
+
+            if(waitForResponse)
+            {
+                var toReturn = new global::ToolsUtilities.GeneralResponse<string>();
+                try
+                {
+                    var response = await GameJsonCommunicationPlugin.Common.GameConnectionManager.Self.SendItemWithResponse(whatToSend);
+
+                    toReturn.SetFrom(response);
+                    toReturn.Data = response?.Data;    
+                }
+                catch(Exception e)
+                {
+                    toReturn.Succeeded = false;
+                    toReturn.Message = $"Failed to send packet: {e}";
+                }
+
+                return toReturn;
+            }
+            else
+            {
+                await GameJsonCommunicationPlugin.Common.GameConnectionManager.Self.SendItem(whatToSend);
+                // I guess we return success?
+                return new global::ToolsUtilities.GeneralResponse<string>() { Succeeded = true };
+            }
+
+        }
+
 
         #endregion
 
         /// <summary>
-        /// Returns the qualified class name like "GameNamespace.Screens.MyScreen"
-        /// </summary>
-        /// <param name="portNumber">Game's port number</param>
-        /// <returns>The screen name using screen name</returns>
+/// Returns the qualified class name like "GameNamespace.Screens.MyScreen"
+/// </summary>
+/// <param name="portNumber">Game's port number</param>
+/// <returns>The screen name using screen name</returns>
         internal async Task<string> GetScreenName()
         {
             string screenName = null;

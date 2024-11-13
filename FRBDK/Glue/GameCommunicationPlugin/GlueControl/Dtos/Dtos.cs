@@ -29,15 +29,6 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
 
     #endregion
 
-    /// <summary>
-    /// Represents a command which is performed in a specific element. The ElementNameGlue is used to determine
-    /// if a command should be execited when a specific element is created;
-    /// </summary>
-    public interface IInElementCommand
-    {
-        public string ElementNameGlue { get; set; }
-    }
-
     #region RemoveObjectDto
     public class RemoveObjectDto : UpdateCurrentElementDto
     {
@@ -129,6 +120,15 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
 
     #endregion
 
+    #region GlueModalWindowStatusDto
+
+    public class GlueModalWindowStatusDto
+    {
+        public bool IsModalWindowOpen { get; set; }
+    }
+
+    #endregion
+
     #region ObjectReorderedDto
 
     // could eventually add variables and states if we care, but 
@@ -144,7 +144,7 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
 
     #region GoToDefinitionDto
 
-    class GoToDefinitionDto {}
+    class GoToDefinitionDto { }
 
     #endregion
 
@@ -360,7 +360,6 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
 
     #endregion
 
-
     #region CreateNewEntityDto
     public class CreateNewEntityDto
     {
@@ -398,7 +397,7 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
     #endregion
 
     #region RestartScreenDto 
-    public class RestartScreenDto 
+    public class RestartScreenDto
     {
         public bool ShowSelectionBump { get; set; } = true;
         public bool ReloadGlobalContent { get; set; }
@@ -615,7 +614,7 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
         {
             string toReturn = GetType().Name + " " + (Method ?? GetPropertyName ?? SetPropertyName);
 
-            foreach(var param in Parameters)
+            foreach (var param in Parameters)
             {
                 toReturn += " " + SummaryFor(param);
             }
@@ -625,22 +624,22 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
 
         string SummaryFor(object type)
         {
-            if(type is Newtonsoft.Json.Linq.JObject jobject)
+            if (type is Newtonsoft.Json.Linq.JObject jobject)
             {
                 var elementReference = jobject.ToObject<GlueElementReference>();
-                if(elementReference.ElementNameGlue != null)
+                if (elementReference.ElementNameGlue != null)
                 {
                     return $"{elementReference.ElementNameGlue}";
                 }
 
                 var nosReference = jobject.ToObject<NamedObjectSaveReference>();
-                if(nosReference.GlueElementReference?.ElementNameGlue != null)
+                if (nosReference.GlueElementReference?.ElementNameGlue != null)
                 {
                     return $"{nosReference.GlueElementReference.ElementNameGlue}.{nosReference.NamedObjectName}";
                 }
 
                 var typedParameter = jobject.ToObject<TypedParameter>();
-                if(typedParameter.Type != null)
+                if (typedParameter.Type != null)
                 {
                     return $"{typedParameter.Type} {typedParameter.Value}";
                 }
@@ -651,7 +650,7 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
     }
 
     public class GlueCommandDto : FacadeCommandBase { }
-    public class GluxCommandDto : FacadeCommandBase 
+    public class GluxCommandDto : FacadeCommandBase
     {
         public bool EchoToGame { get; set; } = false;
     }
@@ -661,6 +660,15 @@ namespace GameCommunicationPlugin.GlueControl.Dtos
     #endregion
 
     #region Base DTOs/Utilities
+
+    /// <summary>
+    /// Represents a command which is performed in a specific element. The ElementNameGlue is used to determine
+    /// if a command should be execited when a specific element is created;
+    /// </summary>
+    public interface IInElementCommand
+    {
+        public string ElementNameGlue { get; set; }
+    }
 
     public class ResponseWithContentDto : RespondableDto
     {
