@@ -353,7 +353,7 @@ namespace FlatRedBall.Glue.SetVariable
 
         }
 
-        public static void ReactToRenamedReferencedFile(string oldName, string newName, ReferencedFileSave rfs, IElement container)
+        public static void ReactToRenamedReferencedFile(string oldName, string newName, ReferencedFileSave rfs, GlueElement container)
         {
             string oldDirectory = FileManager.GetDirectory(oldName);
             string newDirectory = FileManager.GetDirectory(newName);

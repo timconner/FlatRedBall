@@ -228,6 +228,11 @@ namespace GumPlugin.Managers
                 var newRfs =
                     await AddExistingFileManager.Self.AddSingleFile(fullFileName, elementToAddTo: glueScreen);
 
+                if(newRfs == null)
+                {
+                    throw new InvalidOperationException($"Critical Error: Could not add an RFS for file {fullFileName}");
+                }
+
                 // prior to doing any codegen, need to refresh the project specific ATIs:
                 AssetTypeInfoManager.Self.RefreshProjectSpecificAtis();
 

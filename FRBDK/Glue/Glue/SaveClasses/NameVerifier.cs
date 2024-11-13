@@ -197,7 +197,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
         #region Referenced File Save
 
-        public static bool IsReferencedFileNameValid(string name, AssetTypeInfo ati, ReferencedFileSave rfs, IElement container, out string whyItIsntValid)
+        public static bool IsReferencedFileNameValid(string name, AssetTypeInfo ati, ReferencedFileSave rfs, GlueElement container, out string whyItIsntValid)
         {
             whyItIsntValid = "";
 
@@ -274,7 +274,7 @@ namespace FlatRedBall.Glue.SaveClasses
             return returnValue;
         }
 
-        private static void CheckForRfsWithMatchingFileName(IElement container, string name, ReferencedFileSave rfsToSkip, ref string whyItIsntValid)
+        private static void CheckForRfsWithMatchingFileName(GlueElement container, string name, ReferencedFileSave rfsToSkip, ref string whyItIsntValid)
         {
 
             if (container == null)
@@ -294,7 +294,7 @@ namespace FlatRedBall.Glue.SaveClasses
             }
             else
             {
-                // We need to see if there is already a file with the same name in Global Content
+                // We need to see if there is already a file with the same name in this container
                 ReferencedFileSave existingRfs = container.ReferencedFiles.FirstOrDefault(
                     rfs =>
                     {
@@ -305,7 +305,7 @@ namespace FlatRedBall.Glue.SaveClasses
                     });
                 if (existingRfs != null)
                 {
-                    whyItIsntValid += $"{container.Name} is trying to add {name} but that name is already in use here: {existingRfs.Name}";
+                    whyItIsntValid += $"{container.Name} is trying to add {name} but that name is already in use here: {existingRfs}";
                 }
             }
         }

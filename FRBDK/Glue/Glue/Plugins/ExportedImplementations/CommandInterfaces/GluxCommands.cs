@@ -819,12 +819,12 @@ public class GluxCommands : IGluxCommands
                 out string creationReport,
                 out string errorMessage
                 );
+
+
+            generalResponse.Succeeded = generalResponse.Data != null;
+
             if(!string.IsNullOrEmpty(errorMessage))
             {
-                if(generalResponse.Data == null)
-                {
-                    generalResponse.Succeeded = false;
-                }
                 generalResponse.Message = errorMessage;
             }
 

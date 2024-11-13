@@ -1364,7 +1364,7 @@ public class ElementCommands : IScreenCommands, IEntityCommands,IElementCommands
         string fileWithoutPath = FileManager.RemovePath(FileManager.RemoveExtension(absoluteFileName));
 
         bool isValid = 
-            NameVerifier.IsReferencedFileNameValid(fileWithoutPath, ati, referencedFileSaveToReturn, containerForFile, out whyItIsntValid);
+            NameVerifier.IsReferencedFileNameValid(fileWithoutPath, ati, referencedFileSaveToReturn, (GlueElement)containerForFile, out whyItIsntValid);
 
         if (!isValid)
         {
