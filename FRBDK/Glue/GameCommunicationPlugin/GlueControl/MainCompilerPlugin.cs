@@ -651,40 +651,7 @@ namespace GameCommunicationPlugin.GlueControl
             CommandSender.Self.GlueViewSettingsViewModel = GlueViewSettingsViewModel;
             CommandSender.Self.CompilerViewModel = CompilerViewModel;
             CommandSender.Self.PrintOutput = (value) => PluginManager.CallPluginMethod("Compiler Plugin", "HandleOutput", value);
-            CommandSender.Self.SendPacket = async (value, waitForResponse) =>
-            {
-                var whatToSend = new GameJsonCommunicationPlugin.Common.GameConnectionManager.Packet
-                {
-                    PacketType = "OldDTO",
-                    Payload = value
-                };
 
-                if(waitForResponse)
-                {
-                    var toReturn = new global::ToolsUtilities.GeneralResponse<string>();
-                    try
-                    {
-                        var response = await GameJsonCommunicationPlugin.Common.GameConnectionManager.Self.SendItemWithResponse(whatToSend);
-
-                        toReturn.SetFrom(response);
-                        toReturn.Data = response?.Data;    
-                    }
-                    catch(Exception e)
-                    {
-                        toReturn.Succeeded = false;
-                        toReturn.Message = $"Failed to send packet: {e}";
-                    }
-
-                    return toReturn;
-                }
-                else
-                {
-                    await GameJsonCommunicationPlugin.Common.GameConnectionManager.Self.SendItem(whatToSend);
-                    // I guess we return success?
-                    return new global::ToolsUtilities.GeneralResponse<string>() { Succeeded=true };
-                }
-
-            };
                 //ReactToPluginEventWithReturn("GameCommunication_Send_OldDTO", value);
             
             glueViewSettingsView = new Views.GlueViewSettings();

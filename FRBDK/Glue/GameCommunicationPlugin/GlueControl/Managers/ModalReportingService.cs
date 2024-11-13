@@ -10,6 +10,7 @@ using FlatRedBall.Glue.Managers;
 using FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces;
 using GameCommunicationPlugin.GlueControl.CommandSending;
 using GameCommunicationPlugin.GlueControl.Dtos;
+using GameJsonCommunicationPlugin.Common;
 using Glue;
 
 namespace GameCommunicationPlugin.GlueControl.Managers;
@@ -21,7 +22,8 @@ class ModalReportingService
     private IDialogCommands _dialogCommands;
     private CommandSender _commandSender;
 
-    public ModalReportingService(ISynchronizeInvoke synchronizingObject, IDialogCommands dialogCommands, CommandSender commandSender)
+    public ModalReportingService(ISynchronizeInvoke synchronizingObject,
+        IDialogCommands dialogCommands, CommandSender commandSender)
     {
         _synchronizingObject = synchronizingObject;
         _dialogCommands = dialogCommands;
@@ -41,8 +43,14 @@ class ModalReportingService
 
     private void UpdateTimer(object sender, ElapsedEventArgs e)
     {
+        if(!_commandSender.IsConnected)
+        {
+            return;
+        }
+
         var isModal = _dialogCommands.IsModalWindowOpen();
-        Debug.WriteLine("Is modal open: " + isModal);
+        // Uncomment this to get regular printed output:
+        //Debug.WriteLine("Is modal open: " + isModal);
 
         if(lastModalSent != isModal)
         {
