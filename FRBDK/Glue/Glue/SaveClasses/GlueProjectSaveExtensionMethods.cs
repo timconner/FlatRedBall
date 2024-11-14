@@ -608,9 +608,9 @@ public static class GlueProjectSaveExtensionMethods
 
         string absoluteCodeFile = FileManager.RelativeDirectory + fileName;
 
-        if (ProjectManager.ProjectBase.GetItem(absoluteCodeFile) == null)
+        if (GlueState.Self.CurrentMainProject.GetItem(absoluteCodeFile) == null)
         {
-            ((VisualStudioProject)ProjectManager.ProjectBase.CodeProject).AddCodeBuildItem(absoluteCodeFile);
+            ((VisualStudioProject)GlueState.Self.CurrentMainProject.CodeProject).AddCodeBuildItem(absoluteCodeFile);
         }
     }
 

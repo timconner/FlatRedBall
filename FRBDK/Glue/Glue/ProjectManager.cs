@@ -105,7 +105,7 @@ namespace FlatRedBall.Glue
         {
             get
             {
-                return ProjectBase?.GetAbsoluteContentFolder();
+                return GlueState.Self.CurrentMainProject?.GetAbsoluteContentFolder();
             }
         }
 
@@ -151,13 +151,6 @@ namespace FlatRedBall.Glue
             {
                 mPluginSettings = value;
             }
-        }
-
-        [Obsolete("Use GlueState.Self.CurrentMainProject")]
-        public static VisualStudioProject ProjectBase
-        {
-            get => GlueState.Self.CurrentMainProject;
-            set => GlueState.Self.CurrentMainProject = value;
         }
 
         public static VisualStudioProject ContentProject
@@ -246,14 +239,14 @@ namespace FlatRedBall.Glue
 
         public static ProjectBase GetProjectByTypeId(string projectId)
         {
-            return ProjectBase.ProjectId == projectId ? ProjectBase : SyncedProjects.FirstOrDefault(syncedProject => syncedProject.ProjectId == projectId);
+            return GlueState.Self.CurrentMainProject.ProjectId == projectId ? GlueState.Self.CurrentMainProject : SyncedProjects.FirstOrDefault(syncedProject => syncedProject.ProjectId == projectId);
         }
 
         public static ProjectBase GetProjectByName(string name)
         {
-            if (ProjectBase.Name == name)
+            if (GlueState.Self.CurrentMainProject.Name == name)
             {
-                return ProjectBase;
+                return GlueState.Self.CurrentMainProject;
             }
             else
             {

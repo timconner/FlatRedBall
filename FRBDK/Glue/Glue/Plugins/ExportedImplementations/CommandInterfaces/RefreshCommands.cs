@@ -59,7 +59,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
             {
                 throw new ArgumentNullException(nameof(element));
             }
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
                 GlueCommands.Self.DoOnUiThread(() =>
                 {
@@ -70,7 +70,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
 
         public void RefreshUi(StateSaveCategory category)
         {
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
                 var element = Elements.ObjectFinder.Self.GetElementContaining(category);
                 if(element != null)

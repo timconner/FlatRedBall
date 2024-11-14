@@ -38,7 +38,7 @@ namespace FlatRedBall.Glue.IO
         {
             bool handled = false;
             ///////////////Early Out////////////////////
-            if(ProjectManager.ProjectBase == null)
+            if(GlueState.Self.CurrentMainProject == null)
             {
                 return handled;
             }
@@ -46,7 +46,7 @@ namespace FlatRedBall.Glue.IO
 
             bool shouldSave = false;
                 
-            var projectFileName = ProjectManager.ProjectBase?.FullFileName.FullPath;
+            var projectFileName = GlueState.Self.CurrentMainProject?.FullFileName.FullPath;
 
             handled = TryHandleProjectFileChanges(changedFile.FullPath);
             bool isGlueProjectOrElementFile = GetIfIsGlueProjectOrElementFile(changedFile.FullPath, projectFileName);
@@ -107,7 +107,7 @@ namespace FlatRedBall.Glue.IO
                     {
                         FilePath changedFilePath = changedFile;
                         shouldSave |= GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(
-                            ProjectManager.ProjectBase, changedFilePath, false, false);
+                            GlueState.Self.CurrentMainProject, changedFilePath, false, false);
                         handled |= shouldSave;
 
                     }
@@ -211,7 +211,7 @@ namespace FlatRedBall.Glue.IO
         {
             bool handled = false;
 
-            var project = ProjectManager.ProjectBase;
+            var project = GlueState.Self.CurrentMainProject;
 
             if(project != null)
             {
@@ -242,7 +242,7 @@ namespace FlatRedBall.Glue.IO
 
             if (standardizedProject == changedFile)
             {
-                if (project == ProjectManager.ProjectBase)
+                if (project == GlueState.Self.CurrentMainProject)
                 {
                     if(!ProjectManager.WantsToCloseProject)
                     {
@@ -275,7 +275,7 @@ namespace FlatRedBall.Glue.IO
 
                 if (project == ProjectManager.ContentProject)
                 {
-                    TaskManager.Self.OnUiThread(()=>ProjectLoader.Self.LoadProject(ProjectManager.ProjectBase.FullFileName.FullPath));
+                    TaskManager.Self.OnUiThread(()=>ProjectLoader.Self.LoadProject(GlueState.Self.CurrentMainProject.FullFileName.FullPath));
                 }
                 else
                 {
@@ -402,7 +402,7 @@ namespace FlatRedBall.Glue.IO
             }
             if (!wasHandled)
             {
-                await ProjectLoader.Self.LoadProject(ProjectManager.ProjectBase.FullFileName.FullPath);
+                await ProjectLoader.Self.LoadProject(GlueState.Self.CurrentMainProject.FullFileName.FullPath);
             }
             
 

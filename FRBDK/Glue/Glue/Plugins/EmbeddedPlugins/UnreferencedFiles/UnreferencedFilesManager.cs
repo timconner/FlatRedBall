@@ -146,7 +146,7 @@ namespace FlatRedBall.Glue.Managers
 
                     if (referencedFiles != null)
                     {
-                        var project = ProjectManager.ProjectBase;
+                        var project = GlueState.Self.CurrentMainProject;
 
                         // Added this here to make it easier to debug. This isn't necessary for function, as
                         // internally it does a IsContent check

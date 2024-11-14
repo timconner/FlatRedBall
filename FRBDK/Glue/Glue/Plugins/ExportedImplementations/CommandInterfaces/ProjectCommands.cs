@@ -40,7 +40,7 @@ class ProjectCommands : IProjectCommands
     public void SaveProjectsImmediately()
     {
         TaskManager.Self.WarnIfNotInTask();
-        var toLock = ProjectManager.ProjectBase;
+        var toLock = GlueState.Self.CurrentMainProject;
         lock (toLock)
         {
             bool shouldSync = false;
@@ -48,12 +48,12 @@ class ProjectCommands : IProjectCommands
             // been updated to the "evaluated" list, not if it needs to
             // be saved.
             //if (mProjectBase != null && mProjectBase.IsDirty)
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
                 bool succeeded = true;
                 try
                 {
-                    ProjectManager.ProjectBase.Save(ProjectManager.ProjectBase.FullFileName.FullPath);
+                    GlueState.Self.CurrentMainProject.Save(GlueState.Self.CurrentMainProject.FullFileName.FullPath);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -66,7 +66,7 @@ class ProjectCommands : IProjectCommands
                     shouldSync = true;
                 }
             }
-            if (ProjectManager.ContentProject != null && ProjectManager.ContentProject != ProjectManager.ProjectBase)
+            if (ProjectManager.ContentProject != null && ProjectManager.ContentProject != GlueState.Self.CurrentMainProject)
             {
                 ProjectManager.ContentProject.Save(ProjectManager.ContentProject.FullFileName.FullPath);
                 shouldSync = true;
@@ -96,7 +96,7 @@ class ProjectCommands : IProjectCommands
                 var syncedProjects = ProjectManager.SyncedProjects.ToArray();
                 foreach (var syncedProject in syncedProjects)
                 {
-                    ProjectSyncer.SyncProjects(ProjectManager.ProjectBase, syncedProject, false);
+                    ProjectSyncer.SyncProjects(GlueState.Self.CurrentMainProject, syncedProject, false);
                 }
             }
 
@@ -120,7 +120,7 @@ class ProjectCommands : IProjectCommands
     public void CreateAndAddPartialFile(IElement element, string partialName, string code)
     {
         var fileName = element.Name + ".Generated." + partialName + ".cs";
-        var fullFileName = ProjectManager.ProjectBase.Directory + fileName;
+        var fullFileName = GlueState.Self.CurrentMainProject.Directory + fileName;
 
         var save = false; // we'll be doing manual saving after it's created
         ProjectManager.CodeProjectHelper.CreateAndAddPartialGeneratedCodeFile(fileName, save);
@@ -131,7 +131,7 @@ class ProjectCommands : IProjectCommands
 
     public void AddContentFileToProject(string absoluteFileName, bool saveProjects = true)
     {
-        GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(ProjectManager.ProjectBase, absoluteFileName, false, false, null);
+        GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(GlueState.Self.CurrentMainProject, absoluteFileName, false, false, null);
         if (saveProjects)
         {
             SaveProjects();
@@ -766,7 +766,7 @@ class ProjectCommands : IProjectCommands
 
     public void MakeGeneratedCodeItemsNestedImmediately()
     {
-        foreach (var bi in ProjectManager.ProjectBase.EvaluatedItems)
+        foreach (var bi in GlueState.Self.CurrentMainProject.EvaluatedItems)
         {
 
             string biInclude = bi.UnevaluatedInclude;
@@ -786,9 +786,9 @@ class ProjectCommands : IProjectCommands
                     // make sure there is an object to nest under in this directory
                     string whatToNextUnderWithPath = FileManager.GetDirectory(bi.UnevaluatedInclude, RelativeType.Relative) + whatToNestUnder;
 
-                    if (ProjectManager.ProjectBase.GetItem(whatToNextUnderWithPath) != null)
+                    if (GlueState.Self.CurrentMainProject.GetItem(whatToNextUnderWithPath) != null)
                     {
-                        ProjectManager.ProjectBase.MakeBuildItemNested(bi, whatToNestUnder);
+                        GlueState.Self.CurrentMainProject.MakeBuildItemNested(bi, whatToNestUnder);
 
                         foreach (VisualStudioProject project in ProjectManager.SyncedProjects)
                         {
@@ -957,7 +957,7 @@ class ProjectCommands : IProjectCommands
 
         ProjectBase syncedProject = null;
 
-        if (ProjectManager.ProjectBase.FullFileName == filePath)
+        if (GlueState.Self.CurrentMainProject.FullFileName == filePath)
         {
             doesProjectAlreadyExist = true;
         }

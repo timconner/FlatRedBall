@@ -189,30 +189,14 @@ namespace OfficialPlugins.Wizard
 
         public void RunWizard()
         {
-            var gumExecutable = PluginManager.CallPluginMethod(
-                "Gum Plugin",
-                "GetGumExecutableLocation") as string;
 
-            if(string.IsNullOrEmpty(gumExecutable))
-            {
-                var message = "Cannot find Gum.exe. This is necessary to generate fonts and Gum screens.\n\n" +
-                    "If you have downloaded pre-built FlatRedBall, please check that Gum.exe is located in the unzipped project.\n\n" +
-                    "If you are building from source, please make sure you have checked out and built the Gum tool in the default Git location.";
+            var window = new WizardWindow();
 
-                MessageBox.Show(message);
-            }
-            else
-            {
-                var window = new WizardWindow();
+            GlueCommands.Self.DialogCommands.MoveToCursor(window);
 
-                GlueCommands.Self.DialogCommands.MoveToCursor(window);
+            window.DoneClicked += () => WizardProjectLogic.Self.Apply(window.WizardData);
 
-                window.DoneClicked += () => WizardProjectLogic.Self.Apply(window.WizardData);
-
-                window.ShowDialog();
-            }
-
+            window.ShowDialog();
         }
-
     }
 }

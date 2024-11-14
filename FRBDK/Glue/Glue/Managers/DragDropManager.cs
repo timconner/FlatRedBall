@@ -1399,7 +1399,7 @@ public class DragDropManager : Singleton<DragDropManager>
 
 
 
-        string newNodeText = FlatRedBall.IO.FileManager.MakeRelative(targetDirectory, ProjectManager.ProjectBase.GetAbsoluteContentFolder()) + FileManager.RemovePath(referencedFileSave.Name);
+        string newNodeText = FlatRedBall.IO.FileManager.MakeRelative(targetDirectory, GlueState.Self.CurrentMainProject.GetAbsoluteContentFolder()) + FileManager.RemovePath(referencedFileSave.Name);
         newNodeText = newNodeText.Replace("/", "\\");
 
         string oldFileName = GlueCommands.Self.GetAbsoluteFileName(referencedFileSave);
@@ -1429,7 +1429,7 @@ public class DragDropManager : Singleton<DragDropManager>
 
 
             // 3 Remove the BuildItems from the project and add them back in the VisualStudio project
-            var projectBase = ProjectManager.ProjectBase;
+            var projectBase = GlueState.Self.CurrentMainProject;
             if (ProjectManager.ContentProject != null)
             {
                 projectBase = ProjectManager.ContentProject;

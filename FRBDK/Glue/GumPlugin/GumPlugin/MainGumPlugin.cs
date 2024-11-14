@@ -474,7 +474,7 @@ public class MainGumPlugin : PluginBase
 
         gumToolbar = new GumToolbar();
         gumToolbar.DataContext = toolbarViewModel;
-        gumToolbar.GumButtonClicked += (_,_) => toolbarViewModel.OnToolbarClicked();
+        gumToolbar.GumButtonClicked += (_, _) => toolbarViewModel.OnToolbarClicked();
     }
 
     public bool HasGum() => AppState.Self.GumProjectSave != null;
@@ -500,7 +500,7 @@ public class MainGumPlugin : PluginBase
 
             var foundItem = AssetTypeInfoManager.Self.AssetTypesForThisProject
                 .Where(item => item.QualifiedRuntimeTypeName.QualifiedType ==
-                    GueDerivingClassCodeGenerator.Self.GetQualifiedRuntimeTypeFor(element, prefixGlobal:false));
+                    GueDerivingClassCodeGenerator.Self.GetQualifiedRuntimeTypeFor(element, prefixGlobal: false));
 
             if (foundItem.Any())
             {
@@ -540,7 +540,7 @@ public class MainGumPlugin : PluginBase
                 await GumPluginCommands.Self.AddScreenForGlueScreen(newFrbScreen);
             }
 
-        }, String.Format(Localization.Texts.GumPluginHandleNewFrbScreen , newFrbScreen));
+        }, String.Format(Localization.Texts.GumPluginHandleNewFrbScreen, newFrbScreen));
     }
 
 
@@ -555,11 +555,11 @@ public class MainGumPlugin : PluginBase
             if (gumScreen != null)
             {
                 var result = GlueCommands.Self.DialogCommands.ShowYesNoMessageBox(
-                    String.Format(Localization.Texts.GumConfirmDeleteScreen,gumScreen.Name, glueScreen));
-                if(result == System.Windows.MessageBoxResult.Yes)
+                    String.Format(Localization.Texts.GumConfirmDeleteScreen, gumScreen.Name, glueScreen));
+                if (result == System.Windows.MessageBoxResult.Yes)
                 {
                     // don't await this, we want this method to immediately add to the lists
-                    _=GumPluginCommands.Self.RemoveScreen(gumScreen);
+                    _ = GumPluginCommands.Self.RemoveScreen(gumScreen);
 
                     listToFillWithAdditionalFilesToRemove.Add(CodeGeneratorManager.Self.CustomRuntimeCodeLocationFor(gumScreen).FullPath);
                     listToFillWithAdditionalFilesToRemove.Add(CodeGeneratorManager.Self.GeneratedRuntimeCodeLocationFor(gumScreen).FullPath);
@@ -567,13 +567,13 @@ public class MainGumPlugin : PluginBase
                     // If there are forms screens, remove those too:
                     var formsCustomFilePath = CodeGeneratorManager.Self.CustomFormsCodeLocationFor(gumScreen);
 
-                    if(formsCustomFilePath.Exists())
+                    if (formsCustomFilePath.Exists())
                     {
                         listToFillWithAdditionalFilesToRemove.Add(formsCustomFilePath.FullPath);
                     }
 
                     var formsGeneratedFilePath = CodeGeneratorManager.Self.GeneratedFormsCodeLocationFor(gumScreen);
-                    if(formsGeneratedFilePath.Exists())
+                    if (formsGeneratedFilePath.Exists())
                     {
                         listToFillWithAdditionalFilesToRemove.Add(formsGeneratedFilePath.FullPath);
                     }
@@ -666,7 +666,7 @@ public class MainGumPlugin : PluginBase
                 var gumRfs = GumProjectManager.Self.GetRfsForGumProject();
 
                 // Gum RFS should be first so that it loads before any global content Gum screens:
-                if(gumRfs != null)
+                if (gumRfs != null)
                 {
                     var project = GlueState.Self.CurrentGlueProject;
                     var globalFiles = project.GlobalFiles;
@@ -789,105 +789,88 @@ public class MainGumPlugin : PluginBase
         // --rebuildfonts "C:\Users\Victor\Documents\TestProject2\TestProject2\Content\GumProject\GumProject.gumx"
         var gumFileName = AppState.Self.GumProjectSave.FullFileName;
 
-        string executable = GetGumExecutableLocation();
+        //string executable = GetGumExecutableLocation();
 
-        if (string.IsNullOrEmpty(executable))
+        await TaskManager.Self.AddAsync(async () =>
         {
-            var message = 
-                "Could not find file association for Gum files and could not find Gum relative to the FlatRedBall Editor." +
-                "Associations need to be set before attempting to rebuild font files. Alternatively you can have Gum located at" +
-                "one of the following locations: \n\n" +
-                "As part of FRBDK (prebuilt):\n\t" +
-                GumPrebuiltLocation + "\n\n" +
-                "Built from source at default checkout locations: \n\t" +
-                GumFromSourceLocation                
-                ;
-
-            GlueCommands.Self.DialogCommands.ShowMessageBox(message);
-        }
-        else
-        {
-            await TaskManager.Self.AddAsync(async () =>
             {
-                {
-                    //var startInfo = new System.Diagnostics.ProcessStartInfo();
+                //var startInfo = new System.Diagnostics.ProcessStartInfo();
 
-                    //// Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
-                    //startInfo.Arguments = $@"--rebuildfonts ""{gumFileName}""";
-                    //startInfo.FileName = executable;
-                    //startInfo.UseShellExecute = false;
+                //// Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
+                //startInfo.Arguments = $@"--rebuildfonts ""{gumFileName}""";
+                //startInfo.FileName = executable;
+                //startInfo.UseShellExecute = false;
 
-                    //GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
+                //GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
 
-                    //var gumStart = DateTime.Now;
-                    //var process = System.Diagnostics.Process.Start(startInfo);
-                    //await process.WaitForExitAsync();
-                    //var gumEnd = DateTime.Now;
+                //var gumStart = DateTime.Now;
+                //var process = System.Diagnostics.Process.Start(startInfo);
+                //await process.WaitForExitAsync();
+                //var gumEnd = DateTime.Now;
 
-                    //var exitCode = process.ExitCode;
+                //var exitCode = process.ExitCode;
 
-                    //if(exitCode != 0)
-                    //{
-                    //    if(exitCode == 2)
-                    //    {
-                    //        GlueCommands.Self.PrintError("Gum has exited unexpected. Do you have the XNA runtime installed?");
-                    //    }
-                    //    else 
-                    //    {
-                    //        // Unknown error:
-                    //        GlueCommands.Self.PrintError("Gum has exited with an unknown error so fonts were not generated.");
-                    //    }
-                    //}
-                    //GlueCommands.Self.PrintOutput("Old font building: " + (gumEnd - gumStart).TotalSeconds + " seconds");
+                //if(exitCode != 0)
+                //{
+                //    if(exitCode == 2)
+                //    {
+                //        GlueCommands.Self.PrintError("Gum has exited unexpected. Do you have the XNA runtime installed?");
+                //    }
+                //    else 
+                //    {
+                //        // Unknown error:
+                //        GlueCommands.Self.PrintError("Gum has exited with an unknown error so fonts were not generated.");
+                //    }
+                //}
+                //GlueCommands.Self.PrintOutput("Old font building: " + (gumEnd - gumStart).TotalSeconds + " seconds");
 
-                }
-
-
-
-                {
-                    var startInfo = new System.Diagnostics.ProcessStartInfo();
-
-                    // Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
-                    startInfo.Arguments = $@"""{gumFileName}""";
-                    startInfo.FileName =
-                        "Plugins/GumPlugin/Tools/GumProjectFontGenerator/GumProjectFontGenerator.exe";
-                        //"C:\\Users\\Owner\\Documents\\GitHub\\Gum\\GumProjectFontGenerator\\bin\\Debug\\net8.0\\GumProjectFontGenerator.exe";
-                    startInfo.UseShellExecute = false;
-
-                    // use the new font building tool:
-                    var newToolStart = DateTime.Now;
-                    var process = new Process();
-                    process.StartInfo = startInfo;
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.RedirectStandardError = true;
-                    process.StartInfo.CreateNoWindow = true;
-
-                    process.Start();
-
-                    await process.WaitForExitAsync();
-
-                    var newToolExit = DateTime.Now;
-                    var exitCode = process.ExitCode;
-
-                    if (exitCode != 0)
-                    {
-                        GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
-                        var error = process.StandardError.ReadToEnd();
-                        // Unknown error:
-                        GlueCommands.Self.PrintError($"GumProjectFontGenerator has exited with an unknown error {exitCode} so fonts were not generated.\n{error}");
-                    }
-                }
-
-
-            },
-            "Rebuilding Fonts");
-
-            var gumRfs = GumProjectManager.Self.GetRfsForGumProject();
-            if(gumRfs != null)
-            {
-                GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(gumRfs);
             }
+
+
+
+            {
+                var startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                // Even though this is "rebuildfonts" it actually doesn't "rebuild". It's just a "build"
+                startInfo.Arguments = $@"""{gumFileName}""";
+                startInfo.FileName =
+                    "Plugins/GumPlugin/Tools/GumProjectFontGenerator/GumProjectFontGenerator.exe";
+                //"C:\\Users\\Owner\\Documents\\GitHub\\Gum\\GumProjectFontGenerator\\bin\\Debug\\net8.0\\GumProjectFontGenerator.exe";
+                startInfo.UseShellExecute = false;
+
+                // use the new font building tool:
+                var newToolStart = DateTime.Now;
+                var process = new Process();
+                process.StartInfo = startInfo;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+
+                process.Start();
+
+                await process.WaitForExitAsync();
+
+                var newToolExit = DateTime.Now;
+                var exitCode = process.ExitCode;
+
+                if (exitCode != 0)
+                {
+                    GlueCommands.Self.PrintOutput($"{startInfo.FileName} {startInfo.Arguments}");
+                    var error = process.StandardError.ReadToEnd();
+                    // Unknown error:
+                    GlueCommands.Self.PrintError($"GumProjectFontGenerator has exited with an unknown error {exitCode} so fonts were not generated.\n{error}");
+                }
+            }
+
+
+        },
+        "Rebuilding Fonts");
+
+        var gumRfs = GumProjectManager.Self.GetRfsForGumProject();
+        if (gumRfs != null)
+        {
+            GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(gumRfs);
         }
     }
 
@@ -1016,7 +999,7 @@ public class MainGumPlugin : PluginBase
             // This uses the content directory as the root. Should it use the entire game folder? Or just the 
             // content folder? I'm not sure.
             var expectedGumProjectParentRoot = new FilePath(GlueState.Self.ContentDirectory).RelativeTo(AppState.Self.GumProjectFolder);
-            
+
             if (gumProject.ParentProjectRoot != expectedGumProjectParentRoot)
             {
                 gumProject.ParentProjectRoot = expectedGumProjectParentRoot;

@@ -819,9 +819,6 @@
   <data name="ContentPipelineSettings" xml:space="preserve">
     <value>Instellingen voor inhoudspijplijn</value>
   </data>
-  <data name="LinkGameToFrbSource" xml:space="preserve">
-    <value>Koppel het spel aan de FRB-bron</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Project geforceerd opslaan</value>
   </data>
@@ -903,14 +900,8 @@
   <data name="Variable" xml:space="preserve">
     <value>Variabel:</value>
   </data>
-  <data name="AlternativeName" xml:space="preserve">
-    <value>Alternatieve naam:</value>
-  </data>
   <data name="ConvertedType" xml:space="preserve">
     <value>Omgezet type:</value>
-  </data>
-  <data name="TypeConverter" xml:space="preserve">
-    <value>Type-omzetter:</value>
   </data>
   <data name="ShowStateCategories" xml:space="preserve">
     <value>Toon statuscategorieën</value>
@@ -2115,18 +2106,6 @@
   <data name="EventExistingExpose" xml:space="preserve">
     <value>Een bestaand evenement blootleggen</value>
   </data>
-  <data name="EventNewCreate" xml:space="preserve">
-    <value>Maak een nieuw evenement aan</value>
-  </data>
-  <data name="EventSelectExisting" xml:space="preserve">
-    <value>Selecteer een bestaand evenement:</value>
-  </data>
-  <data name="GenericType" xml:space="preserve">
-    <value>Generiek type:</value>
-  </data>
-  <data name="EventNew" xml:space="preserve">
-    <value>Nieuw evenement</value>
-  </data>
   <data name="Velocity" xml:space="preserve">
     <value>Snelheid</value>
   </data>
@@ -2405,12 +2384,6 @@
   </data>
   <data name="CliExtraArguments" xml:space="preserve">
     <value>Voer extra opdrachtregelargumenten in:</value>
-  </data>
-  <data name="EventTunnelOtherObject" xml:space="preserve">
-    <value>Tunnel een evenement van een ander object</value>
-  </data>
-  <data name="Alternative" xml:space="preserve">
-    <value>Alternatief:</value>
   </data>
   <data name="WhichTemplateUse" xml:space="preserve">
     <value>Welk sjabloon wilt u gebruiken?</value>

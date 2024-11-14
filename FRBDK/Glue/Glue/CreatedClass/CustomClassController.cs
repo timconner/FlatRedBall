@@ -2,6 +2,7 @@
 using FlatRedBall.Glue.IO;
 using FlatRedBall.Glue.Managers;
 using FlatRedBall.Glue.Plugins;
+using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces;
 using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.Glue.VSHelpers.Projects;
@@ -108,7 +109,7 @@ namespace FlatRedBall.Glue.CreatedClass
 
                 file = FlatRedBall.IO.FileManager.RelativeDirectory + "DataTypes/" + file + ".Generated.cs";
 
-                if (ProjectManager.ProjectBase.IsFilePartOfProject(file, BuildItemMembershipType.CompileOrContentPipeline))
+                if (GlueState.Self.CurrentMainProject.IsFilePartOfProject(file, BuildItemMembershipType.CompileOrContentPipeline))
                 {
                     DialogResult result;
 
@@ -123,7 +124,7 @@ namespace FlatRedBall.Glue.CreatedClass
                     }
                     if (result == System.Windows.Forms.DialogResult.Yes)
                     {
-                        ProjectManager.ProjectBase.RemoveItem(file);
+                        GlueState.Self.CurrentMainProject.RemoveItem(file);
                         try
                         {
                             FileHelper.MoveToRecycleBin(file);

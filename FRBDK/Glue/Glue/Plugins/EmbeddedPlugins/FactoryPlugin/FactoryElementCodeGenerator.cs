@@ -411,8 +411,8 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.FactoryPlugin
 
             // These files may exist, but not be part of the project, so let's make sure that they are
             // part of the project
-            bool wasPoolListAdded = GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(ProjectManager.ProjectBase, poolListFileName, false, false);
-            bool wasEntityFactoryAdded = GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(ProjectManager.ProjectBase, iEntityFactoryFileName, false, false);
+            bool wasPoolListAdded = GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(GlueState.Self.CurrentMainProject, poolListFileName, false, false);
+            bool wasEntityFactoryAdded = GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(GlueState.Self.CurrentMainProject, iEntityFactoryFileName, false, false);
             if (wasPoolListAdded || wasEntityFactoryAdded)
             {
                 GlueCommands.Self.ProjectCommands.SaveProjects();

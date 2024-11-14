@@ -426,7 +426,7 @@ public static class TreeNodeHelpers
 
         else if (treeNodeInQuestion.IsGlobalContentContainerNode())
         {
-            var returnValue = ProjectManager.ProjectBase.GetAbsoluteContentFolder() + "GlobalContent/";
+            var returnValue = GlueState.Self.CurrentMainProject.GetAbsoluteContentFolder() + "GlobalContent/";
 
 
             // But we want to make this relative to the project, so let's do that

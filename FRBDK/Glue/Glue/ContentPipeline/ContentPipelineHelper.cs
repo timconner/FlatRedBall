@@ -32,7 +32,7 @@ namespace FlatRedBall.Glue.ContentPipeline
                 var projectBase = ProjectManager.ContentProject;
                 if (projectBase == null)
                 {
-                    projectBase = ProjectManager.ProjectBase;
+                    projectBase = GlueState.Self.CurrentMainProject;
                 }
      
      
@@ -245,7 +245,7 @@ namespace FlatRedBall.Glue.ContentPipeline
 
             if (projectBase == null)
             {
-                projectBase = ProjectManager.ProjectBase;
+                projectBase = GlueState.Self.CurrentMainProject;
             }
 
             #endregion

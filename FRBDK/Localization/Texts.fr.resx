@@ -819,9 +819,6 @@
   <data name="ContentPipelineSettings" xml:space="preserve">
     <value>Paramètres du canal de contenu</value>
   </data>
-  <data name="LinkGameToFrbSource" xml:space="preserve">
-    <value>Lier le jeu à la source FRB</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Forcer la sauvegarde du projet</value>
   </data>
@@ -903,14 +900,8 @@
   <data name="Variable" xml:space="preserve">
     <value>Variable:</value>
   </data>
-  <data name="AlternativeName" xml:space="preserve">
-    <value>Nom alternatif :</value>
-  </data>
   <data name="ConvertedType" xml:space="preserve">
     <value>Type converti :</value>
-  </data>
-  <data name="TypeConverter" xml:space="preserve">
-    <value>Convertisseur de types :</value>
   </data>
   <data name="ShowStateCategories" xml:space="preserve">
     <value>Afficher les catégories d'état</value>
@@ -2115,18 +2106,6 @@
   <data name="EventExistingExpose" xml:space="preserve">
     <value>Exposer un événement existant</value>
   </data>
-  <data name="EventNewCreate" xml:space="preserve">
-    <value>Créer un nouvel événement</value>
-  </data>
-  <data name="EventSelectExisting" xml:space="preserve">
-    <value>Sélectionnez un événement existant :</value>
-  </data>
-  <data name="GenericType" xml:space="preserve">
-    <value>Type générique :</value>
-  </data>
-  <data name="EventNew" xml:space="preserve">
-    <value>Nouvel évènement</value>
-  </data>
   <data name="Velocity" xml:space="preserve">
     <value>Rapidité</value>
   </data>
@@ -2402,12 +2381,6 @@
   </data>
   <data name="CliExtraArguments" xml:space="preserve">
     <value>Entrez des arguments de ligne de commande supplémentaires :</value>
-  </data>
-  <data name="EventTunnelOtherObject" xml:space="preserve">
-    <value>Tunnelier un événement à partir d'un autre objet</value>
-  </data>
-  <data name="Alternative" xml:space="preserve">
-    <value>Alternative:</value>
   </data>
   <data name="WhichTemplateUse" xml:space="preserve">
     <value>Quel modèle souhaiteriez-vous utiliser ?</value>

@@ -42,7 +42,7 @@ namespace FlatRedBall.Glue.VSHelpers
             foreach (string resourceName in mFilesToAdd)
             {
                 // User may have shut down the project:
-                if (ProjectManager.ProjectBase != null)
+                if (GlueState.Self.CurrentMainProject != null)
                 {
                     succeeded = SaveResourceFileToProject(assemblyContainingResource, succeeded, filesToAddToProject, resourceName);
                 }
@@ -62,7 +62,7 @@ namespace FlatRedBall.Glue.VSHelpers
                 // Add these files to the project and any synced project
                 foreach (var file in filesToAddToProject)
                 {
-                    bool wasAdded = ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(ProjectManager.ProjectBase, file);
+                    bool wasAdded = ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(GlueState.Self.CurrentMainProject, file);
                     if (wasAdded)
                     {
                         PluginManager.ReceiveOutput("Added file to project: " + file);

@@ -819,9 +819,6 @@
   <data name="ContentPipelineSettings" xml:space="preserve">
     <value>Content-Pipeline-Einstellungen</value>
   </data>
-  <data name="LinkGameToFrbSource" xml:space="preserve">
-    <value>Spiel mit FRB-Quelle verknüpfen</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Speichern des Projekts erzwingen</value>
   </data>
@@ -903,14 +900,8 @@
   <data name="Variable" xml:space="preserve">
     <value>Variable:</value>
   </data>
-  <data name="AlternativeName" xml:space="preserve">
-    <value>Alternativer Name:</value>
-  </data>
   <data name="ConvertedType" xml:space="preserve">
     <value>Konvertierter Typ:</value>
-  </data>
-  <data name="TypeConverter" xml:space="preserve">
-    <value>Typkonverter:</value>
   </data>
   <data name="ShowStateCategories" xml:space="preserve">
     <value>Statuskategorien anzeigen</value>
@@ -2115,18 +2106,6 @@
   <data name="EventExistingExpose" xml:space="preserve">
     <value>Machen Sie ein vorhandenes Veranstaltung verfügbar</value>
   </data>
-  <data name="EventNewCreate" xml:space="preserve">
-    <value>Erstellen Sie ein neues Veranstaltung</value>
-  </data>
-  <data name="EventSelectExisting" xml:space="preserve">
-    <value>Wählen Sie ein vorhandenes Veranstaltung aus:</value>
-  </data>
-  <data name="GenericType" xml:space="preserve">
-    <value>Allgemeiner Typ:</value>
-  </data>
-  <data name="EventNew" xml:space="preserve">
-    <value>Neue Veranstaltung</value>
-  </data>
   <data name="Velocity" xml:space="preserve">
     <value>Geschwindigkeit</value>
   </data>
@@ -2402,12 +2381,6 @@
   </data>
   <data name="CliExtraArguments" xml:space="preserve">
     <value>Geben Sie zusätzliche Befehlszeilenargumente ein:</value>
-  </data>
-  <data name="EventTunnelOtherObject" xml:space="preserve">
-    <value>Tunneln Sie ein Ereignis von einem anderen Objekt</value>
-  </data>
-  <data name="Alternative" xml:space="preserve">
-    <value>Alternative:</value>
   </data>
   <data name="WhichTemplateUse" xml:space="preserve">
     <value>Welche Vorlage möchten Sie verwenden?</value>

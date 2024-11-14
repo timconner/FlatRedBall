@@ -15,7 +15,7 @@ namespace FlatRedBall.Glue.Projects
         {
             // Currently unit tests don't deal with projects
 #if !TEST
-            var existingItem = ProjectManager.ProjectBase.GetItem(generatedFileName);
+            var existingItem = GlueState.Self.CurrentMainProject.GetItem(generatedFileName);
 
             if (existingItem == null)
             {
@@ -25,7 +25,7 @@ namespace FlatRedBall.Glue.Projects
                 int firstPeriod = withoutPath.IndexOf('.');
                 string parentFile = withoutPath.Substring(0, firstPeriod);
 
-                ProjectManager.ProjectBase.MakeBuildItemNested(item, parentFile + ".cs");
+                GlueState.Self.CurrentMainProject.MakeBuildItemNested(item, parentFile + ".cs");
 
                 // This used to not save the main project, not sure why...
                 GlueCommands.Self.ProjectCommands.SaveProjects();

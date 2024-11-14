@@ -74,9 +74,9 @@ namespace FlatRedBall.Glue.IO
 
         public static void UpdateToProjectDirectory()
         {
-            if (ProjectManager.ProjectBase?.FullFileName != null)
+            if (GlueState.Self.CurrentMainProject?.FullFileName != null)
             {
-                string directory = ProjectManager.ProjectBase.FullFileName.GetDirectoryContainingThis().FullPath;
+                string directory = GlueState.Self.CurrentMainProject.FullFileName.GetDirectoryContainingThis().FullPath;
 
                 // XNA 4 has the content project level with the code project.  That means we should be watching
                 // one directory above where the .csproj file is so that we're capturing all changes including ones
@@ -108,7 +108,7 @@ namespace FlatRedBall.Glue.IO
         {
             string folderName = FileManager.RemovePath(directory).Replace("/", "").Replace("\\", "");
 
-            bool returnValue = folderName == ProjectManager.ProjectBase.Name && string.IsNullOrEmpty(Directory.GetFiles(directory).FirstOrDefault(s => FileManager.GetExtension(s) == "sln"));
+            bool returnValue = folderName == GlueState.Self.CurrentMainProject.Name && string.IsNullOrEmpty(Directory.GetFiles(directory).FirstOrDefault(s => FileManager.GetExtension(s) == "sln"));
             return returnValue;
         }
 

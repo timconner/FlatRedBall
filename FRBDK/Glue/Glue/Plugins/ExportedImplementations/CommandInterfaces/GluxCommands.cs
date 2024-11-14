@@ -1217,7 +1217,7 @@ public class GluxCommands : IGluxCommands
             // I don't know why we were removing the file from the ProjectBase - it should
             // be from the Content project
             //ProjectManager.RemoveItemFromProject(ProjectManager.ProjectBase, itemName);
-            ProjectManager.RemoveItemFromProject(ProjectManager.ProjectBase.ContentProject, itemName, performSave: false);
+            ProjectManager.RemoveItemFromProject(GlueState.Self.CurrentMainProject.ContentProject, itemName, performSave: false);
 
             foreach (ProjectBase syncedProject in ProjectManager.SyncedProjects)
             {

@@ -85,7 +85,7 @@ namespace FlatRedBall.Glue.IO
             GlueCommands.Self.DoOnUiThread(() => closeInitWindow = PrepareInitializationWindow(ref initializationWindow));
 
             // close the project before turning off task processing...
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
                 GlueCommands.Self.CloseGlueProject(shouldSave: false, isExiting: false, initWindow: initializationWindow);
             }
@@ -102,7 +102,7 @@ namespace FlatRedBall.Glue.IO
             SetInitWindowText("Loading code project", initializationWindow);
 
             var result = ProjectCreator.CreateProject(projectFileName);
-            ProjectManager.ProjectBase = (VisualStudioProject)result.Project;
+            GlueState.Self.CurrentMainProject = (VisualStudioProject)result.Project;
 
             bool shouldLoad = result.Project != null;
             if (shouldLoad && result.ShouldTryToLoadProject)
@@ -113,7 +113,7 @@ namespace FlatRedBall.Glue.IO
             if (shouldLoad)
             {
 
-                ProjectManager.ProjectBase.Load(projectFileName);
+                GlueState.Self.CurrentMainProject.Load(projectFileName);
 
                 var sln = GlueState.Self.CurrentSlnFileName;
 
@@ -817,7 +817,7 @@ namespace FlatRedBall.Glue.IO
                     {
                         try
                         {
-                            ProjectSyncer.SyncProjects(ProjectManager.ProjectBase, syncedProject, false);
+                            ProjectSyncer.SyncProjects(GlueState.Self.CurrentMainProject, syncedProject, false);
                         }
                         catch (Exception e)
                         {
@@ -840,7 +840,7 @@ namespace FlatRedBall.Glue.IO
             {
                 MessageBox.Show("Could not find the project" + absoluteFileName + ", removing project from synched project list.");
             }
-            else if (absoluteFileName == ProjectManager.ProjectBase.FullFileName)
+            else if (absoluteFileName == GlueState.Self.CurrentMainProject.FullFileName)
             {
                 // Victor Chelaru
                 // January 1, 2013
@@ -857,7 +857,7 @@ namespace FlatRedBall.Glue.IO
                 try
                 {
                     ProjectBase vsp = ProjectCreator.CreateProject(absoluteFileName).Project;
-                    vsp.OriginalProjectBaseIfSynced = ProjectManager.ProjectBase;
+                    vsp.OriginalProjectBaseIfSynced = GlueState.Self.CurrentMainProject;
 
                     vsp.Load(absoluteFileName);
 
@@ -868,7 +868,7 @@ namespace FlatRedBall.Glue.IO
                     }
 
                     if (String.Equals(FileManager.GetDirectory(absoluteFileName),
-                            FileManager.GetDirectory(ProjectManager.ProjectBase.FullFileName.FullPath),
+                            FileManager.GetDirectory(GlueState.Self.CurrentMainProject.FullFileName.FullPath),
                             StringComparison.OrdinalIgnoreCase))
                     {
                         vsp.SaveAsRelativeSyncedProject = false;

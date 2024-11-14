@@ -77,7 +77,7 @@ namespace FlatRedBall.Glue.IO
 
             if (rfs != null)
             {
-                string outputFile = ProjectManager.ProjectBase.Directory + "bin/debug/Content/" + rfs.Name;
+                string outputFile = GlueState.Self.CurrentMainProject.Directory + "bin/debug/Content/" + rfs.Name;
                 outputFile = FileManager.RemoveExtension(outputFile) + ".xnb";
 
 

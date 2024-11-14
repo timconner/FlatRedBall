@@ -177,7 +177,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
                 }
                 else
                 {
-                    rfs.FilePath = ProjectManager.ProjectBase.MakeAbsolute(relativePath);
+                    rfs.FilePath = GlueState.Self.CurrentMainProject.MakeAbsolute(relativePath);
                 }
 
             }
@@ -227,7 +227,8 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
                 }
                 else
                 {
-                    return ProjectManager.ProjectBase.MakeAbsolute(relativePath);
+                    //return ProjectManager.ProjectBase.MakeAbsolute(relativePath);
+                    return GlueState.Self.CurrentMainProject.MakeAbsolute(relativePath);
                 }
             }
 
@@ -249,9 +250,9 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
 
             string lastFileName = null;
 
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
-                lastFileName = ProjectManager.ProjectBase.FullFileName.FullPath;
+                lastFileName = GlueState.Self.CurrentMainProject.FullFileName.FullPath;
             }
 
             save.LastProjectFile = lastFileName;

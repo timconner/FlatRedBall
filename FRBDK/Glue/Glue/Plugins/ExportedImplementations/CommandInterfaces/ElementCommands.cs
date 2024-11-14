@@ -435,7 +435,7 @@ public class ElementCommands : IScreenCommands, IEntityCommands,IElementCommands
                     string relativeOld = FileManager.MakeRelative(absoluteOldFile);
                     string relativeNew = FileManager.MakeRelative(absoluteNewFile);
 
-                    ProjectManager.ProjectBase.RenameItem(relativeOld, relativeNew);
+                    GlueState.Self.CurrentMainProject.RenameItem(relativeOld, relativeNew);
 
                     foreach (VisualStudioProject syncedProject in GlueState.Self.SyncedProjects)
                     {
@@ -1616,7 +1616,7 @@ public class ElementCommands : IScreenCommands, IEntityCommands,IElementCommands
     {
         currentElement.Events.Add(eventResponseSave);
 
-        string fullGeneratedFileName = ProjectManager.ProjectBase.Directory + EventManager.GetGeneratedEventFileNameForElement(currentElement);
+        string fullGeneratedFileName = GlueState.Self.CurrentMainProject.Directory + EventManager.GetGeneratedEventFileNameForElement(currentElement);
 
         if (!File.Exists(fullGeneratedFileName))
         {

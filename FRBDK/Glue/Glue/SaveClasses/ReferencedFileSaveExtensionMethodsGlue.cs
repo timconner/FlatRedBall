@@ -189,7 +189,7 @@ namespace FlatRedBall.Glue.SaveClasses
                     try
                     {
                         // Something could have screwed up the relative directory, so let's reset it here
-                        FileManager.RelativeDirectory = ProjectManager.ProjectBase.Directory;
+                        FileManager.RelativeDirectory = GlueState.Self.CurrentMainProject.Directory;
 
                         error = buildToolAssociation.PerformBuildOn(absoluteSourceName, absoluteDestinationName, instance.AdditionalArguments, PluginManager.ReceiveOutput, PluginManager.ReceiveError, runAsync);
                     }

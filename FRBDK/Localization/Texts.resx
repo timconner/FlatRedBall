@@ -820,9 +820,6 @@ for {1}?</value>
   <data name="ContentPipelineSettings" xml:space="preserve">
     <value>Content Pipeline Settings</value>
   </data>
-  <data name="LinkGameToFrbSource" xml:space="preserve">
-    <value>Link Game to FRB Source</value>
-  </data>
   <data name="ForceSaveProject" xml:space="preserve">
     <value>Force Save Project</value>
   </data>
@@ -904,14 +901,8 @@ for {1}?</value>
   <data name="Variable" xml:space="preserve">
     <value>Variable:</value>
   </data>
-  <data name="AlternativeName" xml:space="preserve">
-    <value>Alternative Name:</value>
-  </data>
   <data name="ConvertedType" xml:space="preserve">
     <value>Converted Type:</value>
-  </data>
-  <data name="TypeConverter" xml:space="preserve">
-    <value>Type Converter:</value>
   </data>
   <data name="ShowStateCategories" xml:space="preserve">
     <value>Show State Categories</value>
@@ -2116,18 +2107,6 @@ for {1}?</value>
   <data name="EventExistingExpose" xml:space="preserve">
     <value>Expose an existing event</value>
   </data>
-  <data name="EventNewCreate" xml:space="preserve">
-    <value>Create a new event</value>
-  </data>
-  <data name="EventSelectExisting" xml:space="preserve">
-    <value>Select an existing event:</value>
-  </data>
-  <data name="GenericType" xml:space="preserve">
-    <value>Generic Type:</value>
-  </data>
-  <data name="EventNew" xml:space="preserve">
-    <value>New Event</value>
-  </data>
   <data name="Velocity" xml:space="preserve">
     <value>Velocity</value>
   </data>
@@ -2412,12 +2391,6 @@ for {1}?</value>
   </data>
   <data name="TileClass" xml:space="preserve">
     <value>Tile Class:</value>
-  </data>
-  <data name="EventTunnelOtherObject" xml:space="preserve">
-    <value>Tunnel an event from another object</value>
-  </data>
-  <data name="Alternative" xml:space="preserve">
-    <value>Alternative:</value>
   </data>
   <data name="WhichTemplateUse" xml:space="preserve">
     <value>Which template would you like to use?</value>

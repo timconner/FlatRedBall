@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FlatRedBall.Glue.Elements;
+using FlatRedBall.Glue.Plugins.ExportedImplementations;
 using FlatRedBall.Glue.Reflection;
 using FlatRedBall.Glue.SaveClasses;
 using FlatRedBall.IO;
@@ -97,7 +98,7 @@ namespace FlatRedBall.Glue.Managers
             bool errorFound = false;
 
             #region  Loop through every .Generated.cs file to see if it has an associated object
-            foreach (var buildItem in ProjectManager.ProjectBase.EvaluatedItems)
+            foreach (var buildItem in GlueState.Self.CurrentMainProject.EvaluatedItems)
             {
                 if (buildItem.UnevaluatedInclude.Contains(".generated.cs", StringComparison.OrdinalIgnoreCase))
                 {

@@ -78,7 +78,7 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.Windows8ContentAdd
             // We need to loop through all of the items in the 
             // base project, see if they are audio files (this is all
             // we look at for now) then add them.
-            IEnumerable<ProjectItem> items = ((VisualStudioProject) ProjectManager.ProjectBase.ContentProject).EvaluatedItems;
+            IEnumerable<ProjectItem> items = ((VisualStudioProject)GlueState.Self.CurrentMainProject.ContentProject).EvaluatedItems;
             foreach (var buildItem in items.Where((item)=>
                 ShouldAssociatedXnbBeCopied(item.UnevaluatedInclude, project)))
             {
@@ -117,13 +117,13 @@ namespace FlatRedBall.Glue.Plugins.EmbeddedPlugins.Windows8ContentAdd
             // This item needs an associated entry in the project
             // The item will be relative to the main project as opposed
             // to the content project, inside the CopiedXnbs directory:
-            string copiedXnb = ProjectManager.ProjectBase.Directory + "CopiedXnbs\\content\\" +
+            string copiedXnb = GlueState.Self.CurrentMainProject.Directory + "CopiedXnbs\\content\\" +
                 buildItem.UnevaluatedInclude;
 
             var link = buildItem.GetLink();
             if(!string.IsNullOrEmpty( link ))
             {
-                copiedXnb = ProjectManager.ProjectBase.Directory + "CopiedXnbs\\content\\" +
+                copiedXnb = GlueState.Self.CurrentMainProject.Directory + "CopiedXnbs\\content\\" +
                     link;
             }
 

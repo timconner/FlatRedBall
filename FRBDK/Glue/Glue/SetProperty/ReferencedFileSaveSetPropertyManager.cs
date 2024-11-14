@@ -534,7 +534,7 @@ namespace FlatRedBall.Glue.SetVariable
             string whatToRemove = "DataTypes/" + className + ".Generated.cs";
 
 
-            if (ProjectManager.ProjectBase.RemoveItem(whatToRemove) && saveProject)
+            if (GlueState.Self.CurrentMainProject.RemoveItem(whatToRemove) && saveProject)
             {
                 GlueCommands.Self.ProjectCommands.SaveProjects();
             }

@@ -60,7 +60,7 @@ namespace FlatRedBall.Glue.CodeGeneration
                 GlueCommands.Self.PrintError("Could not save factory, but will try again next time Glue is restarted:\n" + e);
             }
 
-            if (ProjectManager.ProjectBase != null)
+            if (GlueState.Self.CurrentMainProject != null)
             {
                 TaskManager.Self.AddAsync(() =>
                 {
@@ -74,7 +74,7 @@ namespace FlatRedBall.Glue.CodeGeneration
 
         public void RemoveSelfFromProject()
         {
-            ProjectManager.ProjectBase.RemoveItem(ProjectSpecificFullFileName.FullPath);
+            GlueState.Self.CurrentMainProject.RemoveItem(ProjectSpecificFullFileName.FullPath);
 
             foreach (ProjectBase project in ProjectManager.SyncedProjects)
             {

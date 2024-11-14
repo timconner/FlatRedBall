@@ -383,6 +383,7 @@ internal static class AddSourceManager
 
                 RemoveNugetReference(vsProject, "FlatRedBallDesktopGLNet6");
                 RemoveNugetReference(vsProject, "FlatRedBallKniWeb");
+                RemoveNugetReference(vsProject, "FlatRedBall.FNA");
 
                 vsProject.Save(vsProject.FullFileName.FullPath);
             }

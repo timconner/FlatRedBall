@@ -293,6 +293,9 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
         /// </summary>
         public FilePath CurrentCodeProjectFileName => CurrentMainProject?.FullFileName; 
 
+        /// <summary>
+        /// Returns the directory of the .gluj, which is the same directory as the .csproj
+        /// </summary>
         public string CurrentGlueProjectDirectory
         {
             get
@@ -511,7 +514,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
         {
             var list = new List<ProjectBase>();
 
-            list.Add(ProjectManager.ProjectBase);
+            list.Add(GlueState.Self.CurrentMainProject);
 
             list.AddRange(ProjectManager.SyncedProjects);
 

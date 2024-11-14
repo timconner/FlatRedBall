@@ -339,7 +339,7 @@ public interface ITreeNode
 
         if (this.IsGlobalContentContainerNode())
         {
-            var returnValue = ProjectManager.ProjectBase.GetAbsoluteContentFolder() + "GlobalContent/";
+            var returnValue = GlueState.Self.CurrentMainProject.GetAbsoluteContentFolder() + "GlobalContent/";
 
             // But we want to make this relative to the project, so let's do that
             returnValue = ProjectManager.MakeRelativeContent(returnValue);

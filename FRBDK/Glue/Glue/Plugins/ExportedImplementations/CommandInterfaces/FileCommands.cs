@@ -208,7 +208,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
         }
 
         public FilePath GetGlobalContentFolder() =>
-            ProjectManager.ProjectBase.GetAbsoluteContentFolder() + "GlobalContent/";
+            GlueState.Self.CurrentMainProject.GetAbsoluteContentFolder() + "GlobalContent/";
 
         public void IgnoreNextChangeOnFile(FilePath filePath) => 
             IgnoreNextChangeOnFile(filePath.FullPath);

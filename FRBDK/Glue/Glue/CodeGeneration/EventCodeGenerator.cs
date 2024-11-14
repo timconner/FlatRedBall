@@ -504,7 +504,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             //string fileName = EventManager.GetEventFileNameForElement(element);
             //string fullCustomFileName = ProjectManager.ProjectBase.Directory + fileName;
 
-            var project = ProjectManager.ProjectBase;
+            var project = GlueState.Self.CurrentMainProject;
 
             ////////////////// Early Out //////////////////////
             if(project == null)
@@ -541,7 +541,7 @@ namespace FlatRedBall.Glue.CodeGeneration
             else
             {
                 // Make sure the file is part of the project
-                GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(ProjectManager.ProjectBase, generatedFilePath, false, false);
+                GlueCommands.Self.ProjectCommands.UpdateFileMembershipInProject(GlueState.Self.CurrentMainProject, generatedFilePath, false, false);
             }
 
             ICodeBlock codeBlock = GenerateEventGeneratedCodeFile(element as GlueElement);

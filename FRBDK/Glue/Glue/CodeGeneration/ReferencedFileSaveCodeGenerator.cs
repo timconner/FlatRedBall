@@ -556,7 +556,7 @@ namespace FlatRedBall.Glue.CodeGeneration
                 {
                     fileName = GetFileToLoadForRfs(referencedFile, referencedFile.GetAssetTypeInfo());
 
-                    project = ProjectManager.ProjectBase;
+                    project = GlueState.Self.CurrentMainProject;
                 }
 
                 string containerName = GlobalContentCodeGenerator.GlobalContentContainerName;

@@ -166,7 +166,7 @@ namespace FlatRedBall.Glue.VSHelpers
             foreach (var resourceInfo in mFilesToAdd)
             {
                 // User may have shut down the project:
-                if (ProjectManager.ProjectBase != null)
+                if (GlueState.Self.CurrentMainProject != null)
                 {
                     var resourceName = resourceInfo.ResourceName;
 
@@ -195,7 +195,7 @@ namespace FlatRedBall.Glue.VSHelpers
                 // Add these files to the project and any synced project
                 foreach (var file in filesToAddToProject)
                 {
-                    bool wasAdded = ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(ProjectManager.ProjectBase, file);
+                    bool wasAdded = ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(GlueState.Self.CurrentMainProject, file);
                     if(wasAdded)
                     {
                         PluginManager.ReceiveOutput("Added file to project: " + file);
@@ -222,9 +222,9 @@ namespace FlatRedBall.Glue.VSHelpers
                 string destinationDirectory, destination;
                 var resourceName = info.ResourceName;
                 GetDestination(resourceName, out destinationDirectory, out destination);
-                if(ProjectManager.ProjectBase?.IsFilePartOfProject(destination, Projects.BuildItemMembershipType.Any) == true)
+                if(GlueState.Self.CurrentMainProject?.IsFilePartOfProject(destination, Projects.BuildItemMembershipType.Any) == true)
                 {
-                    ProjectManager.ProjectBase.RemoveItem(destination);
+                    GlueState.Self.CurrentMainProject.RemoveItem(destination);
                     GlueCommands.Self.PrintOutput($"Removing {destination} from project");
                     removed = true;
                 }
@@ -283,14 +283,14 @@ namespace FlatRedBall.Glue.VSHelpers
             {
                 throw new ArgumentNullException(nameof(resourceName));
             }
-            if(ProjectManager.ProjectBase == null)
+            if(GlueState.Self.CurrentMainProject == null)
             {
                 destinationDirectory = null;
                 destination = null;
             }
             else
             {
-                destinationDirectory = ProjectManager.ProjectBase?.Directory + OutputFolderInProject + "/";
+                destinationDirectory = GlueState.Self.CurrentMainProject?.Directory + OutputFolderInProject + "/";
                 destination = null;
                 if (resourceName.Contains("/"))
                 {
@@ -405,13 +405,13 @@ namespace FlatRedBall.Glue.VSHelpers
                 case AddFileBehavior.CopyIfDoesntExist:
                     {
                         bool isFileThere = File.Exists(destinationFile);
-                        bool isAlreadyLinked = ProjectManager.ProjectBase.IsFilePartOfProject(destinationFile, Projects.BuildItemMembershipType.Any);
+                        bool isAlreadyLinked = GlueState.Self.CurrentMainProject.IsFilePartOfProject(destinationFile, Projects.BuildItemMembershipType.Any);
                         return isFileThere == false && isAlreadyLinked == false;
                     }
                 case AddFileBehavior.IfOutOfDate:
                     {
                         bool isFileThere = File.Exists(destinationFile);
-                        bool isAlreadyLinked = ProjectManager.ProjectBase.IsFilePartOfProject(destinationFile, Projects.BuildItemMembershipType.Any);
+                        bool isAlreadyLinked = GlueState.Self.CurrentMainProject.IsFilePartOfProject(destinationFile, Projects.BuildItemMembershipType.Any);
                         
                         if(isFileThere == false || isAlreadyLinked == false)
                         {
