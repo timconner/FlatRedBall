@@ -40,8 +40,9 @@ public static class NewProjectHelper
             commandLineArguments += " emptyprojects";
         }
 
-        var hasDefaultRepositories = (bool)PluginManager.CallPluginMethod("FRB Source", "HasFrbAndGumReposInDefaultLocation");
-        if(hasDefaultRepositories)
+        var responseAsObject = PluginManager.CallPluginMethod("FRB Source", "HasFrbAndGumReposInDefaultLocation");
+        var hasDefaultRepositories = responseAsObject as bool? ;
+        if(hasDefaultRepositories == true)
         {
             commandLineArguments += " showsourcecheckbox";
         }
