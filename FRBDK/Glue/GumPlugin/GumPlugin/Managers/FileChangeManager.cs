@@ -195,7 +195,7 @@ public class FileChangeManager : Singleton<FileChangeManager>
         }
         else
         {
-            CodeGeneratorManager.Self.GenerateDueToFileChange(filePath);
+            CodeGeneratorManager.Self.GenerateCodeForcedTask(filePath);
         }
 
         // Behaviors could have been added, so generate them

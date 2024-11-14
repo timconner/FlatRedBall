@@ -86,6 +86,6 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces.CommandInterfaces
         public List<string> GumFileExtensions { get; }
         public string GetGumExeFilePath();
 
-        void SaveIfDiffers(FilePath filePath, string contents, bool ignoreNextChange = false);
+        bool SaveIfDiffers(FilePath filePath, string contents, bool ignoreNextChange = false);
     }
 }

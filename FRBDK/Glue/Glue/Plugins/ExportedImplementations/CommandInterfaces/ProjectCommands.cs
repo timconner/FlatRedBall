@@ -101,7 +101,9 @@ class ProjectCommands : IProjectCommands
             }
 
             // It may be that only the synced projects have changed, so we have to save those:
-            foreach (var syncedProject in ProjectManager.SyncedProjects)
+            // toList to reduce the chance of having a collection modified exception:
+            var projects = ProjectManager.SyncedProjects.ToList();
+            foreach (var syncedProject in projects)
             {
                 syncedProject.Save(syncedProject.FullFileName.FullPath);
                 if (syncedProject != syncedProject.ContentProject)

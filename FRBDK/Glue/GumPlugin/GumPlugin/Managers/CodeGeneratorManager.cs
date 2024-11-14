@@ -35,6 +35,12 @@ public enum CodeGenerationSavingBehavior
     SaveIfGeneratedDiffers
 }
 
+public enum GenerationVerbosity
+{
+    Minimal,
+    Verbose
+}
+
 #endregion
 
 public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
@@ -85,25 +91,38 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         BehaviorCodeGenerator = new BehaviorCodeGenerator();
     }
 
-    public void GenerateDueToFileChange(FilePath file)
+    public void GenerateCodeForcedTask(FilePath file, GenerationVerbosity generationVerbosity = GenerationVerbosity.Minimal)
     {
         string extension = file.Extension;
-        if(extension == "gumx")
+        if (extension == "gumx")
         {
             foreach (var screen in ObjectFinder.Self.GumProjectSave.Screens)
             {
-                GenerateDueToFileChangeTask(screen, saveProjects:false);
+                GenerateCodeForcedTask(screen, saveProjects: false, generationVerbosity);
             }
             foreach (var component in ObjectFinder.Self.GumProjectSave.Components)
             {
-                GenerateDueToFileChangeTask(component, saveProjects: false);
+                GenerateCodeForcedTask(component, saveProjects: false, generationVerbosity);
             }
             foreach (var standard in ObjectFinder.Self.GumProjectSave.StandardElements)
             {
-                GenerateDueToFileChangeTask(standard, saveProjects: false);
+                GenerateCodeForcedTask(standard, saveProjects: false, generationVerbosity);
             }
-            GlueCommands.Self.ProjectCommands.MakeGeneratedCodeItemsNested();
-            GlueCommands.Self.ProjectCommands.SaveProjects();
+            foreach (var behavior in ObjectFinder.Self.GumProjectSave.Behaviors)
+            {
+                TaskManager.Self.Add(() =>
+                {
+                    GenerateCodeFor(behavior, saveProjects: false, generationVerbosity);
+                }, $"Generating behavior {behavior}");
+                // generate behavior?
+            }
+
+            TaskManager.Self.Add(() =>
+            {
+                GlueCommands.Self.ProjectCommands.MakeGeneratedCodeItemsNested();
+                GlueCommands.Self.ProjectCommands.SaveProjects();
+                
+            }, $"Saving projects due to Gum file generation {file}");
         }
         else
         {
@@ -112,7 +131,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             // Maybe the element doesn't exist - like it's a .gucx that is not part of the .gumx
             if(changedElement != null)
             {
-                GenerateDueToFileChangeTask(changedElement, saveProjects: false);
+                GenerateCodeForcedTask(changedElement, saveProjects: false, generationVerbosity);
 
                 GlueCommands.Self.ProjectCommands.MakeGeneratedCodeItemsNested();
                 GlueCommands.Self.ProjectCommands.SaveProjects();
@@ -122,16 +141,16 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         }
     }
 
-    public void GenerateDueToFileChangeTask(ElementSave element, bool saveProjects)
+    public void GenerateCodeForcedTask(ElementSave element, bool saveProjects, GenerationVerbosity generationVerbosity = GenerationVerbosity.Minimal)
     {
         if(AppState.Self.GumProjectSave != null)
         {
-            TaskManager.Self.Add(() => GenerateDueToFileChange(element, saveProjects),
+            TaskManager.Self.Add(() => GenerateCode(element, saveProjects, generationVerbosity),
                 $"Generating Gum {element}", TaskExecutionPreference.AddOrMoveToEnd);
         }
     }
 
-    private void GenerateDueToFileChange(ElementSave changedElement, bool saveProjects)
+    private void GenerateCode(ElementSave changedElement, bool saveProjects, GenerationVerbosity generationVerbosity)
     {
         if(changedElement == null)
         {
@@ -145,7 +164,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         // #1 is good if the element being generated is not being included in other elements (like Screens)
         // #2 is good if the element being generated is included in LOTS of other elements (like core elements)
 
-        var generationResult = GenerateCodeFor(changedElement, saveProjects);
+        var generationResult = GenerateCodeFor(changedElement, saveProjects, generationVerbosity);
 
         if (generationResult.DidSaveGeneratedGumRuntime)
         {
@@ -153,7 +172,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
             foreach (var container in whatContainsThisElement)
             {
-                GenerateDueToFileChangeTask(container, saveProjects);
+                GenerateCodeForcedTask(container, saveProjects, generationVerbosity);
             }
 
             if(changedElement is Gum.DataTypes.ScreenSave)
@@ -162,7 +181,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
                 {
                     if(screenSave != changedElement && screenSave.IsOfType(changedElement.Name))
                     {
-                        GenerateDueToFileChangeTask(screenSave, saveProjects);
+                        GenerateCodeForcedTask(screenSave, saveProjects, generationVerbosity);
                     }
                 }
             }
@@ -174,7 +193,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
                 {
                     if (component != changedElement && component.IsOfType(changedElement.Name))
                     {
-                        GenerateDueToFileChangeTask(component, saveProjects);
+                        GenerateCodeForcedTask(component, saveProjects, generationVerbosity);
                     }
                 }
             }
@@ -236,7 +255,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         return null;
     }
 
-    public async Task GenerateDerivedGueRuntimesAsync(bool forceReload = false)
+    public async Task GenerateDerivedGueRuntimesAsync(bool forceReload = false, GenerationVerbosity generationVerbosity = GenerationVerbosity.Minimal)
     {
         await TaskManager.Self.AddAsync(() =>
         {
@@ -264,13 +283,13 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
                 GenerateAndSaveRuntimeAssociations();
 
-                GenerateAllElements(directoryToSave);
+                GenerateAllElements(directoryToSave, generationVerbosity);
             }
 
         }, "Generating all Gum runtimes code");
     }
 
-    private void GenerateAllElements(FilePath directoryToSave)
+    private void GenerateAllElements(FilePath directoryToSave, GenerationVerbosity generationVerbosity)
     {
         var elements = AppState.Self.AllLoadedElements.ToList();
 
@@ -283,7 +302,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         {
             try
             {
-                GenerateDueToFileChangeTask(element, saveProjects:false);
+                GenerateCodeForcedTask(element, saveProjects:false, generationVerbosity);
             }
             catch (Exception e)
             {
@@ -310,13 +329,13 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
     /// </summary>
     /// <param name="element">The element to generate.</param>
     /// <returns>Information about what was generated and saved.</returns>
-    public GenerationResult GenerateCodeFor(Gum.DataTypes.ElementSave element, bool saveProjects)
+    public GenerationResult GenerateCodeFor(Gum.DataTypes.ElementSave element, bool saveProjects, GenerationVerbosity generationVerbosity = GenerationVerbosity.Minimal)
     {
         GenerationResult resultToReturn = new GenerationResult();
 
         ///////////////early out////////////////
         var gumRuntimesFolder = GumRuntimesFolder;
-        if(gumRuntimesFolder == null)
+        if (gumRuntimesFolder == null)
         {
             return resultToReturn;
         }
@@ -339,9 +358,12 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
         // Do generated first to see if it fails. If it does (if the return values are null), then don't bother
         // creating the custom code files.
+        PrintIfVerbose($"Generating runtime code for {element.Name}");
         string generatedGumRuntimeCode = mGueDerivingClassCodeGenerator.GenerateCodeFor(element);
 
         var shouldGeneratedFormsBeInProject = false;
+
+        PrintIfVerbose($"Generating forms code for {element.Name}");
         string generatedFormsCode = FormsClassCodeGenerator.Self.GenerateCodeFor(element);
 
 
@@ -351,14 +373,14 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         bool shouldCustomGumBeInProject = false;
 
         string customGumRuntimeSaveLocation = CustomRuntimeCodeLocationFor(element).FullPath;
-        if(string.IsNullOrEmpty(generatedGumRuntimeCode))
+        if (string.IsNullOrEmpty(generatedGumRuntimeCode))
         {
             resultToReturn.DidSaveCustomGumRuntime = false;
             shouldCustomGumBeInProject = false;
         }
         // If it doesn't exist, overwrite it. If it does exist, don't overwrite it - we might lose
         // custom code.
-        else if (!System.IO.File.Exists(customGumRuntimeSaveLocation) && 
+        else if (!System.IO.File.Exists(customGumRuntimeSaveLocation) &&
             // Standard elements don't have CustomInit  
             (element is StandardElementSave) == false)
         {
@@ -373,17 +395,21 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             var directory = FileManager.GetDirectory(customGumRuntimeSaveLocation);
             System.IO.Directory.CreateDirectory(directory);
 
+            PrintIfVerbose($"Saving custom runtime code: {customGumRuntimeSaveLocation}");
+
             GlueCommands.Self.TryMultipleTimes(() =>
                 System.IO.File.WriteAllText(customGumRuntimeSaveLocation, customCode));
         }
 
-        if(shouldCustomGumBeInProject)
-        { 
+        if (shouldCustomGumBeInProject)
+        {
             bool wasAnythingAdded =
                 FlatRedBall.Glue.ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(
                 GlueState.Self.CurrentMainProject, customGumRuntimeSaveLocation);
             if (wasAnythingAdded)
             {
+                PrintIfVerbose($"Added file to project: {customGumRuntimeSaveLocation}");
+
                 shouldSaveProject = true;
             }
         }
@@ -395,15 +421,15 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         // Generated may not be created if this maps to a standard Forms object
         // like Button.
         if (shouldGeneratedFormsBeInProject)
-        { 
-            string customFormsSaveLocation = CustomFormsCodeLocationFor(element).FullPath; 
+        {
+            string customFormsSaveLocation = CustomFormsCodeLocationFor(element).FullPath;
             var customFormsCode = CustomCodeGenerator.Self.GetCustomFormsCodeTemplateCode(element);
 
-            if(string.IsNullOrEmpty(customFormsCode))
+            if (string.IsNullOrEmpty(customFormsCode))
             {
                 resultToReturn.DidSaveCustomForms = false;
             }
-            else if(!System.IO.File.Exists(customFormsSaveLocation))
+            else if (!System.IO.File.Exists(customFormsSaveLocation))
             {
                 resultToReturn.DidSaveCustomForms = true;
             }
@@ -414,14 +440,19 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
                 var directory = FileManager.GetDirectory(customFormsSaveLocation);
                 System.IO.Directory.CreateDirectory(directory);
 
+                PrintIfVerbose($"Saved custom forms code: {customFormsSaveLocation}");
+
+
                 GlueCommands.Self.TryMultipleTimes(() =>
                     System.IO.File.WriteAllText(customFormsSaveLocation, customFormsCode));
-            
+
                 bool wasAnythingAdded =
                     FlatRedBall.Glue.ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(
                     GlueState.Self.CurrentMainProject, customFormsSaveLocation);
                 if (wasAnythingAdded)
                 {
+                    PrintIfVerbose($"Added file to project: {customFormsSaveLocation}");
+
                     shouldSaveProject = true;
                 }
             }
@@ -436,7 +467,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
         FilePath generatedSaveLocation = GeneratedRuntimeCodeLocationFor(element);
 
-        if(string.IsNullOrEmpty(generatedGumRuntimeCode))
+        if (string.IsNullOrEmpty(generatedGumRuntimeCode))
         {
             resultToReturn.DidSaveGeneratedGumRuntime = false;
             shouldGeneratedGumBeInProject = false;
@@ -474,11 +505,14 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             // in case directory doesn't exist
             System.IO.Directory.CreateDirectory(generatedSaveLocation.GetDirectoryContainingThis().FullPath);
 
-            GlueCommands.Self.TryMultipleTimes(() => 
+            PrintIfVerbose($"Saved generated runtime code: {generatedSaveLocation.FullPath}");
+
+
+            GlueCommands.Self.TryMultipleTimes(() =>
                 System.IO.File.WriteAllText(generatedSaveLocation.FullPath, generatedGumRuntimeCode));
         }
 
-        if(shouldGeneratedGumBeInProject)
+        if (shouldGeneratedGumBeInProject)
         {
             bool wasAnythingAdded =
                 FlatRedBall.Glue.ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(
@@ -486,6 +520,8 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
             if (wasAnythingAdded)
             {
+                PrintIfVerbose($"Added file to project: {generatedSaveLocation.FullPath}");
+
                 shouldSaveProject = true;
             }
         }
@@ -496,12 +532,12 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
         FilePath generatedFormsSaveLocation = GeneratedFormsCodeLocationFor(element);
 
-        if(string.IsNullOrEmpty(generatedFormsCode))
+        if (string.IsNullOrEmpty(generatedFormsCode))
         {
             resultToReturn.DidSaveGeneratedForms = false;
             shouldGeneratedFormsBeInProject = false;
         }
-        else if(savingBehavior == CodeGenerationSavingBehavior.AlwaysSave)
+        else if (savingBehavior == CodeGenerationSavingBehavior.AlwaysSave)
         {
             resultToReturn.DidSaveGeneratedForms = true;
             shouldGeneratedFormsBeInProject = true;
@@ -521,23 +557,27 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             }
         }
 
-        if(resultToReturn.DidSaveGeneratedForms)
+        if (resultToReturn.DidSaveGeneratedForms)
         {
             // in case it doesn't exist
             System.IO.Directory.CreateDirectory(generatedFormsSaveLocation.GetDirectoryContainingThis().FullPath);
+
+            PrintIfVerbose($"Saved generated forms code: {generatedFormsSaveLocation.FullPath}");
 
             GlueCommands.Self.TryMultipleTimes(() =>
                 System.IO.File.WriteAllText(generatedFormsSaveLocation.FullPath, generatedFormsCode));
         }
 
-        if(shouldGeneratedFormsBeInProject)
+        if (shouldGeneratedFormsBeInProject)
         {
             bool wasAnythingAdded =
                 FlatRedBall.Glue.ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(
                 GlueState.Self.CurrentMainProject, generatedFormsSaveLocation.FullPath);
 
-            if(wasAnythingAdded)
+            if (wasAnythingAdded)
             {
+                PrintIfVerbose($"Added file to project: {generatedFormsSaveLocation.FullPath}");
+
                 shouldSaveProject = true;
             }
         }
@@ -546,6 +586,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 
         if (shouldSaveProject && saveProjects)
         {
+            PrintIfVerbose("Saving FRB project");
             // November 21, 2023 - this isnt working but I'm not sure why - will investigate some time in the future.
             // The Forms generated file wasn't embedded.
             GlueCommands.Self.ProjectCommands.MakeGeneratedCodeItemsNested();
@@ -553,6 +594,14 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         }
 
         return resultToReturn;
+
+        void PrintIfVerbose(string output)
+        {
+            if (generationVerbosity == GenerationVerbosity.Verbose)
+            {
+                GlueCommands.Self.PrintOutput(output);
+            }
+        }
     }
 
     public bool GenerateAndSaveRuntimeAssociations()
@@ -661,7 +710,7 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         
     }
 
-    public void GenerateAllBehaviors()
+    public void GenerateAllBehaviors(GenerationVerbosity verbosity = GenerationVerbosity.Minimal)
     {
         var gumProject = Gum.Managers.ObjectFinder.Self.GumProjectSave;
 
@@ -669,14 +718,18 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
         {
             foreach (var behavior in gumProject.Behaviors)
             {
-                GenerateCodeFor(behavior, saveProjects:false);
+                // In case there's a weird behavior - Vic had this on Cthulhu:
+                if (!string.IsNullOrWhiteSpace(behavior.Name))
+                {
+                    GenerateCodeFor(behavior, saveProjects:false, verbosity);
+                }
             }
         }
 
         GlueCommands.Self.ProjectCommands.SaveProjects();
     }
 
-    private void GenerateCodeFor(BehaviorSave behavior, bool saveProjects)
+    private void GenerateCodeFor(BehaviorSave behavior, bool saveProjects, GenerationVerbosity verbosity)
     {
         var directoryToSave = GumBehaviorsFolder;
 
@@ -693,12 +746,17 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             shouldAddToProject = true;
             try
             {
+                var didChange = false;
                 GlueCommands.Self.TryMultipleTimes(() =>
                 {
                     //System.IO.File.WriteAllText(saveLocation.FullPath, generatedCode);
-                    GlueCommands.Self.FileCommands.SaveIfDiffers(saveLocation, generatedCode);
+                    didChange = GlueCommands.Self.FileCommands.SaveIfDiffers(saveLocation, generatedCode);
                 });
-                
+
+                if(didChange && verbosity == GenerationVerbosity.Verbose)
+                {
+                    GlueCommands.Self.PrintOutput($"Saved behavior to {saveLocation}");
+                }
             }
             catch (Exception e)
             {
@@ -712,8 +770,18 @@ public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
             var didAdd = FlatRedBall.Glue.ProjectManager.CodeProjectHelper.AddFileToCodeProjectIfNotAlreadyAdded(
                 GlueState.Self.CurrentMainProject, saveLocation.FullPath);
 
-            if(didAdd && saveProjects)
+            if (didAdd && verbosity == GenerationVerbosity.Verbose)
             {
+                GlueCommands.Self.PrintOutput($"Added file to project {saveLocation}");
+            }
+
+            if (didAdd && saveProjects)
+            {
+
+                if(verbosity == GenerationVerbosity.Verbose)
+                {
+                    GlueCommands.Self.PrintOutput($"Savoing Projects");
+                }
                 GlueCommands.Self.ProjectCommands.SaveProjects();
             }
         }

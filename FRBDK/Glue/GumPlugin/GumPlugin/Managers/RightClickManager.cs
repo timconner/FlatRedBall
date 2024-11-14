@@ -55,7 +55,7 @@ namespace GumPlugin.Managers
                 menuToModify.Add("Regenerate Gum Code", (not, used) =>
                 {
                     var fileName = GlueCommands.Self.GetAbsoluteFileName(file);
-                    CodeGeneratorManager.Self.GenerateDueToFileChange(fileName);
+                    CodeGeneratorManager.Self.GenerateCodeForcedTask(fileName, GenerationVerbosity.Verbose);
                 });
             }
         }
