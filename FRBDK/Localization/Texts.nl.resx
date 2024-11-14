@@ -753,29 +753,8 @@
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>Deze entiteit erft van een Top-Down Entiteit</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Projectnaam: </value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Platform:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Gebruik lokale kopie indien beschikbaar:</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Maatwerk namespace:</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Maak projectmap aan:</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>Solution (.sln) bevindt zich in:</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Lokatie:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>Voeg .gitignore toe:</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Bibliotheken bijwerken</value>

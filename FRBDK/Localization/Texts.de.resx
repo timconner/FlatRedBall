@@ -753,29 +753,8 @@
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>Diese Entität erbt von einer Top-Down-Entität</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Projektname:</value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Plattform:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Verwenden Sie die lokale Kopie, falls verfügbar:</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Benutzerdefinierter Namespace:</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Projektverzeichnis erstellen:</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>Die Lösung (.sln) befindet sich in:</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Standort:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>.gitignore hinzufügen:</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Bibliotheken aktualisieren</value>

@@ -754,29 +754,8 @@ for {1}?</value>
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>This entity inherits from a Top-Down Entity</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Project Name: </value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Platform:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Use Local Copy if available:</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Custom Namespace:</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Create Project Directory:</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>The solution (.sln) is located in:</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>Add .gitignore:</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Update Libraries</value>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:localization="clr-namespace:Localization;assembly=Localization"
         mc:Ignorable="d"
-        Title="{x:Static localization:Texts.ProjectNew}" ResizeMode="CanResizeWithGrip"  SizeToContent="Height" Width="400">
+        Title="New Project" ResizeMode="CanResizeWithGrip"  SizeToContent="Height" Width="400">
     <Window.Resources>
         <Style x:Key="myStyle" TargetType="Button">
             <Setter Property="Background" Value="#71AA34" />
@@ -32,24 +32,24 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBlock FontWeight="Bold" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,10" Text="{x:Static localization:Texts.ProjectName}" />
+            <TextBlock FontWeight="Bold" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,10" Text="Project Name:" />
             <TextBox Height="20" VerticalAlignment="Top" 
                      Grid.Column="1" 
                      x:Name="ProjectNameTextBox"
                      Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" 
                      KeyDown="TextBox_KeyDown"></TextBox>
 
-            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="1" Margin="0,0,16,10" Text="{x:Static localization:Texts.Platform}" />
+            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="1" Margin="0,0,16,10" Text="Platform:" />
             <ComboBox VerticalAlignment="Top"  ItemsSource="{Binding AvailableProjects, Mode=OneWay}" SelectedItem="{Binding SelectedProject}" Grid.Column="1" Grid.Row="1"></ComboBox>
 
-            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="2" Margin="0,0,16,10" Text="{x:Static localization:Texts.LocalCopyIfAvailable}" />
+            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="2" Margin="0,0,16,10" Text="Use local copy if available:" />
             <CheckBox IsChecked="{Binding UseLocalCopy}" Grid.Column="1" Grid.Row="2">
                 <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                 </CheckBox.LayoutTransform>
             </CheckBox>
 
-            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="3" Margin="0,0,16,10" Text="{x:Static localization:Texts.CustomNamespace}" />
+            <TextBlock FontWeight="Bold" Grid.Column="0" Grid.Row="3" Margin="0,0,16,10" Text="Custom Namespace:" />
             <StackPanel Grid.Column="1" Grid.Row="3" VerticalAlignment="Top">
                 <CheckBox  IsChecked="{Binding IsDifferentNamespaceChecked}">
                     <CheckBox.LayoutTransform>
@@ -59,7 +59,7 @@
                 <TextBox Visibility="{Binding DifferentNamespaceTextBoxVisibility}" Text="{Binding DifferentNamespace, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0"></TextBox>
             </StackPanel>
 
-            <TextBlock FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,16,10" Text="{x:Static localization:Texts.Location}" />
+            <TextBlock FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,16,10" Text="Location:" />
             <Grid Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Margin="0,5,0,10" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -70,7 +70,7 @@
                 <Button Grid.Column="1" VerticalAlignment="Top" Click="SelectLocationClicked">...</Button>
             </Grid>
 
-            <TextBlock FontWeight="Bold" Grid.Row="5" Margin="0,0,16,10"  Text="{x:Static localization:Texts.ProjectDirectoryCreate}" />
+            <TextBlock FontWeight="Bold" Grid.Row="5" Margin="0,0,16,10"  Text="Create Project Directory:" />
             <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsCreateProjectDirectoryChecked}">
                 <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
@@ -78,7 +78,7 @@
             </CheckBox>
 
             <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
-                <TextBlock FontStyle="Italic" FontSize="10"  Text="{x:Static localization:Texts.SolutionLocatedIn}" />
+                <TextBlock FontStyle="Italic" FontSize="10"  Text="The solution (.sln) is located in:" />
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -95,7 +95,7 @@
 
             </StackPanel>
 
-            <TextBlock FontWeight="Bold" Grid.Row="7" Margin="0,0,16,10" Text="{x:Static localization:Texts.GitignoreAdd}" />
+            <TextBlock FontWeight="Bold" Grid.Row="7" Margin="0,0,16,10" Text="Add .gitignore:" />
             <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsAddGitIgnoreChecked}">
                 <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />

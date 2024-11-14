@@ -753,29 +753,8 @@
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>Cette entité hérite d'une entité Top-Down</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Nom du projet:</value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Plate-forme:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Utilisez la copie locale si disponible :</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Namespace personnalisé :</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Créer un répertoire de projet :</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>La solution (.sln) sera située dans :</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Emplacement:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>Ajoutez .gitignore :</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Mettre à jour les bibliothèques</value>
