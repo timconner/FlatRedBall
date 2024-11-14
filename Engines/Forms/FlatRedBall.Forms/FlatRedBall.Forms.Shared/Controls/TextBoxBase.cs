@@ -103,6 +103,7 @@ namespace FlatRedBall.Forms.Controls
             {
                 if (value != textWrapping)
                 {
+                    textWrapping = value;
                     UpdateToTextWrappingChanged();
                 }
             }
@@ -764,7 +765,7 @@ namespace FlatRedBall.Forms.Controls
                 // make sure we measure a valid string
                 var stringToMeasure = DisplayedText ?? "";
 
-                SetCaretPositionForLine(stringToMeasure, caretIndex);
+                SetXCaretPositionForLine(stringToMeasure, caretIndex);
             }
             else
             {
@@ -776,7 +777,7 @@ namespace FlatRedBall.Forms.Controls
                     var lineLength = coreTextObject.WrappedText[i].Length;
                     if (charactersLeft <= lineLength)
                     {
-                        SetCaretPositionForLine(coreTextObject.WrappedText[i], charactersLeft);
+                        SetXCaretPositionForLine(coreTextObject.WrappedText[i], charactersLeft);
                         break;
                     }
                     else
@@ -796,7 +797,7 @@ namespace FlatRedBall.Forms.Controls
             }
         }
 
-        private void SetCaretPositionForLine(string stringToMeasure, int indexIntoLine)
+        private void SetXCaretPositionForLine(string stringToMeasure, int indexIntoLine)
         {
             indexIntoLine = System.Math.Min(indexIntoLine, stringToMeasure.Length);
             var substring = stringToMeasure.Substring(0, indexIntoLine);
@@ -854,11 +855,11 @@ namespace FlatRedBall.Forms.Controls
         {
             if (textWrapping == TextWrapping.Wrap)
             {
-                Visual.SetProperty("LineModeCategory", "Multi");
+                Visual.SetProperty("LineModeCategoryState", "Multi");
             }
             else // no wrap
             {
-                Visual.SetProperty("LineModeCategory", "Single");
+                Visual.SetProperty("LineModeCategoryState", "Single");
             }
         }
 

@@ -52,7 +52,9 @@
       "ProjectsToExcludeFrom": []
     }
   ],
-  "GlobalContentSettingsSave": {},
+  "GlobalContentSettingsSave": {
+    "GenerateLoadGlobalContentCode": true
+  },
   "SyncedProjects": [],
   "StartUpScreen": "Screens\\MainMenu",
   "ResolutionPresets": [],

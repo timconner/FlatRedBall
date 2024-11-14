@@ -552,9 +552,33 @@
     <IsSetRecursively>false</IsSetRecursively>
     <State>
       <Name>Single</Name>
+      <Variable>
+        <Type>DimensionUnitType</Type>
+        <Name>TextInstance.Width Units</Name>
+        <Value xsi:type="xsd:int">4</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>float</Type>
+        <Name>TextInstance.Width</Name>
+        <Value xsi:type="xsd:float">0</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
     </State>
     <State>
       <Name>Multi</Name>
+      <Variable>
+        <Type>float</Type>
+        <Name>TextInstance.Width</Name>
+        <Value xsi:type="xsd:float">-8</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>DimensionUnitType</Type>
+        <Name>TextInstance.Width Units</Name>
+        <Value xsi:type="xsd:int">2</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
     </State>
   </Category>
   <Instance>
