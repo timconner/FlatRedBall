@@ -291,7 +291,10 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
         /// <summary>
         /// Returns the current Glue code project file name
         /// </summary>
-        public FilePath CurrentCodeProjectFileName => CurrentMainProject?.FullFileName; 
+        public FilePath CurrentCodeProjectFileName
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Returns the directory of the .gluj, which is the same directory as the .csproj
@@ -304,7 +307,21 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
             }
         }
 
-        public VisualStudioProject CurrentMainProject { get; set; }
+
+        VisualStudioProject _currentMainProject;
+        public VisualStudioProject CurrentMainProject
+        {
+            get => _currentMainProject;
+            set
+            {
+                _currentMainProject = value;
+                // This preserves the old file name even after we exit in case there are extra tasks running
+                if (value != null)
+                {
+                    CurrentCodeProjectFileName = value.FullFileName;
+                }
+            }
+        }
 
         public VisualStudioProject CurrentMainContentProject { get { return ProjectManager.ContentProject; } }
 

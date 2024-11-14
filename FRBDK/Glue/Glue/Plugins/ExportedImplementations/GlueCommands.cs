@@ -228,7 +228,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
                 else
                 {
                     //return ProjectManager.ProjectBase.MakeAbsolute(relativePath);
-                    return GlueState.Self.CurrentMainProject.MakeAbsolute(relativePath);
+                    return GlueState.Self.CurrentGlueProjectDirectory + relativePath;
                 }
             }
 
