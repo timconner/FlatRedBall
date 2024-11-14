@@ -45,6 +45,10 @@ public enum GenerationVerbosity
 
 public class CodeGeneratorManager : Singleton<CodeGeneratorManager>
 {
+
+    // turn this on to make everythign by default be verbose for diagnostics:
+    public static GenerationVerbosity DefaultVerbosity = GenerationVerbosity.Minimal;
+
     #region Fields
 
     GumPlugin.CodeGeneration.IWindowCodeGenerator mIWindowCodeGenerator;
