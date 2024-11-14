@@ -14,6 +14,7 @@ namespace FlatRedBallDesktopFnaTemplate
         [STAThread]
         static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("FNA_PLATFORM_BACKEND", "SDL3");
             using (var game = new Game1())
             {
                 var byEditor = args.Contains("LaunchedByEditor");
