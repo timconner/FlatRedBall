@@ -99,7 +99,8 @@ namespace GumPlugin.Managers
                     }
                     GlueCommands.Self.GluxCommands.SaveProjectAndElements();
 
-                    await CodeGeneratorManager.Self.GenerateDerivedGueRuntimesAsync(forceReload: true);
+                    // until we get performance fixed, print this out to see what's going on:
+                    await CodeGeneratorManager.Self.GenerateDerivedGueRuntimesAsync(forceReload: true, CodeGeneratorManager.DefaultVerbosity);
 
                     _gumxPropertiesManager.IsReactingToProperyChanges = true;
                 }, "Creating Gum Project");

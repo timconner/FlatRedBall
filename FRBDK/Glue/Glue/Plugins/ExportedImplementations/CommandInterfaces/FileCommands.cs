@@ -677,8 +677,9 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
             return FlatRedBall.Glue.Plugins.ExportedImplementations.GlueState.Self.GlueExeDirectory + "../../../../../../Gum/Gum/bin/Debug/Data/Gum.exe";
         }
 
-        public void SaveIfDiffers(FilePath filePath, string contents, bool ignoreNextChange = false)
+        public bool SaveIfDiffers(FilePath filePath, string contents, bool ignoreNextChange = false)
         {
+            var didChange = false;
             if (filePath.Exists() == false)
             {
                 if(ignoreNextChange)
@@ -686,6 +687,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
                     FileWatchManager.IgnoreNextChangeOnFile(filePath);
                 }
                 FileManager.SaveText(contents, filePath.FullPath);
+                didChange = true;
             }
             else
             {
@@ -699,8 +701,10 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
                     }
 
                     FileManager.SaveText(contents, filePath.FullPath);
+                    didChange = true;
                 }
             }
+            return didChange;
         }
 
         static int FindDifferenceIndex(string str1, string str2)

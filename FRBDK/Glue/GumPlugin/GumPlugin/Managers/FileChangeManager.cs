@@ -191,15 +191,15 @@ public class FileChangeManager : Singleton<FileChangeManager>
 
         if (extension == GumProjectSave.ProjectExtension)
         {
-            await CodeGeneratorManager.Self.GenerateDerivedGueRuntimesAsync();
+            await CodeGeneratorManager.Self.GenerateDerivedGueRuntimesAsync(generationVerbosity:CodeGeneratorManager.DefaultVerbosity);
         }
         else
         {
-            CodeGeneratorManager.Self.GenerateDueToFileChange(filePath);
+            CodeGeneratorManager.Self.GenerateCodeForcedTask(filePath, generationVerbosity:CodeGeneratorManager.DefaultVerbosity);
         }
 
         // Behaviors could have been added, so generate them
-        CodeGeneratorManager.Self.GenerateAllBehaviors();
+        CodeGeneratorManager.Self.GenerateAllBehaviors(CodeGeneratorManager.DefaultVerbosity);
 
         EventsManager.Self.RefreshEvents();
 

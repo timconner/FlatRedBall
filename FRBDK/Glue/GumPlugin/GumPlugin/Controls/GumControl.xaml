@@ -41,7 +41,7 @@
 
       </GroupBox>
 
-      <GroupBox Header="FlatRedBall.Forms" Padding="0">
+      <GroupBox Header="FlatRedBall.Forms" Padding="0" Margin="0,0,0,4">
         <TabControl BorderThickness="0,1,0,0">
           <TabItem Header="Basic">
             <StackPanel x:Name="Basic" Margin="4">
@@ -63,6 +63,9 @@
             </StackPanel>
           </TabItem>
         </TabControl>
+      </GroupBox>
+      <GroupBox Header="Gum Project Info">
+        <TextBlock Text="{Binding GumProjectInfo}"/>
       </GroupBox>
     </StackPanel>
   </ScrollViewer>

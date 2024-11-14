@@ -23,7 +23,7 @@ namespace GumPlugin.ViewModels
 
     #endregion
 
-    // This got converted to a PropertyListContainerViewModel i nMarch 2021. Properties here could get updated 
+    // This got converted to a PropertyListContainerViewModel in March 2021. Properties here could get updated 
     public class GumViewModel : PropertyListContainerViewModel
     {
         GumProjectSave backingGumProject;
@@ -63,6 +63,12 @@ namespace GumPlugin.ViewModels
         {
             get => Get<bool>();
             set => SetAndPersist(value);
+        }
+
+        public string GumProjectInfo
+        {
+            get => Get<string>();
+            set => Set(value);
         }
 
         // We don't use this to adjust the data (ReferencedFileSave, settings file), but it's here
@@ -148,6 +154,8 @@ namespace GumPlugin.ViewModels
 
             ShowMouse = backingRfs.Properties.GetValue<bool>(nameof(ShowMouse));
             UpdateFromGlueObject();
+
+            GumProjectInfo = $"{gumProjectSave.Screens.Count} Screens\n{gumProjectSave.Components.Count} Components\n{gumProjectSave.Behaviors.Count} Behaviors";
         }
 
 
