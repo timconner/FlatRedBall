@@ -41,6 +41,13 @@ class ProjectCommands : IProjectCommands
     {
         TaskManager.Self.WarnIfNotInTask();
         var toLock = GlueState.Self.CurrentMainProject;
+
+        ///////////////////////early out///////////////////////
+        if(toLock == null)
+        {
+            return;
+        }
+        /////////////////////end early out////////////////////
         lock (toLock)
         {
             bool shouldSync = false;
