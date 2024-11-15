@@ -90,12 +90,12 @@ public static class AnimationController
         dataUiGrid.GetInstanceMember(nameof(AnimationRowViewModel.MinVelocityAbsolute)).FirstGridLength = velocityFirstGridLength;
         dataUiGrid.GetInstanceMember(nameof(AnimationRowViewModel.MaxVelocityAbsolute)).FirstGridLength = velocityFirstGridLength;
 
-        dataUiGrid.MoveMemberToCategory(nameof(AnimationRowViewModel.AnimationSpeedAssignment), Localization.Texts.AnimationSpeed);
+        dataUiGrid.MoveMemberToCategory(nameof(AnimationRowViewModel.AnimationSpeedAssignment), "Animation Speed");
 
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.AbsoluteVelocityAnimationSpeedMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnVelocityMultiplier;
             properties.DisplayProperties.Add(prop);
         }
@@ -103,7 +103,7 @@ public static class AnimationController
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.MaxSpeedRatioMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnMaxSpeedRatioMultiplier;
             properties.DisplayProperties.Add(prop);
         }

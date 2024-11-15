@@ -81,7 +81,7 @@
             </TextBlock>
             <CheckBox VerticalContentAlignment="Center"
                       IsChecked="{Binding IsAutoNameEnabled}"
-                      Margin="0,8,0,0" Content="{x:Static localization:Texts.AutoNameRelationship}"/>
+                      Margin="0,8,0,0" Content="Auto-name Relationship"/>
 
             <CheckBox VerticalContentAlignment="Center"
                       IsChecked="{Binding IsCollisionActive}"
@@ -204,7 +204,7 @@
                               IsChecked="{Binding IsDestroyFirstOnDamageChecked}" Content="{Binding DestroyFirstOnDamageText, FallbackValue=Destroy First on Damage}"></CheckBox>
                     <GroupBox Header="{x:Static localization:Texts.Destruction}" Visibility="{Binding FirstDestructionOptionsVisibility}">
                         <StackPanel>
-                            <RadioButton IsChecked="{Binding IsFirstAlwaysDestroyChecked}"  Content="{x:Static localization:Texts.Always}" />
+                            <RadioButton IsChecked="{Binding IsFirstAlwaysDestroyChecked}"  Content="Always" />
                             <RadioButton IsChecked="{Binding IsFirstOnlyIfDamageDestroyChecked}"  Content="{x:Static localization:Texts.DamageDealtIf}" />
                         </StackPanel>
                     </GroupBox>
@@ -212,7 +212,7 @@
                               IsChecked="{Binding IsDestroySecondOnDamageChecked}" Content="{Binding DestroySecondOnDamageText, FallbackValue=Destroy Second on Damage}"></CheckBox>
                     <GroupBox Header="{x:Static localization:Texts.Destruction}" Visibility="{Binding SecondDestructionOptionsVisibility}">
                         <StackPanel>
-                            <RadioButton IsChecked="{Binding IsSecondAlwaysDestroyChecked}" Content="{x:Static localization:Texts.Always}" />
+                            <RadioButton IsChecked="{Binding IsSecondAlwaysDestroyChecked}" Content="Always" />
                             <RadioButton IsChecked="{Binding IsSecondOnlyIfDamageDestroyChecked}" Content="{x:Static localization:Texts.DamageDealtIf}" />
                         </StackPanel>
                     </GroupBox>

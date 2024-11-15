@@ -178,7 +178,7 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.MenuStripPlugin
                         }
                         catch (FileNotFoundException fnfe)
                         {
-                            ErrorReporter.ReportError(absoluteFileName, String.Format(Localization.Texts.AttemptFindFileReferences,fnfe.FileName), true);
+                            ErrorReporter.ReportError(absoluteFileName, String.Format("Trying to find file references, but could not find contained file {0}", fnfe.FileName), true);
                         }
 
                         if (referencedFiles == null) continue;
