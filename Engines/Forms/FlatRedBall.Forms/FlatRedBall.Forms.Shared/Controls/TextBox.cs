@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using FlatRedBall.Instructions.Pause;
 
 namespace FlatRedBall.Forms.Controls
 {
@@ -40,6 +41,11 @@ namespace FlatRedBall.Forms.Controls
         }
 
         protected override string CategoryName => "TextBoxCategoryState";
+
+        public bool AcceptsReturn
+        {
+            get; set;
+        }
 
         #endregion
 
@@ -80,7 +86,7 @@ namespace FlatRedBall.Forms.Controls
                     DeleteSelection();
                 }
 
-
+                bool suppressOneLetterAdvance = false;
                 // If text is null force it to be an empty string so we can add characters
                 string newText = Text ?? "";
 
@@ -93,13 +99,18 @@ namespace FlatRedBall.Forms.Controls
                     // esc
                     || character == (char)27)
                 {
-                    // do nothing, handled with a backspace above
+                    // handled by TextBoxBase
                 //    HandleBackspace();
                 }
                 else if (character == '\r' || character == '\n')
                 {
-                    // We don't support multiline yet
-                    //this.Text += '\n';
+                    if(AcceptsReturn)
+                    {
+                        newText = newText.Insert(caretIndex, "\n");
+                        // because newlines are truncated
+                        suppressOneLetterAdvance = true;
+                        addedCharacter = true;
+                    }
                 }
                 else
                 {
@@ -119,7 +130,12 @@ namespace FlatRedBall.Forms.Controls
                     if(!wasHandledByEvent)
                     {
                         Text = newText;
-                        caretIndex = System.Math.Min(caretIndex+1, Text.Length);
+
+                        if(!suppressOneLetterAdvance)
+                        {
+                            caretIndex = System.Math.Min(caretIndex+1, Text.Length);
+                        }
+
                     }
                 }
 
@@ -156,7 +172,11 @@ namespace FlatRedBall.Forms.Controls
                     // Move the care to the left one before removing from the text. Otherwise, if the
                     // caret is at the end of the word, modifying the word will shift the caret to the left, 
                     // and that could cause it to shift over two times.
-                    caretIndex--;
+                    var letterToRemove = this.Text[whereToRemoveFrom];
+                    if(letterToRemove != '\n')
+                    {
+                        caretIndex--;
+                    }
                     this.Text = this.Text.Remove(whereToRemoveFrom, 1);
                 }
             }
@@ -222,7 +242,12 @@ namespace FlatRedBall.Forms.Controls
 
         public void DeleteSelection()
         {
-            this.Text = Text.Remove(selectionStart, selectionLength);
+            var lengthToRemove = selectionLength;
+            if(selectionStart + lengthToRemove > Text.Length)
+            {
+                lengthToRemove = Text.Length - selectionStart;
+            }
+            this.Text = Text.Remove(selectionStart, lengthToRemove);
             CaretIndex = selectionStart;
             SelectionLength = 0;
         }

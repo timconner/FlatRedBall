@@ -105,7 +105,7 @@
     "AspectRatioHeight": 9.0,
     "SupportLandscape": true,
     "AllowWindowResizing": true,
-    "Scale": 100,
+    "Scale": 200,
     "ScaleGum": 100,
     "DominantInternalCoordinates": 1,
     "TextureFilter": 1

@@ -8,9 +8,9 @@ namespace GumCoreShared.FlatRedBall.Embedded
     public class GumToFrbShapeRelationship
     {
         public AxisAlignedRectangle FrbRect;
-        public Gum.Wireframe.GraphicalUiElement GumRect;
+        public global::Gum.Wireframe.GraphicalUiElement GumRect;
 
         public Circle FrbCircle;
-        public Gum.Wireframe.GraphicalUiElement GumCircle;
+        public global::Gum.Wireframe.GraphicalUiElement GumCircle;
     }
 }

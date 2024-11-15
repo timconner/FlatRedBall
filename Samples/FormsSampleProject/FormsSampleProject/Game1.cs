@@ -11,6 +11,8 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Gum.Wireframe;
+using GumCoreShared.Gum.Wireframe;
 
 namespace FormsSampleProject
 {
@@ -60,10 +62,14 @@ namespace FormsSampleProject
             #endif
         
             GeneratedInitializeEarly();
+            GraphicalUiElement.CloneRenderableFunction = RenderableCloneLogic.Clone;
 
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
 
             GeneratedInitialize();
+
+            GraphicalUiElement.CloneRenderableFunction =
+                RenderableCloneLogic.Clone;
 
             base.Initialize();
         }

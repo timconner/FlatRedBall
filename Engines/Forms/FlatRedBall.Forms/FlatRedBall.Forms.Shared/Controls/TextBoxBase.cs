@@ -4,8 +4,13 @@ using FlatRedBall.Input;
 using Gum.Wireframe;
 using Microsoft.Xna.Framework.Input;
 using RenderingLibrary;
+using RenderingLibrary.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace FlatRedBall.Forms.Controls
@@ -51,6 +56,10 @@ namespace FlatRedBall.Forms.Controls
 
 
         protected GraphicalUiElement selectionInstance;
+
+        List<GraphicalUiElement> _selectionInstances = new List<GraphicalUiElement>();
+
+        GraphicalUiElement selectionTemplate;
 
         GraphicalUiElement caretComponent;
 
@@ -105,6 +114,8 @@ namespace FlatRedBall.Forms.Controls
                 {
                     textWrapping = value;
                     UpdateToTextWrappingChanged();
+                    // RefreshTemplateFromSelectionInstance after UpdateToTextWrappingChanged so the state has applied when we clone
+                    RefreshTemplateFromSelectionInstance();
                 }
             }
         }
@@ -219,9 +230,22 @@ namespace FlatRedBall.Forms.Controls
         {
             textComponent = base.Visual.GetGraphicalUiElementByName("TextInstance");
             caretComponent = base.Visual.GetGraphicalUiElementByName("CaretInstance");
-            
+
             // optional:
+
+            if (_selectionInstances == null)
+            {
+                _selectionInstances = new List<GraphicalUiElement>();
+            }
+
             selectionInstance = base.Visual.GetGraphicalUiElementByName("SelectionInstance");
+            if (selectionInstance != null)
+            {
+                _selectionInstances.Add(selectionInstance);
+            }
+
+            RefreshTemplateFromSelectionInstance();
+
             placeholderComponent = base.Visual.GetGraphicalUiElementByName("PlaceholderTextInstance");
 
             coreTextObject = textComponent.RenderableComponent as RenderingLibrary.Graphics.Text;
@@ -250,6 +274,22 @@ namespace FlatRedBall.Forms.Controls
             IsFocused = false;
         }
 
+        private void RefreshTemplateFromSelectionInstance()
+        {
+            if (selectionInstance != null)
+            {
+                selectionTemplate = selectionInstance.Clone();
+
+                // Go to > 0 so that we don't delete the original
+                for(int i = _selectionInstances.Count - 1; i > 0; i--)
+                {
+                    var toRemove = _selectionInstances[i];
+                    var parent = toRemove.Parent;
+                    parent.Children.Remove(toRemove);
+                }
+            }
+        }
+
 
         #endregion
 
@@ -262,29 +302,30 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandlePush(IWindow window)
         {
-            indexPushed = GetCaretIndexAtCursor();
 
+
+            if (GuiManager.Cursor.PrimaryDoublePush)
+            {
+                indexPushed = null;
+                selectionStart = 0;
+                SelectionLength = DisplayedText?.Length ?? 0;
+            }
+            else
+            {
+                indexPushed = GetCaretIndexAtCursor();
+                
+                UpdateCaretIndexFromCursor();
+            }
         }
 
         private void HandleClick(IWindow window)
         {
             FlatRedBall.Input.InputManager.InputReceiver = this;
 
-            if(GuiManager.Cursor.PrimaryDoubleClick)
-            {
-                selectionStart = 0;
-                SelectionLength = DisplayedText?.Length ?? 0;
-            }
-            else if(GuiManager.Cursor.PrimaryClickNoSlide)
-            {
-                UpdateCaretIndexFromCursor();
-            }
-
             if(this.LosesFocusWhenClickedOff)
             {
                 GuiManager.AddNextPushAction(TryLoseFocusFromPush);
             }
-
         }
 
         private void TryLoseFocusFromPush()
@@ -318,9 +359,9 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandleRollOver(IWindow window)
         {
-            if(GuiManager.Cursor.LastInputDevice == InputDevice.Mouse)
+            if (GuiManager.Cursor.LastInputDevice == InputDevice.Mouse)
             {
-                if(GuiManager.Cursor.WindowPushed == this.Visual && indexPushed != null && GuiManager.Cursor.PrimaryDown)
+                if (GuiManager.Cursor.WindowPushed == this.Visual && indexPushed != null && GuiManager.Cursor.PrimaryDown && !GuiManager.Cursor.PrimaryDoublePush)
                 {
                     var currentIndex = GetCaretIndexAtCursor();
 
@@ -400,9 +441,13 @@ namespace FlatRedBall.Forms.Controls
                 var bitmapFont = coreTextObject.BitmapFont;
                 var lineHeight = bitmapFont.LineHeightInPixels;
                 var topOfText = this.textComponent.GetAbsoluteTop();
+                if(this.coreTextObject?.VerticalAlignment == VerticalAlignment.Center)
+                {
+                    topOfText = this.textComponent.GetAbsoluteCenterY() - (lineHeight * coreTextObject.WrappedText.Count - 1) / 2.0f;
+                }
                 var cursorYOffset = screenY - topOfText;
 
-                var lineOn = System.Math.Min((int)cursorYOffset / lineHeight, coreTextObject.WrappedText.Count - 1);
+                var lineOn = System.Math.Max(0, System.Math.Min((int)cursorYOffset / lineHeight, coreTextObject.WrappedText.Count - 1));
 
                 index = GetIndex(cursorOffset, coreTextObject.WrappedText[lineOn]);
 
@@ -545,10 +590,10 @@ namespace FlatRedBall.Forms.Controls
                         }
                         break;
                     case Keys.Up:
-                        MoveCursorUpOneLine();
+                        MoveCaretUpOneLine();
                         break;
                     case Keys.Down:
-                        MoveCursorDownOneLine();
+                        MoveCaretDownOneLine();
                         break;
                     case Microsoft.Xna.Framework.Input.Keys.Delete:
                         if (caretIndex < (DisplayedText?.Length ?? 0) || selectionLength > 0)
@@ -592,32 +637,58 @@ namespace FlatRedBall.Forms.Controls
             }
         }
 
-        private void MoveCursorUpOneLine()
+        private void MoveCaretUpOneLine()
         {
-            var absoluteX = caretComponent.GetAbsoluteCenterX();
-            var absoluteY = caretComponent.GetAbsoluteCenterY();
+            GetAbsolutePositionsFromCaret(out float absoluteX, out float absoluteY, out int lineNumber);
 
-            var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
-
-            var newY = absoluteY - lineHeight;
-
-            var index = GetCaretIndexAtPosition(absoluteX, newY);
-
-            CaretIndex = index;
+            if(lineNumber == 0)
+            {
+                CaretIndex = 0;
+            }
+            else
+            {
+                var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
+                var newY = absoluteY - lineHeight;
+                var index = GetCaretIndexAtPosition(absoluteX, newY);
+                CaretIndex = index;
+            }
         }
 
-        private void MoveCursorDownOneLine()
+        private void MoveCaretDownOneLine()
         {
-            var absoluteX = caretComponent.GetAbsoluteCenterX();
-            var absoluteY = caretComponent.GetAbsoluteCenterY();
+            GetAbsolutePositionsFromCaret(out float absoluteX, out float absoluteY, out int lineNumber);
 
-            var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
+            if(lineNumber == coreTextObject.WrappedText.Count - 1)
+            {
+                CaretIndex = DisplayedText?.Length ?? 0;
+            }
+            else
+            {
+                var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
+                var newY = absoluteY + lineHeight;
+                var index = GetCaretIndexAtPosition(absoluteX, newY);
+                CaretIndex = index;
+            }
+        }
 
-            var newY = absoluteY + lineHeight;
+        private void GetAbsolutePositionsFromCaret(out float absoluteX, out float absoluteY, out int lineNumber)
+        {
+            GetLineNumber(caretIndex, out lineNumber, out int absoluteStartOfLine, out int relativeIndexOnLine);
 
-            var index = GetCaretIndexAtPosition(absoluteX, newY);
-
-            CaretIndex = index;
+            // When holding SHIFT (selecting), the caret isn't positioned
+            // automatically. Even if we set the CaretIndex (property), layout
+            // is suspended due to the caretComponent being invisible. Therefore,
+            // let's just extract out the values:
+            //var absoluteX = caretComponent.GetAbsoluteCenterX();
+            //var absoluteY = caretComponent.GetAbsoluteCenterY();
+            absoluteX = 0f;
+            if (lineNumber != -1 && lineNumber < coreTextObject.WrappedText.Count)
+            {
+                absoluteX = GetXCaretPositionForLineRelativeToTextParent(coreTextObject.WrappedText[lineNumber], relativeIndexOnLine);
+            }
+            absoluteY = GetCenterOfYForLinePixelsFromSmall(lineNumber);
+            absoluteX += this.coreTextObject.Parent.GetAbsoluteLeft();
+            absoluteY += this.coreTextObject.Parent.GetAbsoluteTop();
         }
 
         protected virtual void HandleCopy()
@@ -758,6 +829,47 @@ namespace FlatRedBall.Forms.Controls
             }
         }
 
+        public void GetLineNumber(int absoluteCharacterIndex, out int lineNumber, out int absoluteStartOfLine, out int relativeIndexOnLine)
+        {
+            lineNumber = 0;
+            relativeIndexOnLine = absoluteCharacterIndex;
+            absoluteStartOfLine = 0;
+
+            for (int i = 0; i < coreTextObject.WrappedText.Count; i++)
+            {
+                var currentLine = coreTextObject.WrappedText[i];
+                var lineLength = currentLine.Length;
+                if (relativeIndexOnLine <= lineLength)
+                {
+                    var shouldShowFirstOfNextLine =
+                        // If we're at the very end of the line,
+                        relativeIndexOnLine == lineLength &&
+                        // the last character is whitespace,
+                        currentLine.Length > 0 &&
+                        // we have another line
+                        lineNumber < coreTextObject.WrappedText.Count - 1 &&
+                        // and the first letter on the next line is not whitespace
+                        coreTextObject.WrappedText[lineNumber + 1].Length > 0 && !char.IsWhiteSpace(coreTextObject.WrappedText[lineNumber + 1][0]);
+
+                    if (shouldShowFirstOfNextLine)
+                    {
+                        relativeIndexOnLine -= lineLength;
+                        absoluteStartOfLine += lineLength;
+                        lineNumber++;
+                    }
+                    break;
+                }
+                else
+                {
+                    absoluteStartOfLine += lineLength;
+                    relativeIndexOnLine -= lineLength;
+                    lineNumber++;
+                }
+            }
+
+            lineNumber = System.Math.Min(lineNumber, coreTextObject.WrappedText.Count - 1);
+        }
+
         protected void UpdateCaretPositionToCaretIndex()
         {
             if(TextWrapping == TextWrapping.NoWrap)
@@ -769,50 +881,46 @@ namespace FlatRedBall.Forms.Controls
             }
             else
             {
-                int charactersLeft = caretIndex;
-                int lineNumber = 0;
+                GetLineNumber(caretIndex, out int lineNumber, out int _, out int relativeIndexOnLine);
 
-                for(int i = 0; i < coreTextObject.WrappedText.Count; i++)
+                int lineLength = 0;
+                if(lineNumber < coreTextObject.WrappedText.Count && lineNumber > -1)
                 {
-                    var lineLength = coreTextObject.WrappedText[i].Length;
-                    if (charactersLeft <= lineLength)
-                    {
-                        SetXCaretPositionForLine(coreTextObject.WrappedText[i], charactersLeft);
-                        break;
-                    }
-                    else
-                    {
-                        charactersLeft -= lineLength;
-                        lineNumber++;
-                    }
+                    var currentLine = coreTextObject.WrappedText[lineNumber];
+                    lineLength = currentLine.Length;
+                }
+
+                if(lineNumber == -1)
+                {
+                    SetXCaretPositionForLine(string.Empty, 0);
+                }
+                else
+                {
+                    SetXCaretPositionForLine(coreTextObject.WrappedText[lineNumber], relativeIndexOnLine);
                 }
                 
-                var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
 
                 if(TextWrapping == TextWrapping.Wrap)
                 {
-                    caretComponent.Y = (textComponent as IPositionedSizedObject).Y +
-                        lineNumber * lineHeight;
+                    Debug.WriteLine($"GumTextY: {textComponent.Y} GumTop:{textComponent.AbsoluteTop} IPSO TextY:{(textComponent as IPositionedSizedObject).Y}");
+
+                    float caretY = GetCenterOfYForLinePixelsFromSmall(
+                        // lineNumber can be -1, so treat it as 0 if so:
+                        System.Math.Max(0,lineNumber));
+                    // this assumes the caret has a YOrigin of center
+                    switch (caretComponent.YUnits)
+                    {
+                        case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
+                            caretComponent.Y = caretY;
+
+                            break;
+                        case global::Gum.Converters.GeneralUnitType.PixelsFromMiddle:
+                            caretComponent.Y = caretY - textComponent.GetAbsoluteHeight() / 2.0f;
+                            break;
+                    }
                 }
             }
         }
-
-        private void SetXCaretPositionForLine(string stringToMeasure, int indexIntoLine)
-        {
-            indexIntoLine = System.Math.Min(indexIntoLine, stringToMeasure.Length);
-            var substring = stringToMeasure.Substring(0, indexIntoLine);
-            caretComponent.XUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
-            if(this.coreTextObject.BitmapFont != null)
-            {
-                var measure = this.coreTextObject.BitmapFont.MeasureString(substring);
-                caretComponent.X = measure + this.textComponent.X;
-            }
-            else
-            {
-                caretComponent.X = 0;
-            }
-        }
-
         private void UpdateToIsFocused()
         {
             UpdateCaretVisibility();
@@ -848,7 +956,13 @@ namespace FlatRedBall.Forms.Controls
 
         private void UpdateCaretVisibility()
         {
-            caretComponent.Visible = (isFocused || IsCaretVisibleWhenNotFocused) && selectionLength == 0;
+            caretComponent.Visible = (isFocused || IsCaretVisibleWhenNotFocused)
+                // Visual Studio and VSCode show the caret when you have a selection
+                // Apps like Discord and (it seems) WPF TextBoxes do not.
+                // We are going to mimic WPF for now, but we may want to make this
+                // editable.
+             && selectionLength == 0;
+
         }
 
         private void UpdateToTextWrappingChanged()
@@ -863,27 +977,135 @@ namespace FlatRedBall.Forms.Controls
             }
         }
 
+        List<SelectionPosition> selectionStartEnds = new List<SelectionPosition>();
+        /// <summary>
+        /// Updates the Selection visuals to match the current selection values.
+        /// </summary>
         protected void UpdateToSelection()
         {
+
             if (selectionInstance != null && selectionLength > 0 && DisplayedText?.Length > 0)
             {
-                selectionInstance.Visible = true;
+                UpdateSelectionStartEnds();
 
-                selectionInstance.XUnits =
-                    global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
+                while(_selectionInstances.Count < selectionStartEnds.Count)
+                {
+                    var newSelection = selectionTemplate.Clone();
+                    _selectionInstances.Add(newSelection);
+                    var parentToAddTo = selectionInstance.Parent;
+                    var indexToAddTo = parentToAddTo.Children.IndexOf(selectionInstance) + 1;
+                    parentToAddTo.Children.Insert(indexToAddTo,newSelection);
+                }
 
-                var substring = DisplayedText.Substring(0, selectionStart);
-                var firstMeasure = this.coreTextObject.BitmapFont.MeasureString(substring);
-                selectionInstance.X = this.textComponent.X + firstMeasure;
+                foreach(var item in _selectionInstances)
+                {
+                    item.Visible = false;
+                }
 
-                substring = DisplayedText.Substring(0, selectionStart + selectionLength);
-                selectionInstance.Width = 1 +
-                    this.coreTextObject.BitmapFont.MeasureString(substring) - firstMeasure;
+                for (int i = 0; i < selectionStartEnds.Count; i++)
+                {
+                    var selection = _selectionInstances[i];
 
+                    selection.X = selectionStartEnds[i].XStart;
+                    selection.Y = selectionStartEnds[i].Y;
+                    selection.Width = selectionStartEnds[i].Width;
+                    selection.Visible = true;
+                    selection.XUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
+
+                    //this.selectionInstance.X = selectionStartEnds[0].XStart;
+                    //this.selectionInstance.Y = selectionStartEnds[0].Y;
+                    //this.selectionInstance.Width = selectionStartEnds[0].Width;
+                    //this.selectionInstance.Visible = true;
+                    //this.selectionInstance.XUnits =
+                    //    global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
+                }
             }
             else if (selectionInstance != null)
             {
-                selectionInstance.Visible = false;
+                for(int i = 0; i < _selectionInstances.Count; i++)
+                {
+                    _selectionInstances[i].Visible = false;
+
+                }
+            }
+        }
+
+        private void UpdateSelectionStartEnds()
+        {
+            selectionStartEnds.Clear();
+            var substring = DisplayedText.Substring(0, selectionStart);
+
+            if (this.TextWrapping == TextWrapping.Wrap)
+            {
+                GetLineNumber(selectionStart, out int startLineNumber, out int absoluteStartOfFirstLine, out int startRelativeIndexInLine);
+
+                GetLineNumber(selectionStart + selectionLength, out int endLineNumber, out int absoluteStartOfLastLine, out int endRelativeIndexInLine);
+
+                int absoluteStartOfCurrentLine = absoluteStartOfFirstLine;
+
+                for(int i = startLineNumber; i < endLineNumber + 1; i++)
+                {
+                    var lineOfText = this.coreTextObject.WrappedText[i];
+
+                    int startOfSelectionInThisLineAbsolute = 0;
+
+                    if(i == startLineNumber)
+                    {
+                        startOfSelectionInThisLineAbsolute = absoluteStartOfFirstLine + startRelativeIndexInLine;
+                    }
+                    else
+                    {
+                        startOfSelectionInThisLineAbsolute = absoluteStartOfCurrentLine;
+                    }
+
+                    var startOfSelectionInThisLineRelative = startOfSelectionInThisLineAbsolute - absoluteStartOfCurrentLine;
+
+                    var startXForSelection = GetXCaretPositionForLineRelativeToTextParent(lineOfText, startOfSelectionInThisLineRelative);
+
+                    var endRelative = 0;
+                    if(i == endLineNumber)
+                    {
+                        endRelative = endRelativeIndexInLine;
+                    }
+                    else
+                    {
+                        endRelative = lineOfText.Length;
+                    }
+
+                    var endXForSelection = GetXCaretPositionForLineRelativeToTextParent(lineOfText, endRelative);
+
+                    var selectionPosition = new SelectionPosition();
+                    selectionPosition.XStart = startXForSelection;
+                    var offsetPixelsFromSmall = GetCenterOfYForLinePixelsFromSmall(i);
+
+                    switch(selectionTemplate.YUnits)
+                    {
+                        case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
+                            selectionPosition.Y = offsetPixelsFromSmall;
+                            break;
+                        case global::Gum.Converters.GeneralUnitType.PixelsFromMiddle:
+                            selectionPosition.Y = offsetPixelsFromSmall - textComponent.GetAbsoluteHeight() / 2.0f;
+                            break;
+                    }
+
+                    selectionPosition.Width = endXForSelection - startXForSelection;
+
+                    selectionStartEnds.Add(selectionPosition);
+                    absoluteStartOfCurrentLine += lineOfText.Length;
+                }
+            }
+            else
+            {
+                var selectionPosition = new SelectionPosition();
+                var firstMeasure = this.coreTextObject.BitmapFont.MeasureString(substring);
+                substring = DisplayedText.Substring(0, selectionStart + selectionLength);
+
+                selectionPosition.XStart = this.textComponent.X + firstMeasure;
+                selectionPosition.Y = this.textComponent.Y;
+                selectionPosition.Width = 1 +
+                    this.coreTextObject.BitmapFont.MeasureString(substring) - firstMeasure;
+
+                selectionStartEnds.Add(selectionPosition);
             }
         }
 
@@ -938,6 +1160,83 @@ namespace FlatRedBall.Forms.Controls
                 placeholderComponent.Visible = string.IsNullOrEmpty(coreTextObject.RawText);
             }
         }
+
+        #endregion
+
+        #region Get Positions
+
+        struct SelectionPosition
+        {
+            public float Y;
+            public float XStart;
+            public float Width;
+        }
+
+        private void SetXCaretPositionForLine(string stringToMeasure, int indexIntoLine)
+        {
+            var newPosition = GetXCaretPositionForLineRelativeToTextParent(stringToMeasure, indexIntoLine);
+
+            // assumes caret and text have the same parent
+            this.caretComponent.X = newPosition;
+        }
+
+        private float GetXCaretPositionRelativeToTextParent(int absoluteIndex)
+        {
+            int charactersLeft = absoluteIndex;
+            foreach(var line in coreTextObject.WrappedText)
+            {
+                if(charactersLeft <= line.Length)
+                {
+                    return GetXCaretPositionForLineRelativeToTextParent(line, charactersLeft);
+                }
+                else
+                {
+                    charactersLeft -= line.Length;
+                }
+            }
+
+            return 0;
+        }
+
+        private float GetXCaretPositionForLineRelativeToTextParent(string stringToMeasure, int indexIntoLine)
+        { 
+            indexIntoLine = System.Math.Min(indexIntoLine, stringToMeasure.Length);
+            var substring = stringToMeasure.Substring(0, indexIntoLine);
+            caretComponent.XUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
+            if(this.coreTextObject.BitmapFont != null)
+            {
+                var measure = this.coreTextObject.BitmapFont.MeasureString(substring);
+                return measure + this.textComponent.X;
+            }
+            else
+            {
+                return caretComponent.X = 0;
+            }
+        }
+
+        float CoreTextObjectHeight =>
+            coreTextObject.GetAbsoluteBottom() - coreTextObject.GetAbsoluteTop() ;
+
+        private float GetCenterOfYForLinePixelsFromSmall(int lineNumber)
+        {
+            var lineHeight = coreTextObject.BitmapFont.LineHeightInPixels;
+
+            float offset;
+
+            if(coreTextObject.VerticalAlignment == VerticalAlignment.Center)
+            {
+                offset = lineNumber * lineHeight;
+                offset -= lineHeight * (coreTextObject.WrappedText.Count - 1) / 2.0f;
+                offset += CoreTextObjectHeight / 2.0f;
+            }
+            else
+            {
+                offset = (lineNumber + .5f) * lineHeight;
+            }
+            var caretY = (textComponent as IPositionedSizedObject).Y + offset;
+            return caretY;
+        }
+
 
         #endregion
 

@@ -294,7 +294,7 @@
     <Variable>
       <Type>float</Type>
       <Name>LineWrappedTextBox.Height</Name>
-      <Value xsi:type="xsd:float">110</Value>
+      <Value xsi:type="xsd:float">184</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -669,6 +669,18 @@
       <Value xsi:type="xsd:float">-8</Value>
       <SetsValue>true</SetsValue>
     </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>TextInstance.Parent</Name>
+      <Value xsi:type="xsd:string">FirstStack</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>TextInstance.Text</Name>
+      <Value xsi:type="xsd:string">Hasdfasdf asdf asdf asdf asdf sadfsafd asdf </Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
   </State>
   <Instance>
     <Name>ButtonStandardInstance</Name>
@@ -777,6 +789,11 @@
     <BaseType>Container</BaseType>
     <DefinedByBase>false</DefinedByBase>
     <Locked>true</Locked>
+  </Instance>
+  <Instance>
+    <Name>TextInstance</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />
 </ScreenSave>

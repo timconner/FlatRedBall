@@ -49,7 +49,9 @@ namespace FormsSampleProject.Screens
             Forms.ShowDialogButton.Click += HandleShowDialogButtonClicked;
 
             Forms.LineWrappedTextBox.TextWrapping = FlatRedBall.Forms.TextWrapping.Wrap;
+            Forms.LineWrappedTextBox.Placeholder = string.Empty;
             Forms.LineWrappedTextBox.Text = "This is some long text which will wrap if it is long enough. Feel free to change this...";
+            Forms.LineWrappedTextBox.AcceptsReturn = true;
         }
 
         private async void HandleShowDialogButtonClicked(object sender, EventArgs e)
