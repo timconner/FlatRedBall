@@ -300,9 +300,6 @@
   <data name="FoundFiles" xml:space="preserve">
     <value>Documenten gevonden</value>
   </data>
-  <data name="AttemptFindFileReferences" xml:space="preserve">
-    <value>Er wordt geprobeerd bestandsverwijzingen te vinden, maar het bestand {0} kan niet worden gevonden</value>
-  </data>
   <data name="EnterNewCSVName" xml:space="preserve">
     <value>Voer een nieuwe CSV-naam in</value>
   </data>
@@ -518,9 +515,6 @@
   </data>
   <data name="InputMovementType" xml:space="preserve">
     <value>Type beweging invoeren</value>
-  </data>
-  <data name="AnimationAddEntry" xml:space="preserve">
-    <value>Animatie-invoer toevoegen</value>
   </data>
   <data name="EmptyValues" xml:space="preserve">
     <value>Lege waarden</value>
@@ -864,9 +858,6 @@
   <data name="SelectFileOrClickBrowse" xml:space="preserve">
     <value>Selecteer een bestand of klik op de Bladeren knop </value>
   </data>
-  <data name="AskDownloadFileOverwrite" xml:space="preserve">
-    <value>Wilt u dit bestand downloaden? Het zal overschrijven:</value>
-  </data>
   <data name="DownloadAndOverwrite" xml:space="preserve">
     <value>Downloaden en overschrijven?</value>
   </data>
@@ -1004,15 +995,6 @@
   </data>
   <data name="GenerateDisplayCode" xml:space="preserve">
     <value>Weergavecode genereren</value>
-  </data>
-  <data name="AspectRatioVariable" xml:space="preserve">
-    <value>Variabele aspectverhouding</value>
-  </data>
-  <data name="AspectRatioFixed" xml:space="preserve">
-    <value>Gefixeerde aspectverhouding</value>
-  </data>
-  <data name="AspectRatioRanged" xml:space="preserve">
-    <value>Bereikte aspectverhouding</value>
   </data>
   <data name="Point" xml:space="preserve">
     <value>Punt</value>
@@ -1257,9 +1239,6 @@
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>Subbotsing kan niet worden ingesteld op Botsing van deelnemers: de deelnemer kan intern selecteren welke objecten moeten botsen.</value>
   </data>
-  <data name="AutoNameRelationship" xml:space="preserve">
-    <value>Relatie automatisch benoemen</value>
-  </data>
   <data name="IsCollisionActive" xml:space="preserve">
     <value>Is botsing actief</value>
   </data>
@@ -1323,9 +1302,6 @@
   <data name="CollisionApplyPhysics" xml:space="preserve">
     <value>Pas fysica automatisch toe bij botsing</value>
   </data>
-  <data name="Always" xml:space="preserve">
-    <value>Altijd</value>
-  </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>Als er schade is aangericht</value>
   </data>
@@ -1362,9 +1338,6 @@
   <data name="PropertyString" xml:space="preserve">
     <value>Tekenreeks eigenschap:</value>
   </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Hoek:</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Breedte:</value>
   </data>
@@ -1385,9 +1358,6 @@
   </data>
   <data name="OnlyIntegerValuesAllowed" xml:space="preserve">
     <value>Alleen gehele waarden zijn toegestaan. Ongeldige waarde: {0}</value>
-  </data>
-  <data name="AtLeastThreePointsRequired" xml:space="preserve">
-    <value>Er zijn minimaal 3 punten nodig. Ongeldige waarde: {0}</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Opslaan</value>
@@ -1580,9 +1550,6 @@
   </data>
   <data name="RequireTile" xml:space="preserve">
     <value>Tegel vereisen</value>
-  </data>
-  <data name="AutomaticallyCreateScreensTmx" xml:space="preserve">
-    <value>Maak automatisch schermen voor TMX-bestanden</value>
   </data>
   <data name="TreeViewShowLevelScreens" xml:space="preserve">
     <value>Toon niveauschermen in boomweergave</value>
@@ -1857,9 +1824,6 @@
   <data name="HintListMultipleCopiesOfEntity" xml:space="preserve">
     <value>Lijsten zorgen ervoor dat er meerdere exemplaren van deze entiteit in het spelscherm kunnen bestaan.</value>
   </data>
-  <data name="Another" xml:space="preserve">
-    <value>nog een</value>
-  </data>
   <data name="GameScreenInstanceAdd" xml:space="preserve">
     <value>Voeg {0}{1} instantie toe aan GameScreen</value>
   </data>
@@ -2087,9 +2051,6 @@
   </data>
   <data name="Velocity" xml:space="preserve">
     <value>Snelheid</value>
-  </data>
-  <data name="AnimationSpeed" xml:space="preserve">
-    <value>Animatie snelheid</value>
   </data>
   <data name="CouldNotLoadProjectSeeOutput" xml:space="preserve">
     <value>Kan het project niet laden. Controleer het uitvoervenster voor meer informatie.</value>
@@ -2384,9 +2345,6 @@
   </data>
   <data name="RunEditMode" xml:space="preserve">
     <value>Uitvoeren in bewerkingsmodus</value>
-  </data>
-  <data name="AutoTakeSnapshot" xml:space="preserve">
-    <value>Automatische momentopname</value>
   </data>
   <data name="ProjectWizardOpen" xml:space="preserve">
     <value>Open het nieuwe projectwizard:</value>

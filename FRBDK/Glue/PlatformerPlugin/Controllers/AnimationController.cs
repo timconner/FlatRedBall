@@ -96,12 +96,12 @@ public static class AnimationController
         dataUiGrid.GetInstanceMember(nameof(AnimationRowViewModel.MinYVelocity)).FirstGridLength = velocityFirstGridLength;
         dataUiGrid.GetInstanceMember(nameof(AnimationRowViewModel.MaxYVelocity)).FirstGridLength = velocityFirstGridLength;
 
-        dataUiGrid.MoveMemberToCategory(nameof(AnimationRowViewModel.AnimationSpeedAssignment),Localization.Texts.AnimationSpeed);
+        dataUiGrid.MoveMemberToCategory(nameof(AnimationRowViewModel.AnimationSpeedAssignment), "Animation Speed");
 
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.AbsoluteXVelocityAnimationSpeedMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnVelocityMultiplier;
             properties.DisplayProperties.Add(prop);
         }
@@ -109,21 +109,21 @@ public static class AnimationController
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.AbsoluteYVelocityAnimationSpeedMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnVelocityMultiplier;
             properties.DisplayProperties.Add(prop);
         }
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.MaxSpeedXRatioMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnMaxSpeedRatioMultiplier;
             properties.DisplayProperties.Add(prop);
         }
         {
             var prop = new InstanceMemberDisplayProperties();
             prop.Name = nameof(AnimationRowViewModel.MaxSpeedYRatioMultiplier);
-            prop.Category = Localization.Texts.AnimationSpeed;
+            prop.Category = "Animation Speed";
             prop.IsHiddenDelegate = (member) => viewModel.AnimationSpeedAssignment != AnimationSpeedAssignment.BasedOnMaxSpeedRatioMultiplier;
             properties.DisplayProperties.Add(prop);
         }

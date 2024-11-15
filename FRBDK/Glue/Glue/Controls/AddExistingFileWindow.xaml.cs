@@ -97,7 +97,7 @@ namespace FlatRedBall.Glue.Controls
             if(destination.Exists())
             {
                 DialogResult result =
-                    System.Windows.Forms.MessageBox.Show(L.Texts.AskDownloadFileOverwrite + "\n" +
+                    System.Windows.Forms.MessageBox.Show("Do you want to download this file? It will overwrite:" + "\n" +
                     destination.FullPath,
                     L.Texts.DownloadAndOverwrite,
                     MessageBoxButtons.YesNo);

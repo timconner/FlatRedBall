@@ -208,7 +208,7 @@ namespace OfficialPlugins.QuickActionPlugin.Managers
                 var entity = selectedObject as EntitySave;
                 var entityName = entity.GetStrippedName();
 
-                string anotherOrEmpty = alreadyHasInstance ? Localization.Texts.Another + " " : String.Empty;
+                string anotherOrEmpty = alreadyHasInstance ? "Another" + " " : String.Empty;
 
                 mainView.AddInstanceOfEntityButton.Title =
                     String.Format(Localization.Texts.GameScreenInstanceAdd, anotherOrEmpty, entityName);
