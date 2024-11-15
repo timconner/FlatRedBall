@@ -300,9 +300,6 @@
   <data name="FoundFiles" xml:space="preserve">
     <value>Dateien gefunden</value>
   </data>
-  <data name="AttemptFindFileReferences" xml:space="preserve">
-    <value>Es wurde versucht, Dateiverweise zu finden, die enthaltene Datei {0} konnte jedoch nicht gefunden werden.</value>
-  </data>
   <data name="EnterNewCSVName" xml:space="preserve">
     <value>Geben Sie einen neuen CSV-Namen ein</value>
   </data>
@@ -518,9 +515,6 @@
   </data>
   <data name="InputMovementType" xml:space="preserve">
     <value>Eingabebewegungsart</value>
-  </data>
-  <data name="AnimationAddEntry" xml:space="preserve">
-    <value>Animationseintrag hinzufügen</value>
   </data>
   <data name="EmptyValues" xml:space="preserve">
     <value>Leere Werte</value>
@@ -753,29 +747,8 @@
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>Diese Entität erbt von einer Top-Down-Entität</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Projektname:</value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Plattform:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Verwenden Sie die lokale Kopie, falls verfügbar:</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Benutzerdefinierter Namespace:</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Projektverzeichnis erstellen:</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>Die Lösung (.sln) befindet sich in:</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Standort:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>.gitignore hinzufügen:</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Bibliotheken aktualisieren</value>
@@ -884,9 +857,6 @@
   </data>
   <data name="SelectFileOrClickBrowse" xml:space="preserve">
     <value>Wählen Sie eine Datei aus oder klicken Sie auf die Schaltfläche „Durchsuchen“.</value>
-  </data>
-  <data name="AskDownloadFileOverwrite" xml:space="preserve">
-    <value>Möchten Sie diese Datei herunterladen? Es wird überschrieben:</value>
   </data>
   <data name="DownloadAndOverwrite" xml:space="preserve">
     <value>Herunterladen und überschreiben?</value>
@@ -1025,15 +995,6 @@
   </data>
   <data name="GenerateDisplayCode" xml:space="preserve">
     <value>Anzeigecode generieren</value>
-  </data>
-  <data name="AspectRatioVariable" xml:space="preserve">
-    <value>Variables Seitenverhältnis</value>
-  </data>
-  <data name="AspectRatioFixed" xml:space="preserve">
-    <value>Festes Seitenverhältnis</value>
-  </data>
-  <data name="AspectRatioRanged" xml:space="preserve">
-    <value>Fernkampf Seitenverhältnis</value>
   </data>
   <data name="Point" xml:space="preserve">
     <value>Punkt</value>
@@ -1278,9 +1239,6 @@
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>Unterkollision kann nicht für die Delegate-Kollision festgelegt werden – der Delegat kann intern auswählen, welche Objekte kollidieren sollen.</value>
   </data>
-  <data name="AutoNameRelationship" xml:space="preserve">
-    <value>Automatische Benennungsbeziehung</value>
-  </data>
   <data name="IsCollisionActive" xml:space="preserve">
     <value>Ist Kollision aktiv</value>
   </data>
@@ -1344,9 +1302,6 @@
   <data name="CollisionApplyPhysics" xml:space="preserve">
     <value>Physik bei Kollision automatisch anwenden</value>
   </data>
-  <data name="Always" xml:space="preserve">
-    <value>Stets</value>
-  </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>Wenn Schaden verursacht wird</value>
   </data>
@@ -1383,9 +1338,6 @@
   <data name="PropertyString" xml:space="preserve">
     <value>String-Eigenschaft:</value>
   </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Winkel:</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Breite:</value>
   </data>
@@ -1406,9 +1358,6 @@
   </data>
   <data name="OnlyIntegerValuesAllowed" xml:space="preserve">
     <value>Es sind nur ganzzahlige Werte zulässig. Ungültiger Wert: {0}</value>
-  </data>
-  <data name="AtLeastThreePointsRequired" xml:space="preserve">
-    <value>Es sind mindestens 3 Punkte erforderlich. Ungültiger Wert: {0}</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
@@ -1601,9 +1550,6 @@
   </data>
   <data name="RequireTile" xml:space="preserve">
     <value>Kachel erforderlich</value>
-  </data>
-  <data name="AutomaticallyCreateScreensTmx" xml:space="preserve">
-    <value>Erstellen Sie automatisch Bildschirme für TMX-Dateien</value>
   </data>
   <data name="TreeViewShowLevelScreens" xml:space="preserve">
     <value>Ebenenbildschirme in der Baumansicht anzeigen</value>
@@ -1878,9 +1824,6 @@
   <data name="HintListMultipleCopiesOfEntity" xml:space="preserve">
     <value>Listen ermöglichen die Existenz mehrerer Kopien dieser Entität auf dem Spielbildschirm.</value>
   </data>
-  <data name="Another" xml:space="preserve">
-    <value>ein anderer</value>
-  </data>
   <data name="GameScreenInstanceAdd" xml:space="preserve">
     <value>Fügen Sie die Instanz {0}{1} zu GameScreen hinzu</value>
   </data>
@@ -2108,9 +2051,6 @@
   </data>
   <data name="Velocity" xml:space="preserve">
     <value>Geschwindigkeit</value>
-  </data>
-  <data name="AnimationSpeed" xml:space="preserve">
-    <value>Animations Geschwindigkeit</value>
   </data>
   <data name="CouldNotLoadProjectSeeOutput" xml:space="preserve">
     <value>Das Projekt konnte nicht geladen werden. Weitere Informationen finden Sie im Ausgabefenster.</value>
@@ -2402,9 +2342,6 @@
   </data>
   <data name="RunEditMode" xml:space="preserve">
     <value>Im Bearbeitungsmodus ausführen</value>
-  </data>
-  <data name="AutoTakeSnapshot" xml:space="preserve">
-    <value>Schnappschuss automatisch erstellen</value>
   </data>
   <data name="ProjectWizardOpen" xml:space="preserve">
     <value>Öffnen Sie das Assistent für ein neues Projekt:</value>

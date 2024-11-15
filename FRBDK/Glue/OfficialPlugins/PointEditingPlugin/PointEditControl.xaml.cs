@@ -179,7 +179,7 @@ namespace OfficialPlugins.PointEditingPlugin
                 }
                 else if(intResult <= 2)
                 {
-                    GlueCommands.Self.DialogCommands.ShowMessageBox(String.Format(Localization.Texts.AtLeastThreePointsRequired, intResult));
+                    GlueCommands.Self.DialogCommands.ShowMessageBox(String.Format("At least 3 points are required. Invalid value: {0}", intResult));
                 }
                 else 
                 {

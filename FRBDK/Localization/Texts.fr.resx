@@ -300,9 +300,6 @@
   <data name="FoundFiles" xml:space="preserve">
     <value>Fichiers trouvés</value>
   </data>
-  <data name="AttemptFindFileReferences" xml:space="preserve">
-    <value>J'ai essayé de trouver des références de fichiers, mais je n'ai pas trouvé le fichier contenu {0}</value>
-  </data>
   <data name="EnterNewCSVName" xml:space="preserve">
     <value>Entrez le nouveau nom CSV</value>
   </data>
@@ -518,9 +515,6 @@
   </data>
   <data name="InputMovementType" xml:space="preserve">
     <value>Type de mouvement d'entrée</value>
-  </data>
-  <data name="AnimationAddEntry" xml:space="preserve">
-    <value>Ajouter une entrée d'animation</value>
   </data>
   <data name="EmptyValues" xml:space="preserve">
     <value>Valeurs vides</value>
@@ -753,29 +747,8 @@
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>Cette entité hérite d'une entité Top-Down</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Nom du projet:</value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Plate-forme:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Utilisez la copie locale si disponible :</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Namespace personnalisé :</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Créer un répertoire de projet :</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>La solution (.sln) sera située dans :</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Emplacement:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>Ajoutez .gitignore :</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Mettre à jour les bibliothèques</value>
@@ -884,9 +857,6 @@
   </data>
   <data name="SelectFileOrClickBrowse" xml:space="preserve">
     <value>Sélectionnez un fichier ou cliquez sur le bouton Parcourir</value>
-  </data>
-  <data name="AskDownloadFileOverwrite" xml:space="preserve">
-    <value>Voulez-vous télécharger ce fichier ? Il écrasera :</value>
   </data>
   <data name="DownloadAndOverwrite" xml:space="preserve">
     <value>Télécharger et écraser ?</value>
@@ -1025,15 +995,6 @@
   </data>
   <data name="GenerateDisplayCode" xml:space="preserve">
     <value>Générer le code d'affichage</value>
-  </data>
-  <data name="AspectRatioVariable" xml:space="preserve">
-    <value>Format d'aspect variable</value>
-  </data>
-  <data name="AspectRatioFixed" xml:space="preserve">
-    <value>Format d'aspect fixe</value>
-  </data>
-  <data name="AspectRatioRanged" xml:space="preserve">
-    <value>Format d'aspect à distance</value>
   </data>
   <data name="Point" xml:space="preserve">
     <value>Indiquer</value>
@@ -1278,9 +1239,6 @@
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>La sous-collision ne peut pas être définie sur la collision du délégué - le délégué peut sélectionner en interne les objets à entrer en collision.</value>
   </data>
-  <data name="AutoNameRelationship" xml:space="preserve">
-    <value>Relation de nom automatique</value>
-  </data>
   <data name="IsCollisionActive" xml:space="preserve">
     <value>La collision est-elle active</value>
   </data>
@@ -1344,9 +1302,6 @@
   <data name="CollisionApplyPhysics" xml:space="preserve">
     <value>Appliquer automatiquement la physique en cas de collision</value>
   </data>
-  <data name="Always" xml:space="preserve">
-    <value>Toujours</value>
-  </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>Si des dégâts sont infligés</value>
   </data>
@@ -1383,9 +1338,6 @@
   <data name="PropertyString" xml:space="preserve">
     <value>Propriété de chaîne :</value>
   </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Angle:</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Largeur:</value>
   </data>
@@ -1406,9 +1358,6 @@
   </data>
   <data name="OnlyIntegerValuesAllowed" xml:space="preserve">
     <value>Seules les valeurs entières sont autorisées. Valeur non valide : {0}</value>
-  </data>
-  <data name="AtLeastThreePointsRequired" xml:space="preserve">
-    <value>Au moins 3 points sont requis. Valeur non valide : {0}</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Sauvegarder</value>
@@ -1601,9 +1550,6 @@
   </data>
   <data name="RequireTile" xml:space="preserve">
     <value>Exiger une tuile</value>
-  </data>
-  <data name="AutomaticallyCreateScreensTmx" xml:space="preserve">
-    <value>Créer automatiquement des écrans pour les fichiers TMX</value>
   </data>
   <data name="TreeViewShowLevelScreens" xml:space="preserve">
     <value>Afficher les écrans de niveau dans l'arborescence</value>
@@ -1878,9 +1824,6 @@
   <data name="HintListMultipleCopiesOfEntity" xml:space="preserve">
     <value>Les listes permettent à plusieurs copies de cette entité d'exister dans l'écran de jeu.</value>
   </data>
-  <data name="Another" xml:space="preserve">
-    <value>un autre</value>
-  </data>
   <data name="GameScreenInstanceAdd" xml:space="preserve">
     <value>Ajouter une instance {0}{1} à GameScreen</value>
   </data>
@@ -2108,9 +2051,6 @@
   </data>
   <data name="Velocity" xml:space="preserve">
     <value>Rapidité</value>
-  </data>
-  <data name="AnimationSpeed" xml:space="preserve">
-    <value>La vitesse d'animation</value>
   </data>
   <data name="CouldNotLoadProjectSeeOutput" xml:space="preserve">
     <value>Impossible de charger le projet. Consultez la fenêtre de sortie pour plus d’informations.</value>
@@ -2402,9 +2342,6 @@
   </data>
   <data name="RunEditMode" xml:space="preserve">
     <value>Exécuter en mode édition</value>
-  </data>
-  <data name="AutoTakeSnapshot" xml:space="preserve">
-    <value>Prise d'instantané automatique</value>
   </data>
   <data name="ProjectWizardOpen" xml:space="preserve">
     <value>Assistant Ouvrir un nouveau projet :</value>

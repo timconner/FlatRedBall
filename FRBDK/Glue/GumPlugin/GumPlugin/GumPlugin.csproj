@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Remove="Embedded\EmbeddedObjectGumProject\Behaviors\**" />
     <Compile Remove="Embedded\EmbeddedObjectGumProject\FontCache\**" />
@@ -126,7 +126,7 @@
     <None Remove="Embedded\GumDefaults2\Behaviors\TreeViewBehavior.behx" />
     <None Remove="Embedded\GumDefaults2\Behaviors\TreeViewItemBehavior.behx" />
     <None Remove="Embedded\GumDefaults2\Behaviors\UserControlBehavior.behx" />
-	  
+
     <None Remove="Embedded\GumDefaults2\Components\Controls\ButtonClose.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Controls\ButtonConfirm.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Controls\ButtonDeny.gucx" />
@@ -158,8 +158,8 @@
     <None Remove="Embedded\GumDefaults2\Components\Controls\TreeViewToggle.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Controls\TreeViewToggleAnimations.ganx" />
     <None Remove="Embedded\GumDefaults2\Components\Controls\UserControl.gucx" />
-	  
-	  
+
+
     <None Remove="Embedded\GumDefaults2\Components\Elements\CautionLines.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Elements\Divider.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Elements\DividerHorizontal.gucx" />
@@ -172,8 +172,8 @@
     <None Remove="Embedded\GumDefaults2\Components\Elements\PercentBar.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Elements\PercentBarIcon.gucx" />
     <None Remove="Embedded\GumDefaults2\Components\Elements\VerticalLines.gucx" />
-	  
-	  
+
+
     <None Remove="Embedded\GumDefaults2\Standards\Circle.gutx" />
     <None Remove="Embedded\GumDefaults2\Standards\ColoredRectangle.gutx" />
     <None Remove="Embedded\GumDefaults2\Standards\Component.gutx" />
@@ -295,7 +295,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Embedded\ContentManagerWrapper.cs" />
-	  
+
     <EmbeddedResource Include="Embedded\EmbeddedObjectGumProject\Components\DefaultForms\Button.gucx" />
     <EmbeddedResource Include="Embedded\EmbeddedObjectGumProject\Components\DefaultForms\CheckBox.gucx" />
     <EmbeddedResource Include="Embedded\EmbeddedObjectGumProject\Components\DefaultForms\ColoredFrame.gucx" />
@@ -345,10 +345,10 @@
     <EmbeddedResource Include="Embedded\GraphicalUiElement.IWindow.cs" />
     <EmbeddedResource Include="Embedded\GumAnimation.cs" />
     <EmbeddedResource Include="Embedded\GumCollidableExtensions.cs" />
-	  
+
 	  <EmbeddedResource Include="Embedded\GumDefaults2\Behaviors\*.behx" />
 	  <EmbeddedResource Include="Embedded\GumDefaults2\Components\**\*.gucx" />
-	  
+
     <EmbeddedResource Include="Embedded\GumDefaults2\Standards\Circle.gutx" />
     <EmbeddedResource Include="Embedded\GumDefaults2\Standards\ColoredRectangle.gutx" />
     <EmbeddedResource Include="Embedded\GumDefaults2\Standards\Component.gutx" />
@@ -448,7 +448,7 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo PostBuild to $(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&#xD;&#xA;echo 1&#xD;&#xA;IF NOT EXIST  &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot;&#xD;&#xA;echo 2&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.pdb&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.pdb&quot;&#xD;&#xA;&#xD;&#xA;IF NOT EXIST &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;&#xD;&#xA;xcopy /E /I /U /Y &quot;$(TargetDir)Tools\&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;" />
+    <Exec Command="echo PostBuild to $(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&#xD;&#xA;echo 1&#xD;&#xA;IF NOT EXIST  &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\&quot;&#xD;&#xA;echo 2&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.dll&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.dll&quot;&#xD;&#xA;copy &quot;$(TargetDir)GumPlugin.pdb&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\GumPlugin.pdb&quot;&#xD;&#xA;&#xD;&#xA;IF NOT EXIST &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools&quot; MD &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;&#xD;&#xA;xcopy /E /I /Y &quot;$(TargetDir)Tools\&quot; &quot;$(SolutionDir)Glue\bin\Debug\Plugins\GumPlugin\Tools\&quot;" />
   </Target>
 
 </Project>

@@ -61,150 +61,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alternative:.
-        /// </summary>
-        public static string Alternative {
-            get {
-                return ResourceManager.GetString("Alternative", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Alternative Name:.
-        /// </summary>
-        public static string AlternativeName {
-            get {
-                return ResourceManager.GetString("AlternativeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Always.
-        /// </summary>
-        public static string Always {
-            get {
-                return ResourceManager.GetString("Always", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Angle:.
-        /// </summary>
-        public static string Angle {
-            get {
-                return ResourceManager.GetString("Angle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add Animation Entry.
-        /// </summary>
-        public static string AnimationAddEntry {
-            get {
-                return ResourceManager.GetString("AnimationAddEntry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Animation Speed.
-        /// </summary>
-        public static string AnimationSpeed {
-            get {
-                return ResourceManager.GetString("AnimationSpeed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to another.
-        /// </summary>
-        public static string Another {
-            get {
-                return ResourceManager.GetString("Another", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do you want to download this file? It will overwrite:.
-        /// </summary>
-        public static string AskDownloadFileOverwrite {
-            get {
-                return ResourceManager.GetString("AskDownloadFileOverwrite", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fixed Aspect Ratio.
-        /// </summary>
-        public static string AspectRatioFixed {
-            get {
-                return ResourceManager.GetString("AspectRatioFixed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ranged Aspect Ratio.
-        /// </summary>
-        public static string AspectRatioRanged {
-            get {
-                return ResourceManager.GetString("AspectRatioRanged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Variable Aspect Ratio.
-        /// </summary>
-        public static string AspectRatioVariable {
-            get {
-                return ResourceManager.GetString("AspectRatioVariable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to At least 3 points are required. Invalid value: {0}.
-        /// </summary>
-        public static string AtLeastThreePointsRequired {
-            get {
-                return ResourceManager.GetString("AtLeastThreePointsRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trying to find file references, but could not find contained file {0}.
-        /// </summary>
-        public static string AttemptFindFileReferences {
-            get {
-                return ResourceManager.GetString("AttemptFindFileReferences", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Automatically Create Screens for TMX Files.
-        /// </summary>
-        public static string AutomaticallyCreateScreensTmx {
-            get {
-                return ResourceManager.GetString("AutomaticallyCreateScreensTmx", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Auto-name Relationship.
-        /// </summary>
-        public static string AutoNameRelationship {
-            get {
-                return ResourceManager.GetString("AutoNameRelationship", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string AutoTakeSnapshot {
-            get {
-                return ResourceManager.GetString("AutoTakeSnapshot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Axis Aligned Rectangle.
         /// </summary>
         public static string AxisAlignedRectangle {
@@ -939,15 +795,6 @@ namespace Localization {
         public static string CustomGameClass {
             get {
                 return ResourceManager.GetString("CustomGameClass", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Custom Namespace:.
-        /// </summary>
-        public static string CustomNamespace {
-            get {
-                return ResourceManager.GetString("CustomNamespace", resourceCulture);
             }
         }
         
@@ -1861,47 +1708,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Event.
-        /// </summary>
-        public static string EventNew {
-            get {
-                return ResourceManager.GetString("EventNew", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create a new event.
-        /// </summary>
-        public static string EventNewCreate {
-            get {
-                return ResourceManager.GetString("EventNewCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Events.
         /// </summary>
         public static string Events {
             get {
                 return ResourceManager.GetString("Events", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select an existing event:.
-        /// </summary>
-        public static string EventSelectExisting {
-            get {
-                return ResourceManager.GetString("EventSelectExisting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tunnel an event from another object.
-        /// </summary>
-        public static string EventTunnelOtherObject {
-            get {
-                return ResourceManager.GetString("EventTunnelOtherObject", resourceCulture);
             }
         }
         
@@ -2653,29 +2464,11 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generic Type:.
-        /// </summary>
-        public static string GenericType {
-            get {
-                return ResourceManager.GetString("GenericType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to German.
         /// </summary>
         public static string German {
             get {
                 return ResourceManager.GetString("German", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add .gitignore:.
-        /// </summary>
-        public static string GitignoreAdd {
-            get {
-                return ResourceManager.GetString("GitignoreAdd", resourceCulture);
             }
         }
         
@@ -3986,15 +3779,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Link Game to FRB Source.
-        /// </summary>
-        public static string LinkGameToFrbSource {
-            get {
-                return ResourceManager.GetString("LinkGameToFrbSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         public static string LinkToSource {
@@ -4117,15 +3901,6 @@ namespace Localization {
         public static string LoadRecent {
             get {
                 return ResourceManager.GetString("LoadRecent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use Local Copy if available:.
-        /// </summary>
-        public static string LocalCopyIfAvailable {
-            get {
-                return ResourceManager.GetString("LocalCopyIfAvailable", resourceCulture);
             }
         }
         
@@ -4913,15 +4688,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Platform:.
-        /// </summary>
-        public static string Platform {
-            get {
-                return ResourceManager.GetString("Platform", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Platformer.
         /// </summary>
         public static string Platformer {
@@ -5291,15 +5057,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Project Directory:.
-        /// </summary>
-        public static string ProjectDirectoryCreate {
-            get {
-                return ResourceManager.GetString("ProjectDirectoryCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to For All Projects.
         /// </summary>
         public static string ProjectForAll {
@@ -5368,15 +5125,6 @@ namespace Localization {
         public static string ProjectIsAlreadySynced {
             get {
                 return ResourceManager.GetString("ProjectIsAlreadySynced", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Project Name: .
-        /// </summary>
-        public static string ProjectName {
-            get {
-                return ResourceManager.GetString("ProjectName", resourceCulture);
             }
         }
         
@@ -6308,15 +6056,6 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The solution (.sln) is located in:.
-        /// </summary>
-        public static string SolutionLocatedIn {
-            get {
-                return ResourceManager.GetString("SolutionLocatedIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sort Axis.
         /// </summary>
         public static string SortAxis {
@@ -6736,15 +6475,6 @@ namespace Localization {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type Converter:.
-        /// </summary>
-        public static string TypeConverter {
-            get {
-                return ResourceManager.GetString("TypeConverter", resourceCulture);
             }
         }
         

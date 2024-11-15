@@ -300,9 +300,6 @@
   <data name="FoundFiles" xml:space="preserve">
     <value>Files found</value>
   </data>
-  <data name="AttemptFindFileReferences" xml:space="preserve">
-    <value>Trying to find file references, but could not find contained file {0}</value>
-  </data>
   <data name="EnterNewCSVName" xml:space="preserve">
     <value>Enter new CSV name</value>
   </data>
@@ -519,9 +516,6 @@ for {1}?</value>
   </data>
   <data name="InputMovementType" xml:space="preserve">
     <value>Input Movement Type</value>
-  </data>
-  <data name="AnimationAddEntry" xml:space="preserve">
-    <value>Add Animation Entry</value>
   </data>
   <data name="EmptyValues" xml:space="preserve">
     <value>Empty Values</value>
@@ -754,29 +748,8 @@ for {1}?</value>
   <data name="HintEntityInheritsFromTopDown" xml:space="preserve">
     <value>This entity inherits from a Top-Down Entity</value>
   </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Project Name: </value>
-  </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Platform:</value>
-  </data>
-  <data name="LocalCopyIfAvailable" xml:space="preserve">
-    <value>Use Local Copy if available:</value>
-  </data>
-  <data name="CustomNamespace" xml:space="preserve">
-    <value>Custom Namespace:</value>
-  </data>
-  <data name="ProjectDirectoryCreate" xml:space="preserve">
-    <value>Create Project Directory:</value>
-  </data>
-  <data name="SolutionLocatedIn" xml:space="preserve">
-    <value>The solution (.sln) is located in:</value>
-  </data>
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
-  </data>
-  <data name="GitignoreAdd" xml:space="preserve">
-    <value>Add .gitignore:</value>
   </data>
   <data name="UpdateLibraries" xml:space="preserve">
     <value>Update Libraries</value>
@@ -885,9 +858,6 @@ for {1}?</value>
   </data>
   <data name="SelectFileOrClickBrowse" xml:space="preserve">
     <value>Select a file or click the Browse button</value>
-  </data>
-  <data name="AskDownloadFileOverwrite" xml:space="preserve">
-    <value>Do you want to download this file? It will overwrite:</value>
   </data>
   <data name="DownloadAndOverwrite" xml:space="preserve">
     <value>Download and Overwrite?</value>
@@ -1026,15 +996,6 @@ for {1}?</value>
   </data>
   <data name="GenerateDisplayCode" xml:space="preserve">
     <value>Generate Display Code</value>
-  </data>
-  <data name="AspectRatioVariable" xml:space="preserve">
-    <value>Variable Aspect Ratio</value>
-  </data>
-  <data name="AspectRatioFixed" xml:space="preserve">
-    <value>Fixed Aspect Ratio</value>
-  </data>
-  <data name="AspectRatioRanged" xml:space="preserve">
-    <value>Ranged Aspect Ratio</value>
   </data>
   <data name="Point" xml:space="preserve">
     <value>Point</value>
@@ -1279,9 +1240,6 @@ for {1}?</value>
   <data name="HintSubcollisionCannotDelegate" xml:space="preserve">
     <value>Subcollision cannot be set on Delegate Collision - the delegate can internally select which objects to collide.</value>
   </data>
-  <data name="AutoNameRelationship" xml:space="preserve">
-    <value>Auto-name Relationship</value>
-  </data>
   <data name="IsCollisionActive" xml:space="preserve">
     <value>Is Collision Active</value>
   </data>
@@ -1345,9 +1303,6 @@ for {1}?</value>
   <data name="CollisionApplyPhysics" xml:space="preserve">
     <value>Automatically Apply Physics On Collision</value>
   </data>
-  <data name="Always" xml:space="preserve">
-    <value>Always</value>
-  </data>
   <data name="DamageDealtIf" xml:space="preserve">
     <value>If Damage Dealt</value>
   </data>
@@ -1384,9 +1339,6 @@ for {1}?</value>
   <data name="PropertyString" xml:space="preserve">
     <value>String Property:</value>
   </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Angle:</value>
-  </data>
   <data name="Width" xml:space="preserve">
     <value>Width:</value>
   </data>
@@ -1407,9 +1359,6 @@ for {1}?</value>
   </data>
   <data name="OnlyIntegerValuesAllowed" xml:space="preserve">
     <value>Only integer values are allowed. Invalid value: {0}</value>
-  </data>
-  <data name="AtLeastThreePointsRequired" xml:space="preserve">
-    <value>At least 3 points are required. Invalid value: {0}</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -1602,9 +1551,6 @@ for {1}?</value>
   </data>
   <data name="RequireTile" xml:space="preserve">
     <value>Require Tile</value>
-  </data>
-  <data name="AutomaticallyCreateScreensTmx" xml:space="preserve">
-    <value>Automatically Create Screens for TMX Files</value>
   </data>
   <data name="TreeViewShowLevelScreens" xml:space="preserve">
     <value>Show Level Screens in Tree View</value>
@@ -1879,9 +1825,6 @@ for {1}?</value>
   <data name="HintListMultipleCopiesOfEntity" xml:space="preserve">
     <value>Lists enable multiple copies of this entity to exist in the game screen.</value>
   </data>
-  <data name="Another" xml:space="preserve">
-    <value>another</value>
-  </data>
   <data name="GameScreenInstanceAdd" xml:space="preserve">
     <value>Add {0}{1} Instance to GameScreen</value>
   </data>
@@ -2109,9 +2052,6 @@ for {1}?</value>
   </data>
   <data name="Velocity" xml:space="preserve">
     <value>Velocity</value>
-  </data>
-  <data name="AnimationSpeed" xml:space="preserve">
-    <value>Animation Speed</value>
   </data>
   <data name="CouldNotLoadProjectSeeOutput" xml:space="preserve">
     <value>Could not load the project. Check the output window for more information.</value>
@@ -2417,9 +2357,6 @@ for {1}?</value>
     <value />
   </data>
   <data name="RunEditMode" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AutoTakeSnapshot" xml:space="preserve">
     <value />
   </data>
   <data name="ProjectWizardOpen" xml:space="preserve">

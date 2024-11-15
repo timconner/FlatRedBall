@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock  VerticalAlignment="Center" Margin="0,0,3,0" Text="{x:Static localization:Texts.Angle}" />
+            <TextBlock  VerticalAlignment="Center" Margin="0,0,3,0" Text="Angle:" />
             <TextBox x:Name="AngleTextBox" Grid.Column="1" Text="{Binding Angle}" GotFocus="TextBox_GotFocus" KeyUp="TextBox_KeyEnterUpdate"  MouseWheel="TextBox_MouseWheel"></TextBox>
         </Grid>
 

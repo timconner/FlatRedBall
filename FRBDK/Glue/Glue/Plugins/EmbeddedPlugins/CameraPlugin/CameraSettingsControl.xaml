@@ -51,9 +51,9 @@
                             </Button>
                             
                         </WrapPanel>
-                        <RadioButton IsChecked="{Binding IsVariableAspectRatio}" Content="{x:Static localization:Texts.AspectRatioVariable}" />
-                        <RadioButton IsChecked="{Binding IsFixedAspectRatio}" Content="{x:Static localization:Texts.AspectRatioFixed}" />
-                        <RadioButton IsChecked="{Binding IsRangedAspectRatio}" Content="{x:Static localization:Texts.AspectRatioRanged}" />
+                        <RadioButton IsChecked="{Binding IsVariableAspectRatio}" Content="Variable Aspect Ratio" />
+                        <RadioButton IsChecked="{Binding IsFixedAspectRatio}" Content="Fixed Aspect Ratio" />
+                        <RadioButton IsChecked="{Binding IsRangedAspectRatio}" Content="Ranged Aspect Ratio" />
                         <!--<CheckBox VerticalContentAlignment="Center" Margin="0,3,0,0" Content="Fixed Aspect Ratio" IsChecked="{Binding FixedAspectRatio}"/>-->
 
                         <!--This only shows if the user's aspect ratio doesn't match the entered resolution aspect ratio-->
