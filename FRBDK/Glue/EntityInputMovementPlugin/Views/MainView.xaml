@@ -53,7 +53,7 @@
                         <RadioButton.ToolTip>
                             <Label Content="{x:Static localization:Texts.HintZeroInputGenerationCode}" />
                         </RadioButton.ToolTip>
-                        <Label Content="{x:Static localization:Texts.ZeroInputDevice}" />
+                        <Label Content="&quot;Zero&quot; InputDevice" />
                     </RadioButton>
                     <RadioButton IsChecked="{Binding IsNoneInputDevice}">
                         <RadioButton.ToolTip>

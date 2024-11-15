@@ -501,9 +501,6 @@
   <data name="HintZeroInputGenerationCode" xml:space="preserve">
     <value>Génère un code attribuant un périphérique d'entrée "zéro".</value>
   </data>
-  <data name="ZeroInputDevice" xml:space="preserve">
-    <value>Périphérique d'entrée "zéro"</value>
-  </data>
   <data name="HintGenerateNoInputCode" xml:space="preserve">
     <value>Ne génère aucun code d'affectation d'entrée, ce qui provoquera des exceptions s'il n'est pas attribué dans le code.</value>
   </data>
@@ -1428,9 +1425,6 @@
   <data name="MapSpriteTexture" xml:space="preserve">
     <value>Mappage de la texture du sprite</value>
   </data>
-  <data name="Zoom" xml:space="preserve">
-    <value>Zoom</value>
-  </data>
   <data name="Enabled" xml:space="preserve">
     <value>Activé</value>
   </data>
@@ -2141,9 +2135,6 @@
   </data>
   <data name="ScreenExport" xml:space="preserve">
     <value>Écran d'exportation</value>
-  </data>
-  <data name="ZipPackageCreate" xml:space="preserve">
-    <value>Créer un package Zip</value>
   </data>
   <data name="StateAdd" xml:space="preserve">
     <value>Ajouter un état</value>

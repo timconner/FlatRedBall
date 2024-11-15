@@ -501,9 +501,6 @@
   <data name="HintZeroInputGenerationCode" xml:space="preserve">
     <value>Genereert code die een "nul" invoerapparaat toewijst.</value>
   </data>
-  <data name="ZeroInputDevice" xml:space="preserve">
-    <value>"Nul" invoerapparaat</value>
-  </data>
   <data name="HintGenerateNoInputCode" xml:space="preserve">
     <value>Genereert geen invoertoewijzingscode, die foutmeldingen zal veroorzaken als deze niet in de code wordt toegewezen.</value>
   </data>
@@ -1428,9 +1425,6 @@
   <data name="MapSpriteTexture" xml:space="preserve">
     <value>Map Sprite-textuur</value>
   </data>
-  <data name="Zoom" xml:space="preserve">
-    <value>Zoom</value>
-  </data>
   <data name="Enabled" xml:space="preserve">
     <value>Ingeschakeld</value>
   </data>
@@ -2144,9 +2138,6 @@
   </data>
   <data name="ScreenExport" xml:space="preserve">
     <value>Scherm exporteren</value>
-  </data>
-  <data name="ZipPackageCreate" xml:space="preserve">
-    <value>Zip-pakket maken</value>
   </data>
   <data name="StateAdd" xml:space="preserve">
     <value>Status toevoegen</value>

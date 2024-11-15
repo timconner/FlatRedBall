@@ -7026,32 +7026,5 @@ namespace Localization {
                 return ResourceManager.GetString("XFasterOnSlope", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;Zero&quot; InputDevice.
-        /// </summary>
-        public static string ZeroInputDevice {
-            get {
-                return ResourceManager.GetString("ZeroInputDevice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Zip Package.
-        /// </summary>
-        public static string ZipPackageCreate {
-            get {
-                return ResourceManager.GetString("ZipPackageCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom.
-        /// </summary>
-        public static string Zoom {
-            get {
-                return ResourceManager.GetString("Zoom", resourceCulture);
-            }
-        }
     }
 }
