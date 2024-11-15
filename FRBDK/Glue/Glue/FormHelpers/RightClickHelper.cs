@@ -912,7 +912,7 @@ public static class RightClickHelper
         mCreateNewFileForMissingFile = new GeneralToolStripMenuItem(L.Texts.FileCreateForMissing);
         mCreateNewFileForMissingFile.Click += CreateNewFileForMissingFileClick;
 
-        mCreateZipPackage = new GeneralToolStripMenuItem(L.Texts.ZipPackageCreate);
+        mCreateZipPackage = new GeneralToolStripMenuItem("Create Zip Package");
         mCreateZipPackage.Click += CreateZipPackageClick;
 
         mExportElement = new GeneralToolStripMenuItem(L.Texts.ScreenExport);

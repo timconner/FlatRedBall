@@ -28,7 +28,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="{x:Static localization:Texts.Zoom}" />
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Zoom" />
                 <ComboBox ItemsSource="{Binding ZoomPercentages}" Text="{Binding CurrentZoomPercent, UpdateSourceTrigger=Default}"
                           IsEditable="True" IsTextSearchEnabled="False"
                           Width="55 " Grid.Row="0" Grid.Column="1"/>

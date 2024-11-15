@@ -502,9 +502,6 @@ for {1}?</value>
   <data name="HintZeroInputGenerationCode" xml:space="preserve">
     <value>Generates code assigning a "zero" input device.</value>
   </data>
-  <data name="ZeroInputDevice" xml:space="preserve">
-    <value>"Zero" InputDevice</value>
-  </data>
   <data name="HintGenerateNoInputCode" xml:space="preserve">
     <value>Generates no input assignment code, which will cause exceptions if not assigned in code.</value>
   </data>
@@ -1429,9 +1426,6 @@ for {1}?</value>
   <data name="MapSpriteTexture" xml:space="preserve">
     <value>Map Sprite Texture</value>
   </data>
-  <data name="Zoom" xml:space="preserve">
-    <value>Zoom</value>
-  </data>
   <data name="Enabled" xml:space="preserve">
     <value>Enabled</value>
   </data>
@@ -2145,9 +2139,6 @@ for {1}?</value>
   </data>
   <data name="ScreenExport" xml:space="preserve">
     <value>Export Screen</value>
-  </data>
-  <data name="ZipPackageCreate" xml:space="preserve">
-    <value>Create Zip Package</value>
   </data>
   <data name="StateAdd" xml:space="preserve">
     <value>Add State</value>
