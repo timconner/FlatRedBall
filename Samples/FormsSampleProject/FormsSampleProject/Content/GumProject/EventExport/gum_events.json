@@ -36,6 +36,13 @@
         "ElementType": "Screens",
         "EventType": 5,
         "TimestampUtc": "2024-11-15T22:00:05.7303224Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "MainMenuGum.Text TextInstance in MainMenuGum",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2024-11-16T16:43:23.5760964Z"
       }
     ]
   }

@@ -5,7 +5,7 @@
   "Source": "GLUE",
   "ReferencedFiles": [
     {
-      "Name": "gumproject/Screens/InputJoinScreenGum.gusx",
+      "Name": "GumProject/Screens/InputJoinScreenGum.gusx",
       "IsSharedStatic": true,
       "RuntimeType": "FormsSampleProject.GumRuntimes.InputJoinScreenGumRuntime",
       "ProjectsToExcludeFrom": []
