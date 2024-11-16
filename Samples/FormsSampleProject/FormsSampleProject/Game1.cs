@@ -12,7 +12,6 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Gum.Wireframe;
-using GumCoreShared.Gum.Wireframe;
 
 namespace FormsSampleProject
 {

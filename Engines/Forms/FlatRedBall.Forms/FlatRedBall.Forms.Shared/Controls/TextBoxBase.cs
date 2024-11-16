@@ -313,7 +313,7 @@ namespace FlatRedBall.Forms.Controls
             else
             {
                 indexPushed = GetCaretIndexAtCursor();
-                
+                this.SelectionLength = 0;
                 UpdateCaretIndexFromCursor();
             }
         }
@@ -950,7 +950,17 @@ namespace FlatRedBall.Forms.Controls
                 float caretY = GetCenterOfYForLinePixelsFromSmall(
                     // lineNumber can be -1, so treat it as 0 if so:
                     System.Math.Max(0,lineNumber));
-                // this assumes the caret has a YOrigin of center
+
+                switch (caretComponent.YOrigin)
+                {
+                    case global::RenderingLibrary.Graphics.VerticalAlignment.Center:
+                        // do nothing
+                        break;
+                    case global::RenderingLibrary.Graphics.VerticalAlignment.Top:
+                        caretY -= coreTextObject.LineHeightMultiplier * coreTextObject.BitmapFont.LineHeightInPixels / 2.0f;
+                        break;
+                }
+
                 switch (caretComponent.YUnits)
                 {
                     case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
@@ -1114,7 +1124,17 @@ namespace FlatRedBall.Forms.Controls
                     selectionPosition.XStart = startXForSelection;
                     var offsetPixelsFromSmall = GetCenterOfYForLinePixelsFromSmall(i);
 
-                    switch(selectionTemplate.YUnits)
+                    switch (selectionTemplate.YOrigin)
+                    {
+                        case global::RenderingLibrary.Graphics.VerticalAlignment.Center:
+                            // do nothing
+                            break;
+                        case global::RenderingLibrary.Graphics.VerticalAlignment.Top:
+                            offsetPixelsFromSmall -= coreTextObject.LineHeightMultiplier * coreTextObject.BitmapFont.LineHeightInPixels / 2.0f;
+                            break;
+                    }
+
+                    switch (selectionTemplate.YUnits)
                     {
                         case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
                             selectionPosition.Y = offsetPixelsFromSmall;
