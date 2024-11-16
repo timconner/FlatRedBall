@@ -198,7 +198,7 @@ namespace FlatRedBall.Forms.Controls
         /// contains information about the changed selected items.
         /// </summary>
         public event Action<object, SelectionChangedEventArgs> SelectionChanged;
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         /// <summary>
         /// Event raised when the user presses a button, whether at the top level or internally on

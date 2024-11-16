@@ -6,7 +6,11 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using FlatRedBall.Instructions.Pause;
 
+#if FRB
 namespace FlatRedBall.Forms.Controls
+#else
+namespace MonoGameGum.Forms.Controls
+#endif
 {
     public class TextBox : TextBoxBase
     {
@@ -53,7 +57,7 @@ namespace FlatRedBall.Forms.Controls
 
         public event EventHandler TextChanged;
 
-        #endregion 
+        #endregion
 
         #region Initialize Methods
 
@@ -106,7 +110,6 @@ namespace FlatRedBall.Forms.Controls
                     if(AcceptsReturn)
                     {
                         newText = newText.Insert(caretIndex, "\n");
-                        // because newlines are truncated
                         addedCharacter = true;
                     }
                 }
@@ -167,7 +170,6 @@ namespace FlatRedBall.Forms.Controls
                     // Move the care to the left one before removing from the text. Otherwise, if the
                     // caret is at the end of the word, modifying the word will shift the caret to the left, 
                     // and that could cause it to shift over two times.
-                    var letterToRemove = this.Text[whereToRemoveFrom];
                     caretIndex--;
                     this.Text = this.Text.Remove(whereToRemoveFrom, 1);
                 }

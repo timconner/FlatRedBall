@@ -13,7 +13,9 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
+#if FRB
 namespace FlatRedBall.Forms.Controls
+#endif
 {
     public class TextCompositionEventArgs : RoutedEventArgs
     {
@@ -54,7 +56,6 @@ namespace FlatRedBall.Forms.Controls
         protected GraphicalUiElement placeholderComponent;
         protected RenderingLibrary.Graphics.Text placeholderTextObject;
 
-
         protected GraphicalUiElement selectionInstance;
 
         List<GraphicalUiElement> _selectionInstances = new List<GraphicalUiElement>();
@@ -63,7 +64,7 @@ namespace FlatRedBall.Forms.Controls
 
         GraphicalUiElement caretComponent;
 
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         public bool LosesFocusWhenClickedOff { get; set; } = true;
 
@@ -206,8 +207,9 @@ namespace FlatRedBall.Forms.Controls
 
         #region Events
 
+#if FRB
         public event Action<Xbox360GamePad.Button> ControllerButtonPushed;
-
+#endif
         public event Action<object, TextCompositionEventArgs> PreviewTextInput;
 
         protected TextCompositionEventArgs RaisePreviewTextInput(string newText)
@@ -302,9 +304,7 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandlePush(IWindow window)
         {
-
-
-            if (GuiManager.Cursor.PrimaryDoublePush)
+            if (MainCursor.PrimaryDoublePush)
             {
                 indexPushed = null;
                 selectionStart = 0;
@@ -330,7 +330,7 @@ namespace FlatRedBall.Forms.Controls
 
         private void TryLoseFocusFromPush()
         {
-            var cursor = GuiManager.Cursor;
+            var cursor = MainCursor;
 
 
             var clickedOnThisOrChild =
@@ -345,7 +345,7 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandleClickOff()
         {
-            if (GuiManager.Cursor.WindowOver != Visual && timeFocused != TimeManager.CurrentTime &&
+            if (MainCursor.WindowOver != Visual && timeFocused != TimeManager.CurrentTime &&
                 LosesFocusWhenClickedOff)
             {
                 IsFocused = false;
@@ -359,9 +359,9 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandleRollOver(IWindow window)
         {
-            if (GuiManager.Cursor.LastInputDevice == InputDevice.Mouse)
+            if (MainCursor.LastInputDevice == InputDevice.Mouse)
             {
-                if (GuiManager.Cursor.WindowPushed == this.Visual && indexPushed != null && GuiManager.Cursor.PrimaryDown && !GuiManager.Cursor.PrimaryDoublePush)
+                if (MainCursor.WindowPushed == this.Visual && indexPushed != null && MainCursor.PrimaryDown && !MainCursor.PrimaryDoublePush)
                 {
                     var currentIndex = GetCaretIndexAtCursor();
 
@@ -377,11 +377,11 @@ namespace FlatRedBall.Forms.Controls
 
         private void HandleDrag(IWindow window)
         {
-            if (GuiManager.Cursor.LastInputDevice == InputDevice.TouchScreen)
+            if (MainCursor.LastInputDevice == InputDevice.TouchScreen)
             {
-                if (GuiManager.Cursor.WindowPushed == this.Visual && GuiManager.Cursor.PrimaryDown)
+                if (MainCursor.WindowPushed == this.Visual && MainCursor.PrimaryDown)
                 {
-                    var xChange = GuiManager.Cursor.ScreenXChange / RenderingLibrary.SystemManagers.Default.Renderer.Camera.Zoom;
+                    var xChange = MainCursor.ScreenXChange / RenderingLibrary.SystemManagers.Default.Renderer.Camera.Zoom;
 
 
                     var bitmapFont = this.coreTextObject.BitmapFont;
@@ -419,8 +419,8 @@ namespace FlatRedBall.Forms.Controls
 
         private int GetCaretIndexAtCursor()
         {
-            var cursorScreenX = GuiManager.Cursor.GumX();
-            var cursorScreenY = GuiManager.Cursor.GumY();
+            var cursorScreenX = MainCursor.GumX();
+            var cursorScreenY = MainCursor.GumY();
             return GetCaretIndexAtPosition(cursorScreenX, cursorScreenY);
         }
 
@@ -441,7 +441,7 @@ namespace FlatRedBall.Forms.Controls
                 var bitmapFont = coreTextObject.BitmapFont;
                 var lineHeight = bitmapFont.LineHeightInPixels;
                 var topOfText = this.textComponent.GetAbsoluteTop();
-                if(this.coreTextObject?.VerticalAlignment == VerticalAlignment.Center)
+                if(this.coreTextObject?.VerticalAlignment == RenderingLibrary.Graphics.VerticalAlignment.Center)
                 {
                     topOfText = this.textComponent.GetAbsoluteCenterY() - (lineHeight * coreTextObject.WrappedText.Count - 1) / 2.0f;
                 }
@@ -755,6 +755,7 @@ namespace FlatRedBall.Forms.Controls
 
         public void OnFocusUpdate()
         {
+#if FRB
             var gamepads = GuiManager.GamePadsForUiControl;
 
             for (int i = 0; i < gamepads.Count; i++)
@@ -788,7 +789,7 @@ namespace FlatRedBall.Forms.Controls
                     ControllerButtonPushed?.Invoke(Xbox360GamePad.Button.A);
                 }
             }
-
+#endif
         }
 
         public void OnGainFocus()
@@ -799,20 +800,58 @@ namespace FlatRedBall.Forms.Controls
         public void LoseFocus()
         {
             IsFocused = false;
+        }
 
+
+        public void DoKeyboardAction(IInputReceiverKeyboard keyboard)
+        {
+#if !FRB
+            OnFocusUpdate();
+
+            ReceiveInput();
+
+            var shift = keyboard.IsShiftDown;
+            var ctrl = keyboard.IsCtrlDown;
+            var alt = keyboard.IsAltDown;
+
+
+
+
+            // This allocates. We could potentially make this return 
+            // an IList or List. That's a breaking change for a tiny amount
+            // of allocation....what to do....
+
+            var asMonoGameKeyboard = (IInputReceiverKeyboardMonoGame)keyboard;
+
+            foreach (var key in asMonoGameKeyboard.KeysTyped)
+            {
+                HandleKeyDown(key, shift, alt, ctrl);
+            }
+
+            var stringTyped = keyboard.GetStringTyped();
+
+            if (stringTyped != null)
+            {
+                for (int i = 0; i < stringTyped.Length; i++)
+                {
+                    // receiver could get nulled out by itself when something like enter is pressed
+                    HandleCharEntered(stringTyped[i]);
+                }
+            }
+#endif
         }
 
         public void ReceiveInput()
         {
 
         }
-        #endregion
+#endregion
 
         #region UpdateTo Methods
 
         protected override void UpdateState()
         {
-            var cursor = GuiManager.Cursor;
+            var cursor = MainCursor;
 
             if (IsEnabled == false)
             {
@@ -908,22 +947,19 @@ namespace FlatRedBall.Forms.Controls
                 }
                 
 
-                if(TextWrapping == TextWrapping.Wrap)
+                float caretY = GetCenterOfYForLinePixelsFromSmall(
+                    // lineNumber can be -1, so treat it as 0 if so:
+                    System.Math.Max(0,lineNumber));
+                // this assumes the caret has a YOrigin of center
+                switch (caretComponent.YUnits)
                 {
-                    float caretY = GetCenterOfYForLinePixelsFromSmall(
-                        // lineNumber can be -1, so treat it as 0 if so:
-                        System.Math.Max(0,lineNumber));
-                    // this assumes the caret has a YOrigin of center
-                    switch (caretComponent.YUnits)
-                    {
-                        case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
-                            caretComponent.Y = caretY;
+                    case global::Gum.Converters.GeneralUnitType.PixelsFromSmall:
+                        caretComponent.Y = caretY;
 
-                            break;
-                        case global::Gum.Converters.GeneralUnitType.PixelsFromMiddle:
-                            caretComponent.Y = caretY - textComponent.GetAbsoluteHeight() / 2.0f;
-                            break;
-                    }
+                        break;
+                    case global::Gum.Converters.GeneralUnitType.PixelsFromMiddle:
+                        caretComponent.Y = caretY - textComponent.GetAbsoluteHeight() / 2.0f;
+                        break;
                 }
             }
         }
@@ -932,6 +968,7 @@ namespace FlatRedBall.Forms.Controls
             UpdateCaretVisibility();
             UpdateState();
 
+#if FRB
             if (isFocused)
             {
                 GuiManager.AddNextClickAction(HandleClickOff);
@@ -950,14 +987,15 @@ namespace FlatRedBall.Forms.Controls
                 if (FlatRedBall.Input.InputManager.InputReceiver == this)
                 {
                     FlatRedBall.Input.InputManager.InputReceiver = null;
-    #if ANDROID
+#if ANDROID
                     FlatRedBall.Input.InputManager.Keyboard.HideKeyboard();
-    #endif
+#endif
                 }
 
                 // Vic says - why do we need to deselect when it loses focus? It could stay selected
                 //SelectionLength = 0;
             }
+#endif
         }
 
         private void UpdateCaretVisibility()
@@ -1017,13 +1055,6 @@ namespace FlatRedBall.Forms.Controls
                     selection.Width = selectionStartEnds[i].Width;
                     selection.Visible = true;
                     selection.XUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
-
-                    //this.selectionInstance.X = selectionStartEnds[0].XStart;
-                    //this.selectionInstance.Y = selectionStartEnds[0].Y;
-                    //this.selectionInstance.Width = selectionStartEnds[0].Width;
-                    //this.selectionInstance.Visible = true;
-                    //this.selectionInstance.XUnits =
-                    //    global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
                 }
             }
             else if (selectionInstance != null)
@@ -1031,7 +1062,6 @@ namespace FlatRedBall.Forms.Controls
                 for(int i = 0; i < _selectionInstances.Count; i++)
                 {
                     _selectionInstances[i].Visible = false;
-
                 }
             }
         }

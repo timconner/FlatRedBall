@@ -34,7 +34,7 @@ namespace FlatRedBall.Forms.Controls
 
         #region Events
 
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         public event Action<Xbox360GamePad.Button> ControllerButtonPushed;
         public event Action<int> GenericGamepadButtonPushed;

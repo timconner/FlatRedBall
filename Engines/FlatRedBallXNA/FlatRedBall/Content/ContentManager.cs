@@ -751,7 +751,7 @@ namespace FlatRedBall.Content
 					}
 					else
 					{
-#if WEB || FNA
+#if WEB || FNA || KNI
 						using var stream = FileManager.GetStreamForFile(assetName);
 						soundEffect = SoundEffect.FromStream(stream);
 #elif NET6_0_OR_GREATER

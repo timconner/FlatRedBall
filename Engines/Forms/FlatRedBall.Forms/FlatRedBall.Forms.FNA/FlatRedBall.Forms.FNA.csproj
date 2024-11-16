@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <DefineConstants>FNA;DESKTOP_GL;WINDOWS</DefineConstants>
+    <DefineConstants>FNA;DESKTOP_GL;WINDOWS;FRB</DefineConstants>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
