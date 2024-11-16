@@ -449,7 +449,10 @@ namespace FlatRedBall.Forms.Controls
 
                 var lineOn = System.Math.Max(0, System.Math.Min((int)cursorYOffset / lineHeight, coreTextObject.WrappedText.Count - 1));
 
-                index = GetIndex(cursorOffset, coreTextObject.WrappedText[lineOn]);
+                if(lineOn < coreTextObject.WrappedText.Count)
+                {
+                    index = GetIndex(cursorOffset, coreTextObject.WrappedText[lineOn]);
+                }
 
                 for (int line = 0; line < lineOn; line++)
                 {
@@ -520,7 +523,7 @@ namespace FlatRedBall.Forms.Controls
                             int? letterToMoveToFromCtrl = null;
                             if(isCtrlDown)
                             {
-                                letterToMoveToFromCtrl = GetSpaceIndexBefore(caretIndex - 1);
+                                letterToMoveToFromCtrl = GetCtrlBeforeTarget(caretIndex - 1);
                                 if(letterToMoveToFromCtrl != null)
                                 {
 
@@ -851,6 +854,11 @@ namespace FlatRedBall.Forms.Controls
                         // and the first letter on the next line is not whitespace
                         coreTextObject.WrappedText[lineNumber + 1].Length > 0 && !char.IsWhiteSpace(coreTextObject.WrappedText[lineNumber + 1][0]);
 
+                    if(!shouldShowFirstOfNextLine && lineLength > 0 && relativeIndexOnLine == lineLength && currentLine[lineLength-1] == '\n')
+                    {
+                        shouldShowFirstOfNextLine = true;
+                    }
+
                     if (shouldShowFirstOfNextLine)
                     {
                         relativeIndexOnLine -= lineLength;
@@ -902,8 +910,6 @@ namespace FlatRedBall.Forms.Controls
 
                 if(TextWrapping == TextWrapping.Wrap)
                 {
-                    Debug.WriteLine($"GumTextY: {textComponent.Y} GumTop:{textComponent.AbsoluteTop} IPSO TextY:{(textComponent as IPositionedSizedObject).Y}");
-
                     float caretY = GetCenterOfYForLinePixelsFromSmall(
                         // lineNumber can be -1, so treat it as 0 if so:
                         System.Math.Max(0,lineNumber));
@@ -1245,6 +1251,62 @@ namespace FlatRedBall.Forms.Controls
         protected abstract void TruncateTextToMaxLength();
 
         #region Utilities
+
+        protected int? GetCtrlBeforeTarget(int index)
+        {
+            var afterRemovingSpaces = GetNonSpaceIndexAtOrBefore(index);
+
+            if(afterRemovingSpaces != null)
+            {
+                var nextSpace = GetSpaceIndexAtOrBefore(afterRemovingSpaces.Value);
+
+                if(nextSpace != null)
+                {
+                    return nextSpace.Value + 1;
+                }
+            }
+
+            return null;
+        }
+
+        int? GetNonSpaceIndexAtOrBefore(int index)
+        {
+            // first get non-space index at or before:
+            if (DisplayedText != null)
+            {
+                index = System.Math.Min(index, DisplayedText.Length-1);
+                for (int i = index; i > 0; i--)
+                {
+                    var isNotSpace = !Char.IsWhiteSpace(DisplayedText[i]);
+
+                    if (isNotSpace)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return null;
+
+        }
+
+        int? GetSpaceIndexAtOrBefore(int index)
+        {
+            if (DisplayedText != null)
+            {
+                for (int i = index - 1; i > 0; i--)
+                {
+                    var isSpace = Char.IsWhiteSpace(DisplayedText[i]);
+
+                    if (isSpace)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         protected int? GetSpaceIndexBefore(int index)
         {

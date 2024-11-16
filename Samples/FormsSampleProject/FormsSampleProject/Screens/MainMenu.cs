@@ -16,6 +16,8 @@ using Microsoft.Xna.Framework;
 using FlatRedBall.Forms.Controls.Popups;
 using FormsSampleProject.ViewModels;
 using FlatRedBall.Forms.Controls.Games;
+using FlatRedBall.Forms.Controls;
+using System.Diagnostics;
 
 
 
@@ -48,10 +50,23 @@ namespace FormsSampleProject.Screens
 
             Forms.ShowDialogButton.Click += HandleShowDialogButtonClicked;
 
-            Forms.LineWrappedTextBox.TextWrapping = FlatRedBall.Forms.TextWrapping.Wrap;
-            Forms.LineWrappedTextBox.Placeholder = string.Empty;
-            Forms.LineWrappedTextBox.Text = "This is some long text which will wrap if it is long enough. Feel free to change this...";
-            Forms.LineWrappedTextBox.AcceptsReturn = true;
+            var lineWrappedTextBox = Forms.LineWrappedTextBox;
+            lineWrappedTextBox.TextWrapping = FlatRedBall.Forms.TextWrapping.Wrap;
+            lineWrappedTextBox.Placeholder = string.Empty;
+            lineWrappedTextBox.Text = "This is some long text which will wrap if it is long enough. Feel free to change this...";
+            lineWrappedTextBox.AcceptsReturn = true;
+
+            lineWrappedTextBox.TextChanged += (sender, used) =>
+            {
+                var textBox = sender as TextBox;
+                Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
+            };
+
+            lineWrappedTextBox.KeyDown += (sender, args) =>
+            {
+                var textBox = sender as TextBox;
+                Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
+            };
         }
 
         private async void HandleShowDialogButtonClicked(object sender, EventArgs e)

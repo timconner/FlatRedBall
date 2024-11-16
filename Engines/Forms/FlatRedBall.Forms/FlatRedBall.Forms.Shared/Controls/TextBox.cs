@@ -86,7 +86,6 @@ namespace FlatRedBall.Forms.Controls
                     DeleteSelection();
                 }
 
-                bool suppressOneLetterAdvance = false;
                 // If text is null force it to be an empty string so we can add characters
                 string newText = Text ?? "";
 
@@ -108,7 +107,6 @@ namespace FlatRedBall.Forms.Controls
                     {
                         newText = newText.Insert(caretIndex, "\n");
                         // because newlines are truncated
-                        suppressOneLetterAdvance = true;
                         addedCharacter = true;
                     }
                 }
@@ -129,13 +127,10 @@ namespace FlatRedBall.Forms.Controls
                     wasHandledByEvent = args.Handled;
                     if(!wasHandledByEvent)
                     {
+                        // set caretIndex before assigning Text so that the events are
+                        // raised with the new caretIndex value
+                        caretIndex = System.Math.Min(caretIndex+1, newText.Length);
                         Text = newText;
-
-                        if(!suppressOneLetterAdvance)
-                        {
-                            caretIndex = System.Math.Min(caretIndex+1, Text.Length);
-                        }
-
                     }
                 }
 
@@ -158,7 +153,7 @@ namespace FlatRedBall.Forms.Controls
                 }
                 else if (isCtrlDown)
                 {
-                    var indexBeforeNullable = GetSpaceIndexBefore(caretIndex);
+                    var indexBeforeNullable = GetCtrlBeforeTarget(caretIndex);
 
                     var indexToDeleteTo = indexBeforeNullable ?? 0;
 
@@ -173,10 +168,7 @@ namespace FlatRedBall.Forms.Controls
                     // caret is at the end of the word, modifying the word will shift the caret to the left, 
                     // and that could cause it to shift over two times.
                     var letterToRemove = this.Text[whereToRemoveFrom];
-                    if(letterToRemove != '\n')
-                    {
-                        caretIndex--;
-                    }
+                    caretIndex--;
                     this.Text = this.Text.Remove(whereToRemoveFrom, 1);
                 }
             }
