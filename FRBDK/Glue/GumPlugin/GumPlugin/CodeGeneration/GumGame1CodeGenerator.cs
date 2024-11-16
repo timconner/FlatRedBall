@@ -44,7 +44,8 @@ namespace GumPlugin.CodeGeneration
 
         public override void GenerateInitialize(ICodeBlock codeBlock)
         {
-            var hasCommon = GlueState.Self.CurrentGlueProject.FileVersion >= (int)GluxVersions.GumCommonCodeReferencing ||
+            var fileVersion = GlueState.Self.CurrentGlueProject.FileVersion;
+            var hasCommon = fileVersion >= (int)GluxVersions.GumCommonCodeReferencing ||
                 GlueState.Self.CurrentMainProject.IsFrbSourceLinked();
             if (hasCommon)
             {
@@ -57,6 +58,12 @@ namespace GumPlugin.CodeGeneration
                     codeBlock.Line("global::Gum.Wireframe.GraphicalUiElement.ThrowExceptionsForMissingFiles = global::Gum.Wireframe.CustomSetPropertyOnRenderable.ThrowExceptionsForMissingFiles;");
                     codeBlock.Line("global::Gum.Wireframe.GraphicalUiElement.AddRenderableToManagers = global::Gum.Wireframe.CustomSetPropertyOnRenderable.AddRenderableToManagers;");
                     codeBlock.Line("global::Gum.Wireframe.GraphicalUiElement.RemoveRenderableFromManagers = global::Gum.Wireframe.CustomSetPropertyOnRenderable.RemoveRenderableFromManagers;");
+
+                    if (fileVersion >= (int)GluxVersions.GumHasRenderableCloneLogic)
+                    {
+                        codeBlock.Line("global::Gum.Wireframe.GraphicalUiElement.CloneRenderableFunction = global::RenderingLibrary.Graphics.RenderableCloneLogic.Clone;");
+
+                    }
                 }
             }
             else

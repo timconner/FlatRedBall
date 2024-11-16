@@ -62,14 +62,12 @@ namespace FormsSampleProject
             #endif
         
             GeneratedInitializeEarly();
-            GraphicalUiElement.CloneRenderableFunction = RenderableCloneLogic.Clone;
 
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
 
             GeneratedInitialize();
 
-            GraphicalUiElement.CloneRenderableFunction =
-                RenderableCloneLogic.Clone;
+            
 
             base.Initialize();
         }
