@@ -4,8 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using FlatRedBall.Instructions.Pause;
 
+#if FRB
 namespace FlatRedBall.Forms.Controls
+#else
+namespace MonoGameGum.Forms.Controls
+#endif
 {
     public class TextBox : TextBoxBase
     {
@@ -41,13 +46,18 @@ namespace FlatRedBall.Forms.Controls
 
         protected override string CategoryName => "TextBoxCategoryState";
 
+        public bool AcceptsReturn
+        {
+            get; set;
+        }
+
         #endregion
 
         #region Events
 
         public event EventHandler TextChanged;
 
-        #endregion 
+        #endregion
 
         #region Initialize Methods
 
@@ -80,7 +90,6 @@ namespace FlatRedBall.Forms.Controls
                     DeleteSelection();
                 }
 
-
                 // If text is null force it to be an empty string so we can add characters
                 string newText = Text ?? "";
 
@@ -93,13 +102,16 @@ namespace FlatRedBall.Forms.Controls
                     // esc
                     || character == (char)27)
                 {
-                    // do nothing, handled with a backspace above
+                    // handled by TextBoxBase
                 //    HandleBackspace();
                 }
                 else if (character == '\r' || character == '\n')
                 {
-                    // We don't support multiline yet
-                    //this.Text += '\n';
+                    if(AcceptsReturn)
+                    {
+                        newText = newText.Insert(caretIndex, "\n");
+                        addedCharacter = true;
+                    }
                 }
                 else
                 {
@@ -118,8 +130,10 @@ namespace FlatRedBall.Forms.Controls
                     wasHandledByEvent = args.Handled;
                     if(!wasHandledByEvent)
                     {
+                        // set caretIndex before assigning Text so that the events are
+                        // raised with the new caretIndex value
+                        caretIndex = System.Math.Min(caretIndex+1, newText.Length);
                         Text = newText;
-                        caretIndex = System.Math.Min(caretIndex+1, Text.Length);
                     }
                 }
 
@@ -142,7 +156,7 @@ namespace FlatRedBall.Forms.Controls
                 }
                 else if (isCtrlDown)
                 {
-                    var indexBeforeNullable = GetSpaceIndexBefore(caretIndex);
+                    var indexBeforeNullable = GetCtrlBeforeTarget(caretIndex);
 
                     var indexToDeleteTo = indexBeforeNullable ?? 0;
 
@@ -222,7 +236,12 @@ namespace FlatRedBall.Forms.Controls
 
         public void DeleteSelection()
         {
-            this.Text = Text.Remove(selectionStart, selectionLength);
+            var lengthToRemove = selectionLength;
+            if(selectionStart + lengthToRemove > Text.Length)
+            {
+                lengthToRemove = Text.Length - selectionStart;
+            }
+            this.Text = Text.Remove(selectionStart, lengthToRemove);
             CaretIndex = selectionStart;
             SelectionLength = 0;
         }

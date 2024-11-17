@@ -42,7 +42,7 @@ namespace FlatRedBall.Forms.Controls.Games
             Initialize();
         }
 
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         private void Initialize()
         {

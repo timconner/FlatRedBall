@@ -36,7 +36,7 @@ namespace FlatRedBall.Forms.Controls.Primitives
         /// The "push" terminology comes from the Cursor's PrimaryPush property.
         /// </summary>
         public event EventHandler Push;
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         /// <summary>
         /// Event raised when any button is pressed on an Xbox360GamePad which is being used by the 

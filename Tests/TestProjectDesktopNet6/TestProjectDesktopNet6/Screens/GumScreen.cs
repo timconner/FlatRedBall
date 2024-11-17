@@ -97,10 +97,55 @@ namespace GlueTestProject.Screens
 
             TestResolutionChangeUpdatesGumLayout();
 
-            
+            TestWrappingSetInGum();
+
+            TestWrappingSetInGumRelativeToChildrenWidth();
 
             TestWrappingWithNewlines();
 
+        }
+
+        private void TestWrappingSetInGumRelativeToChildrenWidth()
+        {
+
+            var text = this.GumScreen_.GetGraphicalUiElementByName("TextWrappingSetInGumRelativeToChildren") as TextRuntime;
+            text.Text.Contains("\n").ShouldBe(true);
+
+            var renderableText = text.RenderableComponent as Text;
+            var font = renderableText.BitmapFont;
+            foreach(var line in renderableText.WrappedText)
+            {
+                var result = font.MeasureString(line);
+                int size = 239;
+                var isGreaterThanSize = (result > size);
+                if(isGreaterThanSize)
+                {
+                    var aWithNewline = font.MeasureString("a\n");
+                    var aWithoutNewline = font.MeasureString("a");
+                    if(aWithNewline != aWithoutNewline)
+                    {
+                        throw new Exception("Font measurement is adding extra space for newlines at the end of a line. It shouldn't.");
+                    }
+                    else
+                    {
+                        throw new Exception($"The line {line} is greater than {size} but it should not be. Bitmap font measurement has a problem");
+                    }
+
+                }
+            }
+            var lines = (renderableText).WrappedText;
+            lines.Count.ShouldBe(4);
+            text.GetAbsoluteWidth().ShouldBe(239, "because newlines should not affect the width of a Text instance");
+
+        }
+
+        private void TestWrappingSetInGum()
+        {
+            var text = this.GumScreen_.GetGraphicalUiElementByName("TextWrappingSetInGum") as TextRuntime;
+            text.Text.Contains("\n").ShouldBe(true);
+
+            var lines = (text.RenderableComponent as Text).WrappedText;
+            lines.Count.ShouldBe(4);
         }
 
         private void TestWrappingWithNewlines()

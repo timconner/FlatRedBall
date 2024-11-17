@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-ios</TargetFramework>
+    <DefineConstants>MONOGAME;MONOGAME_381;FRB</DefineConstants>
+
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>

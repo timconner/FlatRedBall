@@ -61,7 +61,7 @@ namespace FlatRedBall.Gui
         /// the IInputReceiver to perform custom every-frame logic when it has focus, such as a ListBox
         /// listening for the Delete key to delete highlighted elements.
         /// </summary>
-        event FocusUpdateDelegate FocusUpdate;
+        event Action<IInputReceiver> FocusUpdate;
         #endregion
 
         #region Methods

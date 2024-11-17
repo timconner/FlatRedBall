@@ -11,6 +11,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Gum.Wireframe;
 
 namespace FormsSampleProject
 {
@@ -64,6 +65,8 @@ namespace FormsSampleProject
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
 
             GeneratedInitialize();
+
+            
 
             base.Initialize();
         }

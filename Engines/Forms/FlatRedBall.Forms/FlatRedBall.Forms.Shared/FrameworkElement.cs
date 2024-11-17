@@ -46,6 +46,10 @@ namespace FlatRedBall.Forms.Controls
     {
         #region Fields/Properties
 
+#if FRB
+        public static Cursor MainCursor => GuiManager.Cursor;
+#endif
+
         protected bool isFocused;
         protected double timeFocused;
         public virtual bool IsFocused
