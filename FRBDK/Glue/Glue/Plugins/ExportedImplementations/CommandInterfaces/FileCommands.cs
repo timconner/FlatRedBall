@@ -612,9 +612,11 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
                         System.Diagnostics.Process.Start(startInfo);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    System.Windows.Forms.MessageBox.Show("Error opening " + fileName + "\nTry navigating to this file and opening it through explorer");
+                    var message = "Error opening " + fileName + $"\nTry navigating to this file and opening it through explorer. More info: \n\n{exception}";
+                    GlueCommands.Self.PrintError(message);
+                    System.Windows.Forms.MessageBox.Show(message);
 
 
                 }
