@@ -252,7 +252,7 @@
     <Variable>
       <Type>float</Type>
       <Name>FirstStack.Width</Name>
-      <Value xsi:type="xsd:float">228</Value>
+      <Value xsi:type="xsd:float">276</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -294,7 +294,7 @@
     <Variable>
       <Type>float</Type>
       <Name>LineWrappedTextBox.Height</Name>
-      <Value xsi:type="xsd:float">68</Value>
+      <Value xsi:type="xsd:float">107</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -582,7 +582,7 @@
     <Variable>
       <Type>float</Type>
       <Name>SecondStack.X</Name>
-      <Value xsi:type="xsd:float">239</Value>
+      <Value xsi:type="xsd:float">290</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
