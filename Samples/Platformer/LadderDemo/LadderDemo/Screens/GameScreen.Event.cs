@@ -8,29 +8,28 @@ using FlatRedBall.Audio;
 using FlatRedBall.Screens;
 using LadderDemo.Entities;
 using LadderDemo.Screens;
+using FlatRedBall.TileCollisions;
 using System.Linq;
 
-namespace LadderDemo.Screens
+namespace LadderDemo.Screens;
+
+public partial class GameScreen
 {
-    public partial class GameScreen
+    void OnPlayerVsLadderCollisionCollided (Player player, TileShapeCollection ladder) 
     {
-        void OnPlayerListVsLadderCollisionCollisionOccurred (Entities.Player player, FlatRedBall.TileCollisions.TileShapeCollection second) 
+        player.LastCollisionLadderRectange = ladder.LastCollisionAxisAlignedRectangles.First();
+
+        // a little inefficient, could use caching to save a little calculation but it won't be too bad:
+        var topRectangle = player.LastCollisionLadderRectange;
+
+        var rectangleAbove = ladder.GetRectangleAtPosition(topRectangle.X, topRectangle.Y + ladder.GridSize);
+
+        while (rectangleAbove != null)
         {
-            player.LastCollisionLadderRectange = second.LastCollisionAxisAlignedRectangles.First();
-
-            // a little inefficient, could use caching to save a little calculation but it won't be too bad:
-            var topRectangle = player.LastCollisionLadderRectange;
-
-            var rectangleAbove = second.GetRectangleAtPosition(topRectangle.X, topRectangle.Y + second.GridSize);
-
-            while(rectangleAbove != null)
-            {
-                topRectangle = rectangleAbove;
-                rectangleAbove = second.GetRectangleAtPosition(topRectangle.X, topRectangle.Y + second.GridSize);
-            }
-
-            player.TopOfLadderY = topRectangle.Bottom;
+            topRectangle = rectangleAbove;
+            rectangleAbove = ladder.GetRectangleAtPosition(topRectangle.X, topRectangle.Y + ladder.GridSize);
         }
 
+        player.TopOfLadderY = topRectangle.Bottom;
     }
 }
