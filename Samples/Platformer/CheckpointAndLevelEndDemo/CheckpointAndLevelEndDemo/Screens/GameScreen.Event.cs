@@ -8,29 +8,30 @@ using FlatRedBall.Audio;
 using FlatRedBall.Screens;
 using CheckpointAndLevelEndDemo.Entities;
 using CheckpointAndLevelEndDemo.Screens;
-namespace CheckpointAndLevelEndDemo.Screens
-{
-    public partial class GameScreen
-    {
-        void OnPlayerListVsPitCollisionCollisionOccurred (Entities.Player first, FlatRedBall.Math.Geometry.ShapeCollection second) 
-        {
-            this.RestartScreen(reloadContent:false);
-        }
-        void OnPlayerListVsCheckpointListCollisionOccurred (Entities.Player first, Entities.Checkpoint checkpoint) 
-        {
-            if(checkpoint.Visible)
-            {
-                // This is a checkpoint that you can actually touch and "turn on"
-                checkpoint.MarkAsChecked();
 
-                LastCheckpointName = checkpoint.Name;
-            }
-        }
-        void OnPlayerListVsEndOfLevelListCollisionOccurred (Entities.Player first, Entities.EndOfLevel endOfLevel) 
+namespace CheckpointAndLevelEndDemo.Screens;
+
+public partial class GameScreen
+{
+    void OnPlayerVsPitCollisionCollided (Player player, FlatRedBall.Math.Geometry.ShapeCollection shapeCollection) 
+    {
+        RestartScreen(reloadScreenContent: false);
+    }
+
+    void OnPlayerVsCheckpointCollided (Player player, Checkpoint checkpoint) 
+    {
+        if (checkpoint.Visible)
         {
-            GameScreen.LastCheckpointName = "LevelStart";
-            MoveToScreen(endOfLevel.NextLevel);
+            // This is a checkpoint that you can actually touch and "turn on"
+            checkpoint.MarkAsChecked();
+
+            LastCheckpointName = checkpoint.Name;
         }
-        
+    }
+
+    void OnPlayerVsEndOfLevelCollided (Player player, EndOfLevel endOfLevel) 
+    {
+        LastCheckpointName = "LevelStart";
+        MoveToScreen(endOfLevel.NextLevel);
     }
 }
