@@ -4,6 +4,138 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <Type>int</Type>
+      <Name>BbcodeTextWithExplicitNewline.FontSize</Name>
+      <Value xsi:type="xsd:int">14</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithExplicitNewline.Height</Name>
+      <Value xsi:type="xsd:float">42</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>BbcodeTextWithExplicitNewline.Text</Name>
+      <Value xsi:type="xsd:string">0[Color=orange]1[/Color]2
+0[Color=orange]1[/Color]1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithExplicitNewline.Width</Name>
+      <Value xsi:type="xsd:float">41</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>BbcodeTextWithExplicitNewline.Width Units</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithExplicitNewline.X</Name>
+      <Value xsi:type="xsd:float">13</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithExplicitNewline.Y</Name>
+      <Value xsi:type="xsd:float">199</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.FontSize</Name>
+      <Value xsi:type="xsd:int">14</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.Height</Name>
+      <Value xsi:type="xsd:float">42</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.Text</Name>
+      <Value xsi:type="xsd:string">0[Color=orange]1[/Color]2 0[Color=orange]1[/Color]1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.Width</Name>
+      <Value xsi:type="xsd:float">44</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.Width Units</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.X</Name>
+      <Value xsi:type="xsd:float">444</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping.Y</Name>
+      <Value xsi:type="xsd:float">856</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.FontSize</Name>
+      <Value xsi:type="xsd:int">14</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Height</Name>
+      <Value xsi:type="xsd:float">154</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Parent</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Text</Name>
+      <Value xsi:type="xsd:string">This [Color=orange]is[/Color] some long text that [Color=orange]has[/Color] some orange text sprinkled [Color=orange]throughout to test[/Color] if colors are set correctly even if the text wraps.</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Width</Name>
+      <Value xsi:type="xsd:float">128</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Width Units</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.X</Name>
+      <Value xsi:type="xsd:float">395</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BbcodeTextWithImplicitLineWrapping1.Y</Name>
+      <Value xsi:type="xsd:float">921</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>CircleInstance.Parent</Name>
       <Value xsi:type="xsd:string">TypedContainer</Value>
@@ -1408,6 +1540,21 @@ wrap the text.</Value>
   </Instance>
   <Instance>
     <Name>TextWrappingSetInGum</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>BbcodeTextWithExplicitNewline</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>BbcodeTextWithImplicitLineWrapping</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>BbcodeTextWithImplicitLineWrapping1</Name>
     <BaseType>Text</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>

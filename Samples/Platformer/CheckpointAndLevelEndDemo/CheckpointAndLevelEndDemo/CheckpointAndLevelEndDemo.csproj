@@ -31,29 +31,33 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>frbplatformer</Name>
     </None>
-    <None Include="Content\Entities\Player\P2animations.achx">
+    <None Include="Content\Entities\Player\p2animations.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>P2animations</Name>
+      <Name>p2animations</Name>
     </None>
-    <None Include="Content\Entities\Player\P3animations.achx">
+    <None Include="Content\Entities\Player\p3animations.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>P3animations</Name>
+      <Name>p3animations</Name>
     </None>
-    <None Include="Content\Entities\Player\P4animations.achx">
+    <None Include="Content\Entities\Player\p4animations.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>P4animations</Name>
+      <Name>p4animations</Name>
     </None>
-    <None Include="Content\Entities\Player\PlatformerAnimations.achx">
+    <None Include="Content\Entities\Player\platformeranimations.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>PlatformerAnimations</Name>
+      <Name>platformeranimations</Name>
     </None>
-    <None Include="Content\Entities\Player\PlatformerValuesStatic.csv">
+    <None Include="Content\Entities\Player\platformervaluesstatic.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>PlatformerValuesStatic</Name>
+      <Name>platformervaluesstatic</Name>
     </None>
-    <None Include="Content\screens\level1\frbplatformer.png">
+    <None Include="Content\Screens\Level1\FRBPlatformer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>frbplatformer</Name>
+      <Name>FRBPlatformer</Name>
+    </None>
+    <None Include="Content\Screens\Level1\FRBPlatformerTileset.tsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>FRBPlatformerTileset</Name>
     </None>
     <None Include="Content\Screens\Level1\Level1Map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -63,9 +67,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Level2Map</Name>
     </None>
+    <None Include="Content\StandardTileset.tsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>StandardTileset</Name>
+    </None>
+    <None Include="Content\StandardTilesetIcons.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>StandardTilesetIcons</Name>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\PlatformerValues.Generated.cs" />
+    <Compile Include="DataTypes\platformervaluesstatic.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="Entities\Checkpoint.cs" />
     <Compile Include="Entities\Checkpoint.Generated.cs">

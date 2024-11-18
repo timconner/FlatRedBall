@@ -7,32 +7,32 @@
   "Is2D": true,
   "ReferencedFiles": [
     {
-      "Name": "Entities/Player/PlatformerValuesStatic.csv",
+      "Name": "Entities/Player/platformervaluesstatic.csv",
       "IsSharedStatic": true,
       "HasPublicProperty": true,
       "CreatesDictionary": true,
       "ProjectsToExcludeFrom": []
     },
     {
-      "Name": "Entities/Player/P2animations.achx",
+      "Name": "Entities/Player/p2animations.achx",
       "IsSharedStatic": true,
       "RuntimeType": "FlatRedBall.Graphics.Animation.AnimationChainList",
       "ProjectsToExcludeFrom": []
     },
     {
-      "Name": "Entities/Player/P3animations.achx",
+      "Name": "Entities/Player/p3animations.achx",
       "IsSharedStatic": true,
       "RuntimeType": "FlatRedBall.Graphics.Animation.AnimationChainList",
       "ProjectsToExcludeFrom": []
     },
     {
-      "Name": "Entities/Player/P4animations.achx",
+      "Name": "Entities/Player/p4animations.achx",
       "IsSharedStatic": true,
       "RuntimeType": "FlatRedBall.Graphics.Animation.AnimationChainList",
       "ProjectsToExcludeFrom": []
     },
     {
-      "Name": "Entities/Player/PlatformerAnimations.achx",
+      "Name": "Entities/Player/platformeranimations.achx",
       "IsSharedStatic": true,
       "RuntimeType": "FlatRedBall.Graphics.Animation.AnimationChainList",
       "ProjectsToExcludeFrom": []

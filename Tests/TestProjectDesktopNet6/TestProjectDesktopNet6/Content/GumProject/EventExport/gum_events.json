@@ -127,6 +127,69 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2024-11-16T12:30:42.4244658Z"
+      },
+      {
+        "NewName": "TestScreen.TextWrappingSetInGum1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-18T13:04:08.79Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithExplicitNewline",
+        "OldName": "TestScreen.TextWrappingSetInGum1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:07:06.7328565Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithExplicitNewline",
+        "OldName": "TestScreen.TextWrappingSetInGum1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:07:06.7338743Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithExplicitNewline",
+        "OldName": "TestScreen.TextWrappingSetInGum1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:07:06.7397589Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithExplicitNewline1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-18T13:13:50.9500954Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithImplicitLineWrapping",
+        "OldName": "TestScreen.BbcodeTextWithExplicitNewline1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:14:04.5036161Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithImplicitLineWrapping",
+        "OldName": "TestScreen.BbcodeTextWithExplicitNewline1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:14:04.5046755Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithImplicitLineWrapping",
+        "OldName": "TestScreen.BbcodeTextWithExplicitNewline1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2024-11-18T13:14:04.5106799Z"
+      },
+      {
+        "NewName": "TestScreen.BbcodeTextWithImplicitLineWrapping1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-18T13:14:28.1635402Z"
       }
     ]
   }

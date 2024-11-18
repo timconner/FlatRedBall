@@ -341,7 +341,7 @@
   ],
   "ApplyToFixedResolutionPlatforms": true,
   "ExternallyBuiltFileDirectory": "../../",
-  "FileVersion": 11,
+  "FileVersion": 51,
   "ScreenReferences": [
     {
       "Name": "Screens\\AnimationChainScreen"
@@ -898,9 +898,6 @@
       "Name": "Entities\\ScnxAttachmentTest"
     },
     {
-      "Name": "Entities\\ScrollableEntity"
-    },
-    {
       "Name": "Entities\\ScrollableListEntityNoItemType"
     },
     {
@@ -1012,6 +1009,5 @@
     "ScaleGum": 100,
     "DominantInternalCoordinates": 1
   },
-  "AllDisplaySettings": [],
-  "UsesTranslation": true
+  "AllDisplaySettings": []
 }
