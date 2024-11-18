@@ -8,51 +8,44 @@ using FlatRedBall.Input;
 using FlatRedBall.Instructions;
 using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
-using FlatRedBall.Graphics.Particle;
+using FlatRedBall.Gui;
+using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Localization;
+using Microsoft.Xna.Framework;
 
+namespace LadderDemo.Screens;
 
-
-namespace LadderDemo.Screens
+public partial class GameScreen
 {
-    public partial class GameScreen
+    private void CustomInitialize()
     {
+        Map.Z = -3;
+    }
 
-        void CustomInitialize()
+    private void CustomActivity(bool firstTimeCalled)
+    {
+        DoCollisionActivity();
+    }
+
+    private void CustomDestroy()
+    {
+        
+    }
+
+    private static void CustomLoadStaticContent(string contentManagerName)
+    {
+        
+    }
+
+    void DoCollisionActivity()
+    {
+        // first we reset the collision...
+        foreach (var player in PlayerList)
         {
-            Map.Z = -3;
-
+            player.LastCollisionLadderRectange = null;
         }
-
-        void CustomActivity(bool firstTimeCalled)
-        {
-            DoCollisionActivity();
-
-        }
-
-        private void DoCollisionActivity()
-        {
-            // first we reset the collision...
-            foreach(var player in PlayerList)
-            {
-                player.LastCollisionLadderRectange = null;
-            }
-            // Then we do the collision which sets LastCollisionLadderRectange if a collision happens
-            PlayerListVsLadderCollision.DoCollisions();
-        }
-
-        void CustomDestroy()
-        {
-
-
-        }
-
-        static void CustomLoadStaticContent(string contentManagerName)
-        {
-
-
-        }
-
+        // Then we do the collision which sets LastCollisionLadderRectange if a collision happens
+        PlayerVsLadderCollision.DoCollisions();
     }
 }
