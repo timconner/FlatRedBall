@@ -29,6 +29,7 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsepriteDotNet" Version="1.9.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.6" />
   </ItemGroup>
   <ItemGroup>
