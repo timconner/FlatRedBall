@@ -217,7 +217,7 @@
     <Name>CharacterClimbRear</Name>
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
-      <FrameLength>0.1</FrameLength>
+      <FrameLength>0.15</FrameLength>
       <LeftCoordinate>80</LeftCoordinate>
       <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
@@ -227,7 +227,19 @@
     <Frame>
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
-      <FrameLength>0.1</FrameLength>
+      <FrameLength>0.15</FrameLength>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>32</BottomCoordinate>
+      <RelativeY>16</RelativeY>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>CharacterClimbRearIdle</Name>
+    <Frame>
+      <TextureName>frbplatformer.png</TextureName>
+      <FrameLength>0.2</FrameLength>
       <LeftCoordinate>80</LeftCoordinate>
       <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>

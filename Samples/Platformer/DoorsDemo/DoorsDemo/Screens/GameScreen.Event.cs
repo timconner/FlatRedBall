@@ -8,46 +8,41 @@ using FlatRedBall.Audio;
 using FlatRedBall.Screens;
 using DoorsDemo.Entities;
 using DoorsDemo.Screens;
-using FlatRedBall.Forms.Controls;
 using System.Linq;
-using System.CodeDom;
-using System.Threading.Tasks;
 
-namespace DoorsDemo.Screens
+namespace DoorsDemo.Screens;
+
+public partial class GameScreen
 {
-
-    public partial class GameScreen
+    async void OnPlayerVsDoorCollided (Player player, Door door) 
     {
-        async void OnPlayerListVsDoorListCollisionOccurred (Entities.Player player, Entities.Door door) 
+        if (player.InputEnabled && player.PressedUp)
         {
-            if(player.InputEnabled && player.PressedUp)
-            {
-                door.Open();
-                player.InputEnabled = false;
+            door.Open();
+            player.InputEnabled = false;
 
-                var thisDoorLetter = door.Name[0];
+            var thisDoorLetter = door.Name[0];
 
-                await GameScreenGum.ToBlackAnimation.PlayAsync();
+            await GameScreenGum.ToBlackAnimation.PlayAsync();
 
-                var otherDoor = DoorList.First(item => item != door && item.Name.StartsWith(thisDoorLetter.ToString()));
+            var otherDoor = DoorList.First(item => item != door && item.Name.StartsWith(thisDoorLetter.ToString()));
 
-                player.X = otherDoor.X;
-                player.Y = otherDoor.Y - 16;
+            player.X = otherDoor.X;
+            player.Y = otherDoor.Y - 16;
 
-                UpdateBoundsForPosition(otherDoor.Position);
+            UpdateBoundsForPosition(otherDoor.Position);
 
-                CameraControllingEntityInstance.ApplyTarget(
-                    CameraControllingEntityInstance.GetTarget(), lerpSmooth: false);
+            CameraControllingEntityInstance.ApplyTarget(
+                CameraControllingEntityInstance.GetTarget(), lerpSmooth: false);
 
-                otherDoor.Open();
+            otherDoor.Open();
 
-                await GameScreenGum.FromBlackAnimation.PlayAsync();
+            await GameScreenGum.FromBlackAnimation.PlayAsync();
 
-                otherDoor.Close();
+            otherDoor.Close();
 
-                player.InputEnabled = true;
+            player.InputEnabled = true;
 
-            }
         }
     }
 }
