@@ -8,40 +8,37 @@ using FlatRedBall.Input;
 using FlatRedBall.Instructions;
 using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
-using FlatRedBall.Graphics.Particle;
+using FlatRedBall.Gui;
+using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Localization;
+using Microsoft.Xna.Framework;
 
+using MovingPlatformDemo.Entities;
 
 
 namespace MovingPlatformDemo.Screens
 {
     public partial class Level1
     {
-
-        void CustomInitialize()
+        private void CustomInitialize()
         {
-
-
+            
         }
 
-        void CustomActivity(bool firstTimeCalled)
+        private void CustomActivity(bool firstTimeCalled)
         {
-
-
+            
         }
 
-        void CustomDestroy()
+        private void CustomDestroy()
         {
-
-
+            
         }
 
-        static void CustomLoadStaticContent(string contentManagerName)
+        private static void CustomLoadStaticContent(string contentManagerName)
         {
-
-
+            
         }
-
     }
 }
