@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -239,9 +239,7 @@ namespace TMXGlueLib
     #endregion
 
     #region LayerGroup
-#if !UWP
     [Serializable]
-#endif
     [XmlType(AnonymousType = true)]
     public class LayerGroup
     {
@@ -348,9 +346,7 @@ namespace TMXGlueLib
 
     #region MapImageLayer
 
-#if !UWP
     [Serializable]
-#endif
     public partial class MapImageLayer : AbstractMapLayer
     {
         private MapImageLayerImage imageField;
@@ -397,15 +393,6 @@ namespace TMXGlueLib
                 this.imageField = value;
             }
         }
-
-
-        [XmlAttribute("opacity")]
-        public float Opacity
-        {
-            get;
-            set;
-        } = 1.0f;
-
     }
 
     #endregion
@@ -653,7 +640,7 @@ namespace TMXGlueLib
                                 data = new Ionic.Zlib.ZlibStream(data, Ionic.Zlib.CompressionMode.Decompress, false);
                                 break;
 #else
-                                throw new NotImplementedException("Does not support zlib");
+                                throw new NotImplementedException("Does not support zlib, try using GZIP compression or csv format");
 #endif
                             case null:
                                 // Not compressed. Data is already decoded.
@@ -771,9 +758,7 @@ namespace TMXGlueLib
 
     }
 
-#if !UWP
     [Serializable]
-#endif
     public partial class mapObjectgroup : AbstractMapLayer
     {
         private mapObjectgroupObject[] objectField;

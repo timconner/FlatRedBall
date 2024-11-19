@@ -1,3 +1,4 @@
+// The following #defines come from the version of your GLUJ/GLUX file. For more information see https://docs.flatredball.com/flatredball/glue-reference/glujglux
 #define PreVersion
 #define HasFormsObject
 #define AddedGeneratedGame1
@@ -233,10 +234,10 @@ namespace FlatRedBall.Math.Collision
 
                         didCollisionOccur = true;
 
-#if ICollidableHasItemsCollidedAgainst
+#if ICollidableHasItemsCollidedAgainst || REFERENCES_FRB_SOURCE
                         singleObject.ItemsCollidedAgainst.Add(data.TileShapeCollection.Name);
 #endif
-#if ICollidableHasObjectsCollidedAgainst
+#if ICollidableHasObjectsCollidedAgainst || REFERENCES_FRB_SOURCE
                         singleObject.ObjectsCollidedAgainst.Add(data.TileShapeCollection);
 #endif
                     }

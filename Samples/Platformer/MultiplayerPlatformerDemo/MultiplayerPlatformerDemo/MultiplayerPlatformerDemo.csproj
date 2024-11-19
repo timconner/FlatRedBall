@@ -75,7 +75,6 @@
       <DependentUpon>Game1.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalContent.Generated.cs" />
-    <Compile Include="GumRuntimes\Behaviors\I.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\IButtonBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\ICheckBoxBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\IComboBoxBehavior.Generated.cs" />
@@ -326,201 +325,201 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TopDownValuesStatic</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\button.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\Button.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>button</Name>
+      <Name>Button</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\checkbox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\CheckBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>checkbox</Name>
+      <Name>CheckBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\coloredframe.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ColoredFrame.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>coloredframe</Name>
+      <Name>ColoredFrame</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\combobox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ComboBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>combobox</Name>
+      <Name>ComboBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\dialogbox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\DialogBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>dialogbox</Name>
+      <Name>DialogBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\keyboard.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\Keyboard.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>keyboard</Name>
+      <Name>Keyboard</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\keyboardkey.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\KeyboardKey.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>keyboardkey</Name>
+      <Name>KeyboardKey</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\label.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\Label.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>label</Name>
+      <Name>Label</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\listbox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ListBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>listbox</Name>
+      <Name>ListBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\listboxitem.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ListBoxItem.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>listboxitem</Name>
+      <Name>ListBoxItem</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\passwordbox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\PasswordBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>passwordbox</Name>
+      <Name>PasswordBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\radiobutton.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\RadioButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>radiobutton</Name>
+      <Name>RadioButton</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\scrollbar.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ScrollBar.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>scrollbar</Name>
+      <Name>ScrollBar</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\scrollbarthumb.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ScrollBarThumb.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>scrollbarthumb</Name>
+      <Name>ScrollBarThumb</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\scrollviewer.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ScrollViewer.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>scrollviewer</Name>
+      <Name>ScrollViewer</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\slider.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\Slider.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>slider</Name>
+      <Name>Slider</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\textbox.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\TextBox.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>textbox</Name>
+      <Name>TextBox</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\toast.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\Toast.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>toast</Name>
+      <Name>Toast</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\togglebutton.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\ToggleButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>togglebutton</Name>
+      <Name>ToggleButton</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\treeview.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\TreeView.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>treeview</Name>
+      <Name>TreeView</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\treeviewitem.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\TreeViewItem.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>treeviewitem</Name>
+      <Name>TreeViewItem</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\treeviewtogglebutton.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\TreeViewToggleButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>treeviewtogglebutton</Name>
+      <Name>TreeViewToggleButton</Name>
     </None>
-    <None Include="content\gumproject\components\defaultforms\usercontrol.gucx">
+    <None Include="Content\GumProject\Components\DefaultForms\UserControl.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>usercontrol</Name>
+      <Name>UserControl</Name>
     </None>
-    <None Include="content\gumproject\components\individualjoincomponent.gucx">
+    <None Include="Content\GumProject\Components\IndividualJoinComponent.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>individualjoincomponent</Name>
+      <Name>IndividualJoinComponent</Name>
     </None>
-    <None Include="content\gumproject\fontcache\font10arial.fnt">
+    <None Include="Content\GumProject\FontCache\Font10Arial.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>font10arial</Name>
+      <Name>Font10Arial</Name>
     </None>
-    <None Include="content\gumproject\fontcache\font10arial_0.png">
+    <None Include="Content\GumProject\FontCache\Font10Arial_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>font10arial_0</Name>
+      <Name>Font10Arial_0</Name>
     </None>
     <None Include="content\gumproject\gumproject.gumx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GumProject</Name>
     </None>
-    <None Include="content\gumproject\screens\characterjoiningscreengum.gusx">
+    <None Include="Content\GumProject\Screens\CharacterJoiningScreenGum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>CharacterJoiningScreenGum</Name>
     </None>
-    <None Include="content\gumproject\screens\gamescreengum.gusx">
+    <None Include="Content\GumProject\Screens\GameScreenGum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GameScreenGum</Name>
     </None>
-    <None Include="content\gumproject\screens\level1gum.gusx">
+    <None Include="Content\GumProject\Screens\Level1Gum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Level1Gum</Name>
     </None>
-    <None Include="content\gumproject\standards\circle.gutx">
+    <None Include="Content\GumProject\Standards\Circle.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>circle</Name>
+      <Name>Circle</Name>
     </None>
-    <None Include="content\gumproject\standards\coloredrectangle.gutx">
+    <None Include="Content\GumProject\Standards\ColoredRectangle.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>coloredrectangle</Name>
+      <Name>ColoredRectangle</Name>
     </None>
-    <None Include="content\gumproject\standards\component.gutx">
+    <None Include="Content\GumProject\Standards\Component.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>component</Name>
+      <Name>Component</Name>
     </None>
-    <None Include="content\gumproject\standards\container.gutx">
+    <None Include="Content\GumProject\Standards\Container.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>container</Name>
+      <Name>Container</Name>
     </None>
-    <None Include="content\gumproject\standards\nineslice.gutx">
+    <None Include="Content\GumProject\Standards\NineSlice.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>nineslice</Name>
+      <Name>NineSlice</Name>
     </None>
-    <None Include="content\gumproject\standards\polygon.gutx">
+    <None Include="Content\GumProject\Standards\Polygon.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>polygon</Name>
+      <Name>Polygon</Name>
     </None>
-    <None Include="content\gumproject\standards\rectangle.gutx">
+    <None Include="Content\GumProject\Standards\Rectangle.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>rectangle</Name>
+      <Name>Rectangle</Name>
     </None>
-    <None Include="content\gumproject\standards\sprite.gutx">
+    <None Include="Content\GumProject\Standards\Sprite.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>sprite</Name>
+      <Name>Sprite</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_bottomcenter.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_bottomCenter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_bottomcenter</Name>
+      <Name>Red_bottomCenter</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_bottomleft.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_bottomLeft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_bottomleft</Name>
+      <Name>Red_bottomLeft</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_bottomright.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_bottomRight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_bottomright</Name>
+      <Name>Red_bottomRight</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_center.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_center.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_center</Name>
+      <Name>Red_center</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_left.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_left</Name>
+      <Name>Red_left</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_right.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_right</Name>
+      <Name>Red_right</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_topcenter.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_topCenter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_topcenter</Name>
+      <Name>Red_topCenter</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_topleft.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_topLeft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_topleft</Name>
+      <Name>Red_topLeft</Name>
     </None>
-    <None Include="content\gumproject\standards\standardgraphics\red_topright.png">
+    <None Include="Content\GumProject\Standards\StandardGraphics\Red_topRight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>red_topright</Name>
+      <Name>Red_topRight</Name>
     </None>
-    <None Include="content\gumproject\standards\text.gutx">
+    <None Include="Content\GumProject\Standards\Text.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>text</Name>
+      <Name>Text</Name>
     </None>
-    <None Include="content\gumproject\uispritesheet.png">
+    <None Include="Content\GumProject\UISpriteSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>uispritesheet</Name>
+      <Name>UISpriteSheet</Name>
     </None>
     <None Include="content\screens\level1\frbplatformer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,3 +1,4 @@
+// The following #defines come from the version of your GLUJ/GLUX file. For more information see https://docs.flatredball.com/flatredball/glue-reference/glujglux
 #define PreVersion
 #define HasFormsObject
 #define AddedGeneratedGame1
@@ -44,13 +45,8 @@ namespace FlatRedBall.TileEntities
             {
                 if (typesInThisAssembly == null)
                 {
-#if WINDOWS_8 || UWP
-                var assembly = typeof(TileEntityInstantiator).GetTypeInfo().Assembly;
-                typesInThisAssembly = assembly.DefinedTypes.Select(item=>item.AsType()).ToArray();
-#else
                     var assembly = Assembly.GetExecutingAssembly();
                     typesInThisAssembly = assembly.GetTypes();
-#endif
                 }
 
                 return typesInThisAssembly;
@@ -110,8 +106,9 @@ namespace FlatRedBall.TileEntities
             {
                 var entitiesToRemove = new List<string>();
 
-                foreach (var layer in layeredTileMap.MapLayers)
+                for(int i = 0; i < layeredTileMap.MapLayers.Count; i++)
                 {
+                    var layer = layeredTileMap.MapLayers[i];
                     CreateEntitiesFrom(entitiesToRemove, layer, layeredTileMap.TileProperties, layeredTileMap.WidthPerTile ?? 16, restrictions);
                 }
                 if (CurrentSettings.RemoveTileObjectsAfterEntityCreation)

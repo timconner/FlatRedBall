@@ -27,6 +27,7 @@
       <IsHiddenInTreeView>false</IsHiddenInTreeView>
       <Name>Screens\CharacterJoiningScreen</Name>
       <CustomClassesForExport />
+      <IsBeforeGlobalContentLoaded>false</IsBeforeGlobalContentLoaded>
     </ScreenSave>
     <ScreenSave>
       <Tags>
@@ -364,6 +365,7 @@
       </NamedObjects>
       <Name>Screens\GameScreen</Name>
       <CustomClassesForExport />
+      <IsBeforeGlobalContentLoaded>false</IsBeforeGlobalContentLoaded>
     </ScreenSave>
     <ScreenSave>
       <Tags>
@@ -483,6 +485,7 @@
       <Name>Screens\Level1</Name>
       <CustomClassesForExport />
       <BaseScreen>Screens\GameScreen</BaseScreen>
+      <IsBeforeGlobalContentLoaded>false</IsBeforeGlobalContentLoaded>
     </ScreenSave>
   </Screens>
   <Entities>
@@ -759,6 +762,7 @@
   <GlobalContentSettingsSave>
     <LoadAsynchronously>false</LoadAsynchronously>
     <RecordLockContention>false</RecordLockContention>
+    <GenerateLoadGlobalContentCode>true</GenerateLoadGlobalContentCode>
   </GlobalContentSettingsSave>
   <SyncedProjects />
   <StartUpScreen>Screens\CharacterJoiningScreen</StartUpScreen>

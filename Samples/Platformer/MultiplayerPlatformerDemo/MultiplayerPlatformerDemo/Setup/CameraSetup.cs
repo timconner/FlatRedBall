@@ -135,7 +135,7 @@ namespace MultiplayerPlatformerDemo
             FlatRedBall.FlatRedBallServices.Game.Window.AllowUserResizing = Data.AllowWindowResizing;
             if (Data.IsFullScreen)
             {
-                #if DESKTOP_GL
+                #if DESKTOP_GL && !KNI
                 #if DEBUG
                 if (GraphicsDeviceManager == null)
                 {
@@ -145,7 +145,7 @@ namespace MultiplayerPlatformerDemo
                 GraphicsDeviceManager.HardwareModeSwitch = false;
                 FlatRedBall.FlatRedBallServices.Game.Window.Position = new Microsoft.Xna.Framework.Point(0,0);
                 FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, FlatRedBall.Graphics.WindowedFullscreenMode.FullscreenBorderless);
-                #elif FNA
+                #elif FNA || KNI
                 FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, FlatRedBall.Graphics.WindowedFullscreenMode.FullscreenBorderless);
                 #elif WINDOWS
                 System.IntPtr hWnd = FlatRedBall.FlatRedBallServices.Game.Window.Handle;
@@ -164,7 +164,7 @@ namespace MultiplayerPlatformerDemo
                 var maxHeight = Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 28;
                 width = System.Math.Min(width, maxWidth);
                 height = System.Math.Min(height, maxHeight);
-                #if MONOGAME
+                #if MONOGAME && !KNI
                 if (FlatRedBall.FlatRedBallServices.Game.Window.Position.Y < 25)
                 {
                     FlatRedBall.FlatRedBallServices.Game.Window.Position = new Microsoft.Xna.Framework.Point(FlatRedBall.FlatRedBallServices.Game.Window.Position.X, 25);
@@ -173,18 +173,7 @@ namespace MultiplayerPlatformerDemo
                 FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(width, height);
             }
             #elif IOS || ANDROID
-            FlatRedBall.FlatRedBallServices.GraphicsOptions.SetFullScreen(FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth, FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionHeight);
-            #elif UWP
-            if (Data.IsFullScreen)
-            {
-                FlatRedBall.FlatRedBallServices.GraphicsOptions.SetFullScreen(Data.ResolutionWidth, Data.ResolutionHeight);
-            }
-            else
-            {
-                FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(Data.ResolutionWidth, Data.ResolutionHeight);
-                var newWindowSize = new Windows.Foundation.Size(Data.ResolutionWidth, Data.ResolutionHeight);
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryResizeView(newWindowSize); 
-            }
+            FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth, FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionHeight, isFullscreen:Data.IsFullScreen);
             #endif
         }
         private static void HandleResolutionChange (object sender, System.EventArgs args) 
@@ -229,8 +218,7 @@ namespace MultiplayerPlatformerDemo
                     var resolutionAspectRatio = FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth / (decimal)FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionHeight;
                     int destinationRectangleWidth;
                     int destinationRectangleHeight;
-                    int x = 0;
-                    int y = 0;
+
                     if (Data.EffectiveAspectRatio.Value > resolutionAspectRatio)
                     {
                         destinationRectangleWidth = FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth;
@@ -312,8 +300,9 @@ namespace MultiplayerPlatformerDemo
                 destinationRectangleWidth = FlatRedBall.Math.MathFunctions.RoundToInt(destinationRectangleHeight * (float)aspectRatio);
                 x = (FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth - destinationRectangleWidth) / 2;
             }
-            foreach (var camera in FlatRedBall.SpriteManager.Cameras)
+            for (int i = 0; i < FlatRedBall.SpriteManager.Cameras.Count; i++)
             {
+                var camera = FlatRedBall.SpriteManager.Cameras[i];
                 int currentX = x;
                 int currentY = y;
                 int currentWidth = destinationRectangleWidth;

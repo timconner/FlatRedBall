@@ -1,3 +1,4 @@
+// The following #defines come from the version of your GLUJ/GLUX file. For more information see https://docs.flatredball.com/flatredball/glue-reference/glujglux
 #define PreVersion
 #define HasFormsObject
 #define AddedGeneratedGame1
@@ -203,7 +204,7 @@ namespace FlatRedBall.TileCollisions
 
         ShapeCollection ICollidable.Collision => this.mShapes;
 
-#if ICollidableHasItemsCollidedAgainst
+#if ICollidableHasItemsCollidedAgainst || REFERENCES_FRB_SOURCE
 
 
         HashSet<string> ICollidable.ItemsCollidedAgainst => this.mShapes.ItemsCollidedAgainst;
@@ -212,7 +213,7 @@ namespace FlatRedBall.TileCollisions
 
 #endif
 
-#if ICollidableHasObjectsCollidedAgainst
+#if ICollidableHasObjectsCollidedAgainst|| REFERENCES_FRB_SOURCE
 
         HashSet<object> ICollidable.ObjectsCollidedAgainst => this.mShapes.ObjectsCollidedAgainst;
 
@@ -221,8 +222,12 @@ namespace FlatRedBall.TileCollisions
 
         public RepositionUpdateStyle RepositionUpdateStyle { get; set; } = RepositionUpdateStyle.Outward;
 
+#if ShapeCollectionHasLastCollisionCallDeepCheckCount || REFERENCES_FRB_SOURCE
 
-#endregion
+        public int LastCollisionCallDeepCheckCount => this.mShapes.LastCollisionCallDeepCheckCount;
+#endif
+
+        #endregion
 
         public TileShapeCollection()
         {
@@ -1151,8 +1156,9 @@ namespace FlatRedBall.TileCollisions
             List<AxisAlignedRectangle> rectanglesWithNoneReposition = new List<AxisAlignedRectangle>();
 
             // fill it with any rectangles
-            foreach (var rectangle in this.Rectangles)
+            for(int i = 0; i < this.Rectangles.Count; i++)
             {
+                var rectangle = this.Rectangles[i];
                 if (rectangle.RepositionDirections == RepositionDirections.None)
                 {
                     rectanglesWithNoneReposition.Add(rectangle);
@@ -1463,8 +1469,10 @@ namespace FlatRedBall.TileCollisions
                     float dimensionHalf = dimension / 2.0f;
                     tileShapeCollection.GridSize = dimension;
 
-                    foreach (var layer in layeredTileMap.MapLayers)
+                    //foreach (var layer in layeredTileMap.MapLayers)
+                    for(int i = 0; i < layeredTileMap.MapLayers.Count; i++)
                     {
+                        var layer = layeredTileMap.MapLayers[i];
                         List<int> indexesToRemove = null;
                         if (removeTilesOnAdd)
                         {
@@ -1549,8 +1557,9 @@ namespace FlatRedBall.TileCollisions
 
             Dictionary<int, List<int>> rectangleIndexes = new Dictionary<int, List<int>>();
 
-            foreach (var layer in layeredTileMap.MapLayers)
+            for(int i = 0; i < layeredTileMap.MapLayers.Count; i++)
             {
+                var layer = layeredTileMap.MapLayers[i];
                 AddCollisionFromLayerInternal(tileShapeCollection, predicate, properties, dimension, dimensionHalf, rectangleIndexes, layer, removeTilesOnAdd);
             }
 
