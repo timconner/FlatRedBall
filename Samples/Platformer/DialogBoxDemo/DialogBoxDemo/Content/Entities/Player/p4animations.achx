@@ -750,5 +750,5 @@
       <RelativeY>16</RelativeY>
     </Frame>
   </AnimationChain>
-  <ProjectFile>../../../dialogboxdemo.glux</ProjectFile>
+  <ProjectFile>../../../multiplayerplatformerdemo.glux</ProjectFile>
 </AnimationChainArraySave>

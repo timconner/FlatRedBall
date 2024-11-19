@@ -8,6 +8,7 @@ using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
 using FlatRedBall.Graphics.Particle;
 using FlatRedBall.Math.Geometry;
+using Microsoft.Xna.Framework;
 
 namespace DialogBoxDemo.Entities
 {
@@ -17,25 +18,29 @@ namespace DialogBoxDemo.Entities
 
         float talkCollisionOffset;
 
-        public IPressableInput RunInput { get; private set; }
+        public IPressableInput RunInput { get; set; }
 
         public IPressableInput TalkInput { get; private set; }
 
+        public bool PressedUp => InputDevice.DefaultUpPressable.WasJustPressed;
+
+        public AxisAlignedRectangle LastCollisionLadderRectange { get; set; }
+
         public void SetIndex(int index)
         {
-            switch(index)
+            switch (index)
             {
                 case 0:
                     SpriteInstance.AnimationChains = PlatformerAnimations;
                     break;
                 case 1:
-                    SpriteInstance.AnimationChains = p2animations;
+                    SpriteInstance.AnimationChains = P2animations;
                     break;
                 case 2:
-                    SpriteInstance.AnimationChains = p3animations;
+                    SpriteInstance.AnimationChains = P3animations;
                     break;
                 case 3:
-                    SpriteInstance.AnimationChains = p4animations;
+                    SpriteInstance.AnimationChains = P4animations;
                     break;
             }
         }
@@ -56,7 +61,7 @@ namespace DialogBoxDemo.Entities
             var lookUpLayer = new AnimationLayer();
             lookUpLayer.EveryFrameAction = () =>
             {
-                if (this.VerticalInput.Value > 0)
+                if (VerticalInput.Value > 0)
                 {
                     return "CharacterLookUp" + DirectionFacing;
                 }
@@ -67,7 +72,7 @@ namespace DialogBoxDemo.Entities
             var walkLayer = new AnimationLayer();
             walkLayer.EveryFrameAction = () =>
             {
-                if (this.Velocity.X != 0)
+                if (Velocity.X != 0 && HorizontalInput.Value != 0)
                 {
                     return "CharacterWalk" + DirectionFacing;
                 }
@@ -78,7 +83,7 @@ namespace DialogBoxDemo.Entities
             var runLayer = new AnimationLayer();
             runLayer.EveryFrameAction = () =>
             {
-                if (this.XVelocity != 0 && RunInput.IsDown)
+                if (XVelocity != 0 && RunInput.IsDown)
                 {
                     return "CharacterRun" + DirectionFacing;
                 }
@@ -89,9 +94,9 @@ namespace DialogBoxDemo.Entities
             var skidLayer = new AnimationLayer();
             skidLayer.EveryFrameAction = () =>
             {
-                if (this.XVelocity != 0 && this.HorizontalInput.Value != 0 &&
-                    Math.Sign(XVelocity) != Math.Sign(this.HorizontalInput.Value) &&
-                    this.RunInput.IsDown)
+                if (XVelocity != 0 && HorizontalInput.Value != 0 &&
+                    Math.Sign(XVelocity) != Math.Sign(HorizontalInput.Value) &&
+                    RunInput.IsDown)
                 {
                     return "CharacterSkid" + DirectionFacing;
                 }
@@ -102,11 +107,15 @@ namespace DialogBoxDemo.Entities
             var duckLayer = new AnimationLayer();
             duckLayer.EveryFrameAction = () =>
             {
-                if (this.VerticalInput.Value < 0) { return "CharacterDuck" + DirectionFacing; }
+                if (VerticalInput.Value < 0) { return "CharacterDuck" + DirectionFacing; }
                 return null;
-            }; animationController.Layers.Add(duckLayer); var fallLayer = new AnimationLayer(); fallLayer.EveryFrameAction = () =>
+            };
+            animationController.Layers.Add(duckLayer);
+
+            var fallLayer = new AnimationLayer();
+            fallLayer.EveryFrameAction = () =>
             {
-                if (this.IsOnGround == false)
+                if (IsOnGround == false)
                 {
                     return "CharacterFall" + DirectionFacing;
                 }
@@ -117,7 +126,7 @@ namespace DialogBoxDemo.Entities
             var jumpLayer = new AnimationLayer();
             jumpLayer.EveryFrameAction = () =>
             {
-                if (this.IsOnGround == false && YVelocity > 0)
+                if (IsOnGround == false && YVelocity > 0)
                 {
                     return "CharacterJump" + DirectionFacing;
                 }
@@ -128,23 +137,41 @@ namespace DialogBoxDemo.Entities
             var runJump = new AnimationLayer();
             runJump.EveryFrameAction = () =>
             {
-                if (this.IsOnGround == false && RunInput.IsDown)
+                if (IsOnGround == false && RunInput.IsDown)
                 {
                     return "CharacterRunJump" + DirectionFacing;
                 }
                 return null;
             };
             animationController.Layers.Add(runJump);
+
+            var climb = new AnimationLayer();
+            climb.EveryFrameAction = () =>
+            {
+                if (CurrentMovement.CanClimb)
+                {
+                    if (YVelocity == 0)
+                    {
+                        return "CharacterClimbRearIdle";
+                    }
+                    else
+                    {
+                        return "CharacterClimbRear";
+                    }
+                }
+                return null;
+            };
+            animationController.Layers.Add(climb);
         }
 
         partial void CustomInitializePlatformerInput()
         {
-            if(InputDevice is Keyboard asKeyboard)
+            if (InputDevice is Keyboard asKeyboard)
             {
-                RunInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.R);
-                TalkInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.R);
+                RunInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.LeftShift);
+                TalkInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.E);
             }
-            else if(InputDevice is Xbox360GamePad asGamepad)
+            else if (InputDevice is Xbox360GamePad asGamepad)
             {
                 RunInput = asGamepad.GetButton(Xbox360GamePad.Button.X);
                 TalkInput = asGamepad.GetButton(Xbox360GamePad.Button.X);
@@ -155,22 +182,33 @@ namespace DialogBoxDemo.Entities
         {
             animationController.Activity();
 
-            if (VerticalInput.Value < 0)
+            if (!CurrentMovement.CanClimb)
             {
-                this.GroundMovement = PlatformerValuesStatic["Ducking"];
-            }
-            else if (RunInput.IsDown)
-            {
-                this.GroundMovement = PlatformerValuesStatic["Running"];
-                this.AirMovement = PlatformerValuesStatic["RunningAir"];
+                if (VerticalInput.Value < 0)
+                {
+                    GroundMovement = PlatformerValuesStatic["Ducking"];
+                }
+                else if (RunInput.IsDown)
+                {
+                    GroundMovement = PlatformerValuesStatic["Running"];
+                    AirMovement = PlatformerValuesStatic["RunningAir"];
+                }
+                else
+                {
+                    GroundMovement = PlatformerValuesStatic["Ground"];
+                    AirMovement = PlatformerValuesStatic["Air"];
+                }
             }
             else
             {
-                this.GroundMovement = PlatformerValuesStatic["Ground"];
-                this.AirMovement = PlatformerValuesStatic["Air"];
+                if (VerticalInput.Value < 0 && IsOnGround)
+                {
+                    GroundMovement = PlatformerValuesStatic["Ground"];
+                }
             }
 
-            if(DirectionFacing == HorizontalDirection.Right)
+            // turn npcs to face the player
+            if (DirectionFacing == HorizontalDirection.Right)
             {
                 TalkCollision.RelativeX = talkCollisionOffset;
             }
@@ -182,14 +220,12 @@ namespace DialogBoxDemo.Entities
 
         private void CustomDestroy()
         {
-
-
+            
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-
-
+            
         }
     }
 }

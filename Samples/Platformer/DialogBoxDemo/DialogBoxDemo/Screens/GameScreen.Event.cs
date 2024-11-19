@@ -9,42 +9,44 @@ using FlatRedBall.Screens;
 using DialogBoxDemo.Entities;
 using DialogBoxDemo.Screens;
 using FlatRedBall.Forms.Controls.Games;
-using System.Collections.Generic;
+using FlatRedBall.Localization;
 using System.Threading.Tasks;
 using FlatRedBall.Gui;
-using FlatRedBall.Localization;
-
+using System.Collections.Generic;
+using DialogBoxDemo.GumRuntimes.Controls;
+using DialogBoxDemo.GumRuntimes.Elements;
 namespace DialogBoxDemo.Screens
 {
     public partial class GameScreen
     {
         DialogBox currentDialogBox;
-        async void OnPlayerListTalkCollisionVsNpcListCollisionOccurred (Entities.Player first, Entities.Npc second) 
+
+        async void OnPlayerTalkCollisionVsNpcCollided (Player currentPlayer, Npc npc) 
         {
-            if(first.TalkInput.WasJustPressed && currentDialogBox == null)
+            if (currentPlayer.TalkInput.WasJustPressed && currentDialogBox == null)
             {
-                if(first.X < second.X)
+                if (currentPlayer.X < npc.X)
                 {
-                    second.DirectionFacing = HorizontalDirection.Left;
+                    npc.DirectionFacing = HorizontalDirection.Left;
                 }
                 else
                 {
-                    second.DirectionFacing = HorizontalDirection.Right;
+                    npc.DirectionFacing = HorizontalDirection.Right;
                 }
-                foreach(var player in PlayerList)
+                foreach (var player in PlayerList)
                 {
                     player.InputEnabled = false;
                 }
 
-                var playerGamepad = first.InputDevice as Xbox360GamePad;
+                var playerGamepad = currentPlayer.InputDevice as Xbox360GamePad;
 
-                if(playerGamepad != null)
+                if (playerGamepad != null)
                 {
                     GuiManager.GamePadsForUiControl.Clear();
                     GuiManager.GamePadsForUiControl.Add(playerGamepad);
                 }
 
-                await ShowDialogBox(first.InputDevice, second.DialogId);
+                await ShowDialogBox(currentPlayer.InputDevice, npc.DialogId);
 
                 foreach (var player in PlayerList)
                 {
@@ -57,11 +59,12 @@ namespace DialogBoxDemo.Screens
         {
             currentDialogBox = new DialogBox();
             currentDialogBox.IsFocused = true;
+
             var pages = LocalizationManager.Translate(stringId).Split('\n');
 
             var asGamepad = inputDevice as Xbox360GamePad;
 
-            // Prevents the push that brought this up from advancing the first dialog
+            // Prevents the push that brought this up from advancing the player dialog
             asGamepad?.Clear();
 
             currentDialogBox.AdvancePageInputPredicate = () =>
@@ -73,7 +76,7 @@ namespace DialogBoxDemo.Screens
                     asGamepad?.ButtonPushed(Xbox360GamePad.Button.Y) == true;
             };
 
-            await currentDialogBox.ShowDialog(pages);
+            await currentDialogBox.ShowAsync(pages);
 
             currentDialogBox = null;
         }

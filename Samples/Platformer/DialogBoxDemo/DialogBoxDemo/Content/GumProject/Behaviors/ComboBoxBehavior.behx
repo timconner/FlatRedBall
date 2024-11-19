@@ -16,6 +16,15 @@
     <State>
       <Name>Pushed</Name>
     </State>
+    <State>
+      <Name>HighlightedFocused</Name>
+    </State>
+    <State>
+      <Name>Focused</Name>
+    </State>
+    <State>
+      <Name>DisabledFocused</Name>
+    </State>
   </Category>
   <RequiredInstances>
     <InstanceSave>

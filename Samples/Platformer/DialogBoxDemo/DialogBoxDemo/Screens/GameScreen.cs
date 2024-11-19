@@ -8,9 +8,12 @@ using FlatRedBall.Input;
 using FlatRedBall.Instructions;
 using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
-using FlatRedBall.Graphics.Particle;
+using FlatRedBall.Gui;
+using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Localization;
+using Microsoft.Xna.Framework;
+
 
 
 
@@ -18,29 +21,25 @@ namespace DialogBoxDemo.Screens
 {
     public partial class GameScreen
     {
-
-        void CustomInitialize()
+        private void CustomInitialize()
         {
             LocalizationManager.CurrentLanguage = 1;
-            Map.Z = -3; 
+            Map.Z = -3;
         }
 
-        async void CustomActivity(bool firstTimeCalled)
+        private void CustomActivity(bool firstTimeCalled)
         {
-
-        }
-
-        void CustomDestroy()
-        {
-
             
         }
 
-        static void CustomLoadStaticContent(string contentManagerName)
+        private void CustomDestroy()
         {
-
-
+            
         }
 
+        private static void CustomLoadStaticContent(string contentManagerName)
+        {
+            
+        }
     }
 }
