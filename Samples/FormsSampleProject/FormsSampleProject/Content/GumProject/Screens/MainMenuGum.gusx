@@ -252,7 +252,7 @@
     <Variable>
       <Type>float</Type>
       <Name>FirstStack.Width</Name>
-      <Value xsi:type="xsd:float">228</Value>
+      <Value xsi:type="xsd:float">276</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -289,6 +289,36 @@
       <Type>PositionUnitType</Type>
       <Name>FirstStack.Y Units</Name>
       <Value xsi:type="xsd:int">7</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>LineWrappedTextBox.Height</Name>
+      <Value xsi:type="xsd:float">107</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>LineWrappedTextBox.Parent</Name>
+      <Value xsi:type="xsd:string">FirstStack</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>LineWrappedTextBox.Width</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>LineWrappedTextBox.Width Units</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>LineWrappedTextBox.Y</Name>
+      <Value xsi:type="xsd:float">-8</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -552,7 +582,7 @@
     <Variable>
       <Type>float</Type>
       <Name>SecondStack.X</Name>
-      <Value xsi:type="xsd:float">239</Value>
+      <Value xsi:type="xsd:float">290</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -724,6 +754,11 @@
   </Instance>
   <Instance>
     <Name>TextBoxInstance</Name>
+    <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>LineWrappedTextBox</Name>
     <BaseType>Controls/TextBox</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>

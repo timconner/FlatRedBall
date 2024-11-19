@@ -1130,7 +1130,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations.CommandInterfaces
 
         public System.Windows.MessageBoxResult ShowYesNoMessageBox(string message, string caption = null, Action yesAction = null, Action noAction = null)
         {
-            caption ??= L.Texts.Confirm;
+            caption ??= "Confirm";
             var result = System.Windows.MessageBoxResult.None;
 
             if (GlueGui.ShowGui)

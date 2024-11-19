@@ -49,7 +49,7 @@ namespace FlatRedBall.Forms.Controls.Games
 
         Tweener showLetterTweener;
 
-        public event FocusUpdateDelegate FocusUpdate;
+        public event Action<IInputReceiver> FocusUpdate;
 
         public List<Keys> IgnoredKeys => throw new NotImplementedException();
 

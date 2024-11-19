@@ -1,0 +1,80 @@
+{
+  "In2D": true,
+  "ResolutionWidth": 800,
+  "ResolutionHeight": 600,
+  "OrthogonalWidth": 800,
+  "OrthogonalHeight": 600,
+  "Screens": [],
+  "Entities": [],
+  "GlobalFiles": [],
+  "GlobalContentSettingsSave": {
+    "GenerateLoadGlobalContentCode": true
+  },
+  "SyncedProjects": [],
+  "StartUpScreen": "Screens\\Level1",
+  "ResolutionPresets": [],
+  "PerformanceSettingsSave": {},
+  "IgnoredDirectories": [],
+  "CustomClasses": [
+    {
+      "Name": "PlatformerValues",
+      "CsvFilesUsingThis": [
+        "Entities/Player/PlatformerValuesStatic.csv"
+      ],
+      "RequiredProperties": [],
+      "GenerateCode": true
+    },
+    {
+      "Name": "TileMapInfo",
+      "CsvFilesUsingThis": [],
+      "RequiredProperties": [
+        {
+          "Type": "string",
+          "Member": "Name",
+          "Time": 0.0
+        },
+        {
+          "Type": "System.Collections.Generic.List<FlatRedBall.Content.AnimationChain.AnimationFrameSave>",
+          "Member": "EmbeddedAnimation",
+          "Time": 0.0
+        }
+      ],
+      "GenerateCode": true
+    }
+  ],
+  "ApplyToFixedResolutionPlatforms": true,
+  "ExternallyBuiltFileDirectory": "../../",
+  "FileVersion": 60,
+  "ScreenReferences": [
+    {
+      "Name": "Screens\\GameScreen"
+    },
+    {
+      "Name": "Screens\\Level1"
+    }
+  ],
+  "EntityReferences": [
+    {
+      "Name": "Entities\\Player"
+    }
+  ],
+  "Bookmarks": [],
+  "PluginData": {
+    "RequiredPlugins": []
+  },
+  "DisplaySettings": {
+    "Name": "Custom",
+    "GenerateDisplayCode": true,
+    "Is2D": true,
+    "ResolutionWidth": 256,
+    "ResolutionHeight": 224,
+    "AspectRatioWidth": 4.0,
+    "AspectRatioHeight": 3.0,
+    "SupportLandscape": true,
+    "Scale": 300,
+    "ScaleGum": 100,
+    "DominantInternalCoordinates": 1,
+    "TextureFilter": 1
+  },
+  "AllDisplaySettings": []
+}

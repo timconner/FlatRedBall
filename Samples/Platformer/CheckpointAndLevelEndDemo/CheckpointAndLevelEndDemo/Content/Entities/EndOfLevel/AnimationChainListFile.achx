@@ -12,6 +12,14 @@
       <RightCoordinate>144</RightCoordinate>
       <TopCoordinate>112</TopCoordinate>
       <BottomCoordinate>144</BottomCoordinate>
+      <RelativeY>8</RelativeY>
+      <ShapeCollectionSave>
+        <AxisAlignedRectangleSaves />
+        <AxisAlignedCubeSaves />
+        <PolygonSaves />
+        <CircleSaves />
+        <SphereSaves />
+      </ShapeCollectionSave>
     </Frame>
   </AnimationChain>
   <ProjectFile>../../../checkpointandlevelenddemo.glux</ProjectFile>

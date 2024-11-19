@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FlatRedBall.Forms.Controls
+namespace FlatRedBall.Forms.Controls;
+
+public class ContextMenu
 {
-    public class ContextMenu
-    {
-    }
 }

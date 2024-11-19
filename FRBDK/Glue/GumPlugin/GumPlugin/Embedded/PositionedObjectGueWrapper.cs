@@ -56,8 +56,8 @@ namespace GumCoreShared.FlatRedBall.Embedded
 
             GumParent = new GraphicalUiElement();
             GumParent.SetContainedObject(renderable);
-            GumParent.XUnits = Gum.Converters.GeneralUnitType.PixelsFromSmall;
-            GumParent.YUnits = Gum.Converters.GeneralUnitType.PixelsFromSmall;
+            GumParent.XUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
+            GumParent.YUnits = global::Gum.Converters.GeneralUnitType.PixelsFromSmall;
 
             GumParent.XOrigin = HorizontalAlignment.Center;
             GumParent.YOrigin = VerticalAlignment.Center;

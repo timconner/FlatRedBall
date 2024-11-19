@@ -247,7 +247,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font28Arial_Bold_0</Name>
     </None>
-    <None Include="content\gumproject\gumproject.gumx">
+    <None Include="Content\GumProject\GumProject.gumx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GumProject</Name>
     </None>

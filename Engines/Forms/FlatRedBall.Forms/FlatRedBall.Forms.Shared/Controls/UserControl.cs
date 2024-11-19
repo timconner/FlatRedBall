@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Gum.Wireframe;
 
-namespace FlatRedBall.Forms.Controls
-{
-    public class UserControl : FrameworkElement
-    {
-        public UserControl() : base() { }
+namespace FlatRedBall.Forms.Controls;
 
-        public UserControl(GraphicalUiElement visual) : base(visual) { }
-    }
+public class UserControl : FrameworkElement
+{
+    public UserControl() : base() { }
+
+    public UserControl(GraphicalUiElement visual) : base(visual) { }
 }

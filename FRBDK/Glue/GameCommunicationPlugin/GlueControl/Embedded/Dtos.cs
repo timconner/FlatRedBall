@@ -749,7 +749,7 @@ namespace GlueControl.Dtos
     /// </summary>
     public interface IInElementCommand
     {
-        public string ElementNameGlue { get; set; }
+        string ElementNameGlue { get; set; }
     }
 
     public class ResponseWithContentDto : RespondableDto

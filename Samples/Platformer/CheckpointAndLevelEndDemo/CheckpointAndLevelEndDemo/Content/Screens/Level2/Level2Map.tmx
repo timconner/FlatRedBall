@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="16" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="4">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="11">
  <tileset firstgid="1" source="../../StandardTileset.tsx"/>
  <tileset firstgid="1025" source="../Level1/FRBPlatformerTileset.tsx"/>
  <layer id="2" name="Sky" width="16" height="64">
@@ -9,12 +9,12 @@
  </layer>
  <layer id="3" name="CloudLayer" width="16" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu1XXQ6CMAzmZVPvfwdQ8Bwi4DnAY9iGNo4p29oH40O/pAlZ1ubrX/hWVYZ/Qe2qqgE7O53/Dfx6sIPfnneFMSe4s4A93ed5fKYB8rgm4nSU/96dHA/O/67kupe/wWAwGAyGMtSB5ijVHyHwXz6AHUHLjPQtieH9qgVCi3VRCjPcP/nVWvIfMvollUsfxJBqvJl0CfK4EC+NRsGaSLVRTT3AvFEfPQT+2PdRUXvG5N713+t/R/xSNWVd9417PCcYS9sbjqHRn5PbzlmjnBOs11JQNwmnoaDGuRjh/Et3aI5iaGepFfaH32PMl+ub2wH2G2lfpbvK8/qLt8gLiwHsEwAQAAA=
+   H4sIAAAAAAAACu1WXQrCMAzeS6ve/w5ON8+xuc5zVI9hAw1kXf+SBxnYDwKjLGl+vibpuoaj4Kq6rndyUzL9yenNTk56ez5W2lzdP28nH7U/D88kAD8eGTujjz/1T8kPjP8p9DUVf0NDQ8M/AmbSWfPmEs4x0DO+J4Ms/qxkx/o+PBDdObCTmyM5O3cnF73v8bkZaYmNcLYiJhIfSOjf6u99Je7QeusjdwZZb/8o8+tK8lm7f1DQfBr/zbFB8zkXahcD5hMEa1/Lu1gslLvcHY/yOMXfGkBOuLsRvn+IGzic4m8MUHcjyD0C38yQqf9Y0Z9wr4v5HvKkpj9RxHqMZP9c1ZZnvZAn2ANKeeP4tFTkuGSD27spbGBDyqWBWR+cY+gv5rf0BlDPCHs58vUXvfwLwPsWJAAQAAA=
   </data>
  </layer>
  <layer id="4" name="BushesLayer" width="16" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu1XQQ6DMAzjkv+/BLY9BDYeAhM/2CoazWRNm7bXWOoBil3jVsIMQx8mOseN2vgLnePVqPGgn8azgT9Tnwfk37/j3cG3+B/pmnmN/8BdxXobXTPUNCSXnw2waMyCe8S8NG3MQs4H3h6zTnGRr/lO5Zfia/Oso81zBpgN+8asSvoT+JfXS9SXmryWvCcH5+9wOBwOh6MO3Mda+y9//1u6a8Daydf6lvWdcn3L0qdlX6rt07IvyX5bQq4jWfip7on9tIRcd7TgKHjH/wXe0xH0S95lP+WM2WMuM62b47M5fq4bp/h4Xkpr87toZ22m/w6d6tS7stdbvIf9XJ7PxbjHWhY1/X0Dr+j5A4Q7iCwAEAAA
+   H4sIAAAAAAAACu1XWw6DIBD0Z+9/Em17EGw9CDbewBrZdNyyPJb0j0n4EJxlGIiMw9CGic52Ixt/prO9jDUe9K3xNPAdtWlA/v3T3g38Ev0jXT2v0X9wFzGfp6uHWg3J5XcPlNRwgrsFv7Ta6IUcP3hr8DrGRb6mO+ZfjK+Ncx1tnD1Ab1g3epWrP4F++TyH+rImzyX7ZGP/Ozo6Ojr+D76/rXnJ0fV+qQXeR5a8JDW08GcjH9dghWvks4aW/fRw/1v3Ymnka3mrdE2pvFVyRmVeqs3TMi/JfJtDKiOV8GPZE/NpDqnsWIItox3/F3hPR6if0y7zKXvMGlOeadkc303xU9k4xsfzkpub16KdNUe/GTqWqVdlr33ow3wuz2fN9yfmRU1+96AVNe+2vxduABAAAA==
   </data>
  </layer>
  <objectgroup id="6" name="PitCollision" visible="0"/>
@@ -24,15 +24,20 @@
     <property name="Visible" type="bool" value="false"/>
    </properties>
   </object>
+  <object id="10" name="LevelEnd" gid="65" x="192" y="688" width="16" height="16">
+   <properties>
+    <property name="NextLevel" value="Level1"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer id="1" name="GameplayLayer" width="16" height="64" visible="0">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3XsQoAIAiEYaX3f+emFgmqM8ThF278uHLTzcyTUQePx+PxeDwej8frfmxS2d/Nn3bR/f23/vVOW/tQfbY/enVUH/9f3f/bZzIBmbQB3QAQAAA=
+   H4sIAAAAAAAACu3XsQoAIAhFUaX//+emFgkqTXG4whsPL91SEdFgvIPH4/F4PB6Px2f5YVLdX+HtjmOHEvu7+dMtur//1r/+09Y9vD7ab713vN7uX93/20cyASoR10wAEAAA
   </data>
  </layer>
  <layer id="5" name="ForegroundLayer" width="16" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACnNmZaAIJI/qH1D9S4a4+wda/ygYBaNg5ALnIV5+UaLfkZUy/Ymj+kf1j+ofNPrVWDExPe0nRz8l7VdC9hMKi8Hgf0r1pwDxIiB2guJFaDQMI9dzsPBQB+IkIjE2d4LsdwHiJiJw8yAKf2T/D3T8USP+nbDghVCMnhYWIrFTgRgAQCYvfAAQAAA=
+   H4sIAAAAAAAACnNmZaAIJI/qH1D9S4a4+wda/ygYBaNg5ALnIV5+UaLfkZUy/Ymj+kf1DxH9aqyomN7200M/uh/VCJg9GNxPSfuVkP2EwmIw+J9S/SlAvAiInaB4ERoNw8j1HCw81IE4iUiMzZ0g+12AuIkI3DyIwh/Z/wMdf9SIfycseCEUo6eFhUjsVCAGAOOjzfMAEAAA
   </data>
  </layer>
 </map>

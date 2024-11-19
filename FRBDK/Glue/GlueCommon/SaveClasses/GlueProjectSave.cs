@@ -158,7 +158,11 @@ namespace FlatRedBall.Glue.SaveClasses
             ScreenHasCancellationToken = 59,
 
             // August 29, 2024
-            GameCanStartInEditMode = 60
+            GameCanStartInEditMode = 60,
+
+            // November 16, 2024
+            // Gum RenderingLibrary has RenderableCloneLogic
+            GumHasRenderableCloneLogic = 61
 
             // Stop! If adding an entry here, modify SyntaxVersionAttribute on FlatRedBallServices
             // and LatestVersion down below
@@ -169,7 +173,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
         #region Versions
 
-        public const int LatestVersion = (int)GluxVersions.GameCanStartInEditMode;
+        public const int LatestVersion = (int)GluxVersions.GumHasRenderableCloneLogic;
 
         public int FileVersion { get; set; }
 
