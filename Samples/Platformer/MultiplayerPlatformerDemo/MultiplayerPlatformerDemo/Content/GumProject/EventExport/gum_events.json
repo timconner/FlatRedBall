@@ -1,5 +1,69 @@
 {
   "UserEvents": {
-    "vchel": []
+    "rysza": [
+      {
+        "NewName": "CharacterJoiningScreenGum.PlayerJoinViewInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-19T06:37:43.8109455Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "CharacterJoiningScreenGum.Controls/PlayerJoinView PlayerJoinViewInstance in CharacterJoiningScreenGum",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2024-11-19T06:38:03.5076932Z"
+      },
+      {
+        "NewName": "CharacterJoiningScreenGum.PlayerJoinViewItemInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-19T06:38:07.8871448Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "CharacterJoiningScreenGum.Controls/PlayerJoinViewItem PlayerJoinViewItemInstance in CharacterJoiningScreenGum",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2024-11-19T06:38:22.2107581Z"
+      },
+      {
+        "NewName": "IndividualJoinComponent (Container).ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-19T07:00:37.9993676Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "IndividualJoinComponent (Container).ColoredRectangle ColoredRectangleInstance in IndividualJoinComponent (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2024-11-19T07:00:54.8675513Z"
+      },
+      {
+        "NewName": "IndividualJoinComponent (Container).NineSliceInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-19T07:00:59.1134667Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "IndividualJoinComponent (Container).Rectangle RectangleInstance in IndividualJoinComponent (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2024-11-19T07:01:29.4350489Z"
+      },
+      {
+        "NewName": "IndividualJoinComponent (Container).IconInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2024-11-19T07:03:14.6816236Z"
+      }
+    ]
   }
 }
