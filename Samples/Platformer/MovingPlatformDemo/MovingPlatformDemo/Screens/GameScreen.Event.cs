@@ -12,13 +12,10 @@ namespace MovingPlatformDemo.Screens
 {
     public partial class GameScreen
     {
-        void OnMovingPlatformListCollectionChanged (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) 
+        void OnPlayerVsMovingPlatformCollided (Entities.Player player, Entities.MovingPlatform movingPlatform) 
         {
-            foreach(MovingPlatform item in e.NewItems)
-            {
-                item.StoreBasePosition();
-            }
+            
         }
-
+        
     }
 }
