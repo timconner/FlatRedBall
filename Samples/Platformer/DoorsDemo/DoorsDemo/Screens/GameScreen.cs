@@ -8,7 +8,8 @@ using FlatRedBall.Input;
 using FlatRedBall.Instructions;
 using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
-using FlatRedBall.Graphics.Particle;
+using FlatRedBall.Gui;
+using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Localization;
 using Microsoft.Xna.Framework;
@@ -25,7 +26,7 @@ namespace DoorsDemo.Screens
             Map.Z = -3;
 
             // Adjust the doors so they're behind the player
-            foreach(var door in DoorList)
+            foreach (var door in DoorList)
             {
                 door.Z = -.5f;
             }
@@ -37,9 +38,9 @@ namespace DoorsDemo.Screens
 
         private void UpdateBoundsForPosition(Vector3 position)
         {
-            foreach(var rectangle in boundsShapeCollection.AxisAlignedRectangles)
+            foreach (var rectangle in boundsShapeCollection.AxisAlignedRectangles)
             {
-                if(rectangle.IsPointInside(position.X, position.Y))
+                if (rectangle.IsPointInside(position.X, position.Y))
                 {
                     CameraControllingEntityInstance.Map = rectangle;
                     break;
@@ -47,23 +48,19 @@ namespace DoorsDemo.Screens
             }
         }
 
-        void CustomActivity(bool firstTimeCalled)
+        private void CustomActivity(bool firstTimeCalled)
         {
-
-
+            
         }
 
-        void CustomDestroy()
+        private void CustomDestroy()
         {
-
-
+            
         }
 
-        static void CustomLoadStaticContent(string contentManagerName)
+        private static void CustomLoadStaticContent(string contentManagerName)
         {
-
-
+            
         }
-
     }
 }
