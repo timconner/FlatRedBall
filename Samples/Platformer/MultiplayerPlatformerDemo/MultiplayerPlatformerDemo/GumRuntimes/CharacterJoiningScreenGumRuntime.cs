@@ -1,13 +1,15 @@
-using MultiplayerPlatformerDemo.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FlatRedBall.Forms.MVVM;
+using MultiplayerPlatformerDemo.ViewModels;
 
 namespace MultiplayerPlatformerDemo.GumRuntimes
 {
     public partial class CharacterJoiningScreenGumRuntime
     {
         CharacterJoiningScreenViewModel ViewModel => BindingContext as CharacterJoiningScreenViewModel;
+
         partial void CustomInitialize () 
         {
             this.InstructionTextInstance.SetBinding(

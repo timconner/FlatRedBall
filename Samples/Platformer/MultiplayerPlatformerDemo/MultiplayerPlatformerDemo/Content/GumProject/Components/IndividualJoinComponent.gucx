@@ -11,6 +11,54 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>float</Type>
+      <Name>IconInstance.Height</Name>
+      <Value xsi:type="xsd:float">32</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>IconInstance.Height Units</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconCategory</Type>
+      <Name>IconInstance.IconCategoryState</Name>
+      <Value xsi:type="xsd:string">Gamepad</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>HorizontalAlignment</Type>
+      <Name>IconInstance.X Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>IconInstance.X Units</Name>
+      <Value xsi:type="xsd:int">6</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>IconInstance.Y</Name>
+      <Value xsi:type="xsd:float">6</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>IconInstance.Y Origin</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>IconInstance.Y Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>bool</Type>
       <Name>IsXamarinFormsControl</Name>
       <Value xsi:type="xsd:boolean">false</Value>
@@ -22,68 +70,32 @@
       <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
-      <Type>float</Type>
-      <Name>RectangleInstance.Height</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Type>ColorCategory</Type>
+      <Name>NineSliceInstance.ColorCategoryState</Name>
+      <Value xsi:type="xsd:string">LightGray</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>RectangleInstance.Height Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>RectangleInstance.Width</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>RectangleInstance.Width Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
+      <Type>StyleCategory</Type>
+      <Name>NineSliceInstance.StyleCategoryState</Name>
+      <Value xsi:type="xsd:string">Bordered</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>RectangleInstance.X</Name>
+      <Name>NineSliceInstance.Y</Name>
       <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>RectangleInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>RectangleInstance.X Units</Name>
-      <Value xsi:type="xsd:int">6</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>RectangleInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>RectangleInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>RectangleInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>State</Type>
       <Name>State</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>TextInstance.FontSize</Name>
+      <Value xsi:type="xsd:int">10</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -171,29 +183,8 @@
     <State>
       <Name>NotPluggedIn</Name>
       <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Blue</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Green</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
         <Type>bool</Type>
-        <Name>RectangleInstance.Visible</Name>
+        <Name>IconInstance.Visible</Name>
         <Value xsi:type="xsd:boolean">false</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -204,37 +195,32 @@
         <Category>Text</Category>
         <SetsValue>true</SetsValue>
       </Variable>
+      <Variable>
+        <Type>ColorCategory</Type>
+        <Name>NineSliceInstance.ColorCategoryState</Name>
+        <Value xsi:type="xsd:string">LightGray</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
     </State>
     <State>
       <Name>PluggedInNotJoined</Name>
       <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Blue</Name>
-        <Value xsi:type="xsd:int">128</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Green</Name>
-        <Value xsi:type="xsd:int">128</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Red</Name>
-        <Value xsi:type="xsd:int">128</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
         <Type>bool</Type>
-        <Name>RectangleInstance.Visible</Name>
+        <Name>IconInstance.Visible</Name>
         <Value xsi:type="xsd:boolean">true</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>ColorCategory</Type>
+        <Name>NineSliceInstance.ColorCategoryState</Name>
+        <Value xsi:type="xsd:string">PrimaryLight</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>string</Type>
         <Name>TextInstance.Text</Name>
-        <Value xsi:type="xsd:string">Press A to join</Value>
+        <Value xsi:type="xsd:string">Press A
+to join</Value>
         <Category>Text</Category>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -242,30 +228,15 @@
     <State>
       <Name>Joined</Name>
       <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Blue</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Green</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>RectangleInstance.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <Category>Rendering</Category>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
         <Type>bool</Type>
-        <Name>RectangleInstance.Visible</Name>
+        <Name>IconInstance.Visible</Name>
         <Value xsi:type="xsd:boolean">true</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>ColorCategory</Type>
+        <Name>NineSliceInstance.ColorCategoryState</Name>
+        <Value xsi:type="xsd:string">Success</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
@@ -277,8 +248,13 @@
     </State>
   </Category>
   <Instance>
-    <Name>RectangleInstance</Name>
-    <BaseType>Rectangle</BaseType>
+    <Name>NineSliceInstance</Name>
+    <BaseType>NineSlice</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>IconInstance</Name>
+    <BaseType>Elements/Icon</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
