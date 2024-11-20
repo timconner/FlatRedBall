@@ -8,8 +8,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -21,8 +21,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -33,8 +33,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -42,8 +42,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -55,8 +55,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -65,8 +65,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -77,8 +77,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -86,8 +86,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>448</LeftCoordinate>
-      <RightCoordinate>464</RightCoordinate>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -99,8 +99,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -109,8 +109,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>448</LeftCoordinate>
-      <RightCoordinate>464</RightCoordinate>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -121,8 +121,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>464</LeftCoordinate>
-      <RightCoordinate>480</RightCoordinate>
+      <LeftCoordinate>96</LeftCoordinate>
+      <RightCoordinate>112</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -134,8 +134,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>400</LeftCoordinate>
-      <RightCoordinate>416</RightCoordinate>
+      <LeftCoordinate>32</LeftCoordinate>
+      <RightCoordinate>48</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -146,8 +146,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>400</LeftCoordinate>
-      <RightCoordinate>416</RightCoordinate>
+      <LeftCoordinate>32</LeftCoordinate>
+      <RightCoordinate>48</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -158,8 +158,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -171,8 +171,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>464</LeftCoordinate>
-      <RightCoordinate>480</RightCoordinate>
+      <LeftCoordinate>96</LeftCoordinate>
+      <RightCoordinate>112</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -184,8 +184,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -196,8 +196,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -206,8 +206,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -217,9 +217,9 @@
     <Name>CharacterClimbRear</Name>
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
-      <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>448</LeftCoordinate>
-      <RightCoordinate>464</RightCoordinate>
+      <FrameLength>0.15</FrameLength>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -227,9 +227,21 @@
     <Frame>
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
-      <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>448</LeftCoordinate>
-      <RightCoordinate>464</RightCoordinate>
+      <FrameLength>0.15</FrameLength>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>32</BottomCoordinate>
+      <RelativeY>16</RelativeY>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>CharacterClimbRearIdle</Name>
+    <Frame>
+      <TextureName>frbplatformer.png</TextureName>
+      <FrameLength>0.2</FrameLength>
+      <LeftCoordinate>80</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -240,8 +252,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>464</LeftCoordinate>
-      <RightCoordinate>480</RightCoordinate>
+      <LeftCoordinate>96</LeftCoordinate>
+      <RightCoordinate>112</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -252,8 +264,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -265,8 +277,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -278,8 +290,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>496</LeftCoordinate>
-      <RightCoordinate>512</RightCoordinate>
+      <LeftCoordinate>128</LeftCoordinate>
+      <RightCoordinate>144</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -290,8 +302,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>496</LeftCoordinate>
-      <RightCoordinate>512</RightCoordinate>
+      <LeftCoordinate>128</LeftCoordinate>
+      <RightCoordinate>144</RightCoordinate>
       <TopCoordinate>0</TopCoordinate>
       <BottomCoordinate>32</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -302,8 +314,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -315,8 +327,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -327,8 +339,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -340,8 +352,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -352,8 +364,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -365,8 +377,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>32</TopCoordinate>
       <BottomCoordinate>64</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -378,8 +390,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -390,8 +402,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>368</LeftCoordinate>
-      <RightCoordinate>384</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -403,8 +415,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -415,8 +427,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>384</LeftCoordinate>
-      <RightCoordinate>400</RightCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -427,8 +439,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -436,8 +448,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -449,8 +461,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>416</LeftCoordinate>
-      <RightCoordinate>432</RightCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>64</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -459,8 +471,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>432</LeftCoordinate>
-      <RightCoordinate>448</RightCoordinate>
+      <LeftCoordinate>64</LeftCoordinate>
+      <RightCoordinate>80</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -471,8 +483,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>464</LeftCoordinate>
-      <RightCoordinate>480</RightCoordinate>
+      <LeftCoordinate>96</LeftCoordinate>
+      <RightCoordinate>112</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -480,8 +492,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -489,8 +501,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>496</LeftCoordinate>
-      <RightCoordinate>512</RightCoordinate>
+      <LeftCoordinate>128</LeftCoordinate>
+      <RightCoordinate>144</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -498,8 +510,8 @@
     <Frame>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -511,8 +523,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>464</LeftCoordinate>
-      <RightCoordinate>480</RightCoordinate>
+      <LeftCoordinate>96</LeftCoordinate>
+      <RightCoordinate>112</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -521,8 +533,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -531,8 +543,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>496</LeftCoordinate>
-      <RightCoordinate>512</RightCoordinate>
+      <LeftCoordinate>128</LeftCoordinate>
+      <RightCoordinate>144</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -541,8 +553,8 @@
       <FlipHorizontal>true</FlipHorizontal>
       <TextureName>frbplatformer.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>480</LeftCoordinate>
-      <RightCoordinate>496</RightCoordinate>
+      <LeftCoordinate>112</LeftCoordinate>
+      <RightCoordinate>128</RightCoordinate>
       <TopCoordinate>64</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
       <RelativeY>16</RelativeY>
@@ -750,5 +762,5 @@
       <RelativeY>16</RelativeY>
     </Frame>
   </AnimationChain>
-  <ProjectFile>../../../multiplayerplatformerdemo.glux</ProjectFile>
+  <ProjectFile>../../../wizardtest22.glux</ProjectFile>
 </AnimationChainArraySave>
