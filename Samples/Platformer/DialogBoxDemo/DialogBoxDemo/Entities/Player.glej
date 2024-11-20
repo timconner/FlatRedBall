@@ -215,14 +215,26 @@
       ],
       "InstructionSaves": [
         {
-          "Type": "float",
-          "Member": "Width",
-          "Value": 8.0,
+          "Type": "Color",
+          "Member": "Color",
+          "Value": "Violet",
           "Time": 0.0
         },
         {
           "Type": "float",
           "Member": "Height",
+          "Value": 8.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "bool",
+          "Member": "Visible",
+          "Value": false,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Width",
           "Value": 8.0,
           "Time": 0.0
         },
@@ -236,18 +248,6 @@
           "Type": "float",
           "Member": "Y",
           "Value": 12.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "Color",
-          "Member": "Color",
-          "Value": "Violet",
-          "Time": 0.0
-        },
-        {
-          "Type": "bool",
-          "Member": "Visible",
-          "Value": false,
           "Time": 0.0
         }
       ],

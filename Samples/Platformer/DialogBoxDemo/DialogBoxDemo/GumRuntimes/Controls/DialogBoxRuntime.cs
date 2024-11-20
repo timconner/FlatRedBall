@@ -8,11 +8,7 @@ namespace DialogBoxDemo.GumRuntimes.Controls
     {
         partial void CustomInitialize () 
         {
-            X = 5;
-            Y = 5;
-            Width = 200;
-            Height = 50;
-            TextInstance.FontSize = 10;
+
         }
     }
 }
