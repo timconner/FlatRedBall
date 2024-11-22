@@ -304,7 +304,7 @@ public partial class MainGlueWindow : Form
         }
 
         SetScreenSubMessage(Localization.Texts.InitializeErrorReporting);
-        ErrorReporter.Initialize(this);
+        FileErrorReporter.Initialize(this);
 
         SetScreenSubMessage(Localization.Texts.InitializingRightClickMenus);
         RightClickHelper.Initialize();

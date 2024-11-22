@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FlatRedBall.Glue.Errors
 {
-    public static class ErrorReporter
+    public static class FileErrorReporter
     {
         static List<string> mFilesAlreadyReported = new List<string>();
         // used to invoke.

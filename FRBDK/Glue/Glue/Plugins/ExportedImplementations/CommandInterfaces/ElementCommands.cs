@@ -1466,7 +1466,7 @@ public class ElementCommands : IScreenCommands, IEntityCommands,IElementCommands
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        ErrorReporter.ReportError(referencedFileSaveToReturn.Name, error, false);
+                        FileErrorReporter.ReportError(referencedFileSaveToReturn.Name, error, false);
                     }
                 }
             }

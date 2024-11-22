@@ -2254,7 +2254,7 @@ public static class RightClickHelper
             rfs.RefreshSourceFileCache(buildOnMissingFile, out error);
             if (!string.IsNullOrEmpty(error))
             {
-                ErrorReporter.ReportError(rfs.Name, error, false);
+                FileErrorReporter.ReportError(rfs.Name, error, false);
             }
             else
             {
@@ -2262,7 +2262,7 @@ public static class RightClickHelper
 
                 if (!string.IsNullOrEmpty(error))
                 {
-                    ErrorReporter.ReportError(FileManager.MakeAbsolute(rfs.Name), error, true);
+                    FileErrorReporter.ReportError(FileManager.MakeAbsolute(rfs.Name), error, true);
                 }
 
                 var absoluteFileName =

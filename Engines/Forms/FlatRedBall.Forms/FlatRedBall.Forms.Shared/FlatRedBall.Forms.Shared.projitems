@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\Primitives\*.cs">
       <Link>Controls\Primitives\%(Filename)%(Extension)</Link>
     </Compile>
-
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\Button.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
@@ -31,42 +30,33 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\ListBox.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
-
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\ListBoxItem.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
-
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\PasswordBox.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
-
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\RadioButton.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
-
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\ScrollBar.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\ScrollViewer.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
-    </Compile>    
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\Slider.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
-    </Compile>   
-
-
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\TextBox.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\TextBoxBase.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
-    </Compile>    
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\..\Gum\MonoGameGum\Forms\Controls\ToggleButton.cs">
       <Link>Controls\%(Filename)%(Extension)</Link>
-    </Compile>  
-
-
-
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FrameworkElementTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CursorExtensions.cs" />

@@ -753,7 +753,7 @@ namespace FlatRedBall.Glue.IO
 
                 if (!string.IsNullOrEmpty(error))
                 {
-                    ErrorReporter.ReportError(GlueCommands.Self.GetAbsoluteFileName(rfs), error, false);
+                    FileErrorReporter.ReportError(GlueCommands.Self.GetAbsoluteFileName(rfs), error, false);
                 }
             }
         }

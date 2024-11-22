@@ -206,16 +206,23 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.AboutPlugin
         {
             
             var location = "https://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/FRBDK.zip";
-            using var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Head, new Uri(location));
 
             HttpResponseMessage response = null;
-            
-            await GlueCommands.Self.TryMultipleTimes(async () =>
+
+            try
             {
-                response = await client.SendAsync(request);
-            });
-            if (response.IsSuccessStatusCode)
+                await GlueCommands.Self.TryMultipleTimes(async () =>
+                {
+                    using var client = new HttpClient();
+                    var request = new HttpRequestMessage(HttpMethod.Head, new Uri(location));
+                    response = await client.SendAsync(request);
+                });
+            }
+            catch(Exception)
+            {
+                // do nothing, perhaps offline?
+            }
+            if (response?.IsSuccessStatusCode == true)
             {
                 if (response.Headers.TryGetValues("Last-Modified", out var values))
                 {

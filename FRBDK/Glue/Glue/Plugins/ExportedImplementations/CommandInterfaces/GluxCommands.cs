@@ -949,7 +949,7 @@ public class GluxCommands : IGluxCommands
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        ErrorReporter.ReportError(referencedFileSaveToReturn.Name, error, false);
+                        FileErrorReporter.ReportError(referencedFileSaveToReturn.Name, error, false);
                     }
                 }
             }
