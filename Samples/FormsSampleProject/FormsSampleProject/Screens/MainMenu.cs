@@ -59,14 +59,18 @@ namespace FormsSampleProject.Screens
             lineWrappedTextBox.TextChanged += (sender, used) =>
             {
                 var textBox = sender as TextBox;
-                Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
+                //Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
             };
 
             lineWrappedTextBox.KeyDown += (sender, args) =>
             {
                 var textBox = sender as TextBox;
-                Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
+                //Debug.WriteLine($"Text:{textBox.Text} with length {textBox.Text.Length} with caret index {textBox.CaretIndex}");
             };
+
+            // uncomment these 2 lines of code to enable gamepad support for the UI
+            //GuiManager.GamePadsForUiControl.Add(InputManager.Xbox360GamePads[0]);
+            //Forms.ButtonStandardInstance.IsFocused = true;
         }
 
         private async void HandleShowDialogButtonClicked(object sender, EventArgs e)
@@ -83,7 +87,7 @@ namespace FormsSampleProject.Screens
 
             await dialog.ShowAsync("This is a DialogBox in [Color=Red]FlatRedBall.Forms[/Color]. It supports " +
                 "lots of features including typing out the text [Color=Yellow]letter-by-letter[/Color], multiple pages, " +
-                "and even [Color=Green]styling[/Color] using BBCode. Wow, how handy! You can create mulitple " +
+                "and even [Color=Green]styling[/Color] using BBCode. Wow, how handy! You can create multiple " +
                 "pages by explicitly giving it a string array, or you can give it a long string and let the " +
                 "dialog box [Color=Pink]automatically[/Color] handle the multiple pages.");
 
@@ -111,8 +115,6 @@ namespace FormsSampleProject.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
-
-
         }
 
         void CustomDestroy()
