@@ -23,7 +23,7 @@ class GlueProjectFileVersionErrorViewModel : ErrorViewModel
         _glueState = glueState;
 
         var fileVersion = glueProjectSave.FileVersion;
-        this.Details = $"The FlatRedBall (.gluj) project has a FileVersion of {fileVersion} but the engine syntax only supports version {glueState.EngineDllSyntaxVersion}\n" +
+        this.Details = $"The FlatRedBall (.gluj) project has a FileVersion of {fileVersion} but the engine syntax only supports version {glueState.EngineDllSyntaxVersion},\n" +
             $"To solve this problem, upgrade the engine, link it to source, or downgrade the FileVersion in the .gluj file.";
     }
 

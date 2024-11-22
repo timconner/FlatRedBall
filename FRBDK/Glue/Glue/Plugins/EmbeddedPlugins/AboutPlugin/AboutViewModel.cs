@@ -86,8 +86,28 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.AboutPlugin
             set => Set(value);
         }
 
+        public bool IsUsingSource
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         [DependsOn(nameof(DllSyntaxVersion))]
-        public string DllSyntaxVersionToShow => DllSyntaxVersion?.ToString() ?? "Unknown";
+        [DependsOn(nameof(IsUsingSource))]
+        public string DllSyntaxVersionToShow
+        {
+            get
+            {
+                if (IsUsingSource)
+                {
+                    return "Using Engine Source";
+                }
+                else
+                {
+                    return DllSyntaxVersion?.ToString() ?? "Unknown";
+                }
+            }
+        }
 
         public string MainProjectTypeText
         {

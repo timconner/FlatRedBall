@@ -93,6 +93,7 @@ namespace GlueFormsCore.Plugins.EmbeddedPlugins.AboutPlugin
             }
 
             aboutViewModel.DllSyntaxVersion = GlueState.Self.EngineDllSyntaxVersion;
+            aboutViewModel.IsUsingSource = GlueState.Self.IsReferencingFrbSource;
         }
     }
 }
