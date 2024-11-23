@@ -48,6 +48,9 @@ namespace FlatRedBall.Forms.Controls
 
 #if FRB
         public static Cursor MainCursor => GuiManager.Cursor;
+
+        public List<Xbox360GamePad> GamePadsForUiControl => GuiManager.GamePadsForUiControl;
+
 #endif
 
         protected bool isFocused;
