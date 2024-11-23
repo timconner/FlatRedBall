@@ -36,7 +36,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
 
 
-            codeBlock.Line("#region Platformer Fields");
+            codeBlock.Line("#region Platformer Fields/Properties");
 
             codeBlock.Line("public bool IsPlatformingEnabled = true;");
 
@@ -114,12 +114,8 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             codeBlock.Line("/// multiple collisions (such as vs. solid and vs. cloud) may occur in one frame.");
             codeBlock.Line("/// </summary>");
             codeBlock.Line("double mLastCollisionTime = -1;");
-            codeBlock.Line("#endregion");
 
             codeBlock.Line("public Microsoft.Xna.Framework.Vector3 PositionBeforeLastPlatformerCollision;");
-
-
-            codeBlock.Line("#region Platformer Properties");
 
 
             codeBlock.Line("/// <summary>");
@@ -263,7 +259,6 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
 
 
-            codeBlock.Line("#endregion");
 
             codeBlock.Line(
 @"
@@ -286,6 +281,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
                 codeBlock.Line("public HashSet<string> GroundCollidedAgainst { get; private set;} = new HashSet<string>();");
             }
 
+            codeBlock.Line("#endregion");
 
             return codeBlock;
         }
@@ -299,42 +295,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             }
             /////////////////End Early Out/////////////////////////////
 
-            codeBlock.Line(
-@"
-            // this provides default controls for the platformer using either keyboad or 360. Can be overridden in custom code:
-            this.InitializeInput();
-
-            // needed to figure out corner collisions
-            KeepTrackOfReal = true;
-
-            BeforeGroundMovementSet += (newValue) => 
-            {
-                if(mGroundMovement != null && mGroundMovement == ValuesJumpedWith && IsOnGround)
-                {
-                    ValuesJumpedWith = newValue;
-                }
-            };
-
-            BeforeAirMovementSet += (newValue) => 
-            {
-                if(mAirMovement != null && mAirMovement == ValuesJumpedWith)
-                {
-                    ValuesJumpedWith = newValue;
-                }
-            };
-
-            BeforeAfterDoubleJumpSet += (newValue) =>  
-            {
-                if(mAfterDoubleJump != null && mAfterDoubleJump == ValuesJumpedWith)
-                {
-                    ValuesJumpedWith = newValue;
-                }
-            };
-            
-            AfterGroundMovementSet += (not, used) => UpdateCurrentMovement();
-            AfterAirMovementSet += (not, used) => UpdateCurrentMovement();
-            AfterAfterDoubleJumpSet += (not, used) => UpdateCurrentMovement();
-");
+            codeBlock.Line("PlatformerInit();");
             return codeBlock;
         }
 
@@ -347,19 +308,26 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             }
             /////////////////End Early Out/////////////////////////////
 
-            codeBlock.Line("CurrentMovementType = MovementType.Ground;");
+            codeBlock.Line("PlatformerAddToManagers();");
             return codeBlock;
         }
 
         public override ICodeBlock GenerateAdditionalMethods(ICodeBlock codeBlock, IElement element)
         {
             ///////////////////Early Out///////////////////////////////
-            if(!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element))
+            if (!GetIfIsPlatformer(element) || GetIfInheritsFromPlatformer(element))
             {
                 return codeBlock;
             }
             /////////////////End Early Out/////////////////////////////
 
+            codeBlock.Line("#region Platformer Methods");
+
+            GeneratePlatformerInit(codeBlock);
+
+            GeneratePlatformerAddToManagers(codeBlock);
+
+            GeneratePlatformerActivity(codeBlock);
 
             #region Huge Code Block
 
@@ -420,9 +388,6 @@ namespace FlatRedBall.PlatformerPlugin.Generators
                 }
             }
         }
-
-
-        #region Platformer Methods
 
 
         partial void CustomInitializePlatformerInput();
@@ -712,7 +677,6 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
         }
 
-        #endregion
 ");
             #endregion
 
@@ -879,7 +843,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
                             }
                             mIsOnGround = true;");
 
-            if(GlueState.Self.CurrentGlueProject.FileVersion >= (int)GluxVersions.ICollidableHasItemsCollidedAgainst)
+            if (GlueState.Self.CurrentGlueProject.FileVersion >= (int)GluxVersions.ICollidableHasItemsCollidedAgainst)
             {
                 codeBlock.Line(
 @"
@@ -935,7 +899,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
             if (hasTiledPlugin)
             {
-                
+
                 codeBlock.Line(@"
 
 
@@ -1171,7 +1135,68 @@ namespace FlatRedBall.PlatformerPlugin.Generators
 
             #endregion
 
+            codeBlock.Line("#endregion");
+
             return base.GenerateAdditionalMethods(codeBlock, element);
+        }
+
+        private void GeneratePlatformerActivity(ICodeBlock codeBlock)
+        {
+            var method = codeBlock.Function("private void", "PlatformerActivity");
+
+            var ifBlock = method.If("IsPlatformingEnabled");
+            ifBlock.Line("ApplyInput();");
+            ifBlock.Line("DetermineMovementValues();");
+
+        }
+
+        private void GeneratePlatformerAddToManagers(ICodeBlock codeBlock)
+        {
+            var methodBlock = codeBlock.Function("private void", "PlatformerAddToManagers");
+
+            methodBlock.Line("CurrentMovementType = MovementType.Ground;");
+        }
+
+        private static void GeneratePlatformerInit(ICodeBlock codeBlock)
+        {
+            var method = codeBlock.Function("private void", "PlatformerInit");
+
+            method.Line(
+@"
+            // this provides default controls for the platformer using either keyboad or 360. Can be overridden in custom code:
+            this.InitializeInput();
+
+            // needed to figure out corner collisions
+            KeepTrackOfReal = true;
+
+            BeforeGroundMovementSet += (newValue) => 
+            {
+                if(mGroundMovement != null && mGroundMovement == ValuesJumpedWith && IsOnGround)
+                {
+                    ValuesJumpedWith = newValue;
+                }
+            };
+
+            BeforeAirMovementSet += (newValue) => 
+            {
+                if(mAirMovement != null && mAirMovement == ValuesJumpedWith)
+                {
+                    ValuesJumpedWith = newValue;
+                }
+            };
+
+            BeforeAfterDoubleJumpSet += (newValue) =>  
+            {
+                if(mAfterDoubleJump != null && mAfterDoubleJump == ValuesJumpedWith)
+                {
+                    ValuesJumpedWith = newValue;
+                }
+            };
+            
+            AfterGroundMovementSet += (not, used) => UpdateCurrentMovement();
+            AfterAirMovementSet += (not, used) => UpdateCurrentMovement();
+            AfterAfterDoubleJumpSet += (not, used) => UpdateCurrentMovement();
+");
         }
 
         public override ICodeBlock GenerateActivity(ICodeBlock codeBlock, IElement element)
@@ -1183,9 +1208,7 @@ namespace FlatRedBall.PlatformerPlugin.Generators
             }
             /////////////////End Early Out/////////////////////////////
 
-            var ifBlock = codeBlock.If("IsPlatformingEnabled");
-            ifBlock.Line("ApplyInput();");
-            ifBlock.Line("DetermineMovementValues();");
+            codeBlock.Line("PlatformerActivity();");
 
             return base.GenerateActivity(codeBlock, element);
         }
