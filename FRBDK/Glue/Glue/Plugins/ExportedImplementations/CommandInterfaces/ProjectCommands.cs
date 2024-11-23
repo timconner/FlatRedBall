@@ -43,7 +43,7 @@ class ProjectCommands : IProjectCommands
         var toLock = GlueState.Self.CurrentMainProject;
 
         ///////////////////////early out///////////////////////
-        if(toLock == null)
+        if (toLock == null)
         {
             return;
         }
@@ -55,12 +55,15 @@ class ProjectCommands : IProjectCommands
             // been updated to the "evaluated" list, not if it needs to
             // be saved.
             //if (mProjectBase != null && mProjectBase.IsDirty)
-            if (GlueState.Self.CurrentMainProject != null)
+            var mainProject = GlueState.Self.CurrentMainProject;
+            // toList to reduce the chance of having a collection modified exception:
+            var projects = ProjectManager.SyncedProjects.ToList();
+            if (mainProject != null)
             {
                 bool succeeded = true;
                 try
                 {
-                    GlueState.Self.CurrentMainProject.Save(GlueState.Self.CurrentMainProject.FullFileName.FullPath);
+                    mainProject.Save(mainProject.FullFileName.FullPath);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -72,15 +75,24 @@ class ProjectCommands : IProjectCommands
                 {
                     shouldSync = true;
                 }
-            }
-            if (ProjectManager.ContentProject != null && ProjectManager.ContentProject != GlueState.Self.CurrentMainProject)
-            {
-                ProjectManager.ContentProject.Save(ProjectManager.ContentProject.FullFileName.FullPath);
-                shouldSync = true;
+                if (ProjectManager.ContentProject != null && ProjectManager.ContentProject != mainProject)
+                {
+                    ProjectManager.ContentProject.Save(ProjectManager.ContentProject.FullFileName.FullPath);
+                    shouldSync = true;
+                }
+
+                //Sync all synced projects
+                if (shouldSync || ProjectManager.HaveNewProjectsBeenSyncedSinceSave)
+                {
+                    var syncedProjects = ProjectManager.SyncedProjects.ToArray();
+                    foreach (var syncedProject in syncedProjects)
+                    {
+                        ProjectSyncer.SyncProjects(mainProject, syncedProject, false);
+                    }
+                }
             }
 
-            //Save projects in case they are dirty
-            foreach (var syncedProject in ProjectManager.SyncedProjects)
+            foreach (var syncedProject in projects)
             {
                 try
                 {
@@ -92,28 +104,6 @@ class ProjectCommands : IProjectCommands
                     syncedProject.IsDirty = true;
                 }
                 if (syncedProject.ContentProject != syncedProject)
-                {
-                    syncedProject.ContentProject.Save(syncedProject.ContentProject.FullFileName.FullPath);
-                }
-            }
-
-            //Sync all synced projects
-            if (shouldSync || ProjectManager.HaveNewProjectsBeenSyncedSinceSave)
-            {
-                var syncedProjects = ProjectManager.SyncedProjects.ToArray();
-                foreach (var syncedProject in syncedProjects)
-                {
-                    ProjectSyncer.SyncProjects(GlueState.Self.CurrentMainProject, syncedProject, false);
-                }
-            }
-
-            // It may be that only the synced projects have changed, so we have to save those:
-            // toList to reduce the chance of having a collection modified exception:
-            var projects = ProjectManager.SyncedProjects.ToList();
-            foreach (var syncedProject in projects)
-            {
-                syncedProject.Save(syncedProject.FullFileName.FullPath);
-                if (syncedProject != syncedProject.ContentProject)
                 {
                     syncedProject.ContentProject.Save(syncedProject.ContentProject.FullFileName.FullPath);
                 }
