@@ -2204,7 +2204,10 @@ public static class RightClickHelper
         }
 
         PluginManager.ReactToObjectReordered(objectMoved, oldIndex, newIndex);
+        ObjectMoved?.Invoke(objectMoved);
     }
+
+    public static event Action<object> ObjectMoved;
 
     public static void SetExternallyBuiltFileIfHigherThanCurrent(string directoryOfFile, bool performSave)
     {
