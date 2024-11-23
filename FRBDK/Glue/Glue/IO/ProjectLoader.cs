@@ -574,7 +574,7 @@ namespace FlatRedBall.Glue.IO
             }
             catch (Exception e)
             {
-                var mbmb = new MultiButtonMessageBox();
+                var mbmb = new MultiButtonMessageBoxWpf();
                 mbmb.MessageText = "There was an error loading the .glux file.  What would you like to do?";
 
                 mbmb.AddButton("Nothing - Glue will abort loading the project.", DialogResult.None);
@@ -582,10 +582,10 @@ namespace FlatRedBall.Glue.IO
                 mbmb.AddButton("Try loading again", DialogResult.Retry);
                 mbmb.AddButton("Test for conflicts", DialogResult.Yes);
 
-                DialogResult result = mbmb.ShowDialog(MainGlueWindow.Self);
+                var result = mbmb.ShowDialog();
                 initializationWindow.Close();
 
-                switch (result)
+                switch (mbmb.ClickedResult)
                 {
                     case DialogResult.None:
                         // Do nothing;

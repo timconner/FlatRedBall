@@ -501,7 +501,7 @@ class ElementImporter
                 //todo:  handle lists too
                 if (!string.IsNullOrEmpty(nos.SourceClassType))
                 {
-                    List<IElement> candidates = ObjectFinder.Self.GetElementsUnqualified(FileManager.RemovePath(nos.SourceClassType));
+                    var candidates = ObjectFinder.Self.GetElementsUnqualified(FileManager.RemovePath(nos.SourceClassType));
 
                     if (candidates.Count == 0)
                     {
@@ -510,21 +510,21 @@ class ElementImporter
                     }
                     else
                     {
-                        MultiButtonMessageBox mbmb = new MultiButtonMessageBox();
-                        mbmb.MessageText = "Glue found possible matches for the object " + nos.InstanceName + " which expects the type " + nos.SourceClassType;
+                        var mbmb = new MultiButtonMessageBoxWpf();
+                        mbmb.MessageText = "FRB found possible matches for the object " + nos.InstanceName + " which expects the type " + nos.SourceClassType;
 
-                        foreach(IElement candidate in candidates)
+                        foreach(var candidate in candidates)
                         {
-                            mbmb.AddButton("Use " + candidate.ToString(), DialogResult.OK, candidate);
+                            mbmb.AddButton("Use " + candidate.ToString(), candidate);
                         }
                         mbmb.AddButton("Don't do anything", DialogResult.Cancel);
 
-                        DialogResult result = mbmb.ShowDialog();
+                        var result = mbmb.ShowDialog();
 
-                        if (result == DialogResult.OK)
+                        var clickedResult = mbmb.ClickedResult;
+
+                        if (clickedResult is GlueElement referenceToSet)
                         {
-                            IElement referenceToSet = (IElement) mbmb.ClickedTag;
-
                             nos.SourceClassType = referenceToSet.Name;
                             nos.UpdateCustomProperties();
 
