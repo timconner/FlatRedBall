@@ -281,7 +281,7 @@ namespace GlueFormsCore.Managers
             {
                 if (entitySave.GetCustomVariableRecursively(oldVariable.Name) == null)
                 {
-                    MultiButtonMessageBox mbmb = new MultiButtonMessageBox();
+                    var mbmb = new MultiButtonMessageBoxWpf();
                     string message = "The variable\n\n" + oldVariable.ToString() + "\n\nIs no longer part of the Entity.  What do you want to do?";
 
                     mbmb.MessageText = message;
@@ -289,11 +289,13 @@ namespace GlueFormsCore.Managers
                     mbmb.AddButton("Add a new variable with the same name and type to " + entitySave.Name, DialogResult.Yes);
                     mbmb.AddButton("Nothing - the variable will go away", DialogResult.No);
 
-                    DialogResult result = mbmb.ShowDialog();
+                    var result = mbmb.ShowDialog();
 
-                    if (result == DialogResult.Yes)
+                    var selectedOption = mbmb.ClickedResult;
+
+                    if (selectedOption is DialogResult.Yes)
                     {
-                        CustomVariable newVariable = new CustomVariable();
+                        var newVariable = new CustomVariable();
                         newVariable.Type = oldVariable.Type;
                         newVariable.Name = oldVariable.Name;
                         newVariable.DefaultValue = oldVariable.DefaultValue;

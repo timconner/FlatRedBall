@@ -48,6 +48,9 @@ namespace FlatRedBall.Forms.Controls
 
 #if FRB
         public static Cursor MainCursor => GuiManager.Cursor;
+
+        public List<Xbox360GamePad> GamePadsForUiControl => GuiManager.GamePadsForUiControl;
+
 #endif
 
         protected bool isFocused;
@@ -161,12 +164,23 @@ namespace FlatRedBall.Forms.Controls
         /// <summary>
         /// The X position of the left side of the element in pixels.
         /// </summary>
+        [Obsolete("Use AbsoluteLeft")]
         public float ActualX => Visual.GetLeft();
 
         /// <summary>
         /// The Y position of the top of the element in pixels (positive Y is down).
         /// </summary>
+        [Obsolete("Use AbsoluteTop")]
         public float ActualY => Visual.GetTop();
+
+        /// <summary>
+        /// Returns the left of this element in absolute (screen) coordinates
+        /// </summary>
+        public float AbsoluteLeft => Visual.AbsoluteLeft;
+        /// <summary>
+        /// Returns the top of this element in absolute (screen) coordinates
+        /// </summary>
+        public float AbsoluteTop => Visual.AbsoluteTop;
 
         public float X
         {
@@ -956,7 +970,7 @@ namespace FlatRedBall.Forms.Controls
             return didChildHandle;
         }
 
-        protected virtual void UpdateState()
+        public virtual void UpdateState()
         { }
 
         protected void RaiseKeyDown(KeyEventArgs e)

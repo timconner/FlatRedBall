@@ -6,6 +6,9 @@
   <DefaultCanvasWidth>256</DefaultCanvasWidth>
   <DefaultCanvasHeight>224</DefaultCanvasHeight>
   <ShowOutlines>true</ShowOutlines>
+  <ShowCanvasOutline>true</ShowCanvasOutline>
+  <ShowRuler>true</ShowRuler>
+  <ShowCheckerBackground>true</ShowCheckerBackground>
   <ConvertVariablesOnUnitTypeChange>false</ConvertVariablesOnUnitTypeChange>
   <RestrictToUnitValues>true</RestrictToUnitValues>
   <RestrictFileNamesForAndroid>false</RestrictFileNamesForAndroid>
@@ -24,117 +27,197 @@
     <LinkType>ReferenceOriginal</LinkType>
   </ScreenReference>
   <ComponentReference>
-    <Name>DefaultForms/Button</Name>
+    <Name>Controls/ButtonClose</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/CheckBox</Name>
+    <Name>Controls/ButtonConfirm</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ColoredFrame</Name>
+    <Name>Controls/ButtonDeny</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ComboBox</Name>
+    <Name>Controls/ButtonIcon</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/DialogBox</Name>
+    <Name>Controls/ButtonStandard</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/Keyboard</Name>
+    <Name>Controls/ButtonStandardIcon</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/KeyboardKey</Name>
+    <Name>Controls/ButtonTab</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/Label</Name>
+    <Name>Controls/CheckBox</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ListBox</Name>
+    <Name>Controls/ComboBox</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ListBoxItem</Name>
+    <Name>Controls/DialogBox</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/PasswordBox</Name>
+    <Name>Controls/InputDeviceSelectionItem</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/RadioButton</Name>
+    <Name>Controls/InputDeviceSelector</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ScrollBar</Name>
+    <Name>Controls/Keyboard</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ScrollBarThumb</Name>
+    <Name>Controls/KeyboardKey</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ScrollViewer</Name>
+    <Name>Controls/ListBox</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/Slider</Name>
+    <Name>Controls/ListBoxItem</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/TextBox</Name>
+    <Name>Controls/PasswordBox</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/Toast</Name>
+    <Name>Controls/PlayerJoinView</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/ToggleButton</Name>
+    <Name>Controls/PlayerJoinViewItem</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/TreeView</Name>
+    <Name>Controls/RadioButton</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/TreeViewItem</Name>
+    <Name>Controls/ScrollBar</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/TreeViewToggleButton</Name>
+    <Name>Controls/ScrollViewer</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
-    <Name>DefaultForms/UserControl</Name>
+    <Name>Controls/SettingsView</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/Slider</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/TextBox</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/Toast</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/TreeView</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/TreeViewItem</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/TreeViewToggle</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Controls/UserControl</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/CautionLines</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/Divider</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/DividerHorizontal</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/DividerVertical</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/Icon</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/Label</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/PercentBar</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/PercentBarIcon</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>Elements/VerticalLines</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
@@ -183,7 +266,6 @@
     <ElementType>Standard</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </StandardElementReference>
-  <BehaviorReference />
   <BehaviorReference>
     <Name>ButtonBehavior</Name>
   </BehaviorReference>
@@ -195,6 +277,12 @@
   </BehaviorReference>
   <BehaviorReference>
     <Name>DialogBoxBehavior</Name>
+  </BehaviorReference>
+  <BehaviorReference>
+    <Name>InputDeviceSelectionItemBehavior</Name>
+  </BehaviorReference>
+  <BehaviorReference>
+    <Name>InputDeviceSelectorBehavior</Name>
   </BehaviorReference>
   <BehaviorReference>
     <Name>LabelBehavior</Name>
@@ -212,6 +300,12 @@
     <Name>PasswordBoxBehavior</Name>
   </BehaviorReference>
   <BehaviorReference>
+    <Name>PlayerJoinViewBehavior</Name>
+  </BehaviorReference>
+  <BehaviorReference>
+    <Name>PlayerJoinViewItemBehavior</Name>
+  </BehaviorReference>
+  <BehaviorReference>
     <Name>RadioButtonBehavior</Name>
   </BehaviorReference>
   <BehaviorReference>
@@ -219,6 +313,9 @@
   </BehaviorReference>
   <BehaviorReference>
     <Name>ScrollViewerBehavior</Name>
+  </BehaviorReference>
+  <BehaviorReference>
+    <Name>SettingsViewBehavior</Name>
   </BehaviorReference>
   <BehaviorReference>
     <Name>SliderBehavior</Name>
@@ -241,4 +338,8 @@
   <BehaviorReference>
     <Name>UserControlBehavior</Name>
   </BehaviorReference>
+  <SinglePixelTextureTop xsi:nil="true" />
+  <SinglePixelTextureLeft xsi:nil="true" />
+  <SinglePixelTextureRight xsi:nil="true" />
+  <SinglePixelTextureBottom xsi:nil="true" />
 </GumProjectSave>

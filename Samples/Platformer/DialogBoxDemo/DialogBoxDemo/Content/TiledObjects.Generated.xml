@@ -4,7 +4,6 @@
     <property name="GroundMovement" type="DialogBoxDemo.DataTypes.PlatformerValues" default="Ground in PlatformerValuesStatic.csv" />
     <property name="AirMovement" type="DialogBoxDemo.DataTypes.PlatformerValues" default="Air in PlatformerValuesStatic.csv" />
     <property name="AfterDoubleJump" type="DialogBoxDemo.DataTypes.PlatformerValues" />
-    <property name="AnimationChains" type="AnimationChainList" />
     <property name="DialogId" type="string" />
   </objecttype>
   <objecttype name="Player">

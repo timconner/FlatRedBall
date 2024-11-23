@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Reflection;
-using System.Text;
 
+#if FRB
+using InteractiveGue = global::Gum.Wireframe.GraphicalUiElement;
 namespace FlatRedBall.Forms.Controls;
+#else
+namespace MonoGameGum.Forms.Controls;
+#endif
 
 class TreeViewLogic
 {
@@ -70,9 +73,9 @@ class TreeViewLogic
             return null;
         }
     }
-    
 
-    GraphicalUiElement InnerPanel;
+
+    InteractiveGue InnerPanel;
 
 
     public TreeViewLogic()
@@ -80,7 +83,7 @@ class TreeViewLogic
         Items.CollectionChanged += HandleCollectionChanged;
     }
 
-    public void AssignControls(GraphicalUiElement innerPanel)
+    public void AssignControls(InteractiveGue innerPanel)
     {
         this.InnerPanel = innerPanel;
     }

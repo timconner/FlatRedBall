@@ -22,7 +22,11 @@
     <State>
       <Name>Focused</Name>
     </State>
+    <State>
+      <Name>DisabledFocused</Name>
+    </State>
   </Category>
   <RequiredInstances />
   <RequiredAnimations />
+  <DefaultImplementation>Controls/ButtonStandard</DefaultImplementation>
 </BehaviorSave>

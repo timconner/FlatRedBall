@@ -92,6 +92,8 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces
         List<ProjectBase> GetProjects();
         IEnumerable<ReferencedFileSave> GetAllReferencedFiles();
         bool IsProjectLoaded(VisualStudioProject project);
+        int? EngineDllSyntaxVersion { get; }
+
     }
 
     public class GlueStateSnapshot : IGlueState
@@ -205,6 +207,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces
 
         public bool IsReferencingFrbSource { get; set; }
 
+        public int? EngineDllSyntaxVersion { get; private set; }
         // STOP!  If adding more properties, here be sure to add to SetFrom too
 
         public void SetFrom(IGlueState glueState)
@@ -244,6 +247,8 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces
 
             this.IsReferencingFrbSource = glueState.IsReferencingFrbSource;
 
+            this.EngineDllSyntaxVersion = glueState.EngineDllSyntaxVersion;
+
             if(glueState.CurrentGlueProject != null)
             {
                 this.ProjectSpecificSettingsFolder = glueState.ProjectSpecificSettingsFolder;
@@ -276,5 +281,7 @@ namespace FlatRedBall.Glue.Plugins.ExportedInterfaces
         {
             throw new System.NotImplementedException();
         }
+
+
     }
 }

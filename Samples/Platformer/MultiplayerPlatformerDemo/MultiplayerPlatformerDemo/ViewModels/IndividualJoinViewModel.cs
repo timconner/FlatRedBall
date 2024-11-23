@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerPlatformerDemo.ViewModels
+namespace MultiplayerPlatformerDemo.ViewModels;
+
+class IndividualJoinViewModel : ViewModel
 {
-    class IndividualJoinViewModel : ViewModel
+    public IndividualJoinComponentRuntime.JoinCategory JoinState
     {
-        public IndividualJoinComponentRuntime.JoinCategory JoinState
-        {
-            get => Get<IndividualJoinComponentRuntime.JoinCategory>();
-            set => Set(value);
-        }
+        get => Get<IndividualJoinComponentRuntime.JoinCategory>();
+        set => Set(value);
     }
 }

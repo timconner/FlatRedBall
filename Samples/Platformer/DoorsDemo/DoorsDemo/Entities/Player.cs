@@ -8,174 +8,225 @@ using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
 using FlatRedBall.Graphics.Particle;
 using FlatRedBall.Math.Geometry;
+using Microsoft.Xna.Framework;
 
-namespace DoorsDemo.Entities
+namespace DoorsDemo.Entities;
+
+public partial class Player
 {
-    public partial class Player
+    AnimationController animationController;
+
+    public IPressableInput RunInput { get; set; }
+
+    public bool PressedUp => InputDevice.DefaultUpPressable.WasJustPressed;
+
+    public AxisAlignedRectangle LastCollisionLadderRectange { get; set; }
+
+    public void SetIndex(int index)
     {
-        AnimationController animationController;
-
-        public IPressableInput RunInput { get; set; }
-
-        public bool PressedUp => InputDevice.DefaultUpPressable.WasJustPressed;
-
-        public void SetIndex(int index)
+        switch (index)
         {
-            switch(index)
-            {
-                case 0:
-                    SpriteInstance.AnimationChains = PlatformerAnimations;
-                    break;
-                case 1:
-                    SpriteInstance.AnimationChains = p2animations;
-                    break;
-                case 2:
-                    SpriteInstance.AnimationChains = p3animations;
-                    break;
-                case 3:
-                    SpriteInstance.AnimationChains = p4animations;
-                    break;
-            }
+            case 0:
+                SpriteInstance.AnimationChains = PlatformerAnimations;
+                break;
+            case 1:
+                SpriteInstance.AnimationChains = P2animations;
+                break;
+            case 2:
+                SpriteInstance.AnimationChains = P3animations;
+                break;
+            case 3:
+                SpriteInstance.AnimationChains = P4animations;
+                break;
         }
+    }
 
-        private void CustomInitialize()
+    private void CustomInitialize()
+    {
+        animationController = new AnimationController(SpriteInstance);
+
+        var idleLayer = new AnimationLayer();
+        idleLayer.EveryFrameAction = () =>
         {
-            
-            animationController = new AnimationController(SpriteInstance);
+            return "CharacterIdle" + DirectionFacing;
+        };
+        animationController.Layers.Add(idleLayer);
 
-            var idleLayer = new AnimationLayer();
-            idleLayer.EveryFrameAction = () =>
-            {
-                return "CharacterIdle" + DirectionFacing;
-            };
-            animationController.Layers.Add(idleLayer);
-
-            var lookUpLayer = new AnimationLayer();
-            lookUpLayer.EveryFrameAction = () =>
-            {
-                if (this.VerticalInput.Value > 0)
-                {
-                    return "CharacterLookUp" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(lookUpLayer);
-
-            var walkLayer = new AnimationLayer();
-            walkLayer.EveryFrameAction = () =>
-            {
-                if (this.Velocity.X != 0)
-                {
-                    return "CharacterWalk" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(walkLayer);
-
-            var runLayer = new AnimationLayer();
-            runLayer.EveryFrameAction = () =>
-            {
-                if (this.XVelocity != 0 && RunInput.IsDown)
-                {
-                    return "CharacterRun" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(runLayer);
-
-            var skidLayer = new AnimationLayer();
-            skidLayer.EveryFrameAction = () =>
-            {
-                if (this.XVelocity != 0 && this.HorizontalInput.Value != 0 &&
-                    Math.Sign(XVelocity) != Math.Sign(this.HorizontalInput.Value) &&
-                    this.RunInput.IsDown)
-                {
-                    return "CharacterSkid" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(skidLayer);
-
-            var duckLayer = new AnimationLayer();
-            duckLayer.EveryFrameAction = () =>
-            {
-                if (this.VerticalInput.Value < 0) { return "CharacterDuck" + DirectionFacing; }
-                return null;
-            }; animationController.Layers.Add(duckLayer); var fallLayer = new AnimationLayer(); fallLayer.EveryFrameAction = () =>
-            {
-                if (this.IsOnGround == false)
-                {
-                    return "CharacterFall" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(fallLayer);
-
-            var jumpLayer = new AnimationLayer();
-            jumpLayer.EveryFrameAction = () =>
-            {
-                if (this.IsOnGround == false && YVelocity > 0)
-                {
-                    return "CharacterJump" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(jumpLayer);
-
-            var runJump = new AnimationLayer();
-            runJump.EveryFrameAction = () =>
-            {
-                if (this.IsOnGround == false && RunInput.IsDown)
-                {
-                    return "CharacterRunJump" + DirectionFacing;
-                }
-                return null;
-            };
-            animationController.Layers.Add(runJump);
-        }
-
-        partial void CustomInitializePlatformerInput()
+        var lookUpLayer = new AnimationLayer();
+        lookUpLayer.EveryFrameAction = () =>
         {
-            if(InputDevice is Keyboard asKeyboard)
+            if (VerticalInput.Value > 0)
             {
-                RunInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.R);
+                return "CharacterLookUp" + DirectionFacing;
             }
-            else if(InputDevice is Xbox360GamePad asGamepad)
-            {
-                RunInput = asGamepad.GetButton(Xbox360GamePad.Button.X);
-            }
-        }
+            return null;
+        };
+        animationController.Layers.Add(lookUpLayer);
 
-        private void CustomActivity()
+        var walkLayer = new AnimationLayer();
+        walkLayer.EveryFrameAction = () =>
         {
-            animationController.Activity();
+            if (Velocity.X != 0)
+            {
+                return "CharacterWalk" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(walkLayer);
 
+        var runLayer = new AnimationLayer();
+        runLayer.EveryFrameAction = () =>
+        {
+            if (XVelocity != 0 && RunInput.IsDown)
+            {
+                return "CharacterRun" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(runLayer);
+
+        var skidLayer = new AnimationLayer();
+        skidLayer.EveryFrameAction = () =>
+        {
+            if (XVelocity != 0 && HorizontalInput.Value != 0 &&
+                Math.Sign(XVelocity) != Math.Sign(HorizontalInput.Value) &&
+                RunInput.IsDown)
+            {
+                return "CharacterSkid" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(skidLayer);
+
+        var duckLayer = new AnimationLayer();
+        duckLayer.EveryFrameAction = () =>
+        {
+            if (VerticalInput.Value < 0) { return "CharacterDuck" + DirectionFacing; }
+            return null;
+        }; animationController.Layers.Add(duckLayer); var fallLayer = new AnimationLayer(); fallLayer.EveryFrameAction = () =>
+        {
+            if (IsOnGround == false)
+            {
+                return "CharacterFall" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(fallLayer);
+
+        var jumpLayer = new AnimationLayer();
+        jumpLayer.EveryFrameAction = () =>
+        {
+            if (IsOnGround == false && YVelocity > 0)
+            {
+                return "CharacterJump" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(jumpLayer);
+
+        var runJump = new AnimationLayer();
+        runJump.EveryFrameAction = () =>
+        {
+            if (IsOnGround == false && RunInput.IsDown)
+            {
+                return "CharacterRunJump" + DirectionFacing;
+            }
+            return null;
+        };
+        animationController.Layers.Add(runJump);
+
+        var climb = new AnimationLayer();
+        climb.EveryFrameAction = () =>
+        {
+            if (CurrentMovement.CanClimb)
+            {
+                if (YVelocity == 0)
+                {
+                    return "CharacterClimbRearIdle";
+                }
+                else
+                {
+                    return "CharacterClimbRear";
+                }
+            }
+            return null;
+        };
+        animationController.Layers.Add(climb);
+    }
+
+    partial void CustomInitializePlatformerInput()
+    {
+        if (InputDevice is Keyboard asKeyboard)
+        {
+            RunInput = asKeyboard.GetKey(Microsoft.Xna.Framework.Input.Keys.LeftShift);
+        }
+        else if (InputDevice is Xbox360GamePad asGamepad)
+        {
+            RunInput = asGamepad.GetButton(Xbox360GamePad.Button.X);
+        }
+    }
+
+    private void CustomActivity()
+    {
+        animationController.Activity();
+
+        if (!CurrentMovement.CanClimb)
+        {
             if (VerticalInput.Value < 0)
             {
-                this.GroundMovement = PlatformerValuesStatic["Ducking"];
+                GroundMovement = PlatformerValuesStatic["Ducking"];
             }
             else if (RunInput.IsDown)
             {
-                this.GroundMovement = PlatformerValuesStatic["Running"];
-                this.AirMovement = PlatformerValuesStatic["RunningAir"];
+                GroundMovement = PlatformerValuesStatic["Running"];
+                AirMovement = PlatformerValuesStatic["RunningAir"];
             }
             else
             {
-                this.GroundMovement = PlatformerValuesStatic["Ground"];
-                this.AirMovement = PlatformerValuesStatic["Air"];
+                GroundMovement = PlatformerValuesStatic["Ground"];
+                AirMovement = PlatformerValuesStatic["Air"];
+            }
+        }
+        else
+        {
+            if (VerticalInput.Value < 0 && IsOnGround)
+            {
+                GroundMovement = PlatformerValuesStatic["Ground"];
             }
         }
 
-        private void CustomDestroy()
+        // Even if we are colliding with it, we want to see if the player's "body" is over
+        // the ladder. We can do this by checking the center.
+        var isOverLadder = LastCollisionLadderRectange != null &&
+            X < LastCollisionLadderRectange.Right && X > LastCollisionLadderRectange.Left;
+
+        if (InputDevice.DefaultUpPressable.WasJustPressed && LastCollisionLadderRectange != null)
         {
-
-
+            GroundMovement = PlatformerValuesStatic["Climbing"];
+            // snap the player's position to the center of the ladder
+            X = LastCollisionLadderRectange.X;
+            XVelocity = 0;
+            if (IsOnGround == false)
+            {
+                // force the player on ground:
+                CurrentMovementType = MovementType.Ground;
+            }
         }
 
-        private static void CustomLoadStaticContent(string contentManagerName)
+        if (isOverLadder == false && CurrentMovement.CanClimb)
         {
-
-
+            // fall off the ladder...
+            CurrentMovementType = MovementType.Air;
         }
+    }
+
+    private void CustomDestroy()
+    {
+        
+    }
+
+    private static void CustomLoadStaticContent(string contentManagerName)
+    {
+        
     }
 }

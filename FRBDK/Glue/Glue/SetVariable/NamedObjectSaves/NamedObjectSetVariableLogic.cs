@@ -490,7 +490,7 @@ namespace FlatRedBall.Glue.SetVariable
 
                     if (!doesBaseMatch)
                     {
-                        MultiButtonMessageBox mbmb = new MultiButtonMessageBox();
+                        var mbmb = new MultiButtonMessageBoxWpf();
 
                         string containerType = element.BaseElement;
                         if (string.IsNullOrEmpty(containerType))
@@ -507,11 +507,13 @@ namespace FlatRedBall.Glue.SetVariable
                         mbmb.AddButton("Set 'IsContainer' back to false", DialogResult.Cancel);
 
                         var dialogResult = mbmb.ShowDialog();
-                        if (dialogResult == DialogResult.Yes)
+                        var selectedOption = mbmb.ClickedResult;
+
+                        if (selectedOption is DialogResult.Yes)
                         {
                             element.BaseObject = nosType;
                         }
-                        else if (dialogResult == DialogResult.Cancel)
+                        else if (selectedOption is DialogResult.Cancel)
                         {
                             succeeded = false;
                         }
@@ -557,7 +559,7 @@ namespace FlatRedBall.Glue.SetVariable
                             string message = "This object has type of " + namedObjectSave.InstanceType +
                                 " but the base object in " + baseElement.ToString() + " is untyped.  What would you like to do?";
 
-                            MultiButtonMessageBox mbmb = new MultiButtonMessageBox();
+                            var mbmb = new MultiButtonMessageBoxWpf();
                             mbmb.MessageText = message;
 
                             mbmb.AddButton("Change " + namedObjectInBase.InstanceName + " to " +
@@ -565,9 +567,11 @@ namespace FlatRedBall.Glue.SetVariable
 
                             mbmb.AddButton("Do nothing (your project will likely not compile so you will need to fix this manually)", DialogResult.No);
 
-                            DialogResult result = mbmb.ShowDialog();
+                            var result = mbmb.ShowDialog();
 
-                            if (result == DialogResult.Yes)
+                            var selectedOption = mbmb.ClickedResult;
+
+                            if (selectedOption is DialogResult.Yes)
                             {
                                 switch (namedObjectInBase.SourceType)
                                 {
@@ -923,14 +927,14 @@ namespace FlatRedBall.Glue.SetVariable
                             {
                                 whatIsWrong += "\nWhat would you like to do?";
 
-                                var mbmb = new MultiButtonMessageBox();
+                                var mbmb = new MultiButtonMessageBoxWpf();
                                 mbmb.MessageText = whatIsWrong;
                                 mbmb.AddButton("Undo the change", DialogResult.Cancel);
                                 mbmb.AddButton("Keep the change (May cause runtime crashes)", DialogResult.Yes);
 
                                 var result = mbmb.ShowDialog();
 
-                                if(result == DialogResult.Cancel)
+                                if(mbmb.ClickedResult is DialogResult.Cancel)
                                 {
                                     addressModeVariable.Value = oldValue;
                                 }

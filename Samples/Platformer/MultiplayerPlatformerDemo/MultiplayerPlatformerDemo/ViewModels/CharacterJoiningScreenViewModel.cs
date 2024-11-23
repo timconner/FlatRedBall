@@ -6,51 +6,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerPlatformerDemo.ViewModels
+namespace MultiplayerPlatformerDemo.ViewModels;
+
+class CharacterJoiningScreenViewModel : ViewModel
 {
-    class CharacterJoiningScreenViewModel : ViewModel
+    public string MainText
     {
-        public string MainText
+        get
         {
-            get
+            if(IndividualJoinViewModels.All(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.NotPluggedIn))
             {
-                if(IndividualJoinViewModels.All(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.NotPluggedIn))
-                {
-                    return "No controllers plugged in - plug in at least one controller";
-                }
-                else if(IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.PluggedInNotJoined) && 
-                    !IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.Joined))
-                {
-                    return "Press A to join, or plug in more controllers";
-                }
-                else if(IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.Joined ))
-                {
-                    return "Press Start to begin";
-                }
-                else
-                {
-                    return "??";
-                }
+                return "No controllers plugged in\nPlug in at least one controller";
+            }
+            else if(IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.PluggedInNotJoined) && 
+                !IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.Joined))
+            {
+                return "Press A to join, or plug in more controllers";
+            }
+            else if(IndividualJoinViewModels.Any(item => item.JoinState == IndividualJoinComponentRuntime.JoinCategory.Joined ))
+            {
+                return "Press Start to begin";
+            }
+            else
+            {
+                return "??";
             }
         }
+    }
 
-        public IndividualJoinViewModel[] IndividualJoinViewModels
+    public IndividualJoinViewModel[] IndividualJoinViewModels
+    {
+        get;
+        private set;
+    } = new IndividualJoinViewModel[4];
+
+    public CharacterJoiningScreenViewModel()
+    {
+        for(int i = 0; i < IndividualJoinViewModels.Length; i++)
         {
-            get;
-            private set;
-        } = new IndividualJoinViewModel[4];
+            var individualVm = new IndividualJoinViewModel();
 
-        public CharacterJoiningScreenViewModel()
-        {
-            for(int i = 0; i < IndividualJoinViewModels.Length; i++)
-            {
-                var individualVm = new IndividualJoinViewModel();
+            // This ties the MainText to a change on the individual VM's JoinState
+            individualVm.SetPropertyChanged(nameof(individualVm.JoinState), () => NotifyPropertyChanged(nameof(MainText)));
 
-                // This ties the MainText to a change on the individual VM's JoinState
-                individualVm.SetPropertyChanged(nameof(individualVm.JoinState), () => NotifyPropertyChanged(nameof(MainText)));
-
-                IndividualJoinViewModels[i] = individualVm;
-            }
+            IndividualJoinViewModels[i] = individualVm;
         }
     }
 }

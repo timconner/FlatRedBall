@@ -1,9 +1,12 @@
 ﻿using Gum.Wireframe;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
+#if FRB
+using InteractiveGue = global::Gum.Wireframe.GraphicalUiElement;
 namespace FlatRedBall.Forms.Controls;
+#else
+
+#endif
 
 public class Label : FrameworkElement
 {
@@ -39,7 +42,7 @@ public class Label : FrameworkElement
 
     public Label() : base() { }
 
-    public Label(GraphicalUiElement visual) : base(visual) { }
+    public Label(InteractiveGue visual) : base(visual) { }
 
     protected override void ReactToVisualChanged()
     {

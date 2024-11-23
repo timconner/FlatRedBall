@@ -86,7 +86,7 @@ namespace FlatRedBall.Glue.IO
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        ErrorReporter.ReportError(rfs.Name, error, false);
+                        FileErrorReporter.ReportError(rfs.Name, error, false);
                     }
                     else
                     {

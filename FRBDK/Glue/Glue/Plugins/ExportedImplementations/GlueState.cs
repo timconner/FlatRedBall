@@ -18,6 +18,9 @@ using FlatRedBall.Glue.FormHelpers;
 using FlatRedBall.Glue.Navigation;
 using FlatRedBall.Glue.Tiled;
 using GlueFormsCore.ViewModels;
+using Microsoft.Build.Evaluation;
+using Mono.Cecil;
+
 
 namespace FlatRedBall.Glue.Plugins.ExportedImplementations
 {
@@ -412,6 +415,76 @@ namespace FlatRedBall.Glue.Plugins.ExportedImplementations
         {
             get => ProjectManager.GlueSettingsSave;
             set => ProjectManager.GlueSettingsSave = value;
+        }
+
+        public int? EngineDllSyntaxVersion
+        {
+            get
+            {
+                // for now we'll use the main project, but eventually we may want to include synced projects too:
+                var project = GlueState.Self.CurrentMainProject;
+                var referenceItems = project.EvaluatedItems.Where(item =>
+                {
+                    return item.ItemType == "PackageReference" && item.EvaluatedInclude.StartsWith("FlatRedBall");
+                });
+
+                foreach (var item in referenceItems)
+                {
+                    var path = GetFilePathFor(item);
+
+                    if (path != null)
+                    {
+                        var module = ModuleDefinition.ReadModule(path.FullPath);
+                        var frbServicesType = module.Types.FirstOrDefault(item => item.FullName == "FlatRedBall.FlatRedBallServices");
+                        foreach (var attribute in frbServicesType.CustomAttributes)
+                        {
+                            if (attribute.AttributeType.Name == "SyntaxVersionAttribute" && attribute.Fields.Count > 0)
+                            {
+                                var version = int.Parse(attribute.Fields[0].Argument.Value.ToString());
+                                return version;
+                            }
+                        }
+                    }
+
+                }
+                return null;
+            }
+        }
+
+        private static FilePath GetFilePathFor(ProjectItem item)
+        {
+            string packageName = item.EvaluatedInclude;
+            string packageVersion = item.Metadata.FirstOrDefault(item => item.Name == "Version")?.EvaluatedValue;
+
+            var userName = System.Environment.UserName;
+
+
+            if (userName != null)
+            {
+                string[] searchPaths = {
+                    @"C:\Program Files\dotnet\packs",
+                    $@"C:\Users\{userName}\.nuget\packages"
+                };
+
+                foreach (string path in searchPaths)
+                {
+                    string fullPath = System.IO.Path.Combine(path, $"{packageName}", $"{packageVersion}", $"{packageName}.{packageVersion}.nupkg");
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        var directory = FileManager.GetDirectory(fullPath);
+                        // find a .dll with matching file
+                        var allFiles = FlatRedBall.IO.FileManager.GetAllFilesInDirectory(directory, "dll");
+                        foreach (var file in allFiles)
+                        {
+                            if (file.Contains($"{packageName}.dll"))
+                            {
+                                return file;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         #endregion

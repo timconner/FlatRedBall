@@ -1,13 +1,16 @@
 ﻿using Gum.Wireframe;
 using RenderingLibrary;
-using RenderingLibrary.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
+#if FRB
+using InteractiveGue = global::Gum.Wireframe.GraphicalUiElement;
 namespace FlatRedBall.Forms.Controls;
+#else
+namespace MonoGameGum.Forms.Controls;
+#endif
 
 public class TreeView : ScrollViewer
 {
@@ -67,7 +70,7 @@ public class TreeView : ScrollViewer
 
     }
 
-    public TreeView(GraphicalUiElement visual) : base(visual)
+    public TreeView(InteractiveGue visual) : base(visual)
     {
         InitializeTreeViewLogic();
     }
@@ -143,7 +146,7 @@ public class TreeView : ScrollViewer
         }
     }
 
-    protected override void UpdateState()
+    public override void UpdateState()
     {
         var category = "TreeViewCategory";
         if (IsEnabled == false)

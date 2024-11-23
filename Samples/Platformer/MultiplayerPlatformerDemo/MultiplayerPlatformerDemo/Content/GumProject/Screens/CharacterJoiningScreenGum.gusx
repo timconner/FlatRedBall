@@ -185,7 +185,7 @@
     <Variable>
       <Type>float</Type>
       <Name>InstructionTextInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Value xsi:type="xsd:float">-36.8</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
