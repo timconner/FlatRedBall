@@ -1,4 +1,4 @@
-﻿using FlatRedBall.Glue.Events;
+using FlatRedBall.Glue.Events;
 using FlatRedBall.Glue.FormHelpers;
 using FlatRedBall.Glue.Managers;
 using FlatRedBall.Glue.Navigation;
@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using PropertyTools.Wpf;
 
 namespace OfficialPlugins.TreeViewPlugin.Views;
 
@@ -46,6 +47,15 @@ public partial class MainTreeViewControl : UserControl
     public MainTreeViewControl()
     {
         InitializeComponent();
+        RightClickHelper.ObjectMoved += movedObject =>
+        {
+            if (GlueState.Self.Find.TreeNodeByTag(movedObject) is { } treeNode &&
+                MainTreeView.ItemContainerGenerator.ContainerFromItem(treeNode) is TreeListBoxItem treeItem)
+            {
+                Dispatcher.BeginInvoke(treeItem.Focus);
+            }
+        };
+        
     }
 
     #region Hotkey
