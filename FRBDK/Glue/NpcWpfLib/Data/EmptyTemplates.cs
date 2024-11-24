@@ -13,7 +13,7 @@ namespace Npc.Data
 
         static EmptyTemplates()
         {
-            Add("Desktop GL .NET 6 (Windows, Mac, Linux) - MonoGame", "FlatRedBallDesktopGlNet6Template", "http://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/ZippedTemplates/FlatRedBallDesktopGlNet6Template.zip");
+            Add("Desktop GL .NET 8 (Windows, Mac, Linux) - MonoGame", "FlatRedBallDesktopGlNet6Template", "http://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/ZippedTemplates/FlatRedBallDesktopGlNet6Template.zip");
             Add("Android .NET (Phone, Tablet, Fire TV) - MonoGame", "FlatRedBallAndroidMonoGameTemplate", "http://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/ZippedTemplates/FlatRedBallAndroidMonoGameTemplate.zip");
             Add("iOS .NET (iPhone, iPad, iPod Touch) - MonoGame", "FlatRedBalliOSMonoGameTemplate", "http://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/ZippedTemplates/FlatRedBalliOSMonoGameTemplate.zip");
             Add("Web (Browsers) - Kni", "FlatRedBallWebTemplate", "https://files.flatredball.com/content/FrbXnaTemplates/DailyBuild/ZippedTemplates/FlatRedBallWebTemplate.zip");
