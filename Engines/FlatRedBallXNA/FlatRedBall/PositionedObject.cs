@@ -1722,17 +1722,11 @@ namespace FlatRedBall
         /// according to its attachment and relative values.
         /// </summary>
         /// <remarks>
-        /// The absolute positions and rotations of Sprites are updated in the 
-        /// Sprite.UpdateDependencies method which is
-        /// called in the SpriteManager.UpdateDependencies.  The SpriteManager.UpdateDependencies is called
-        /// once per frame by default in the Sprite's regular activity.  This method only needs to be called 
-        /// if changes are made after
-        /// the UpdateDependencies method has been called for that particular frame or if updated 
-        /// positions are needed
-        /// immediately after relative values or attachments have been changed.
-        /// 
-        /// <para>This method will recur up the hierarchical PositionedObject struture stopping 
-        /// when it hits the top parent.</para>
+        /// Most positioned objects (such as entities, sprites, and shapes) will update
+        /// their dependencies automatically. Sprites and entities update their dependencies
+        /// prior to rendering. Shapes update their dependencies prior to making collision calls.
+        /// This method can be used if you need thie caller to have its dependencies updated immediately.
+        /// This method only updates the caller and its parents. To update all children, call ForceUpdateDependenciesDeep
         /// </remarks>
         public virtual void ForceUpdateDependencies()
         {
@@ -1803,7 +1797,10 @@ namespace FlatRedBall
         }
 
 
-
+        /// <summary>
+        /// Forces an update of the caller and all children recursively.
+        /// </summary>
+        /// <exception cref="Exception">Occurs if this has a position which is NaN</exception>
         public virtual void ForceUpdateDependenciesDeep()
         {
 
