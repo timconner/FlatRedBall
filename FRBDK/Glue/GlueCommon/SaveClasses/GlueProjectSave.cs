@@ -162,7 +162,10 @@ namespace FlatRedBall.Glue.SaveClasses
 
             // November 16, 2024
             // Gum RenderingLibrary has RenderableCloneLogic
-            GumHasRenderableCloneLogic = 61
+            GumHasRenderableCloneLogic = 61,
+
+            // November 26, 2024
+            ShapeCollectionHasIsPointOnOrInside = 62
 
             // Stop! If adding an entry here, modify SyntaxVersionAttribute on FlatRedBallServices
             // and LatestVersion down below
@@ -173,7 +176,7 @@ namespace FlatRedBall.Glue.SaveClasses
 
         #region Versions
 
-        public const int LatestVersion = (int)GluxVersions.GumHasRenderableCloneLogic;
+        public const int LatestVersion = (int)GluxVersions.ShapeCollectionHasIsPointOnOrInside;
 
         public int FileVersion { get; set; }
 

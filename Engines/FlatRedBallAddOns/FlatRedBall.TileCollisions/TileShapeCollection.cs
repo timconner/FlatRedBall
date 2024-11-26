@@ -433,6 +433,17 @@ namespace FlatRedBall.TileCollisions
             return toReturn;
         }
 
+#if ShapeCollectionHasIsPointOnOrInside
+        /// <summary>
+        /// Returns whether the argument value is on the boundary or inside this collision. This differs from IsPointInsideCollision
+        /// because it also checks rectangle edges so that points inbetween tiles also return true.
+        /// </summary>
+        /// <param name="x">The world X position</param>
+        /// <param name="y">The world Y position</param>
+        /// <returns>Whether the argument position is on or inside any of the contained shapes</returns>
+        public bool IsPointOnOrInside(float x, float y) => this.mShapes.IsPointOnOrInside(x, y);
+#endregion
+
         [Obsolete("Use GetRectangleAtPosition instead as it more clearly indicates what the method does.")]
         public AxisAlignedRectangle GetTileAt(float x, float y)
         {

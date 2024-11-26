@@ -1020,6 +1020,35 @@ namespace FlatRedBall.Math.Geometry
             return false;
         }
 
+        public bool IsPointOnOrInside(float x, float y)
+        {
+            int count;
+
+            count = AxisAlignedRectangles.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (AxisAlignedRectangles[i].IsPointOnOrInside(x, y))
+                    return true;
+            }
+
+            count = Circles.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (Circles[i].IsPointOnOrInside(x, y))
+                    return true;
+            }
+
+            count = Polygons.Count;
+            for (int i = 0; i < count; i++)
+            {
+                // Polygon doesn't have OnOrInside, not sure if we should...
+                if (Polygons[i].IsPointInside(x, y))
+                    return true;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Internal Methods

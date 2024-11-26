@@ -695,6 +695,18 @@ namespace FlatRedBall.Math.Geometry
                 Radius * Radius;
         }
 
+        public bool IsPointOnOrInside(float x, float y)
+        {
+            if (mLastDependencyUpdate != TimeManager.CurrentTime)
+            {
+                UpdateDependencies(TimeManager.CurrentTime);
+            }
+
+            return (x - Position.X) * (x - Position.X) +
+                (y - Position.Y) * (y - Position.Y) <=
+                Radius * Radius;
+        }
+
         #endregion
 
         /// <summary>
