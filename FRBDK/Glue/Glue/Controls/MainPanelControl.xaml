@@ -71,7 +71,9 @@
                       Width="{Binding LeftPanelWidth, Mode=TwoWay}"
                       MinWidth="{Binding LeftTabItems.Count, Converter={StaticResource MinPanelConverter}}" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition
+                      Width="*" 
+                      MinWidth="{Binding CenterTabItems.Count, Converter={StaticResource MinPanelConverter}}"/>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition
                       Width="{Binding RightPanelWidth, Mode=TwoWay}"
