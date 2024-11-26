@@ -281,7 +281,7 @@ namespace FlatRedBall.Glue.CodeGeneration
                     {
                         propertyHeader = $"{scopeValue} override {memberType} {customVariable.Name}";
                     }
-                    else if (customVariable.SetByDerived)
+                    else if (customVariable.SetByDerived && !customVariable.IsShared)
                     {
                         propertyHeader = $"{scopeValue} virtual {memberType} {customVariable.Name}";
                     }
