@@ -442,7 +442,7 @@ namespace FlatRedBall.TileCollisions
         /// <param name="y">The world Y position</param>
         /// <returns>Whether the argument position is on or inside any of the contained shapes</returns>
         public bool IsPointOnOrInside(float x, float y) => this.mShapes.IsPointOnOrInside(x, y);
-#endregion
+#endif
 
         [Obsolete("Use GetRectangleAtPosition instead as it more clearly indicates what the method does.")]
         public AxisAlignedRectangle GetTileAt(float x, float y)
