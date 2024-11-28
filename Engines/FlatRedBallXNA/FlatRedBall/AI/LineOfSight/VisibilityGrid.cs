@@ -56,12 +56,18 @@ namespace FlatRedBall.AI.LineOfSight
 
         #region Properties
 
+        /// <summary>
+        /// The visibility grid's name
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ContentManagerName to use to store the fog of war texture if one is created.
+        /// </summary>
         public string ContentManagerName { get; set; }
 
         public Color HiddenBlockedColor
