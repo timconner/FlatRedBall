@@ -291,6 +291,15 @@ public partial class GumScreen
         widthAt9Plus.ShouldBeGreaterThan(400, "because this is some really long text with a width units of RelativeToChildren");
 
         text.RemoveFromManagers();
+
+        var absoluteWidth0Text = this.GumScreen_.GetGraphicalUiElementByName("TextWith0AbsoluteWidth");
+        absoluteWidth0Text.Width.ShouldBe(0);
+        absoluteWidth0Text.GetAbsoluteWidth().ShouldBe(0);
+
+        var percentWidth0Text = this.GumScreen_.GetGraphicalUiElementByName("TextWith0PercentWidth");
+        percentWidth0Text.Width.ShouldBe(0);
+        percentWidth0Text.GetAbsoluteWidth().ShouldBe(0);
+
     }
 
     private void TestAddChildSetsParent()

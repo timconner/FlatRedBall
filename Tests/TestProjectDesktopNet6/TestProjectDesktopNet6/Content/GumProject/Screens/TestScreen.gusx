@@ -1037,6 +1037,60 @@
     </Variable>
     <Variable>
       <Type>string</Type>
+      <Name>TextWith0AbsoluteWidth.Text</Name>
+      <Value xsi:type="xsd:string">Text with 0 Absolute Width</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0AbsoluteWidth.Width</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0AbsoluteWidth.X</Name>
+      <Value xsi:type="xsd:float">-28</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0AbsoluteWidth.Y</Name>
+      <Value xsi:type="xsd:float">-98</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>TextWith0PercentWidth.Text</Name>
+      <Value xsi:type="xsd:string">Text with 0 Percent Width</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0PercentWidth.Width</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>TextWith0PercentWidth.Width Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0PercentWidth.X</Name>
+      <Value xsi:type="xsd:float">-28</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextWith0PercentWidth.Y</Name>
+      <Value xsi:type="xsd:float">-71</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
       <Name>TextWithDefaultBitmapFont.Text</Name>
       <Value xsi:type="xsd:string">I should have a bitmap font.</Value>
       <SetsValue>true</SetsValue>
@@ -1570,6 +1624,16 @@ wrap the text.</Value>
   </Instance>
   <Instance>
     <Name>ComparisonForNewlineTest</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>TextWith0AbsoluteWidth</Name>
+    <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>TextWith0PercentWidth</Name>
     <BaseType>Text</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
