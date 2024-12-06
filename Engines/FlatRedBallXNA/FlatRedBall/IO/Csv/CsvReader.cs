@@ -102,7 +102,10 @@ namespace FlatRedBall.IO.Csv
 		/// <summary>
 		/// Contains the field header comparer.
 		/// </summary>
-		private static readonly StringComparer _fieldHeaderComparer = StringComparer.CurrentCultureIgnoreCase;
+		private static readonly StringComparer _fieldHeaderComparer =
+            // web builds fail on itch.io using this, but not local builds. OrdinalIgnoreCase seems to solve it.
+            //StringComparer.CurrentCultureIgnoreCase;
+            StringComparer.OrdinalIgnoreCase;
 
 		#region Settings
 
